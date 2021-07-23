@@ -1,0 +1,41 @@
+## Defaults
+__pycache__
+.idea
+.DS_Store
+.deps
+.vscode
+.docs
+.env
+node_modules
+tenderly.yaml
+settings.json
+
+# Build output
+cache
+build
+export
+**/artifacts
+.openzeppelin
+docgen/docs
+docgen/SUMMARY.md
+solidity-flattenedContracts
+typechain
+
+# Test output
+coverage
+coverage.json
+
+# Running output
+gas-report.txt
+gasReporterOutput.json
+addresses.json
+blockchain_db
+ganache*
+yarn-error.log
+
+# deployments
+deployments/*
+!deployments/kovan
+!deployments/rinkeby
+
+# temporary delete
