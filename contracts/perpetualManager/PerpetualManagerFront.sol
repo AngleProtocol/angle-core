@@ -88,7 +88,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// @param amountCommitted Amount of collateral covered by the HA
     /// @return perpetualID The ID of the perpetual opened by this HA
     /// @dev The future owner of the perpetual cannot be the zero address
-    /// @dev It is therefore possible to create a perpetual on behalf of someone else
+    /// @dev It is possible to create a perpetual on behalf of someone else
     function createPerpetual(
         address owner,
         uint256 amountBrought,
@@ -163,7 +163,6 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// @param amount Amount to add to the perpetual's `cashOutAmount`
     /// @dev This decreases the leverage multiple of this perpetual
     /// @dev `msg.sender` should be the owner of `perpetualID` or be approved for this perpetual
-    /// @dev This allows a perpetual owner to adjust the leverage of the perpetual, in this case decreasing it
     function addToPerpetual(uint256 perpetualID, uint256 amount)
         external
         whenNotPaused
@@ -311,10 +310,12 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
             if (canBeCashedOut > 0) {
                 // If too much is covered, computing by how much too much is covered
                 // The following quantity is the ratio between the amount covered by the HA
-                // (expressed in base and not in `_collatBase`) divided by the difference between what's covered
+                // (expressed in `BASE` and not in `_collatBase`) divided by the difference between what's covered
                 // and what should in place be covered by HAs
                 // It is used to compute the amount of fees that will be distributed to the keeper cashing out the perpetual
                 // The clean formula is `committedAmount * BASE / _collatBase * BASE / (currentCAmount - maxCAmount)`
+                // The reason for this formula is that `committedAmount` is in `_collatBase` and should be converted to base
+                // `BASE`
                 ratio = (committedAmount * BASE**2) / ((currentCAmount - maxCAmount) * _collatBase);
             } else {
                 // Checking if the perpetual can be cashed out because the leverage of the perpetual became too high

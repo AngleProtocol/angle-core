@@ -129,8 +129,8 @@ contract GenericDyDx is GenericLenderBase {
         uint256 supply = ((uint256(par.supply) * index.supply) / 1e18) + extraSupply;
 
         uint256 borrowInterestRate = IInterestSetter(interestSetter)
-        .getInterestRate(address(want), borrow, supply)
-        .value;
+            .getInterestRate(address(want), borrow, supply)
+            .value;
         uint256 lendInterestRate = (borrowInterestRate * borrow) / supply;
         return lendInterestRate * _SECONDS_PER_YEAR;
     }

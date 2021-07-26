@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.2;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 import "../interfaces/IAgToken.sol";
@@ -26,23 +26,28 @@ import "../utils/PausableMapUpgradeable.sol";
 contract StableMasterEvents {
     event SanRateUpdated(uint256 _newSanRate, address indexed _token);
 
-    event StocksUsersUpdated(address _token, int256 _stocksUsers);
+    event StocksUsersUpdated(address indexed _token, int256 _stocksUsers);
 
     // ============================= Governors =====================================
 
-    event CollateralDeployed(address _poolManager, address _perpetualManager, address _sanToken, address _oracle);
+    event CollateralDeployed(
+        address indexed _poolManager,
+        address indexed _perpetualManager,
+        address indexed _sanToken,
+        address _oracle
+    );
 
-    event CollateralRevoked(address _poolManager);
+    event CollateralRevoked(address indexed _poolManager);
 
     // ========================= Parameters update =================================
 
-    event OracleUpdated(address _poolManager, address _oracle);
+    event OracleUpdated(address indexed _poolManager, address indexed _oracle);
 
-    event MaxSanRateUpdateUpdated(address _poolManager, uint256 _maxSanRateUpdate);
+    event MaxSanRateUpdateUpdated(address indexed _poolManager, uint256 _maxSanRateUpdate);
 
-    event FeesForSLPsUpdated(address _poolManager, uint256 _feesForSLPs);
+    event FeesForSLPsUpdated(address indexed _poolManager, uint256 _feesForSLPs);
 
-    event InterestsForSLPsUpdated(address _poolManager, uint256 _interestsForSLPs);
+    event InterestsForSLPsUpdated(address indexed _poolManager, uint256 _interestsForSLPs);
 
     event ArrayFeeMintUpdated(uint256[] _xFeeMint, uint256[] _yFeeMint);
 

@@ -2,7 +2,6 @@
 
 pragma solidity 0.8.2;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20BurnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 // OpenZeppelin may update its version of the ERC20PermitUpgradeable token
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-ERC20PermitUpgradeable.sol";
@@ -16,7 +15,7 @@ import "../interfaces/IStableMaster.sol";
 /// @notice Base contract for sanTokens, these tokens are used to mark the debt the contract has to SLPs
 /// @dev The exchange rate between sanTokens and collateral will automatically change as interests and transaction fees accrue to SLPs
 /// @dev There is one `SanToken` contract per pair stablecoin/collateral
-contract SanToken is ISanToken, ERC20BurnableUpgradeable, ERC20PermitUpgradeable {
+contract SanToken is ISanToken, ERC20PermitUpgradeable {
     /// @notice Checks to see if it is the `StableMaster` calling this contract
     /// @dev There is no Access Control here, because it can be handled cheaply through these modifiers
     modifier onlyStableMaster() {
@@ -29,10 +28,6 @@ contract SanToken is ISanToken, ERC20BurnableUpgradeable, ERC20PermitUpgradeable
 
     // ========================= References to other contracts =====================
 
-    /// @notice Address of the corresponding collateral `PoolManager`
-    /// This reference cannot be modified
-    address public poolManager;
-
     /// @notice Address of the corresponding `StableMaster` contract
     /// This address cannot be modified
     address public stableMaster;
@@ -42,16 +37,14 @@ contract SanToken is ISanToken, ERC20BurnableUpgradeable, ERC20PermitUpgradeable
     /// @notice Initializes the `SanToken` contract
     /// @param name_ Name of the token
     /// @param symbol_ Symbol of the token
-    /// @param _poolManager Reference to the `PoolManager` contract associated to this `SanToken`
+    /// @param poolManager Reference to the `PoolManager` contract associated to this `SanToken`
     function initialize(
         string memory name_,
         string memory symbol_,
-        address _poolManager
+        address poolManager
     ) public initializer {
-        __ERC20Burnable_init();
         __ERC20Permit_init(name_);
         __ERC20_init(name_, symbol_);
-        poolManager = _poolManager;
         stableMaster = IPoolManager(poolManager).stableMaster();
         decimal = IERC20MetadataUpgradeable(IPoolManager(poolManager).token()).decimals();
     }

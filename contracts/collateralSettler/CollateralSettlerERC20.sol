@@ -43,6 +43,9 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
     /// @notice Address of the ERC20 token corresponding to the collateral
     IERC20 public underlyingToken;
 
+    /// @notice Base used in the collateral implementation (ERC20 decimal)
+    uint256 public collatBase;
+
     /// @notice Governance token of the protocol
     /// It is stored here because users, HAs and SLPs can send governance tokens to get treated preferably
     /// in case of collateral settlement
@@ -164,8 +167,10 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
         // Retrieving from the `_poolManager` all the correct references, this guarantees the integrity of the contract
         poolManager = _poolManager;
         perpetualManager = IPerpetualManagerFront(_poolManager.perpetualManager());
-        (, ISanToken _sanToken, , , , , , ) = IStableMaster(_poolManager.stableMaster()).collateralMap(_poolManager);
+        (, uint256 _collatBase, ISanToken _sanToken, , , , , , ) = IStableMaster(_poolManager.stableMaster())
+            .collateralMap(_poolManager);
         sanToken = _sanToken;
+        collatBase = _collatBase;
         agToken = IAgToken(IStableMaster(_poolManager.stableMaster()).agToken());
         poolManager = _poolManager;
         underlyingToken = IERC20(_poolManager.token());
@@ -217,7 +222,7 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
         // No need to use `safeTransfer` for agTokens and ANGLE tokens
         agToken.transferFrom(msg.sender, address(this), amountAgToken);
         // Computing the amount of the claim from the number of stablecoins sent
-        uint256 amountInC = (amountAgToken * BASE) / oracleValue;
+        uint256 amountInC = (amountAgToken * collatBase) / oracleValue;
         // Updating the contract's mappings accordingly
         _treatClaim(dest, amountGovToken, amountInC, 0);
     }

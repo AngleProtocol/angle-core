@@ -128,6 +128,8 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
             // using the oracle associated to each accepted stablecoin
             IOracle oracle = allowedStablecoins[_agToken];
             uint256 oracleValue = oracle.readLower(1);
+            // There is no base problem here as it is a conversion between two Angle's agTokens
+            // which are in base `BASE`
             amountToPayInAgToken = (amountToPayInReference * BASE) / oracleValue;
         }
         require(amountToPayInAgToken > 0, "oracle attack or incorrect value");
