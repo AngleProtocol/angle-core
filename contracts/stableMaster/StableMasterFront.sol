@@ -113,14 +113,15 @@ contract StableMasterFront is StableMaster {
         uint256 oracleValue = col.oracle.readLower(0);
 
         // Converting amount of agTokens in collateral and computing how much should be reimbursed to the user
-        uint256 amountInC = (amount * BASE) / oracleValue;
+        // Amount is in `BASE` and the outputted collateral amount should be in collateral base
+        uint256 amountInC = (amount * col.collatBase) / oracleValue;
 
         uint256 fees = _computeFeeBurn(amountInC, col);
 
         // Computing how much of collateral can be redeemed by the user after taking fees
         // The real value is `amountInC * (BASE - fees) / BASE`, but we prefer to avoid doing multiplications
         // after divisions
-        uint256 redeemInC = (amount * (BASE - fees)) / oracleValue;
+        uint256 redeemInC = (amount * (BASE - fees) * col.collatBase) / (oracleValue * BASE);
 
         int256 stocksUsersUpdateValue = int256(amountInC);
         // For this require to fail, you need very specific conditions on `BASE`

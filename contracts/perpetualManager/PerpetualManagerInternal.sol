@@ -151,6 +151,7 @@ contract PerpetualManagerInternal is PerpetualManagerStorage {
     /// @param rate Value of the oracle, used to compute the maximum amount to cover
     /// @return newCoveredAmount Amount of collateral insured by HAs if `amount` more collateral is covered
     /// @return maxCoveredAmount Maximum amount of collateral that can be insured
+    /// @dev Both of the returned amounts are in `BASE`
     function _testMaxCAmount(uint256 amount, uint256 rate)
         internal
         view
@@ -179,7 +180,6 @@ contract PerpetualManagerInternal is PerpetualManagerStorage {
             // Same here, instead of using:
             // `maxCoveredAmount = (stablecoinsInCol * maxTotalCoveredAmount) / BASE;`, we do:
         else maxCoveredAmount = (agTokensMinted * maxALock) / rate;
-        // Both of the returned amounts are in `BASE`
     }
 
     /// @notice Gets the current `cashOutAmount` of a perpetual

@@ -19,7 +19,7 @@ abstract contract ModuleChainlinkSingle is ChainlinkUtils {
 
     /// @notice Constructor for an oracle using only a single Chainlink
     /// @param _poolChainlink Chainlink pool address
-    /// @param _isChainlinkMultiplied Whether we should multiply or divide by the rate the quote amount
+    /// @param _isChainlinkMultiplied Whether we should multiply or divide the quote amount by the rate
     constructor(address _poolChainlink, uint256 _isChainlinkMultiplied) {
         require(_poolChainlink != address(0), "incorrect Chainlink pool");
         poolChainlink = AggregatorV3Interface(_poolChainlink);

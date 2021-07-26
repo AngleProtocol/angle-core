@@ -21,7 +21,7 @@ contract FeeManagerStorage is FeeManagerEvents, FunctionUtils {
 
     // ================= Parameters that can be set by governance ==================
 
-    /// @notice Bonus - Malus Fee, means that if the `fee > BASE` then /// agents incur a malus and will
+    /// @notice Bonus - Malus Fee, means that if the `fee > BASE` then agents incur a malus and will
     /// have larger fees, while `fee < BASE` they incur a smaller fee than what they would have if fees
     /// just consisted in what was obtained using coverage
     /// @notice Values of the collateral ratio where mint transaction fees will change for users

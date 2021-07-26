@@ -346,9 +346,9 @@ contract Strategy is StrategyEvents, BaseStrategy {
         return weightedAPR / bal;
     }
 
-    /// @notice Does the oracle (Uniswap- Chainlink for now) conversion from wETH to want
+    /// @notice Does the oracle (Uniswap - Chainlink for now) conversion from wETH to want
     function ethToWant(uint256 _amount) public view override returns (uint256) {
-        return oracle.readQuote(_amount);
+        return (oracle.readQuote(_amount) * wantBase) / BASE;
     }
 
     /// @notice Prevents the governance from withdrawing want tokens
@@ -410,9 +410,8 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @param _oracle Oracle contract
     /// @dev The collateral `PoolManager` does not store a reference to an oracle, the value of the oracle can directly
     /// be set by the `StableMaster`
+    /// @dev The `outbase` of the new oracle should be the same as the `wantBase`
     function setOracle(IOracle _oracle) external onlyRole(GUARDIAN_ROLE) {
-        // The `inBase` of the new oracle should be the same as the `collatBase` stored for this collateral
-        require(10**(IERC20Metadata(address(want)).decimals()) == _oracle.getInBase(), "incorrect oracle base");
         oracle = _oracle;
     }
 

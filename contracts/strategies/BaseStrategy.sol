@@ -3,6 +3,7 @@
 pragma solidity 0.8.2;
 
 import "./BaseStrategyEvents.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
 /// @title BaseStrategy
 /// @author Forked from https://github.com/yearn/yearn-managers/blob/master/contracts/BaseStrategy.sol
@@ -28,6 +29,8 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
 
     /// @notice Reference to the ERC20 farmed by this strategy
     IERC20 public want;
+
+    uint256 public wantBase;
 
     //@notice Reference to the ERC20 distributed as a reward by the strategy
     IERC20 public rewards;
@@ -72,6 +75,8 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     ) {
         poolManager = IPoolManager(_poolManager);
         want = IERC20(poolManager.token());
+        wantBase = 10**(IERC20Metadata(address(want)).decimals());
+
         rewards = _rewards;
 
         // Initializing variables

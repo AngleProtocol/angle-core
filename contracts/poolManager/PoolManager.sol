@@ -127,7 +127,7 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     /// at a mean of past APR.
     function estimatedAPR() external view returns (uint256 apr) {
         apr = 0;
-        (, ISanToken sanTokenForAPR, , , , uint256 sanRate, SLPData memory slpData, ) = stableMaster.collateralMap(
+        (, , ISanToken sanTokenForAPR, , , , uint256 sanRate, SLPData memory slpData, ) = stableMaster.collateralMap(
             IPoolManager(address(this))
         );
         uint256 supply = sanTokenForAPR.totalSupply();
@@ -157,7 +157,7 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         return Math.min(target - params.totalDebt, _getBalance());
     }
 
-    /// @notice Tells a strategy how much it can owns to this `PoolManager`
+    /// @notice Tells a strategy how much it owes to this `PoolManager`
     /// @return Amount of token a strategy has to reimburse
     /// @dev Manipulating `_getTotalAsset` with a flashloan will only
     /// result in tokens being transfered at the cost of the caller
@@ -360,14 +360,14 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
 
     /// @notice Gets the current balance of this `PoolManager` contract
     /// @return The amount of the underlying collateral that the contract currently owns
-    /// @dev This balance does not take into account what has been lent to lending platforms
+    /// @dev This balance does not take into account what has been lent to strategies
     function getBalance() external view override returns (uint256) {
         return _getBalance();
     }
 
     /// @notice Gets the total amount of collateral that is controlled by this `PoolManager` contract
-    /// @return The amount of collateral owned by this contract plus the amount that has been lent to lending platforms
-    /// @dev This is the value that is used to compute the lending rate for a given lending platform
+    /// @return The amount of collateral owned by this contract plus the amount that has been lent to strategies
+    /// @dev This is the value that is used to compute the debt ratio for a given strategy
     function getTotalAsset() external view override returns (uint256) {
         return _getTotalAsset();
     }

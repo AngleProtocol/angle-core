@@ -41,6 +41,7 @@ contract OracleChainlinkMulti is OracleAbstract, ModuleChainlinkMulti {
     /// @param quoteAmount Amount expressed in the in-currency base.
     /// @dev If quoteAmount is `inBase`, rates are returned
     /// @return The two return values are similar
+    /// @dev The amount returned is expressed with base `BASE` (and not the base of the out-currency)
     function _readAll(uint256 quoteAmount) internal view override returns (uint256, uint256) {
         uint256 quote = _readQuote(quoteAmount);
         return (quote, quote);
@@ -48,6 +49,7 @@ contract OracleChainlinkMulti is OracleAbstract, ModuleChainlinkMulti {
 
     /// @notice Internal function to convert an in-currency quote amount to out-currency using Chainlink's circuit
     /// @param quoteAmount Amount (in the input collateral) to be converted to be converted in out-currency
+    /// @dev The amount returned is expressed with base `BASE` (and not the base of the out-currency)
     function _readQuote(uint256 quoteAmount) internal view returns (uint256) {
         quoteAmount = (quoteAmount * BASE) / inBase;
         (quoteAmount, ) = _quoteChainlink(quoteAmount);

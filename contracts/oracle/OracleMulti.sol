@@ -61,6 +61,7 @@ contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti
     /// @notice Reads the Uniswap rate using the circuit given
     /// @return The current rate between the in-currency and out-currency
     /// @dev By default even if there is a Chainlink rate, this function returns the Uniswap rate
+    /// @dev The amount returned is expressed with base `BASE` (and not the base of the out-currency)
     function read() external view override returns (uint256) {
         return _readUniswapQuote(inBase);
     }
@@ -77,7 +78,8 @@ contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti
     /// @notice Returns Uniswap and Chainlink values (with the first one being the smallest one)
     /// @param quoteAmount Amount expressed in the in-currency base.
     /// @dev If quoteAmount is `inBase`, rates are returned
-    /// @return The first parameter is the lowest value in out-currency and the second parameter is the highest
+    /// @return The first parameter is the lowest value and the second parameter is the highest
+    /// @dev The amount returned is expressed with base `BASE` (and not the base of the out-currency)
     function _readAll(uint256 quoteAmount) internal view override returns (uint256, uint256) {
         uint256 quoteAmountUni = _quoteUniswap(quoteAmount);
 

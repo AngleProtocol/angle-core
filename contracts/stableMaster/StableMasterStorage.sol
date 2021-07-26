@@ -14,6 +14,8 @@ contract StableMasterStorage is StableMasterEvents, FunctionUtils {
     struct Collateral {
         // Interface for the token accepted by the underlying `PoolManager` contract
         IERC20 token;
+        // Base used in the collateral implementation (ERC20 decimal)
+        uint256 collatBase;
         // Reference to the `SanToken` for the pool
         ISanToken sanToken;
         // Reference to the `PerpetualManager` for the pool

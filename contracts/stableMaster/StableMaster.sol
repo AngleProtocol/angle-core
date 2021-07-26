@@ -276,6 +276,7 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
         // Creating the correct references
         col.sanRate = BASE;
         col.token = IERC20(poolManager.token());
+        col.collatBase = 10**(IERC20Metadata(address(col.token)).decimals());
         col.sanToken = sanToken;
         col.perpetualManager = perpetualManager;
         col.oracle = oracle;

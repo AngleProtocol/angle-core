@@ -118,6 +118,7 @@ interface IStableMaster is IStableMasterFunctions {
         view
         returns (
             IERC20 token,
+            uint256 collatBase,
             ISanToken sanToken,
             IPerpetualManager perpetualManager,
             IOracle oracle,

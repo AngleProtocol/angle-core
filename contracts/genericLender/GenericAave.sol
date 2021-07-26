@@ -179,14 +179,14 @@ contract GenericAave is GenericLenderBase {
         (, , , , uint256 reserveFactor, , , , , ) = protocolDataProvider.getReserveConfigurationData(address(want));
 
         (uint256 newLiquidityRate, , ) = IReserveInterestRateStrategy(reserveData.interestRateStrategyAddress)
-        .calculateInterestRates(
-            address(want),
-            newLiquidity,
-            totalStableDebt,
-            totalVariableDebt,
-            averageStableBorrowRate,
-            reserveFactor
-        );
+            .calculateInterestRates(
+                address(want),
+                newLiquidity,
+                totalStableDebt,
+                totalVariableDebt,
+                averageStableBorrowRate,
+                reserveFactor
+            );
 
         return newLiquidityRate / 1e9; // divided by 1e9 to go from Ray to Wad
     }
