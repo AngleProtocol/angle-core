@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
@@ -11,6 +11,8 @@ import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
+import "../external/AccessControlUpgradeable.sol";
 
 import "../interfaces/IFeeManager.sol";
 import "../interfaces/IPoolManager.sol";
@@ -30,35 +32,29 @@ import "../utils/FunctionUtils.sol";
 contract PerpetualManagerEvents {
     event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
 
-    event PerpetualUpdate(
-        uint256 _perpetualID,
-        uint256 _initRate,
-        uint256 _cashOutAmount,
-        uint256 _committedAmount,
-        uint256 _fees
-    );
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+
+    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
+
+    event PerpetualUpdated(uint256 _perpetualID, uint256 _margin);
+
+    event PerpetualCreated(uint256 _perpetualID, uint256 _entryRate, uint256 _margin, uint256 _committedAmount);
 
     // ============================== Parameters ===================================
 
-    event MaxALockUpdated(uint256 _maxALock);
+    event LockTimeUpdated(uint256 _lockTime);
 
-    event SecureBlocksUpdated(uint256 _secureBlocks);
+    event KeeperFeesCapUpdated(uint256 _keeperFeesLiquidationCap, uint256 _keeperFeesCashOutCap);
 
-    event MaxLeverageUpdated(uint256 _maxLeverage);
+    event TargetAndLimitHACoverageUpdated(uint64 _targetHACoverage, uint64 _limitHACoverage);
 
-    event CashOutLeverageUpdated(uint256 _cashOutLeverage);
+    event BoundsPerpetualUpdated(uint64 _maxLeverage, uint64 _maintenanceMargin);
 
-    event MaintenanceMarginUpdated(uint256 _maintenanceMargin);
+    event HAFeesUpdated(uint64[] _xHAFeesDeposit, uint64[] _yHAFeesDeposit, uint8 deposit);
 
-    event HAFeesDepositUpdated(uint256[] _xHAFeesDeposit, uint256[] _yHAFeesDeposit);
+    event KeeperFeesRatioUpdated(uint64 _keeperFeesRatio);
 
-    event HAFeesWithdrawUpdated(uint256[] _xHAFeesWithdraw, uint256[] _yHAFeesWithdraw);
-
-    event KeeperFeesRatioUpdated(uint256 _keeperFeesRatio);
-
-    event KeeperFeesCapUpdated(uint256 _keeperFeesCap);
-
-    event KeeperFeesCashOutUpdated(uint256[] xKeeperFeesCashOut, uint256[] yKeeperFeesCashOut);
+    event KeeperFeesCashOutUpdated(uint64[] xKeeperFeesCashOut, uint64[] yKeeperFeesCashOut);
 
     // =============================== Reward ======================================
 
@@ -66,7 +62,9 @@ contract PerpetualManagerEvents {
 
     event RewardPaid(address indexed _user, uint256 _reward);
 
-    event RewardsDistributorUpdated(address _rewardsDistributor);
+    event RewardsDistributorUpdated(address indexed _rewardsDistributor);
 
-    event RewardDistributionUpdated(uint256 _rewardsDuration, address _rewardsDistributor);
+    event RewardDistributionUpdated(uint256 _rewardsDuration, address indexed _rewardsDistributor);
+
+    event Recovered(address indexed tokenAddress, address indexed to, uint256 amount);
 }

@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./StrategyEvents.sol";
 
@@ -86,7 +86,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
             return (_profit, _loss, _debtPayment);
         }
 
-        uint256 debt = poolManager.strategies(address(this)).totalDebt;
+        uint256 debt = poolManager.strategies(address(this)).totalStrategyDebt;
 
         if (total > debt) {
             _profit = total - debt;
@@ -495,7 +495,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @notice Revokes the guardian role and propagates the change to other contracts
     /// @param guardian Old guardian address to revoke
     function revokeGuardian(address guardian) external override onlyRole(POOLMANAGER_ROLE) {
-        revokeRole(GUARDIAN_ROLE, guardian);
+        _revokeRole(GUARDIAN_ROLE, guardian);
         for (uint256 i = 0; i < lenders.length; i++) {
             lenders[i].revokeRole(GUARDIAN_ROLE, guardian);
         }

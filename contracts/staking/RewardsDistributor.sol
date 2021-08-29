@@ -1,8 +1,26 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./RewardsDistributorEvents.sol";
+
+/// @notice Distribution parameters for a given contract
+struct StakingParameters {
+    // Amount of rewards distributed since the beginning
+    uint256 distributedRewards;
+    // Last time rewards were distributed to the staking contract
+    uint256 lastDistributionTime;
+    // Frequency with which rewards should be given to the underlying contract
+    uint256 updateFrequency;
+    // Number of tokens distributed for the person calling the update function
+    uint256 incentiveAmount;
+    // Time at which reward distribution started for this reward contract
+    uint256 timeStarted;
+    // Amount of time during which rewards will be distributed
+    uint256 duration;
+    // Amount of tokens to distribute to the concerned contract
+    uint256 amountToDistribute;
+}
 
 /// @title RewardsDistributor
 /// @author Angle Core Team (forked form FEI Protocol)
@@ -17,28 +35,10 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     /// @notice Role for guardians and governors
     bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
 
-    /// @notice Distribution parameters for a given contract
-    struct StakingParameters {
-        // Amount of rewards distributed since the beginning
-        uint256 distributedRewards;
-        // Last time rewards were distributed to the staking contract
-        uint256 lastDistributionTime;
-        // Frequency with which rewards should be given to the underlying contract
-        uint256 updateFrequency;
-        // Number of tokens distributed for the person calling the update function
-        uint256 incentiveAmount;
-        // Time at which reward distribution started for this reward contract
-        uint256 timeStarted;
-        // Duration during which rewards will be distributed
-        uint256 duration;
-        // Amount of tokens to distribute to the concerned contract
-        uint256 amountToDistribute;
-    }
-
     // ============================ Reference to a contract ========================
 
     /// @notice Token used as a reward
-    IERC20 public override rewardToken;
+    IERC20 public immutable override rewardToken;
 
     // ============================== Parameters ===================================
 
@@ -89,11 +89,10 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
         require(stakingParams.duration > 0, "invalid staking contract");
         require(_isDripAvailable(stakingParams), "not passed drip frequency");
 
-        stakingParams.lastDistributionTime = block.timestamp;
-
         uint256 dripAmount = _computeDripAmount(stakingParams);
+        stakingParams.lastDistributionTime = block.timestamp;
         require(dripAmount != 0, "no rewards");
-        stakingParams.distributedRewards = stakingParams.distributedRewards + dripAmount;
+        stakingParams.distributedRewards += dripAmount;
         emit Dripped(msg.sender, dripAmount, address(stakingContract));
 
         rewardToken.safeTransfer(address(stakingContract), dripAmount);
@@ -110,7 +109,7 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     /// @param to Address to send the tokens to
     /// @dev Only callable by governance and not by the guardian
     function governorWithdrawRewardToken(uint256 amount, address to) external override onlyRole(GOVERNOR_ROLE) {
-        emit ANGLEWithdrawn(amount);
+        emit RewardTokenWithdrawn(amount);
         rewardToken.safeTransfer(to, amount);
     }
 
@@ -119,7 +118,8 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     /// @param to Address to transfer to
     /// @param amount Amount to transfer
     /// @param stakingContract Reference to the staking contract
-    /// @dev A use case would be to claim tokens if the staked tokens accumulate rewards
+    /// @dev A use case would be to claim tokens if the staked tokens accumulate rewards or if tokens were
+    /// mistakenly sent to staking contracts
     function governorRecover(
         address tokenAddress,
         address to,
@@ -131,13 +131,20 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
 
     /// @notice Sets a new rewards distributor contract and automatically makes this contract useless
     /// @param newRewardsDistributor Address of the new rewards distributor contract
-    /// @dev This contract is not upgradable, setting a new contract could allow for upgrades, which should be
+    /// @dev This contract is not upgradeable, setting a new contract could allow for upgrades, which should be
     /// propagated across all staking contracts
     /// @dev This function transfers all the reward tokens to the new address
     /// @dev The new rewards distributor contract should be initialized correctly with all the staking contracts
     /// from the staking contract list
     function setNewRewardsDistributor(address newRewardsDistributor) external override onlyRole(GOVERNOR_ROLE) {
-        require(newRewardsDistributor != address(0), "zero address");
+        // Checking the compatibility of the reward tokens. It is checked at the initialization of each staking contract
+        // in the `setStakingContract` function that reward tokens are compatible with the `rewardsDistributor`. If
+        // the `newRewardsDistributor` has a compatible rewards token, then all staking contracts will automatically be
+        // compatible with it
+        require(
+            address(IRewardsDistributor(newRewardsDistributor).rewardToken()) == address(rewardToken),
+            "incompatible reward tokens"
+        );
         for (uint256 i = 0; i < stakingContractsList.length; i++) {
             stakingContractsList[i].setNewRewardsDistributor(newRewardsDistributor);
         }
@@ -152,17 +159,20 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     /// @dev Allows to clean some space and to avoid keeping in memory contracts which became useless
     /// @dev It is also a way governance has to completely stop rewards distribution from a contract
     function removeStakingContract(IStakingRewards stakingContract) external override onlyRole(GOVERNOR_ROLE) {
-        uint256 indexMet = 0;
-        for (uint256 i = 0; i < stakingContractsList.length - 1; i++) {
-            if (address(stakingContractsList[i]) == address(stakingContract)) {
-                indexMet = 1;
-            }
-            if (indexMet == 1) {
-                stakingContractsList[i] = stakingContractsList[i + 1];
+        uint256 indexMet;
+        uint256 stakingContractsListLength = stakingContractsList.length;
+        require(stakingContractsListLength >= 1, "incorrect staking contract");
+        if (stakingContractsListLength > 1) {
+            for (uint256 i = 0; i < stakingContractsListLength - 1; i++) {
+                if (stakingContractsList[i] == stakingContract) {
+                    indexMet = 1;
+                    stakingContractsList[i] = stakingContractsList[stakingContractsListLength - 1];
+                    break;
+                }
             }
         }
         require(
-            indexMet == 1 || stakingContractsList[stakingContractsList.length - 1] == stakingContract,
+            indexMet == 1 || stakingContractsList[stakingContractsListLength - 1] == stakingContract,
             "incorrect staking contract"
         );
 
@@ -181,28 +191,32 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     /// @param _updateFrequency Frequency when it is possible to call the update function and give tokens to the staking contract
     /// @param _amountToDistribute Amount of gov tokens to give to the staking contract across all drips
     /// @dev Called by governance to activate a contract
+    /// @dev After setting a new staking contract, everything is as if the contract had already been set for `_updateFrequency`
+    /// meaning that it is possible to drip the staking contract immediately after that
     function setStakingContract(
         address _stakingContract,
         uint256 _duration,
         uint256 _incentiveAmount,
         uint256 _updateFrequency,
         uint256 _amountToDistribute
-    ) external override onlyRole(GUARDIAN_ROLE) {
+    ) external override onlyRole(GOVERNOR_ROLE) {
         require(_duration > 0, "null duration");
-        require(_duration >= _updateFrequency, "frequency exceeds duration");
+        require(_duration >= _updateFrequency && block.timestamp >= _updateFrequency, "too high frequency");
 
         IStakingRewards stakingContract = IStakingRewards(_stakingContract);
+
+        require(stakingContract.rewardToken() == rewardToken, "incompatible reward tokens");
 
         StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
 
         stakingParams.updateFrequency = _updateFrequency;
         stakingParams.incentiveAmount = _incentiveAmount;
-        stakingParams.lastDistributionTime = block.timestamp;
-        stakingParams.timeStarted = block.timestamp;
+        stakingParams.lastDistributionTime = block.timestamp - _updateFrequency;
+        // In order to allow a drip whenever a `stakingContract` is set, we consider that staking has already started
+        // `_updateFrequency` ago
+        stakingParams.timeStarted = block.timestamp - _updateFrequency;
         stakingParams.duration = _duration;
-
         stakingParams.amountToDistribute = _amountToDistribute;
-
         stakingContractsList.push(stakingContract);
 
         emit NewStakingContract(_stakingContract);
@@ -218,6 +232,7 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     {
         StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
         require(stakingParams.duration > 0, "invalid staking contract");
+        require(stakingParams.duration >= _updateFrequency, "frequency exceeds duration");
         stakingParams.updateFrequency = _updateFrequency;
         emit FrequencyUpdated(_updateFrequency, address(stakingContract));
     }
@@ -257,6 +272,7 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     function setDuration(uint256 _duration, IStakingRewards stakingContract) external override onlyRole(GUARDIAN_ROLE) {
         StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
         require(stakingParams.duration > 0, "invalid staking contract");
+        require(_duration >= stakingParams.updateFrequency, "frequency exceeds duration");
         uint256 timeElapsed = _timeSinceStart(stakingParams);
         require(timeElapsed < stakingParams.duration && timeElapsed < _duration, "too high amount");
         stakingParams.duration = _duration;
@@ -283,17 +299,17 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     /// @param stakingParams Parameters of the concerned staking contract
     /// @dev Constant drip amount across time
     function _computeDripAmount(StakingParameters memory stakingParams) internal view returns (uint256) {
-        uint256 timeElapsed = _timeSinceStart(stakingParams);
-        uint256 timeLeft = stakingParams.duration - timeElapsed;
-        if (stakingParams.distributedRewards >= stakingParams.amountToDistribute || timeLeft == 0) {
+        if (stakingParams.distributedRewards >= stakingParams.amountToDistribute) {
             return 0;
         }
+        uint256 dripAmount = (stakingParams.amountToDistribute *
+            (block.timestamp - stakingParams.lastDistributionTime)) / stakingParams.duration;
+        uint256 timeLeft = stakingParams.duration - _timeSinceStart(stakingParams);
         uint256 rewardsLeftToDistribute = stakingParams.amountToDistribute - stakingParams.distributedRewards;
-
-        if (timeLeft < stakingParams.updateFrequency) {
+        if (timeLeft < stakingParams.updateFrequency || rewardsLeftToDistribute < dripAmount || timeLeft == 0) {
             return rewardsLeftToDistribute;
         } else {
-            return (stakingParams.updateFrequency * rewardsLeftToDistribute) / timeLeft;
+            return dripAmount;
         }
     }
 
@@ -310,6 +326,6 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     /// @notice Incentivizes the person calling the drip function
     /// @param stakingParams Parameters of the concerned staking contract
     function _incentivize(StakingParameters memory stakingParams) internal {
-        require(rewardToken.transfer(msg.sender, stakingParams.incentiveAmount), "ANGLE token transfer failed");
+        rewardToken.safeTransfer(msg.sender, stakingParams.incentiveAmount);
     }
 }

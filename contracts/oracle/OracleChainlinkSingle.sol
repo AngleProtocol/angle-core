@@ -1,7 +1,7 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
 // contracts/oracle/OracleChainlinkSingle.sol
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./OracleAbstract.sol";
 import "./modules/ModuleChainlinkSingle.sol";
@@ -16,15 +16,18 @@ import "./modules/ModuleChainlinkSingle.sol";
 contract OracleChainlinkSingle is OracleAbstract, ModuleChainlinkSingle {
     /// @notice Constructor for the oracle using a single Chainlink pool
     /// @param _poolChainlink Chainlink pool address
-    /// @param _chainIsMultiplied Whether we should multiply or divide by the Chainlink rate the
+    /// @param _isChainlinkMultiplied Whether we should multiply or divide by the Chainlink rate the
     /// in-currency amount to get the out-currency amount
     /// @param _inBase Number of units of the in-currency
+    /// @param _description Description of the assets concerned by the oracle
     constructor(
         address _poolChainlink,
-        uint256 _chainIsMultiplied,
-        uint256 _inBase
-    ) ModuleChainlinkSingle(_poolChainlink, _chainIsMultiplied) {
+        uint8 _isChainlinkMultiplied,
+        uint256 _inBase,
+        bytes32 _description
+    ) ModuleChainlinkSingle(_poolChainlink, _isChainlinkMultiplied) {
         inBase = _inBase;
+        description = _description;
     }
 
     /// @notice Reads the rate from the Chainlink feed

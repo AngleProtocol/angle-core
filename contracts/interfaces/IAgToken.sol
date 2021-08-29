@@ -1,20 +1,16 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
-
-import "./IPoolManager.sol";
 
 /// @title IAgToken
 /// @author Angle Core Team
 /// @notice Interface for the stablecoins `AgToken` contracts
 /// @dev The only functions that are left in the interface are the functions which are used
 /// at another point in the protocol by a different contract
-interface IAgTokenFunctions is IERC20Upgradeable, IAccessControlUpgradeable {
+interface IAgToken is IERC20Upgradeable {
     // ======================= `StableMaster` functions ============================
-    function deploy(address[] memory governorList, address guardian) external;
-
     function mint(address account, uint256 amount) external;
 
     function burnFrom(
@@ -25,11 +21,9 @@ interface IAgTokenFunctions is IERC20Upgradeable, IAccessControlUpgradeable {
 
     function burnSelf(uint256 amount, address burner) external;
 
-    // ========================= External functions ================================
+    // ========================= External function =================================
 
     function burnFromNoRedeem(address account, uint256 amount) external;
-}
 
-interface IAgToken is IAgTokenFunctions {
     function stableMaster() external view returns (address);
 }

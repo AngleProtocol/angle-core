@@ -1,11 +1,12 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
 /**
- * @dev This contract implements a proxy that is upgradeable by an admin.
+ * @dev This contract implements a proxy that is upgradeable by an admin. It is fully forked from OpenZeppelin
+ * `TransparentUpgradeableProxy`
  *
  * To avoid https://medium.com/nomic-labs-blog/malicious-backdoors-in-ethereum-proxies-62629adf3357[proxy selector
  * clashing], which can potentially be used in an attack, this contract uses the

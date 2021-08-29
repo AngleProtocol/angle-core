@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
 // OpenZeppelin may update its version of the ERC20PermitUpgradeable token
@@ -16,13 +16,6 @@ import "../interfaces/IStableMaster.sol";
 /// @dev The exchange rate between sanTokens and collateral will automatically change as interests and transaction fees accrue to SLPs
 /// @dev There is one `SanToken` contract per pair stablecoin/collateral
 contract SanToken is ISanToken, ERC20PermitUpgradeable {
-    /// @notice Checks to see if it is the `StableMaster` calling this contract
-    /// @dev There is no Access Control here, because it can be handled cheaply through these modifiers
-    modifier onlyStableMaster() {
-        require(msg.sender == stableMaster, "incorrect caller");
-        _;
-    }
-
     /// @notice Number of decimals used for this ERC20
     uint8 public decimal;
 
@@ -30,23 +23,43 @@ contract SanToken is ISanToken, ERC20PermitUpgradeable {
 
     /// @notice Address of the corresponding `StableMaster` contract
     /// This address cannot be modified
-    address public stableMaster;
+    address public override stableMaster;
+
+    /// @notice Address of the corresponding `PoolManager` contract
+    /// This address cannot be modified
+    /// Although it is not used in the functions of the contract, this address is stored in
+    /// order to make sure that there cannot be a shared sanToken for multiple `PoolManager` contracts
+    address public override poolManager;
 
     // =============================== Constructor =================================
 
     /// @notice Initializes the `SanToken` contract
     /// @param name_ Name of the token
     /// @param symbol_ Symbol of the token
-    /// @param poolManager Reference to the `PoolManager` contract associated to this `SanToken`
+    /// @param _poolManager Reference to the `PoolManager` contract associated to this `SanToken`
     function initialize(
         string memory name_,
         string memory symbol_,
-        address poolManager
+        address _poolManager
     ) public initializer {
         __ERC20Permit_init(name_);
         __ERC20_init(name_, symbol_);
+
+        poolManager = _poolManager;
         stableMaster = IPoolManager(poolManager).stableMaster();
+
+        // It is possible that some ERC20 tokens do not implement this interface, in which case
+        // we will have to change the constructor
+        // The number of decimals of a sanToken is the number of decimals of the collateral that
+        // corresponds to it
         decimal = IERC20MetadataUpgradeable(IPoolManager(poolManager).token()).decimals();
+    }
+
+    /// @notice Checks to see if it is the `StableMaster` calling this contract
+    /// @dev There is no Access Control here, because it can be handled cheaply through these modifiers
+    modifier onlyStableMaster() {
+        require(msg.sender == stableMaster, "incorrect caller");
+        _;
     }
 
     // ========================= External Functions ================================
@@ -78,7 +91,7 @@ contract SanToken is ISanToken, ERC20PermitUpgradeable {
         _mint(account, amount);
     }
 
-    /// @notice Lets an address burn sanTokens and redeem collateral for this address
+    /// @notice Lets an address burn sanTokens
     /// @param amount Amount of sanTokens to burn from caller
     /// @dev This can only be called by the `StableMaster` which performs all the security checks
     /// to see for instance if the `burner` was the initial `msg.sender`
@@ -86,8 +99,7 @@ contract SanToken is ISanToken, ERC20PermitUpgradeable {
         _burn(burner, amount);
     }
 
-    /// @notice Lets an address burn sanTokens on behalf of another address and redeem
-    /// collateral that will go to this other address
+    /// @notice Lets a `sender` address burn sanTokens from another `burner` address
     /// @param burner Address to burn from and to redeem collateral to
     /// @param amount Amount of sanTokens to burn
     /// @dev Only the `StableMaster` can call this function

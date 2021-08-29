@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./BondingCurveEvents.sol";
 
@@ -17,12 +17,12 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
     bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
 
     /// @notice Base used to compute ratios and floating numbers
-    uint256 public constant BASE = 1e18;
+    uint256 public constant BASE_TOKENS = 1e18;
 
     // ============================ References to contracts ========================
 
     /// @notice Interface for the token sold by this contract, most likely ANGLE tokens
-    IERC20 public soldToken;
+    IERC20 public immutable soldToken;
 
     /// @notice Address of the reference coin, the one other stablecoins are converted to
     /// @dev If the reference is not a stablecoin that can be used to buy tokens with this contract,
@@ -34,19 +34,14 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
     // ============================ Parameters =====================================
 
     /// @notice Start price at which the bonding curve will sell
-    /// This price will be expressed in a reference (most likely USD)
+    /// This price will be expressed in a reference (most likely USD or EUR)
     uint256 public startPrice;
 
-    /// @notice Power parameter for the bonding curve: the price is:
-    /// `startPrice/(1-tokensSoldInTx/tokensToSellInTotal)^power`
-    /// `power` should be strictly superior to 1
-    uint256 public power;
-
     /// @notice Number of tokens to sell with this contract. It can be either increased or decreased
-    uint256 public totalTokensToSell = 0;
+    uint256 public totalTokensToSell;
 
     /// @notice Number of tokens sold so far. It should be inferior to `totalTokensToSell`
-    uint256 public tokensSold = 0;
+    uint256 public tokensSold;
 
     /// @notice Maps a stablecoin that can be used to buy the token to the oracle contract that gives the price
     /// of the coin with respect to the reference stablecoin
@@ -76,15 +71,12 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
     /// @param _startPrice Start price of the token, it converts an amount of reference stablecoins to an amount
     /// of sold tokens (most of the time ANGLE tokens)
     /// @param _soldToken Token that it will be possible to buy using this contract
-    /// @param _power Parameter for the bonding curve
     constructor(
         address[] memory governorList,
         address guardian,
         uint256 _startPrice,
-        IERC20 _soldToken,
-        uint256 _power
+        IERC20 _soldToken
     ) {
-        require(_power > 1, "invalid power parameter");
         require(guardian != address(0) && address(_soldToken) != address(0), "zero address");
         // Access control
         for (uint256 i = 0; i < governorList.length; i++) {
@@ -98,9 +90,8 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
 
         startPrice = _startPrice;
         soldToken = _soldToken;
-        power = _power;
 
-        emit BondingCurveInit(startPrice, address(soldToken));
+        emit BondingCurveInit(startPrice, address(_soldToken));
     }
 
     // ============================ Main Function ==================================
@@ -115,11 +106,12 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
         whenNotPaused
         isValid(_agToken)
     {
+        require(targetSoldTokenQuantity > 0, "incorrect value");
         // Computing the number of reference stablecoins to burn to get the desired quantity
         // of tokens sold by this contract
         uint256 amountToPayInReference = _computePriceFromQuantity(targetSoldTokenQuantity);
 
-        uint256 amountToPayInAgToken = 0;
+        uint256 amountToPayInAgToken;
         // The validity of the stablecoin has already been checked
         if (address(_agToken) == referenceCoin) {
             amountToPayInAgToken = amountToPayInReference;
@@ -127,10 +119,10 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
             // Converting a number of reference stablecoin to a number of desired stablecoin
             // using the oracle associated to each accepted stablecoin
             IOracle oracle = allowedStablecoins[_agToken];
-            uint256 oracleValue = oracle.readLower(1);
+            uint256 oracleValue = oracle.readLower();
             // There is no base problem here as it is a conversion between two Angle's agTokens
-            // which are in base `BASE`
-            amountToPayInAgToken = (amountToPayInReference * BASE) / oracleValue;
+            // which are in base `BASE_TOKENS`
+            amountToPayInAgToken = (amountToPayInReference * BASE_TOKENS) / oracleValue;
         }
         require(amountToPayInAgToken > 0, "oracle attack or incorrect value");
 
@@ -149,12 +141,14 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
 
     /// @notice Returns the current price of the token (expressed in reference)
     /// @dev This is an external utility function
+    /// @dev More generally than the expression used, the value of the price is:
+    /// `startPrice/(1-tokensSoldInTx/tokensToSellInTotal)^power` with `power = 2`
+    /// @dev The precision of this function is not that important as it is a view function anyone can query
     function getCurrentPrice() external view returns (uint256) {
         if (_getQuantityLeftToSell() == 0) {
             return 0;
         }
-        uint256 value = (startPrice * (totalTokensToSell**power)) / ((totalTokensToSell - tokensSold)**power) / BASE;
-        return value;
+        return (totalTokensToSell**2 * startPrice) / ((totalTokensToSell - tokensSold)**2);
     }
 
     /// @notice Returns the quantity of governance tokens that are still to be sold
@@ -174,15 +168,25 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
     // ========================== Governor Function ================================
 
     /// @notice Transfers tokens from the bonding curve to another address
+    /// @param tokenAddress Address of the token to recover
     /// @param amountToRecover Amount of tokens to transfer
     /// @param to Destination address
-    /// @dev This function automatically updates the amount of tokens to sell and hence the price of the tokens,
-    /// it should hence be called
-    function recoverTokens(uint256 amountToRecover, address to) external onlyRole(GOVERNOR_ROLE) {
-        // Updating the number of tokens to sell
-        _changeTokensToSell(totalTokensToSell - amountToRecover);
-        // No need to check the balance here
-        soldToken.safeTransfer(to, amountToRecover);
+    /// @dev This function automatically updates the amount of tokens to sell and hence the price of the tokens
+    /// in case the token recovered is the token handled by this contract
+    function recoverERC20(
+        address tokenAddress,
+        address to,
+        uint256 amountToRecover
+    ) external onlyRole(GOVERNOR_ROLE) {
+        if (tokenAddress == address(soldToken)) {
+            // Updating the number of tokens to sell
+            _changeTokensToSell(totalTokensToSell - amountToRecover);
+            // No need to check the balance here
+            soldToken.safeTransfer(to, amountToRecover);
+        } else {
+            IERC20(tokenAddress).safeTransfer(to, amountToRecover);
+        }
+        emit Recovered(tokenAddress, to, amountToRecover);
     }
 
     // ========================== Guardian Functions ===============================
@@ -223,7 +227,7 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
     function changeOracle(IAgToken _agToken, IOracle _oracle)
         external
         override
-        onlyRole(GUARDIAN_ROLE)
+        onlyRole(GOVERNOR_ROLE)
         isValid(_agToken)
     {
         require((address(_oracle) != address(0)), "oracle required");
@@ -291,22 +295,21 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
     /// @notice Internal version of `computePriceFromQuantity`
     /// @dev In the computation of the price, not all the multiplications are done before the divisions to avoid
     /// for overflows
+    /// @dev The formula to compute the amount to pay is the integral of a the price over the bounds:
+    /// `tokensSold, tokensSold+targetQuantity`
+    /// @dev The integral computed by this function is the integral of the inverse of a square root
     function _computePriceFromQuantity(uint256 targetQuantity) internal view returns (uint256 value) {
         uint256 leftToSell = _getQuantityLeftToSell();
         require(targetQuantity < leftToSell, "not enough token left to sell");
 
-        // The formula to compute the amount to pay is the integral of the price over the bounds:
-        // `tokensSold, tokensSold+targetQuantity`.
-        // The integral is that of the inverse of a square root, hence the formula below
-        uint256 leftToSellPowered = leftToSell**(power - 1);
-        uint256 newLeftToSellPowered = (leftToSell - targetQuantity)**(power - 1);
-        // The value to compute is:
-        // `startPrice * totalTokensToSell **(power) * (leftToSellPowered - newLeftToSellPowered) /((power - 1) * BASE * leftToSellPowered * newLeftToSellPowered)`
+        // The value to compute is, with `power = 2`:
+        // `startPrice * totalTokensToSell **(power) * (leftToSell ** (power - 1) - (leftToSell - targetQuantity) ** (power - 1)) /((power - 1) * BASE_TOKENS * leftToSell ** (power - 1) * (leftToSell - targetQuantity) ** (power - 1))`
         // If `totalTokensToSell` is `10**18 * (10**9)` (the maximum we could sell), then `totalTokensToSell ** power` is `(10**27)**power`
-        // And `leftToSellPowered` is inferior to `totalTokensToSell ** (power - 1)`
+        // And `leftToSell ** (power - 1) ` is inferior to `totalTokensToSell ** power`
+        // In this case the fact that power = 2 simplifies the computation
         // Computation can hence be done as follows progressively without doing all the multiplications first
-        value = (totalTokensToSell**power) / (leftToSellPowered * (power - 1));
-        value = (value * startPrice) / BASE;
-        value = (value * (leftToSellPowered - newLeftToSellPowered)) / newLeftToSellPowered;
+        value = (totalTokensToSell**2) / leftToSell;
+        value = (value * startPrice) / BASE_TOKENS;
+        value = (value * targetQuantity) / (leftToSell - targetQuantity);
     }
 }

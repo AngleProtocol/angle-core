@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./StableMasterEvents.sol";
 
@@ -14,8 +14,6 @@ contract StableMasterStorage is StableMasterEvents, FunctionUtils {
     struct Collateral {
         // Interface for the token accepted by the underlying `PoolManager` contract
         IERC20 token;
-        // Base used in the collateral implementation (ERC20 decimal)
-        uint256 collatBase;
         // Reference to the `SanToken` for the pool
         ISanToken sanToken;
         // Reference to the `PerpetualManager` for the pool
@@ -24,36 +22,39 @@ contract StableMasterStorage is StableMasterEvents, FunctionUtils {
         // collateral and the corresponding stablecoin
         IOracle oracle;
         // Amount of collateral in the reserves that comes from users
-        // + capital losses from HAs - capital gains of HAs
-        int256 stocksUsers;
+        // converted in stablecoin value. Updated at minting and burning.
+        // A `stocksUsers` of 10 for a collateral type means that overall the balance of the collateral from users
+        // that minted/burnt stablecoins using this collateral is worth 10 of stablecoins
+        uint256 stocksUsers;
         // Exchange rate between sanToken and collateral
         uint256 sanRate;
+        // Base used in the collateral implementation (ERC20 decimal)
+        uint256 collatBase;
         // Parameters for SLPs and update of the `sanRate`
         SLPData slpData;
         // All the fees parameters
-        CollateralFees feeData;
+        MintBurnData feeData;
     }
 
-    // ============================ References =====================================
+    // ============================ Variables and References =====================================
 
     /// @notice Maps a `PoolManager` contract handling a collateral for this stablecoin to the properties of the struct above
     mapping(IPoolManager => Collateral) public collateralMap;
-
-    /// @notice List of all collateral managers
-    IPoolManager[] public managerList;
-
-    /// @notice Maps a contract to an address corresponding to the `IPoolManager` address
-    /// It is typically used to avoid passing in parameters the address of the `PerpetualManager` when `PerpetualManager`
-    /// is calling `StableMaster` to get information
-    /// It is the Access Control equivalent for the `SanToken`, `PoolManager`, `PerpetualManager` and `FeeManager`
-    /// contract associated to this `StableMaster`
-    mapping(address => IPoolManager) public contractMap;
 
     /// @notice Reference to the `AgToken` used in this `StableMaster`
     /// This reference cannot be changed
     IAgToken public agToken;
 
-    /// @notice Reference to the `Core` contract of the protocol
-    /// This reference cannot be changed
-    ICore public core;
+    // Maps a contract to an address corresponding to the `IPoolManager` address
+    // It is typically used to avoid passing in parameters the address of the `PerpetualManager` when `PerpetualManager`
+    // is calling `StableMaster` to get information
+    // It is the Access Control equivalent for the `SanToken`, `PoolManager`, `PerpetualManager` and `FeeManager`
+    // contracts associated to this `StableMaster`
+    mapping(address => IPoolManager) internal _contractMap;
+
+    // List of all collateral managers
+    IPoolManager[] internal _managerList;
+
+    // Reference to the `Core` contract of the protocol
+    ICore internal _core;
 }

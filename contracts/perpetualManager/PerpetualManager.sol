@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./PerpetualManagerInternal.sol";
 
@@ -12,8 +12,8 @@ import "./PerpetualManagerInternal.sol";
 /// by `StableMaster`, by the `PoolManager`, by the `FeeManager` and by governance
 contract PerpetualManager is
     PerpetualManagerInternal,
-    IPerpetualManager,
-    IStakingRewards,
+    IPerpetualManagerFunctions,
+    IStakingRewardsFunctions,
     AccessControlUpgradeable,
     PausableUpgradeable
 {
@@ -37,13 +37,6 @@ contract PerpetualManager is
         _;
     }
 
-    /// @notice Checks if the perpetual of interest really exists
-    /// @param perpetualID ID of the concerned perpetual
-    modifier onlyExistingPerpetual(uint256 perpetualID) {
-        require(_exists(perpetualID), "nonexistent perpetual");
-        _;
-    }
-
     /// @notice Checks if the message sender is the rewards distribution address
     modifier onlyRewardsDistribution() {
         require(msg.sender == rewardsDistribution, "incorrect sender");
@@ -52,7 +45,7 @@ contract PerpetualManager is
 
     // =============================== Deployer ====================================
 
-    /// @notice Notifies the address of the collateral `PoolManager` to this contract and grants the correct roles
+    /// @notice Notifies the address of the `_feeManager` to this contract and grants the correct roles
     /// @param governorList List of governor addresses of the protocol
     /// @param guardian Address of the guardian of the protocol
     /// @param feeManager_ Reference to the `FeeManager` contract which will be able to update fees
@@ -64,11 +57,11 @@ contract PerpetualManager is
         IFeeManager feeManager_
     ) external override onlyRole(POOLMANAGER_ROLE) {
         for (uint256 i = 0; i < governorList.length; i++) {
-            grantRole(GUARDIAN_ROLE, governorList[i]);
+            _grantRole(GUARDIAN_ROLE, governorList[i]);
         }
         // In the end guardian should be revoked by governance
-        grantRole(GUARDIAN_ROLE, guardian);
-        grantRole(GUARDIAN_ROLE, address(_stableMaster));
+        _grantRole(GUARDIAN_ROLE, guardian);
+        _grantRole(GUARDIAN_ROLE, address(_stableMaster));
         _feeManager = feeManager_;
     }
 
@@ -96,8 +89,7 @@ contract PerpetualManager is
         // very high values of `rewardRate` in the earned and `rewardsPerToken` functions;
         // Reward + leftover must be less than 2^256 / 10^18 to avoid overflow.
         uint256 balance = rewardToken.balanceOf(address(this));
-        // This condition is always going to be checked with the `RewardsDistributor` contract
-        // we have at this point as `reward` token are always sent before calling `notifyRewardAmount`
+
         require(rewardRate <= balance / rewardsDuration, "reward too high");
 
         lastUpdateTime = block.timestamp;
@@ -107,10 +99,10 @@ contract PerpetualManager is
     }
 
     /// @notice Supports recovering LP Rewards from other systems such as BAL to be distributed to holders
+    /// or tokens that were mistakenly
     /// @param tokenAddress Address of the token to transfer
     /// @param to Address to give tokens to
     /// @param tokenAmount Amount of tokens to transfer
-    /// @dev Function left here because it has to be part of the interface of staking contracts
     function recoverERC20(
         address tokenAddress,
         address to,
@@ -118,36 +110,33 @@ contract PerpetualManager is
     ) external override onlyRewardsDistribution {
         require(tokenAddress != address(rewardToken), "Cannot withdraw the rewards token");
         IERC20(tokenAddress).safeTransfer(to, tokenAmount);
+        emit Recovered(tokenAddress, to, tokenAmount);
     }
 
     /// @notice Changes the `rewardsDistribution` associated to this contract
-    /// @param newRewardsDistributor Address of the new rewards distributor contract
+    /// @param _rewardsDistribution Address of the new rewards distributor contract
     /// @dev This function is part of the staking rewards interface and it is used to propagate
-    /// a change of rewards distributor
-    /// @dev A zero address check has already been performed in the `RewardsDistributor` contract calling
-    /// this function
-    function setNewRewardsDistributor(address newRewardsDistributor) external override onlyRewardsDistribution {
-        require(
-            address(IRewardsDistributor(newRewardsDistributor).rewardToken()) == address(rewardToken),
-            "incompatible reward tokens"
-        );
-        // Everything is as if `rewardsDistribution` was admin of its own role
-        rewardsDistribution = newRewardsDistributor;
-        emit RewardsDistributorUpdated(newRewardsDistributor);
+    /// a change of rewards distributor notified by the current `rewardsDistribution` address
+    /// @dev It has already been checked in the `RewardsDistributor` contract calling
+    /// this function that the `newRewardsDistributor` had a compatible reward token
+    /// @dev With this function, everything is as if `rewardsDistribution` was admin of its own role
+    function setNewRewardsDistributor(address _rewardsDistribution) external override onlyRewardsDistribution {
+        rewardsDistribution = _rewardsDistribution;
+        emit RewardsDistributorUpdated(_rewardsDistribution);
     }
 
     // ================================= Keepers ===================================
 
     /// @notice Updates all the fees not depending on individual HA conditions via keeper utils functions
     /// @param feeDeposit New deposit global fees
-    /// @param feesWithdraw New withdraw global fees
+    /// @param feeWithdraw New withdraw global fees
     /// @dev Governance may decide to incorporate a collateral ratio dependence in the fees for HAs,
     /// in this case it will be done through the `FeeManager` contract
     /// @dev This dependence can either be a bonus or a malus
-    function setFeeKeeper(uint256 feeDeposit, uint256 feesWithdraw) external override {
+    function setFeeKeeper(uint64 feeDeposit, uint64 feeWithdraw) external override {
         require(msg.sender == address(_feeManager), "incorrect sender");
         haBonusMalusDeposit = feeDeposit;
-        haBonusMalusWithdraw = feesWithdraw;
+        haBonusMalusWithdraw = feeWithdraw;
     }
 
     // ======== Governance - Guardian Functions - Staking and Pauses ===============
@@ -167,16 +156,17 @@ contract PerpetualManager is
     /// @notice Sets the conditions and specifies the duration of the reward distribution
     /// @param _rewardsDuration Duration for the rewards for this contract
     /// @param _rewardsDistribution Address which will give the reward tokens
-    /// @dev It allows governance to directly change the rewards distribution contract
+    /// @dev It allows governance to directly change the rewards distribution contract and the conditions
+    /// at whichthis distribution is done
+    /// @dev The compatibility of the reward token is not checked here: it is checked
+    /// in the rewards distribution contract when activating this as a staking contract,
+    /// so if a reward distributor is set here but does not have a compatible reward token, then this reward
+    /// distributor will not be able to set this contract as a staking contract
     function setRewardDistribution(uint256 _rewardsDuration, address _rewardsDistribution)
         external
         onlyRole(GUARDIAN_ROLE)
         zeroCheck(_rewardsDistribution)
     {
-        require(
-            address(IRewardsDistributor(_rewardsDistribution).rewardToken()) == address(rewardToken),
-            "incompatible reward tokens"
-        );
         rewardsDuration = _rewardsDuration;
         rewardsDistribution = _rewardsDistribution;
         emit RewardDistributionUpdated(rewardsDuration, rewardsDistribution);
@@ -184,85 +174,83 @@ contract PerpetualManager is
 
     // ============ Governance - Guardian Functions - Parameters ===================
 
-    /// @notice Sets `secureBlocks` that is the minimum amount of time HAs have to stay within the protocol
-    /// @param _secureBlocks New `secureBlocks` parameter
-    /// @dev This parameter is used to prevent HAs from exiting after a certain amount of time and taking advantage
+    /// @notice Sets `lockTime` that is the minimum amount of time HAs have to stay within the protocol
+    /// @param _lockTime New `lockTime` parameter
+    /// @dev This parameter is used to prevent HAs from exiting before a certain amount of time and taking advantage
     /// of insiders' information they may have due to oracle latency
-    function setSecureBlocks(uint256 _secureBlocks) external onlyRole(GUARDIAN_ROLE) {
-        secureBlocks = _secureBlocks;
-        emit SecureBlocksUpdated(_secureBlocks);
+    function setLockTime(uint256 _lockTime) external onlyRole(GUARDIAN_ROLE) {
+        lockTime = _lockTime;
+        emit LockTimeUpdated(_lockTime);
     }
 
-    /// @notice Changes the maximum leverage authorized (commit/brought)
-    /// @param newMaxLeverage New value of the maximum leverage allowed
-    /// @dev For a perpetual, the leverage is defined as the ratio between the committed amount and the brought
-    /// amount
-    function setMaxLeverage(uint256 newMaxLeverage) external onlyRole(GUARDIAN_ROLE) {
-        maxLeverage = newMaxLeverage;
-        emit MaxLeverageUpdated(maxLeverage);
-    }
-
-    /// @notice Changes the leverage at which keepers can cash out a perpetual
-    /// @param _cashOutLeverage New cash out leverage
-    /// @dev If the ratio between a committed amount and the brought amount of a perpetual is below the threshold
-    /// defined by `cashOutLeverage, then this perpetual can get liquidated.
-    function setCashOutLeverage(uint256 _cashOutLeverage) external onlyRole(GUARDIAN_ROLE) {
-        require(_cashOutLeverage > maxLeverage, "cashOutLeverage too low");
-        cashOutLeverage = _cashOutLeverage;
-        emit CashOutLeverageUpdated(cashOutLeverage);
-    }
-
-    /// @notice Changes the maintenance margin
+    /// @notice Changes the maximum leverage authorized (commit/margin) and the maintenance margin under which
+    /// perpetuals can be liquidated
+    /// @param _maxLeverage New value of the maximum leverage allowed
     /// @param _maintenanceMargin The new maintenance margin
-    function setMaintenanceMargin(uint256 _maintenanceMargin)
+    /// @dev For a perpetual, the leverage is defined as the ratio between the committed amount and the margin
+    /// @dev For a perpetual, the maintenance margin is defined as the ratio between the margin ratio / the committed amount
+    function setBoundsPerpetual(uint64 _maxLeverage, uint64 _maintenanceMargin)
         external
         onlyRole(GUARDIAN_ROLE)
         onlyCompatibleFees(_maintenanceMargin)
     {
+        // Checking the compatibility of the parameters
+        require(BASE_PARAMS**2 > _maxLeverage * _maintenanceMargin, "incorrect bounds");
+        maxLeverage = _maxLeverage;
         maintenanceMargin = _maintenanceMargin;
-        emit MaintenanceMarginUpdated(maintenanceMargin);
+        emit BoundsPerpetualUpdated(_maxLeverage, _maintenanceMargin);
     }
 
-    /// @notice Sets `xHAFees` that is the thresholds of values of the gap of collateral
-    /// left to cover divided by what's to cover by HAs at which fees will change as well as
+    /// @notice Sets `xHAFees` that is the thresholds of values of the ratio between the what's covered
+    /// divided by what's to cover by HAs at which fees will change as well as
     /// `yHAFees` that is the value of the deposit or withdraw fees at threshold
     /// @param _xHAFees Array of the x-axis value for the fees (deposit or withdraw)
     /// @param _yHAFees Array of the y-axis value for the fees (deposit or withdraw)
     /// @param deposit Whether deposit or withdraw fees should be updated
     /// @dev Evolution of the fees is linear between two values of thresholds
     /// @dev These x values should be ranked in ascending order
-    /// @dev For deposit fees, the higher the x that is the margin between what's to cover and what's covered
-    /// the lower y should be
+    /// @dev For deposit fees, the higher the x that is the ratio between what's to cover and what's covered
+    /// the higher y should be (the more expensive it should be for HAs to come in)
     /// @dev For withdraw fees, evolution should follow an opposite logic
     function setHAFees(
-        uint256[] memory _xHAFees,
-        uint256[] memory _yHAFees,
-        uint256 deposit
-    ) external onlyRole(GUARDIAN_ROLE) onlyCompatibleInputArrays(_xHAFees, _yHAFees, true) {
+        uint64[] memory _xHAFees,
+        uint64[] memory _yHAFees,
+        uint8 deposit
+    ) external onlyRole(GUARDIAN_ROLE) onlyCompatibleInputArrays(_xHAFees, _yHAFees) {
         if (deposit == 1) {
             xHAFeesDeposit = _xHAFees;
             yHAFeesDeposit = _yHAFees;
-            emit HAFeesDepositUpdated(_xHAFees, _yHAFees);
         } else {
             xHAFeesWithdraw = _xHAFees;
             yHAFeesWithdraw = _yHAFees;
-            emit HAFeesWithdrawUpdated(_xHAFees, _yHAFees);
         }
+        emit HAFeesUpdated(_xHAFees, _yHAFees, deposit);
     }
 
-    /// @notice Sets the proportion of `stocksUsers` that is the collateral from users that can be insured by HA
-    /// @param _maxALock Proportion of collateral from users that HAs can cover
-    /// @dev `maxALock` equal to `BASE` means all the collateral from users can be insured by HAs
-    /// @dev `maxALock` equal to 0 means HA cannot cover anything
-    function setMaxALock(uint256 _maxALock) external onlyRole(GUARDIAN_ROLE) onlyCompatibleFees(_maxALock) {
-        maxALock = _maxALock;
-        emit MaxALockUpdated(maxALock);
+    /// @notice Sets the target and limit proportions of collateral from users that can be insured by HAs
+    /// @param _targetHACoverage Proportion of collateral from users that HAs should cover
+    /// @param _limitHACoverage Proportion of collateral from users above which HAs can see their perpetuals
+    /// cashed out
+    /// @dev `targetHACoverage` equal to `BASE_PARAMS` means that all the collateral from users should be insured by HAs
+    /// @dev `targetHACoverage` equal to 0 means HA should not cover anything
+    function setTargetAndLimitHACoverage(uint64 _targetHACoverage, uint64 _limitHACoverage)
+        external
+        onlyRole(GUARDIAN_ROLE)
+        onlyCompatibleFees(_targetHACoverage)
+        onlyCompatibleFees(_limitHACoverage)
+    {
+        require(_targetHACoverage <= _limitHACoverage, "invalid input");
+        limitHACoverage = _limitHACoverage;
+        targetHACoverage = _targetHACoverage;
+        // Updating the value in the `stableMaster` contract
+        _stableMaster.setTargetHACoverage(_targetHACoverage);
+        emit TargetAndLimitHACoverageUpdated(_targetHACoverage, _limitHACoverage);
     }
 
     /// @notice Sets the proportion of fees going to the keepers when liquidating a HA perpetual
     /// @param _keeperFeesRatio Proportion to keepers
-    /// @dev This proportion should be inferior to `BASE`
-    function setKeeperFeesRatio(uint256 _keeperFeesRatio)
+    /// @dev This proportion should be inferior to `BASE_PARAMS`
+    function setKeeperFeesRatio(uint64 _keeperFeesRatio)
         external
         onlyRole(GUARDIAN_ROLE)
         onlyCompatibleFees(_keeperFeesRatio)
@@ -271,25 +259,30 @@ contract PerpetualManager is
         emit KeeperFeesRatioUpdated(keeperFeesRatio);
     }
 
-    /// @notice Sets the maximum amount going to the keepers when cashing out an external user
-    /// because too much was covered by HAs
-    /// @param _keeperFeesCap Maximum reward going to the keeper
-    function setKeeperFeesCap(uint256 _keeperFeesCap) external onlyRole(GUARDIAN_ROLE) {
-        keeperFeesCap = _keeperFeesCap;
-        emit KeeperFeesCapUpdated(keeperFeesCap);
+    /// @notice Sets the maximum amounts going to the keepers when cashing out perpetuals
+    /// because too much was covered by HAs or liquidating a perpetual
+    /// @param _keeperFeesLiquidationCap Maximum reward going to the keeper liquidating a perpetual
+    /// @param _keeperFeesCashOutCap Maximum reward going to the keeper forcing the cash out of an ensemble
+    /// of perpetuals
+    function setKeeperFeesCap(uint256 _keeperFeesLiquidationCap, uint256 _keeperFeesCashOutCap)
+        external
+        onlyRole(GUARDIAN_ROLE)
+    {
+        keeperFeesLiquidationCap = _keeperFeesLiquidationCap;
+        keeperFeesCashOutCap = _keeperFeesCashOutCap;
+        emit KeeperFeesCapUpdated(keeperFeesLiquidationCap, keeperFeesCashOutCap);
     }
 
-    /// @notice Sets the x-array (ie thresholds) for `FeeManagerù when cashing out perpetuals and the y-array that is the
+    /// @notice Sets the x-array (ie thresholds) for `FeeManager` when cashing out perpetuals and the y-array that is the
     /// value of the proportions of the fees going to keepers cashing out perpetuals
     /// @param _xKeeperFeesCashOut Thresholds for cash out fees
     /// @param _yKeeperFeesCashOut Value of the fees at the different threshold values specified in `xKeeperFeesCashOut`
-    /// @dev The x thresholds correspond to different values of the ratio between the amount that is covered
-    /// by a perpetual and the surplus amount that HAs cover and that should not be covered
+    /// @dev The x thresholds correspond to values of the coverage ratio divided by two
     /// @dev `xKeeperFeesCashOut` and `yKeeperFeesCashOut` should have the same length
-    function setKeeperFeesCashOut(uint256[] memory _xKeeperFeesCashOut, uint256[] memory _yKeeperFeesCashOut)
+    function setKeeperFeesCashOut(uint64[] memory _xKeeperFeesCashOut, uint64[] memory _yKeeperFeesCashOut)
         external
         onlyRole(GUARDIAN_ROLE)
-        onlyCompatibleInputArrays(_xKeeperFeesCashOut, _yKeeperFeesCashOut, true)
+        onlyCompatibleInputArrays(_xKeeperFeesCashOut, _yKeeperFeesCashOut)
     {
         xKeeperFeesCashOut = _xKeeperFeesCashOut;
         yKeeperFeesCashOut = _yKeeperFeesCashOut;
@@ -316,15 +309,7 @@ contract PerpetualManager is
     function setOracle(IOracle oracle_) external override {
         require(msg.sender == address(_stableMaster), "incorrect sender");
         // The `inBase` of the new oracle should be the same as the `_collatBase` stored for this collateral
-        require(_collatBase == oracle_.getInBase(), "incorrect oracle base");
-        _oracle = oracle_;
-    }
-
-    /// @notice Gets the `maxAlock` and total amount of collateral covered by HAs
-    /// @return maxALock Max proportion of collateral from users that can be covered by HAs
-    /// @return totalCAmount Amount of collateral covered by HAs
-    /// @dev This function is among other things called by the `StableMaster` contract to compute the mint fees for users
-    function getCoverageInfo() external view override returns (uint256, uint256) {
-        return (maxALock, totalCAmount);
+        require(_collatBase == oracle_.inBase(), "incorrect oracle base");
+        oracle = oracle_;
     }
 }

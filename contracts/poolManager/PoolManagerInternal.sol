@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./PoolManagerStorage.sol";
 
@@ -33,32 +33,30 @@ contract PoolManagerInternal is PoolManagerStorage, AccessControlUpgradeable {
     function _addGuardian(address _guardian) internal {
         // Granting the new role
         // Access control for this contract
-        grantRole(GUARDIAN_ROLE, _guardian);
+        _grantRole(GUARDIAN_ROLE, _guardian);
         // Propagating the new role in other contract
         perpetualManager.grantRole(GUARDIAN_ROLE, _guardian);
         feeManager.grantRole(GUARDIAN_ROLE, _guardian);
-        for (uint256 i = 0; i < strategyList.length; i++) {
-            IStrategy(strategyList[i]).addGuardian(_guardian);
+        uint256 strategyListLength = strategyList.length;
+        if (strategyListLength > 0) {
+            for (uint256 i = 0; i < strategyListLength; i++) {
+                IStrategy(strategyList[i]).addGuardian(_guardian);
+            }
         }
     }
 
     /// @notice Revokes the guardian role and propagates the change to other contracts
     /// @param guardian Old guardian address to revoke
     function _revokeGuardian(address guardian) internal {
-        revokeRole(GUARDIAN_ROLE, guardian);
+        _revokeRole(GUARDIAN_ROLE, guardian);
         perpetualManager.revokeRole(GUARDIAN_ROLE, guardian);
         feeManager.revokeRole(GUARDIAN_ROLE, guardian);
-        for (uint256 i = 0; i < strategyList.length; i++) {
-            IStrategy(strategyList[i]).revokeGuardian(guardian);
+        uint256 strategyListLength = strategyList.length;
+        if (strategyListLength > 0) {
+            for (uint256 i = 0; i < strategyListLength; i++) {
+                IStrategy(strategyList[i]).revokeGuardian(guardian);
+            }
         }
-    }
-
-    /// @notice Updates the token approval amount to a contract
-    /// @param affectedContract Contract for which the token approval amount needs to change
-    /// @param newAmount New approval amount
-    /// @dev The way we use this contract is by setting approval amounts of either zero or `2**256-1` (`type(uint256).max`)
-    function _changeTokenApprovalAmount(address affectedContract, uint256 newAmount) internal {
-        token.approve(affectedContract, newAmount);
     }
 
     // ============================= Yield Farming =================================
@@ -69,7 +67,7 @@ contract PoolManagerInternal is PoolManagerStorage, AccessControlUpgradeable {
         StrategyParams storage params = strategies[strategy];
         require(params.lastReport != 0, "invalid strategy");
         debtRatio = debtRatio + _debtRatio - params.debtRatio;
-        require(debtRatio <= BASE, "debt ratio above one");
+        require(debtRatio <= BASE_PARAMS, "debt ratio above one");
         params.debtRatio = _debtRatio;
         emit StrategyAdded(strategy, debtRatio);
     }

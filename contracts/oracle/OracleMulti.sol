@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 
@@ -18,10 +18,10 @@ import "./modules/ModuleUniswapMulti.sol";
 /// base functions
 contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti {
     /// @notice Whether the final rate obtained with Uniswap should be multiplied to last rate from Chainlink
-    uint256 public uniFinalCurrency;
+    uint8 public immutable uniFinalCurrency;
 
     /// @notice Unit out Uniswap currency
-    uint256 public outBase;
+    uint256 public immutable outBase;
 
     /// @notice Constructor for an oracle using both Uniswap and Chainlink with multiple pools to read from
     /// @param addressInAndOutUni List of 2 addresses representing the in-currency address and the out-currency address
@@ -34,16 +34,21 @@ contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti
     /// @param _circuitChainlink Chainlink pool addresses put in order
     /// @param _circuitChainIsMultiplied Whether we should multiply or divide by this rate
     /// @param guardians List of governor or guardian addresses
+    /// @param _description Description of the assets concerned by the oracle
+    /// @dev When deploying this contract, it is important to check in the case where Uniswap circuit is not final whether
+    /// Chainlink and Uniswap circuits are compatible. If Chainlink is UNI-WBTC and WBTC-USD and Uniswap is just UNI-WETH,
+    /// then Chainlink cannot be the final circuit
     constructor(
         address[] memory addressInAndOutUni,
         IUniswapV3Pool[] memory _circuitUniswap,
-        uint256[] memory _circuitUniIsMultiplied,
+        uint8[] memory _circuitUniIsMultiplied,
         uint32 _twapPeriod,
         uint16 observationLength,
-        uint256 _uniFinalCurrency,
+        uint8 _uniFinalCurrency,
         address[] memory _circuitChainlink,
-        uint256[] memory _circuitChainIsMultiplied,
-        address[] memory guardians
+        uint8[] memory _circuitChainIsMultiplied,
+        address[] memory guardians,
+        bytes32 _description
     )
         ModuleUniswapMulti(_circuitUniswap, _circuitUniIsMultiplied, _twapPeriod, observationLength, guardians)
         ModuleChainlinkMulti(_circuitChainlink, _circuitChainIsMultiplied)
@@ -56,6 +61,7 @@ contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti
         outBase = 10**(outCur.decimals());
 
         uniFinalCurrency = _uniFinalCurrency;
+        description = _description;
     }
 
     /// @notice Reads the Uniswap rate using the circuit given
@@ -83,9 +89,9 @@ contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti
     function _readAll(uint256 quoteAmount) internal view override returns (uint256, uint256) {
         uint256 quoteAmountUni = _quoteUniswap(quoteAmount);
 
-        // The current uni rate is in `outBase` we want our rate to all be in base
+        // The current uni rate is in `outBase` we want our rate to all be in base `BASE`
         quoteAmountUni = (quoteAmountUni * BASE) / outBase;
-        // The current amount is in `inBase` we want our rate to all be in base
+        // The current amount is in `inBase` we want our rate to all be in base `BASE`
         uint256 quoteAmountCL = (quoteAmount * BASE) / inBase;
         uint256 ratio;
 
@@ -118,7 +124,7 @@ contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti
     }
 
     /// @notice Internal function to convert an in-currency quote amount to out-currency using only the Uniswap rate
-    /// and by correcting it from Chainlink last rate in case of
+    /// and by correcting it if needed from Chainlink last rate
     /// @param quoteAmount Amount (in the input collateral) to be converted in out-currency using Uniswap (and Chainlink)
     /// at the end of the funnel
     /// @return uniAmount Quote amount in out-currency from the base amount in in-currency

@@ -1,18 +1,18 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./IFeeManager.sol";
 import "./IPerpetualManager.sol";
 
-// Struct for the parameters associated to a strategy interacting with a collateral poolManager
+// Struct for the parameters associated to a strategy interacting with a collateral `PoolManager`
 // contract
 struct StrategyParams {
     // Timestamp of last report made by this strategy
     // It is also used to check if a strategy has been initialized
     uint256 lastReport;
     // Total amount the strategy is expected to have
-    uint256 totalDebt;
+    uint256 totalStrategyDebt;
     // The share of the total assets in the `PoolManager` contract that the `strategy` can access to.
     uint256 debtRatio;
 }

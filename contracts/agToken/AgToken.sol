@@ -1,8 +1,10 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
-import "./AgTokenEvents.sol";
+import "../interfaces/IAgToken.sol";
+// OpenZeppelin may update its version of the ERC20PermitUpgradeable token
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-ERC20PermitUpgradeable.sol";
 
 /// @title AgToken
 /// @author Angle Core Team
@@ -10,22 +12,11 @@ import "./AgTokenEvents.sol";
 /// @dev This contract is used to create and handle the stablecoins of Angle protocol
 /// @dev Only the `StableMaster` contract can mint or burn agTokens
 /// @dev It is still possible for any address to burn its agTokens without redeeming collateral in exchange
-contract AgToken is AgTokenEvents, IAgTokenFunctions, AccessControlUpgradeable, ERC20PermitUpgradeable {
-    /// @notice Role for guardians and governors
-    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
-    /// @notice Role for `StableMaster` only
-    bytes32 public constant STABLEMASTER_ROLE = keccak256("STABLEMASTER_ROLE");
-
+contract AgToken is IAgToken, ERC20PermitUpgradeable {
     // ========================= References to other contracts =====================
 
     /// @notice Reference to the `StableMaster` contract associated to this `AgToken`
-    address public stableMaster;
-
-    /// @notice Maximum amount of stablecoin in circulation
-    uint256 public capOnStablecoin;
-
-    /// @notice Maximum amount that can be minted at once
-    uint256 public maxMintAmount;
+    address public override stableMaster;
 
     // ============================= Constructor ===================================
 
@@ -33,66 +24,23 @@ contract AgToken is AgTokenEvents, IAgTokenFunctions, AccessControlUpgradeable, 
     /// @param name_ Name of the token
     /// @param symbol_ Symbol of the token
     /// @param stableMaster_ Reference to the `StableMaster` contract associated to this agToken
-    /// @param capOnStablecoin_ Max amount of stablecoin in circulation
-    /// @dev This function is to be called by the `StableMaster` initializing a stablecoin
+    /// @dev By default, `agToken` are ERC-20 tokens with 18 decimals
     function initialize(
         string memory name_,
         string memory symbol_,
-        address stableMaster_,
-        uint256 capOnStablecoin_,
-        uint256 maxMintAmount_
+        address stableMaster_
     ) public initializer {
-        __AccessControl_init();
         __ERC20Permit_init(name_);
         __ERC20_init(name_, symbol_);
-        __Context_init();
-
         require(stableMaster_ != address(0), "zero address");
-
-        // Creating a correct reference
         stableMaster = stableMaster_;
-        capOnStablecoin = capOnStablecoin_;
-        maxMintAmount = maxMintAmount_;
-        // Access Control
-        // All the roles in this contract are handled by the `StableMaster`
-        // `StableMaster` also has the `GUARDIAN_ROLE`
-        _setupRole(STABLEMASTER_ROLE, address(stableMaster));
-        _setRoleAdmin(STABLEMASTER_ROLE, STABLEMASTER_ROLE);
-        _setRoleAdmin(GUARDIAN_ROLE, STABLEMASTER_ROLE);
     }
 
-    /// @notice Initiates the guardian role
-    /// @param governorList List of the governor addresses of the protocol
-    /// @param guardian Guardian address of the protocol
-    /// @dev Guardian role only serves to set the new maximum amount of stablecoins currently minted and
-    /// the max amount that can be minted at once
-    /// @dev There is no specific governor role in this contract
-    /// @dev `governorList` and `guardian` are parameters that are directly inherited from the `Core` contract
-    function deploy(address[] memory governorList, address guardian) external override onlyRole(STABLEMASTER_ROLE) {
-        grantRole(GUARDIAN_ROLE, guardian);
-        for (uint256 i = 0; i < governorList.length; i++) {
-            grantRole(GUARDIAN_ROLE, governorList[i]);
-        }
-    }
-
-    // ========================= Governor Functions ================================
-
-    /// @notice Sets a different cap on the amount of stablecoin that can be minted
-    /// @param _capOnStablecoin New maximum amount of stablecoin in circulation
-    /// @dev During the test phase this may be set to stress test the protocol in real market conditions,
-    /// after this phase, the cap could be set to `type(uint256).max`, which is equivalent to having no cap
-    function setCapOnStablecoin(uint256 _capOnStablecoin) external onlyRole(GUARDIAN_ROLE) {
-        capOnStablecoin = _capOnStablecoin;
-        emit CapOnStablecoinUpdated(_capOnStablecoin);
-    }
-
-    /// @notice Sets the maximum mint amount in one transaction
-    /// @param _maxMintAmount New maximum amount of stablecoin minted in one time
-    /// @dev Like for the `capOnStablecoin` parameter, this could be set to stress test the protocol in real market
-    /// conditions. To get rid of this cap, we just have to set the parameter to `type(uint256).max`
-    function setMaxMintAmount(uint256 _maxMintAmount) external onlyRole(GUARDIAN_ROLE) {
-        maxMintAmount = _maxMintAmount;
-        emit MaxMintAmountUpdated(_maxMintAmount);
+    /// @notice Checks to see if it is the `StableMaster` calling this contract
+    /// @dev There is no Access Control here, because it can be handled cheaply through this modifier
+    modifier onlyStableMaster() {
+        require(msg.sender == stableMaster, "incorrect caller");
+        _;
     }
 
     // ========================= External Functions ================================
@@ -106,8 +54,8 @@ contract AgToken is AgTokenEvents, IAgTokenFunctions, AccessControlUpgradeable, 
     /// @notice Burns `amount` of agToken on behalf of another account without redeeming collateral back
     /// @param account Account to burn on behalf of
     /// @param amount Amount to burn
-    /// @dev This function is used in the `bondingCurve` where agTokens are burnt
-    ///  and ANGLE tokens are given in exchange
+    /// @dev This function is used in the `BondingCurve` where agTokens are burnt
+    /// and ANGLE tokens are given in exchange
     function burnFromNoRedeem(address account, uint256 amount) external override {
         _burnFromNoRedeem(amount, account, msg.sender);
     }
@@ -119,7 +67,7 @@ contract AgToken is AgTokenEvents, IAgTokenFunctions, AccessControlUpgradeable, 
     /// @param burner Address to burn from
     /// @dev This method is to be called by the `StableMaster` contract after being requested to do so
     /// by an address willing to burn tokens from its address
-    function burnSelf(uint256 amount, address burner) external override onlyRole(STABLEMASTER_ROLE) {
+    function burnSelf(uint256 amount, address burner) external override onlyStableMaster {
         _burn(burner, amount);
     }
 
@@ -128,13 +76,13 @@ contract AgToken is AgTokenEvents, IAgTokenFunctions, AccessControlUpgradeable, 
     /// @param burner Address to burn from
     /// @param sender Address which requested the burn from `burner`
     /// @dev This method is to be called by the `StableMaster` contract after being requested to do so
-    /// by a `sender` address willing to burn tokens from another `sender` address
+    /// by a `sender` address willing to burn tokens from another `burner` address
     /// @dev The method checks the allowance between the `sender` and the `burner`
     function burnFrom(
         uint256 amount,
         address burner,
         address sender
-    ) external override onlyRole(STABLEMASTER_ROLE) {
+    ) external override onlyStableMaster {
         _burnFromNoRedeem(amount, burner, sender);
     }
 
@@ -142,8 +90,7 @@ contract AgToken is AgTokenEvents, IAgTokenFunctions, AccessControlUpgradeable, 
     /// @param account Address to mint to
     /// @param amount Amount to mint
     /// @dev Only the `StableMaster` contract can issue agTokens
-    function mint(address account, uint256 amount) external override onlyRole(STABLEMASTER_ROLE) {
-        require(totalSupply() + amount <= capOnStablecoin && amount <= maxMintAmount, "mint violation");
+    function mint(address account, uint256 amount) external override onlyStableMaster {
         _mint(account, amount);
     }
 

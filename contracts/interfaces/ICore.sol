@@ -1,13 +1,13 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./IStableMaster.sol";
 
 /// @title ICore
 /// @author Angle Core Team
 /// @dev Interface for the core contract
-interface ICoreFunctions {
+interface ICore {
     function revokeStableMaster(address stableMaster) external;
 
     function addGovernor(address _governor) external;
@@ -18,9 +18,7 @@ interface ICoreFunctions {
 
     function revokeGuardian() external;
 
-    function getGovernorList() external view returns (address[] memory);
-}
+    function governorList() external view returns (address[] memory);
 
-interface ICore is ICoreFunctions {
     function guardian() external view returns (address);
 }

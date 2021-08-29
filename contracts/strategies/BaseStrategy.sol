@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.2;
 
 import "./BaseStrategyEvents.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
@@ -30,6 +30,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     /// @notice Reference to the ERC20 farmed by this strategy
     IERC20 public want;
 
+    /// @notice Base of the ERC20 token farmed by this strategy
     uint256 public wantBase;
 
     //@notice Reference to the ERC20 distributed as a reward by the strategy
@@ -100,7 +101,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
         _setRoleAdmin(GUARDIAN_ROLE, POOLMANAGER_ROLE);
 
         // Give `PoolManager` unlimited access (might save gas)
-        want.safeApprove(address(poolManager), type(uint256).max);
+        want.safeIncreaseAllowance(address(poolManager), type(uint256).max);
     }
 
     // ========================== Core functions ===================================
@@ -256,10 +257,10 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
         uint256 total = estimatedTotalAssets();
         // Trigger if we have a loss to report
 
-        if (total + debtThreshold < params.totalDebt) return true;
+        if (total + debtThreshold < params.totalStrategyDebt) return true;
 
         uint256 profit = 0;
-        if (total > params.totalDebt) profit = total - params.totalDebt; // We've earned a profit!
+        if (total > params.totalStrategyDebt) profit = total - params.totalStrategyDebt; // We've earned a profit!
 
         // Otherwise, only trigger if it "makes sense" economically (gas cost
         // is <N% of value moved)
