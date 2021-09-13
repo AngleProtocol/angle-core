@@ -2,17 +2,23 @@
 
 pragma solidity ^0.8.7;
 
-import "../interfaces/external/compound/CErc20I.sol";
+import "../interfaces/external/compound/CEtherI.sol";
 import "../interfaces/external/compound/InterestRateModel.sol";
 import "../interfaces/external/uniswap/IUniswapV3Router.sol";
 
 import "./GenericLenderBase.sol";
 
+interface IWETH is IERC20 {
+    function withdraw(uint256 wad) external;
+
+    function deposit() external payable;
+}
+
 /// @title GenericCompound
 /// @author Forked from https://github.com/Grandthrax/yearnv2/blob/master/contracts/GenericDyDx/GenericCompound.sol
 /// @notice A contract to lend any ERC20 to Compound
 /// @dev This contract is the Rinkeby version of `GenericCompound`, it differs in the `apr` function
-contract GenericCompoundRinkeby is GenericLenderBase {
+contract GenericCompoundRinkebyETH is GenericLenderBase {
     using SafeERC20 for IERC20;
     using Address for address;
 
@@ -22,7 +28,7 @@ contract GenericCompoundRinkeby is GenericLenderBase {
 
     address public uniswapRouter;
     address public comp;
-    CErc20I public cToken;
+    CEtherI public cToken;
 
     // ==================== Parameters =============================
 
@@ -53,9 +59,7 @@ contract GenericCompoundRinkeby is GenericLenderBase {
         uniswapRouter = _uniswapRouter;
         comp = _comp;
         path = _path;
-        cToken = CErc20I(_cToken);
-        require(cToken.underlying() == address(want), "wrong cToken");
-        want.safeApprove(_cToken, type(uint256).max);
+        cToken = CEtherI(_cToken);
         IERC20(comp).safeApprove(address(_uniswapRouter), type(uint256).max);
     }
 
@@ -63,8 +67,9 @@ contract GenericCompoundRinkeby is GenericLenderBase {
 
     /// @notice Deposits the current balance to the lending platform
     function deposit() external override onlyRole(STRATEGY_ROLE) {
-        uint256 balance = want.balanceOf(address(this));
-        require(cToken.mint(balance) == 0, "mint fail");
+        uint256 balance = IWETH(address(want)).balanceOf(address(this));
+        IWETH(address(want)).withdraw(balance);
+        cToken.mint{ value: balance }();
     }
 
     /// @notice Withdraws a given amount from lender
@@ -120,7 +125,7 @@ contract GenericCompoundRinkeby is GenericLenderBase {
 
     /// @notice Check if any assets is currently managed by this contract
     function hasAssets() external view override returns (bool) {
-        return cToken.balanceOf(address(this)) > 0 || want.balanceOf(address(this)) > 0;
+        return cToken.balanceOf(address(this)) > 0 || IWETH(address(want)).balanceOf(address(this)) > 0;
     }
 
     // ============================= Governance =============================
@@ -137,8 +142,8 @@ contract GenericCompoundRinkeby is GenericLenderBase {
     function emergencyWithdraw(uint256 amount) external override onlyRole(GUARDIAN_ROLE) {
         // Don't care about errors here. we want to exit what we can
         cToken.redeemUnderlying(amount);
-
-        want.safeTransfer(address(poolManager), want.balanceOf(address(this)));
+        IWETH(address(want)).withdraw(address(this).balance);
+        want.safeTransfer(address(poolManager), IWETH(address(want)).balanceOf(address(this)));
     }
 
     // ============================= Internal Functions =============================
@@ -150,13 +155,13 @@ contract GenericCompoundRinkeby is GenericLenderBase {
 
     /// @notice See 'nav'
     function _nav() internal view returns (uint256) {
-        return want.balanceOf(address(this)) + underlyingBalanceStored();
+        return IWETH(address(want)).balanceOf(address(this)) + underlyingBalanceStored();
     }
 
     /// @notice See 'withdraw'
     function _withdraw(uint256 amount) internal returns (uint256) {
         uint256 balanceUnderlying = cToken.balanceOfUnderlying(address(this));
-        uint256 looseBalance = want.balanceOf(address(this));
+        uint256 looseBalance = IWETH(address(want)).balanceOf(address(this));
         uint256 total = balanceUnderlying + looseBalance;
 
         if (amount > total) {
@@ -178,9 +183,11 @@ contract GenericCompoundRinkeby is GenericLenderBase {
             if (toWithdraw <= liquidity) {
                 //we can take all
                 require(cToken.redeemUnderlying(toWithdraw) == 0, "redeemUnderlying fail");
+                IWETH(address(want)).deposit{ value: address(this).balance }();
             } else {
                 //take all we can
                 require(cToken.redeemUnderlying(liquidity) == 0, "redeemUnderlying fail");
+                IWETH(address(want)).deposit{ value: address(this).balance }();
             }
         }
         _disposeOfComp();
@@ -208,4 +215,7 @@ contract GenericCompoundRinkeby is GenericLenderBase {
         protected[2] = comp;
         return protected;
     }
+
+    /// @notice In case ETH is required for some transactions
+    receive() external payable {}
 }

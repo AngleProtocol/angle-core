@@ -1,9 +1,12 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+import "../external/AccessControlUpgradeable.sol";
 
 import "../interfaces/IAgToken.sol";
 import "../interfaces/ICollateralSettler.sol";
@@ -24,9 +27,9 @@ import "../utils/PausableMapUpgradeable.sol";
 /// It does all the accounting and is the point of entry in the protocol for stable holders and seekers as well as SLPs
 /// @dev This file contains all the events of the `StableMaster` contract
 contract StableMasterEvents {
-    event SanRateUpdated(uint256 _newSanRate, address indexed _token);
+    event SanRateUpdated(address indexed _token, uint256 _newSanRate);
 
-    event StocksUsersUpdated(address indexed _token, int256 _stocksUsers);
+    event StocksUsersUpdated(address indexed _poolManager, uint256 _stocksUsers);
 
     // ============================= Governors =====================================
 
@@ -43,13 +46,15 @@ contract StableMasterEvents {
 
     event OracleUpdated(address indexed _poolManager, address indexed _oracle);
 
-    event MaxSanRateUpdateUpdated(address indexed _poolManager, uint256 _maxSanRateUpdate);
+    event FeeManagerUpdated(address indexed _poolManager, address indexed newFeeManager);
 
-    event FeesForSLPsUpdated(address indexed _poolManager, uint256 _feesForSLPs);
+    event CapOnStableAndMaxInterestsUpdated(
+        address indexed _poolManager,
+        uint256 _capOnStableMinted,
+        uint256 _maxInterestsDistributed
+    );
 
-    event InterestsForSLPsUpdated(address indexed _poolManager, uint256 _interestsForSLPs);
+    event SLPsIncentivesUpdated(address indexed _poolManager, uint64 _feesForSLPs, uint64 _interestsForSLPs);
 
-    event ArrayFeeMintUpdated(uint256[] _xFeeMint, uint256[] _yFeeMint);
-
-    event ArrayFeeBurnUpdated(uint256[] _xFeeBurn, uint256[] _yFeeBurn);
+    event FeeArrayUpdated(address indexed _poolManager, uint64[] _xFee, uint64[] _yFee, uint8 _type);
 }

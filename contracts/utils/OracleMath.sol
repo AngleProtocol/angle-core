@@ -1,17 +1,14 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
-import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
 import "../external/FullMath.sol";
 
 /// @title OracleMath
 /// @author Forked and adapted by Angle Core Team from https://github.com/Uniswap/uniswap-v3-core/blob/main/contracts/libraries/TickMath.sol
-/// @notice Math library for computing sqrt prices from ticks and vice versa
-/// @dev Computes sqrt price for ticks of size 1.0001, i.e. sqrt(1.0001^tick) as fixed point Q64.96 numbers. Supports
+/// @notice Math library for computing prices from ticks
+/// @dev Computes price for ticks of size 1.0001, i.e. sqrt(1.0001^tick). Supports
 /// prices between 2**-128 and 2**128
-/// @dev Q64.96 numbers mean that the first 64 bits make up the integer part and the 96 remaining make up the
-/// decimal part
 contract OracleMath is FullMath {
     /// @dev Maximum tick that may be passed to `_getSqrtRatioAtTick` computed from log base 1.0001 of 2**128
     int24 internal constant _MAX_TICK = 887272;
@@ -36,7 +33,7 @@ contract OracleMath is FullMath {
     /// anymore but directly the full rate
     /// @dev Throws if `|tick| > max tick`
     /// @param tick The input tick for the above formula
-    /// @return rate uint256 representing the ratio of the two assets `(token1/token0) * decimals(token1)`
+    /// @return rate uint256 representing the ratio of the two assets `(token1/token0) * 10**decimals(token1)`
     /// at the given tick
     function _getRatioAtTick(int24 tick) internal pure returns (uint256 rate) {
         uint256 absTick = tick < 0 ? uint256(-int256(tick)) : uint256(int256(tick));
@@ -71,6 +68,6 @@ contract OracleMath is FullMath {
         // Now, 2**69 >> 10**18 so we are safe in the Decimal conversion.
 
         uint256 price = uint256((ratio >> 69) + (ratio % (1 << 69) == 0 ? 0 : 1));
-        rate = ((price * 1e18) / (1 << 59));
+        rate = ((price * 1e18) >> 59);
     }
 }

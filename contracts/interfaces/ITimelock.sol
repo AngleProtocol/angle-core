@@ -1,8 +1,8 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
 // Forked from https://github.com/compound-finance/compound-protocol/tree/master/contracts/Governance
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 interface ITimelock {
     function delay() external view returns (uint256);

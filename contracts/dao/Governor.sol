@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "./GovernorStorage.sol";
 
@@ -9,7 +9,7 @@ import "./GovernorStorage.sol";
 /// @notice Governance of Angle's protocol
 contract Governor is GovernorStorage, AccessControlUpgradeable {
     /// @notice Name of this contract
-    string public constant NAME = "Angle Governor";
+    string public constant name = "Angle Governor";
 
     /// @notice Minimum setable proposal threshold
     uint256 public constant MIN_PROPOSAL_THRESHOLD = 500_000e18; // 500,000 ANGLE
@@ -31,10 +31,10 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
     uint256 public constant MAX_VOTING_DELAY = 40320; // About 1 week
 
     /// @notice Number of votes in support of a proposal required in order for a quorum to be reached and for a vote to succeed
-    uint256 public constant QUORUM_VOTES = 40_000_000e18; // 400,000 = 4% of ANGLE
+    uint256 public constant quorumVotes = 40_000_000e18; // 400,000 = 4% of ANGLE
 
     /// @notice Maximum number of actions that can be included in a proposal
-    uint256 public constant MAX_PROPOSAL_OPERATIONS = 10; // 10 actions
+    uint256 public constant proposalMaxOperations = 10; // 10 actions
 
     /// @notice The EIP-712 typehash for the contract's domain
     bytes32 public constant DOMAIN_TYPEHASH =
@@ -107,7 +107,7 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
             "proposal function information arity mismatch"
         );
         require(targets.length != 0, "must provide actions");
-        require(targets.length <= MAX_PROPOSAL_OPERATIONS, "too many actions");
+        require(targets.length <= proposalMaxOperations, "too many actions");
 
         uint256 latestProposalId = latestProposalIds[msg.sender];
         if (latestProposalId != 0) {
@@ -270,7 +270,7 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
             return ProposalState.Pending;
         } else if (block.number <= proposal.endBlock) {
             return ProposalState.Active;
-        } else if (proposal.forVotes <= proposal.againstVotes || proposal.forVotes < QUORUM_VOTES) {
+        } else if (proposal.forVotes <= proposal.againstVotes || proposal.forVotes < quorumVotes) {
             return ProposalState.Defeated;
         } else if (proposal.eta == 0) {
             return ProposalState.Succeeded;
@@ -312,7 +312,7 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
         bytes32 s
     ) external {
         bytes32 domainSeparator = keccak256(
-            abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(NAME)), _getChainIdInternal(), address(this))
+            abi.encode(DOMAIN_TYPEHASH, keccak256(bytes(name)), _getChainIdInternal(), address(this))
         );
         bytes32 structHash = keccak256(abi.encode(BALLOT_TYPEHASH, proposalId, support));
         bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));

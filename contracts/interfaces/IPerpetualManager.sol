@@ -1,69 +1,82 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/introspection/IERC165Upgradeable.sol";
-
+import "./IERC721.sol";
 import "./IFeeManager.sol";
 import "./IOracle.sol";
+import "./IAccessControl.sol";
 
 /// @title Interface of the contract managing perpetuals
 /// @author Angle Core Team
 /// @dev Front interface, meaning only user-facing functions
-interface IPerpetualManagerFront {
+interface IPerpetualManagerFront is IERC721Metadata {
+    function openPerpetual(
+        address owner,
+        uint256 amountBrought,
+        uint256 amountCommitted,
+        uint256 maxOracleRate,
+        uint256 minNetMargin
+    ) external returns (uint256 perpetualID);
+
+    function closePerpetual(
+        uint256 perpetualID,
+        address to,
+        uint256 minCashOutAmount
+    ) external;
+
+    function addToPerpetual(uint256 perpetualID, uint256 amount) external;
+
+    function removeFromPerpetual(
+        uint256 perpetualID,
+        uint256 amount,
+        address to
+    ) external;
+
+    function liquidatePerpetuals(uint256[] memory perpetualIDs) external;
+
+    function forceClosePerpetuals(uint256[] memory perpetualIDs) external;
+
     // ========================= External View Functions =============================
 
     function getCashOutAmount(uint256 perpetualID, uint256 rate) external view returns (uint256, uint256);
 
-    // ========================= ERC721 =============================
-
-    function balanceOf(address owner) external view returns (uint256 balance);
-
-    function ownerOf(uint256 perpetualID) external view returns (address owner);
-
-    function safeTransferFrom(
-        address from,
-        address to,
-        uint256 perpetualID
-    ) external;
-
-    function transferFrom(
-        address from,
-        address to,
-        uint256 perpetualID
-    ) external;
-
-    function approve(address to, uint256 perpetualID) external;
-
-    function getApproved(uint256 perpetualID) external view returns (address operator);
-
-    function setApprovalForAll(address operator, bool _approved) external;
-
-    function isApprovedForAll(address owner, address operator) external view returns (bool);
-
-    function safeTransferFrom(
-        address from,
-        address to,
-        uint256 perpetualID,
-        bytes calldata data
-    ) external;
+    function isApprovedOrOwner(address spender, uint256 perpetualID) external view returns (bool);
 }
 
 /// @title Interface of the contract managing perpetuals
 /// @author Angle Core Team
 /// @dev This interface does not contain user facing functions, it just has functions that are
 /// interacted with in other parts of the protocol
-interface IPerpetualManager is IAccessControlUpgradeable, IERC165Upgradeable {
+interface IPerpetualManagerFunctions is IAccessControl {
     // ================================= Governance ================================
 
     function deployCollateral(
         address[] memory governorList,
         address guardian,
-        IFeeManager feeManager
+        IFeeManager feeManager,
+        IOracle oracle_
     ) external;
 
     function setFeeManager(IFeeManager feeManager_) external;
+
+    function setHAFees(
+        uint64[] memory _xHAFees,
+        uint64[] memory _yHAFees,
+        uint8 deposit
+    ) external;
+
+    function setTargetAndLimitHAHedge(uint64 _targetHAHedge, uint64 _limitHAHedge) external;
+
+    function setKeeperFeesLiquidationRatio(uint64 _keeperFeesLiquidationRatio) external;
+
+    function setKeeperFeesCap(uint256 _keeperFeesLiquidationCap, uint256 _keeperFeesClosingCap) external;
+
+    function setKeeperFeesClosing(uint64[] memory _xKeeperFeesClosing, uint64[] memory _yKeeperFeesClosing) external;
+
+    function setLockTime(uint64 _lockTime) external;
+
+    function setBoundsPerpetual(uint64 _maxLeverage, uint64 _maintenanceMargin) external;
 
     function pause() external;
 
@@ -71,11 +84,22 @@ interface IPerpetualManager is IAccessControlUpgradeable, IERC165Upgradeable {
 
     // ==================================== Keepers ================================
 
-    function setFeeKeeper(uint256 feeDeposit, uint256 feesWithdraw) external;
+    function setFeeKeeper(uint64 feeDeposit, uint64 feesWithdraw) external;
 
     // =============================== StableMaster ================================
 
     function setOracle(IOracle _oracle) external;
+}
 
-    function getCoverageInfo() external view returns (uint256, uint256);
+/// @title IPerpetualManager
+/// @author Angle Core Team
+/// @notice Previous interface with additionnal getters for public variables
+interface IPerpetualManager is IPerpetualManagerFunctions {
+    function poolManager() external view returns (address);
+
+    function oracle() external view returns (address);
+
+    function targetHAHedge() external view returns (uint64);
+
+    function totalHedgeAmount() external view returns (uint256);
 }

@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "./modules/ModuleChainlinkMulti.sol";
 import "./OracleAbstract.sol";
@@ -15,12 +15,15 @@ contract OracleChainlinkMulti is OracleAbstract, ModuleChainlinkMulti {
     /// @notice Constructor for an oracle using Chainlink with multiple pools to read from
     /// @param _circuitChainlink Chainlink pool addresses (in order)
     /// @param _circuitChainIsMultiplied Whether we should multiply or divide by this rate
+    /// @param _description Description of the assets concerned by the oracle
     constructor(
         address[] memory _circuitChainlink,
-        uint256[] memory _circuitChainIsMultiplied,
-        uint256 _inBase
+        uint8[] memory _circuitChainIsMultiplied,
+        uint256 _inBase,
+        bytes32 _description
     ) ModuleChainlinkMulti(_circuitChainlink, _circuitChainIsMultiplied) {
         inBase = _inBase;
+        description = _description;
     }
 
     /// @notice Reads the rate from the Chainlink circuit

@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "../utils/UniswapUtils.sol";
 
@@ -13,7 +13,7 @@ abstract contract ModuleUniswapMulti is UniswapUtils {
     /// @notice Uniswap pools, the order of the pools to arrive to the final price should be respected
     IUniswapV3Pool[] public circuitUniswap;
     /// @notice Whether the rate obtained with each pool should be multiplied or divided to the current amount
-    uint256[] public circuitUniIsMultiplied;
+    uint8[] public circuitUniIsMultiplied;
 
     /// @notice Constructor for an oracle using multiple Uniswap pool
     /// @param _circuitUniswap Path of the Uniswap pools
@@ -23,28 +23,30 @@ abstract contract ModuleUniswapMulti is UniswapUtils {
     /// @param guardians List of governor or guardian addresses
     constructor(
         IUniswapV3Pool[] memory _circuitUniswap,
-        uint256[] memory _circuitUniIsMultiplied,
+        uint8[] memory _circuitUniIsMultiplied,
         uint32 _twapPeriod,
         uint16 observationLength,
         address[] memory guardians
     ) {
         // There is no `GOVERNOR_ROLE` in this contract, governor has `GUARDIAN_ROLE`
+        require(guardians.length > 0, "incorrect guardians");
         for (uint256 i = 0; i < guardians.length; i++) {
             require(guardians[i] != address(0), "zero address");
             _setupRole(GUARDIAN_ROLE, guardians[i]);
         }
         _setRoleAdmin(GUARDIAN_ROLE, GUARDIAN_ROLE);
 
-        require(_twapPeriod != 0, "invalid twap period");
-        require(int32(_twapPeriod) >= 0, "too large twap period");
-        require(_circuitUniswap.length > 0, "incorrect Uniswap circuit");
+        require(int32(_twapPeriod) > 0, "too large twap period");
+        uint256 circuitUniLength = _circuitUniswap.length;
+        require(circuitUniLength > 0, "incorrect Uniswap circuit");
+        require(circuitUniLength == _circuitUniIsMultiplied.length, "incompatible lengths");
 
         twapPeriod = _twapPeriod;
 
         circuitUniswap = _circuitUniswap;
         circuitUniIsMultiplied = _circuitUniIsMultiplied;
 
-        for (uint256 i = 0; i < circuitUniswap.length; i++) {
+        for (uint256 i = 0; i < circuitUniLength; i++) {
             circuitUniswap[i].increaseObservationCardinalityNext(observationLength);
         }
     }
@@ -64,7 +66,7 @@ abstract contract ModuleUniswapMulti is UniswapUtils {
     /// @notice Increases the number of observations for each Uniswap pools
     /// @param newLengthStored Size asked for
     /// @dev newLengthStored should be larger than all previous pools observations length
-    function increaseTWAPStore(uint16 newLengthStored) external onlyRole(GUARDIAN_ROLE) {
+    function increaseTWAPStore(uint16 newLengthStored) external {
         for (uint256 i = 0; i < circuitUniswap.length; i++) {
             circuitUniswap[i].increaseObservationCardinalityNext(newLengthStored);
         }

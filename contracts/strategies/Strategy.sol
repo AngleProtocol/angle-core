@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "./StrategyEvents.sol";
 
@@ -18,11 +18,6 @@ contract Strategy is StrategyEvents, BaseStrategy {
 
     IGenericLender[] public lenders;
 
-    /// @notice Oracle to give the rate feed, that is the price of the collateral
-    /// with respect to the price of the stablecoin
-    /// This reference can be changed
-    IOracle public oracle;
-
     // ======================== Parameters =========================================
 
     uint256 public withdrawalThreshold = 1e14;
@@ -32,21 +27,15 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @notice Constructor of the `Strategy`
     /// @param _poolManager Address of the `PoolManager` lending to this strategy
     /// @param _rewards  The token given to reward keepers.
-    /// @param _oracle Oracle to compute conversion from ethToWant
     /// @param governorList List of addresses with governor privilege
     /// @param guardian Address of the guardian
     constructor(
         address _poolManager,
         IERC20 _rewards,
-        IOracle _oracle,
         address[] memory governorList,
         address guardian
     ) BaseStrategy(_poolManager, _rewards, governorList, guardian) {
-        require(
-            guardian != address(0) && address(_oracle) != address(0) && address(_rewards) != address(0),
-            "zero address"
-        );
-        oracle = _oracle;
+        require(guardian != address(0) && address(_rewards) != address(0), "zero address");
     }
 
     // ========================== Internal Mechanics ===============================
@@ -86,7 +75,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
             return (_profit, _loss, _debtPayment);
         }
 
-        uint256 debt = poolManager.strategies(address(this)).totalDebt;
+        uint256 debt = poolManager.strategies(address(this)).totalStrategyDebt;
 
         if (total > debt) {
             _profit = total - debt;
@@ -133,12 +122,15 @@ contract Strategy is StrategyEvents, BaseStrategy {
         }
     }
 
-    /// @notice Estimates highest and lowest apr lenders.
-    /// @return _lowest The index of the lender with lowest apr
+    /// @notice Estimates highest and lowest apr lenders among a `lendersList`
+    /// @param lendersList List of all the lender contracts associated to this strategy
+    /// @return _lowest The index of the lender in the `lendersList` with lowest apr
     /// @return _lowestApr The lowest apr
     /// @return _highest The index of the lender with highest apr
     /// @return _potential The potential apr of this lender if funds are moved from lowest to highest
-    function _estimateAdjustPosition()
+    /// @dev `lendersList` is kept as a parameter to avoid multiplying reads in storage to the `lenders`
+    /// array
+    function _estimateAdjustPosition(IGenericLender[] memory lendersList)
         internal
         view
         returns (
@@ -157,34 +149,29 @@ contract Strategy is StrategyEvents, BaseStrategy {
         _lowestApr = type(uint256).max;
         _lowest = 0;
         uint256 lowestNav = 0;
-        for (uint256 i = 0; i < lenders.length; i++) {
-            if (lenders[i].hasAssets()) {
-                uint256 apr = lenders[i].apr();
-                if (apr < _lowestApr) {
-                    _lowestApr = apr;
-                    _lowest = i;
-                    lowestNav = lenders[i].nav();
-                }
-            }
-        }
-
-        uint256 toAdd = lowestNav + looseAssets;
 
         uint256 highestApr = 0;
         _highest = 0;
 
-        for (uint256 i = 0; i < lenders.length; i++) {
-            uint256 apr;
-            apr = lenders[i].aprAfterDeposit(looseAssets);
-
-            if (apr > highestApr) {
-                highestApr = apr;
+        for (uint256 i = 0; i < lendersList.length; i++) {
+            uint256 aprAfterDeposit = lendersList[i].aprAfterDeposit(looseAssets);
+            if (aprAfterDeposit > highestApr) {
+                highestApr = aprAfterDeposit;
                 _highest = i;
+            }
+
+            if (lendersList[i].hasAssets()) {
+                uint256 apr = lendersList[i].apr();
+                if (apr < _lowestApr) {
+                    _lowestApr = apr;
+                    _lowest = i;
+                    lowestNav = lendersList[i].nav();
+                }
             }
         }
 
         //if we can improve apr by withdrawing we do so
-        _potential = lenders[_highest].aprAfterDeposit(toAdd);
+        _potential = lendersList[_highest].aprAfterDeposit(lowestNav + looseAssets);
     }
 
     /// @notice Function called by keepers to adjust the position
@@ -195,23 +182,24 @@ contract Strategy is StrategyEvents, BaseStrategy {
         if (emergencyExit) {
             return;
         }
-
+        // Storing the `lenders` array in a cache variable
+        IGenericLender[] memory lendersList = lenders;
         // We just keep all money in want if we dont have any lenders
-        if (lenders.length == 0) {
+        if (lendersList.length == 0) {
             return;
         }
 
-        (uint256 lowest, uint256 lowestApr, uint256 highest, uint256 potential) = _estimateAdjustPosition();
+        (uint256 lowest, uint256 lowestApr, uint256 highest, uint256 potential) = _estimateAdjustPosition(lendersList);
 
         if (potential > lowestApr) {
-            // Apr should go down after deposit so wont be withdrawing from self
-            lenders[lowest].withdrawAll();
+            // Apr should go down after deposit so won't be withdrawing from self
+            lendersList[lowest].withdrawAll();
         }
 
         uint256 bal = want.balanceOf(address(this));
         if (bal > 0) {
-            want.safeTransfer(address(lenders[highest]), bal);
-            lenders[highest].deposit();
+            want.safeTransfer(address(lendersList[highest]), bal);
+            lendersList[highest].deposit();
         }
     }
 
@@ -219,7 +207,8 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @param _amount The amount to withdraw
     /// @dev Cycle through withdrawing from worst rate first
     function _withdrawSome(uint256 _amount) internal returns (uint256 amountWithdrawn) {
-        if (lenders.length == 0) {
+        IGenericLender[] memory lendersList = lenders;
+        if (lendersList.length == 0) {
             return 0;
         }
 
@@ -229,24 +218,24 @@ contract Strategy is StrategyEvents, BaseStrategy {
         }
 
         amountWithdrawn = 0;
-        // In Most situations this will only run once. Only big withdrawals will be a gas guzzler
+        // In most situations this will only run once. Only big withdrawals will be a gas guzzler
         uint256 j = 0;
         while (amountWithdrawn < _amount) {
             uint256 lowestApr = type(uint256).max;
             uint256 lowest = 0;
-            for (uint256 i = 0; i < lenders.length; i++) {
-                if (lenders[i].hasAssets()) {
-                    uint256 apr = lenders[i].apr();
+            for (uint256 i = 0; i < lendersList.length; i++) {
+                if (lendersList[i].hasAssets()) {
+                    uint256 apr = lendersList[i].apr();
                     if (apr < lowestApr) {
                         lowestApr = apr;
                         lowest = i;
                     }
                 }
             }
-            if (!lenders[lowest].hasAssets()) {
+            if (!lendersList[lowest].hasAssets()) {
                 return amountWithdrawn;
             }
-            amountWithdrawn = amountWithdrawn + lenders[lowest].withdraw(_amount - amountWithdrawn);
+            amountWithdrawn = amountWithdrawn + lendersList[lowest].withdraw(_amount - amountWithdrawn);
             j++;
             // To avoid want infinite loop
             if (j >= 6) {
@@ -298,8 +287,9 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @notice View function to check the current state of the strategy
     /// @return Returns the status of all lenders attached the strategy
     function lendStatuses() external view returns (LendStatus[] memory) {
-        LendStatus[] memory statuses = new LendStatus[](lenders.length);
-        for (uint256 i = 0; i < lenders.length; i++) {
+        uint256 lendersListLength = lenders.length;
+        LendStatus[] memory statuses = new LendStatus[](lendersListLength);
+        for (uint256 i = 0; i < lendersListLength; i++) {
             LendStatus memory s;
             s.name = lenders[i].lenderName();
             s.add = address(lenders[i]);
@@ -307,7 +297,6 @@ contract Strategy is StrategyEvents, BaseStrategy {
             s.rate = lenders[i].apr();
             statuses[i] = s;
         }
-
         return statuses;
     }
 
@@ -346,11 +335,6 @@ contract Strategy is StrategyEvents, BaseStrategy {
         return weightedAPR / bal;
     }
 
-    /// @notice Does the oracle (Uniswap - Chainlink for now) conversion from wETH to want
-    function ethToWant(uint256 _amount) public view override returns (uint256) {
-        return (oracle.readQuote(_amount) * wantBase) / BASE;
-    }
-
     /// @notice Prevents the governance from withdrawing want tokens
     function _protectedTokens() internal view override returns (address[] memory) {
         address[] memory protected = new address[](1);
@@ -371,10 +355,10 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @dev Share must add up to 1000. 500 means 50% etc
     /// @dev This code has been forked, so we have not thoroughly tested it on our own
     function manualAllocation(LenderRatio[] memory _newPositions) external onlyRole(GUARDIAN_ROLE) {
+        IGenericLender[] memory lendersList = lenders;
         uint256 share = 0;
-
-        for (uint256 i = 0; i < lenders.length; i++) {
-            lenders[i].withdrawAll();
+        for (uint256 i = 0; i < lendersList.length; i++) {
+            lendersList[i].withdrawAll();
         }
 
         uint256 assets = want.balanceOf(address(this));
@@ -383,8 +367,8 @@ contract Strategy is StrategyEvents, BaseStrategy {
             bool found = false;
 
             //might be annoying and expensive to do this second loop but worth it for safety
-            for (uint256 j = 0; j < lenders.length; j++) {
-                if (address(lenders[j]) == _newPositions[i].lender) {
+            for (uint256 j = 0; j < lendersList.length; j++) {
+                if (address(lendersList[j]) == _newPositions[i].lender) {
                     found = true;
                 }
             }
@@ -404,15 +388,6 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @dev governor, guardian or `PoolManager` only
     function setWithdrawalThreshold(uint256 _threshold) external onlyRole(GUARDIAN_ROLE) {
         withdrawalThreshold = _threshold;
-    }
-
-    /// @notice Changes the oracle contract used to compute collateral price with respect to the stablecoin's price
-    /// @param _oracle Oracle contract
-    /// @dev The collateral `PoolManager` does not store a reference to an oracle, the value of the oracle can directly
-    /// be set by the `StableMaster`
-    /// @dev The `outbase` of the new oracle should be the same as the `wantBase`
-    function setOracle(IOracle _oracle) external onlyRole(GUARDIAN_ROLE) {
-        oracle = _oracle;
     }
 
     /// @notice Add lenders for the strategy to choose between
@@ -445,9 +420,10 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @param lender The address of the adapter for the lending platform to remove
     /// @param force Whether it is required that all the funds are withdrawn prior to removal
     function _removeLender(address lender, bool force) internal {
-        for (uint256 i = 0; i < lenders.length; i++) {
-            if (lender == address(lenders[i])) {
-                bool allWithdrawn = lenders[i].withdrawAll();
+        IGenericLender[] memory lendersList = lenders;
+        for (uint256 i = 0; i < lendersList.length; i++) {
+            if (lender == address(lendersList[i])) {
+                bool allWithdrawn = lendersList[i].withdrawAll();
 
                 if (!force) {
                     require(allWithdrawn, "withdrawal failed");
@@ -455,8 +431,8 @@ contract Strategy is StrategyEvents, BaseStrategy {
 
                 // Put the last index here
                 // then remove last index
-                if (i != lenders.length - 1) {
-                    lenders[i] = lenders[lenders.length - 1];
+                if (i != lendersList.length - 1) {
+                    lenders[i] = lendersList[lendersList.length - 1];
                 }
 
                 // Pop shortens array by 1 thereby deleting the last index
@@ -485,7 +461,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
     function addGuardian(address _guardian) external override onlyRole(POOLMANAGER_ROLE) {
         // Granting the new role
         // Access control for this contract
-        grantRole(GUARDIAN_ROLE, _guardian);
+        _grantRole(GUARDIAN_ROLE, _guardian);
         // Propagating the new role in other contract
         for (uint256 i = 0; i < lenders.length; i++) {
             lenders[i].grantRole(GUARDIAN_ROLE, _guardian);
@@ -495,7 +471,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @notice Revokes the guardian role and propagates the change to other contracts
     /// @param guardian Old guardian address to revoke
     function revokeGuardian(address guardian) external override onlyRole(POOLMANAGER_ROLE) {
-        revokeRole(GUARDIAN_ROLE, guardian);
+        _revokeRole(GUARDIAN_ROLE, guardian);
         for (uint256 i = 0; i < lenders.length; i++) {
             lenders[i].revokeRole(GUARDIAN_ROLE, guardian);
         }

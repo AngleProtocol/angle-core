@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "./StableMasterStorage.sol";
 
@@ -27,18 +27,7 @@ contract StableMasterInternal is StableMasterStorage, PausableMapUpgradeable {
     /// @param agent Name of the agent to check, it is either going to be `STABLE` or `SLP`
     /// @param poolManager `PoolManager` contract for which to check pauses
     function _whenNotPaused(bytes32 agent, address poolManager) internal view {
-        require(!paused(keccak256(abi.encodePacked(agent, poolManager))), "paused");
-    }
-
-    /// @notice Computes the amount of fees to be used to update the `sanRate` and adds the fees to the fees
-    /// to be distributed at next block by SLPs
-    /// @param feesInC Total amount of fees to share
-    /// @param col Struct for the collateral of interest here which values are going to be updated
-    function _accumulateFees(uint256 feesInC, Collateral storage col) internal {
-        // Computing the portion of the fees that will be distributed to SLPs
-        uint256 toShare = (feesInC * col.slpData.feesForSLPs) / BASE;
-        // Updating the `sanRate`
-        _updateSanRate(toShare, col);
+        require(!paused[keccak256(abi.encodePacked(agent, poolManager))], "paused");
     }
 
     /// @notice Updates the `sanRate` that is the exchange rate between sanTokens given to SLPs and collateral or
@@ -47,117 +36,115 @@ contract StableMasterInternal is StableMasterStorage, PausableMapUpgradeable {
     /// @param col Struct for the collateral of interest here which values are going to be updated
     /// @dev This function can only increase the `sanRate` and is not used to take into account a loss made through
     /// lending or another yield farming strategy: this is done in the `signalLoss` function
-    /// @dev The `sanRate` will only be updated from the fees accumulated from previous blocks and the fees to distribute
+    /// @dev The `sanRate` is only be updated from the fees accumulated from previous blocks and the fees to share to SLPs
     /// are just accumulated to be distributed at next block
     /// @dev A flashloan attack could consist in seeing fees to be distributed, deposit, increase the `sanRate` and then
     /// withdraw: what is done with the `lockedInterests` parameter is a way to mitigate that
-    /// @dev Another solution against flash loans would be to have a non null `slippage` at all time: we would like to avoid
-    /// that in the first place
+    /// @dev Another solution against flash loans would be to have a non null `slippage` at all times: this is far from ideal
+    /// for SLPs in the first place
     function _updateSanRate(uint256 toShare, Collateral storage col) internal {
-        uint256 sanMint = col.sanToken.totalSupply();
         uint256 _lockedInterests = col.slpData.lockedInterests;
         // Checking if the `sanRate` has been updated in the current block using past block fees
         // This is a way to prevent flash loans attacks when an important amount of fees are going to be distributed
         // in a block: fees are stored but will just be distributed to SLPs who will be here during next blocks
         if (block.timestamp != col.slpData.lastBlockUpdated && _lockedInterests > 0) {
+            uint256 sanMint = col.sanToken.totalSupply();
             if (sanMint != 0) {
                 // Checking if the update is too important and should be made in multiple blocks
-                if (col.slpData.lockedInterests > (sanMint * col.slpData.maxSanRateUpdate) / BASE) {
-                    col.sanRate += col.slpData.maxSanRateUpdate;
-                    // Substracting before dividing for rounding
-                    _lockedInterests = (_lockedInterests * BASE - sanMint * col.slpData.maxSanRateUpdate) / BASE;
+                if (_lockedInterests > col.slpData.maxInterestsDistributed) {
+                    // `sanRate` is expressed in `BASE_TOKENS`
+                    col.sanRate += (col.slpData.maxInterestsDistributed * BASE_TOKENS) / sanMint;
+                    _lockedInterests -= col.slpData.maxInterestsDistributed;
                 } else {
-                    col.sanRate += (_lockedInterests * BASE) / sanMint;
+                    col.sanRate += (_lockedInterests * BASE_TOKENS) / sanMint;
                     _lockedInterests = 0;
                 }
-                emit SanRateUpdated(col.sanRate, address(col.token));
+                emit SanRateUpdated(address(col.token), col.sanRate);
             } else {
                 _lockedInterests = 0;
             }
-            col.slpData.lastBlockUpdated = block.timestamp;
         }
         // Adding the fees to be distributed at next block
-        // Fees are only going to get added if there are SLPs
-        if (toShare != 0 && sanMint != 0) {
+        if (toShare != 0) {
             if ((col.slpData.slippageFee == 0) && (col.slpData.feesAside != 0)) {
                 // If the collateral ratio is big enough, all the fees or gains will be used to update the `sanRate`
-                // If there were fees or lending gains that had been put aside
-                // they will be added in this case to the update of the `sanRate`
+                // If there were fees or lending gains that had been put aside, they will be added in this case to the
+                // update of the `sanRate`
                 toShare += col.slpData.feesAside;
                 col.slpData.feesAside = 0;
             } else if (col.slpData.slippageFee != 0) {
                 // Computing the fraction of fees and gains that should be left aside if the collateral ratio is too small
-                uint256 aside = (toShare * col.slpData.slippageFee) / BASE;
+                uint256 aside = (toShare * col.slpData.slippageFee) / BASE_PARAMS;
                 toShare -= aside;
                 // The amount of fees left aside should be rounded above
-                col.slpData.feesAside = col.slpData.feesAside + aside;
+                col.slpData.feesAside += aside;
             }
             // Updating the amount of fees to be distributed next block
             _lockedInterests += toShare;
         }
         col.slpData.lockedInterests = _lockedInterests;
+        col.slpData.lastBlockUpdated = block.timestamp;
     }
 
     /// @notice Computes the current fees to be taken when minting using `amount` of collateral
     /// @param amount Amount of collateral in the transaction to get stablecoins
     /// @param col Struct for the collateral of interest
     /// @return feeMint Mint Fees taken to users expressed in collateral
-    /// @dev Fees depend on HA coverage that is the proportion of collateral from users (`stocksUsers`) that is covered by HAs
-    /// @dev The more is covered by HAs, the smaller fees are expected to be
+    /// @dev Fees depend on the hedge ratio that is the ratio between what is hedged by HAs and what should be hedged
+    /// @dev The more is hedged by HAs, the smaller fees are expected to be
     /// @dev Fees are also corrected by the `bonusMalusMint` parameter which induces a dependence in collateral ratio
     function _computeFeeMint(uint256 amount, Collateral storage col) internal view returns (uint256 feeMint) {
-        // In case of a negative `stocksUsers` even after the entrance of the user we set a maximum fee to have a continuous
-        // fee policy. If `stocksUsers` is negative and then positive with the user entrance, everything is done
-        // as if the `stocksUser` was positive
-        uint256 spread = BASE;
-        if (col.stocksUsers > 0) {
-            spread = _computeSpread(amount + uint256(col.stocksUsers), col);
-        } else if (int256(amount) >= 0 && (int256(amount) + col.stocksUsers) > 0) {
-            spread = _computeSpread(uint256(int256(amount) + col.stocksUsers), col);
+        uint64 feeMint64;
+        if (col.feeData.xFeeMint.length == 1) {
+            // This is done to avoid an external call in the case where the fees are constant regardless of the collateral
+            // ratio
+            feeMint64 = col.feeData.yFeeMint[0];
+        } else {
+            uint64 hedgeRatio = _computeHedgeRatio(amount + col.stocksUsers, col);
+            // Computing the fees based on the spread
+            feeMint64 = _piecewiseLinear(hedgeRatio, col.feeData.xFeeMint, col.feeData.yFeeMint);
         }
-        // Computing the fees based on the spread
-        feeMint = _piecewiseLinear(spread, col.feeData.xFeeMint, col.feeData.yFeeMint);
         // Fees could in some occasions depend on other factors like collateral ratio
         // Keepers are the ones updating this part of the fees
-        feeMint = (feeMint * col.feeData.bonusMalusMint) / BASE;
+        feeMint = (feeMint64 * col.feeData.bonusMalusMint) / BASE_PARAMS;
     }
 
-    /// @notice Computes the current fees to be taken when burning stablecoins and having the oracle value
-    /// saying that `amount` of collateral should be given back
+    /// @notice Computes the current fees to be taken when burning stablecoins
     /// @param amount Amount of collateral corresponding to the stablecoins burnt in the transaction
     /// @param col Struct for the collateral of interest
     /// @return feeBurn Burn fees taken to users expressed in collateral
     /// @dev The amount is obtained after the amount of agTokens sent is converted in collateral
-    /// @dev Fees depend on HA coverage that is the proportion of collateral from users (`stocksUsers`) that is covered by HAs
-    /// @dev The more is covered by HAs, the higher fees are expected to be
+    /// @dev Fees depend on the hedge ratio that is the ratio between what is hedged by HAs and what should be hedged
+    /// @dev The more is hedged by HAs, the higher fees are expected to be
     /// @dev Fees are also corrected by the `bonusMalusBurn` parameter which induces a dependence in collateral ratio
     function _computeFeeBurn(uint256 amount, Collateral storage col) internal view returns (uint256 feeBurn) {
-        uint256 spread = 0;
-        if (col.stocksUsers >= 0 && (uint256(col.stocksUsers) > amount)) {
-            spread = _computeSpread(uint256(col.stocksUsers) - amount, col);
+        uint64 feeBurn64;
+        if (col.feeData.xFeeBurn.length == 1) {
+            // Avoiding an external call if fees are constant
+            feeBurn64 = col.feeData.yFeeBurn[0];
+        } else {
+            uint64 hedgeRatio = _computeHedgeRatio(col.stocksUsers - amount, col);
+            // Computing the fees based on the spread
+            feeBurn64 = _piecewiseLinear(hedgeRatio, col.feeData.xFeeBurn, col.feeData.yFeeBurn);
         }
-        // Computing the fees based on the spread
-        feeBurn = _piecewiseLinear(spread, col.feeData.xFeeBurn, col.feeData.yFeeBurn);
         // Fees could in some occasions depend on other factors like collateral ratio
         // Keepers are the ones updating this part of the fees
-        feeBurn = (feeBurn * col.feeData.bonusMalusBurn) / BASE;
+        feeBurn = (feeBurn64 * col.feeData.bonusMalusBurn) / BASE_PARAMS;
     }
 
-    /// @notice Computes the spread for a given collateral and for a given amount of collateral from users to cover
-    /// @param newColFromUsers Value of the collateral from users to cover
+    /// @notice Computes the hedge ratio that is the ratio between the amount of collateral hedged by HAs
+    /// divided by the amount that should be hedged
+    /// @param newStocksUsers Value of the collateral from users to hedge
     /// @param col Struct for the collateral of interest
-    /// @return The spread that is the ratio between what's to cover minus
-    /// what's covered by HAs divided what's to cover
+    /// @return ratio Ratio between what's hedged divided what's to hedge
     /// @dev This function is typically called to compute mint or burn fees
     /// @dev It seeks from the `PerpetualManager` contract associated to the collateral the total amount
-    /// already covered by HAs and compares it to the amount to cover
-    function _computeSpread(uint256 newColFromUsers, Collateral storage col) internal view returns (uint256) {
-        (uint256 maxALock, uint256 totalCoveredAmount) = col.perpetualManager.getCoverageInfo();
-        uint256 colFromUsersToCover = (newColFromUsers * maxALock) / BASE;
-        uint256 spread = 0;
-        if (colFromUsersToCover > totalCoveredAmount) {
-            spread = ((colFromUsersToCover - totalCoveredAmount) * BASE) / colFromUsersToCover;
-        }
-        return spread;
+    /// already hedged by HAs and compares it to the amount to hedge
+    function _computeHedgeRatio(uint256 newStocksUsers, Collateral storage col) internal view returns (uint64 ratio) {
+        // Fetching the amount hedged by HAs from the corresponding `perpetualManager` contract
+        uint256 totalHedgeAmount = col.perpetualManager.totalHedgeAmount();
+        newStocksUsers = (col.feeData.targetHAHedge * newStocksUsers) / BASE_PARAMS;
+        if (newStocksUsers > totalHedgeAmount) ratio = uint64((totalHedgeAmount * BASE_PARAMS) / newStocksUsers);
+        else ratio = uint64(BASE_PARAMS);
     }
 }

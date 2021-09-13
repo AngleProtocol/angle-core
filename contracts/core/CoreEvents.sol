@@ -1,15 +1,12 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "../external/AccessControl.sol";
 
 import "../interfaces/ICore.sol";
 import "../interfaces/IAgToken.sol";
 import "../interfaces/IStableMaster.sol";
-
-import "../utils/FunctionUtils.sol";
 
 /// @title CoreEvents
 /// @author Angle Core Team
@@ -18,4 +15,12 @@ contract CoreEvents {
     event StableMasterDeployed(address indexed _stableMaster, address indexed _agToken);
 
     event StableMasterRevoked(address indexed _stableMaster);
+
+    event GovernorRoleGranted(address indexed governor);
+
+    event GovernorRoleRevoked(address indexed governor);
+
+    event GuardianRoleChanged(address indexed oldGuardian, address indexed newGuardian);
+
+    event CoreChanged(address indexed newCore);
 }

@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "./PoolManagerInternal.sol";
 
@@ -38,21 +38,25 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         _setRoleAdmin(STABLEMASTER_ROLE, STABLEMASTER_ROLE);
         _setRoleAdmin(GOVERNOR_ROLE, STABLEMASTER_ROLE);
         _setRoleAdmin(GUARDIAN_ROLE, STABLEMASTER_ROLE);
-        _setRoleAdmin(STRATEGY_ROLE, GUARDIAN_ROLE);
+        // No admin is set for `STRATEGY_ROLE`, checks are made in the appropriate functions
+        // `addStrategy` and `revokeStrategy`
     }
 
     // ========================= `StableMaster` Functions ==========================
 
     /// @notice Changes the references to contracts from this protocol with which this collateral `PoolManager` interacts
+    /// and propagates some references to the `perpetualManager` and `feeManager` contracts
     /// @param governorList List of the governor addresses of protocol
     /// @param guardian Address of the guardian of the protocol (it can be revoked)
     /// @param _perpetualManager New reference to the `PerpetualManager` contract containing all the logic for HAs
     /// @param _feeManager Reference to the `FeeManager` contract that will serve for the `PerpetualManager` contract
+    /// @param _oracle Reference to the `Oracle` contract that will serve for the `PerpetualManager` contract
     function deployCollateral(
         address[] memory governorList,
         address guardian,
         IPerpetualManager _perpetualManager,
-        IFeeManager _feeManager
+        IFeeManager _feeManager,
+        IOracle _oracle
     ) external override onlyRole(STABLEMASTER_ROLE) {
         // These references need to be stored to be able to propagate changes and maintain
         // the protocol's integrity when changes are posted from the `StableMaster`
@@ -61,26 +65,26 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
 
         // Access control
         for (uint256 i = 0; i < governorList.length; i++) {
-            grantRole(GOVERNOR_ROLE, governorList[i]);
-            grantRole(GUARDIAN_ROLE, governorList[i]);
+            _grantRole(GOVERNOR_ROLE, governorList[i]);
+            _grantRole(GUARDIAN_ROLE, governorList[i]);
         }
-        grantRole(GUARDIAN_ROLE, guardian);
+        _grantRole(GUARDIAN_ROLE, guardian);
 
         // Propagates the changes to the other involved contracts
-        perpetualManager.deployCollateral(governorList, guardian, feeManager);
-        feeManager.deployCollateral(governorList, guardian);
+        perpetualManager.deployCollateral(governorList, guardian, _feeManager, _oracle);
+        _feeManager.deployCollateral(governorList, guardian, address(_perpetualManager));
 
         // `StableMaster` and `PerpetualManager` need to have approval to directly transfer some of
         // this contract's tokens
-        _changeTokenApprovalAmount(address(stableMaster), type(uint256).max);
-        _changeTokenApprovalAmount(address(perpetualManager), type(uint256).max);
+        token.safeIncreaseAllowance(address(stableMaster), type(uint256).max);
+        token.safeIncreaseAllowance(address(_perpetualManager), type(uint256).max);
     }
 
     /// @notice Adds a new governor address and echoes it to other contracts
     /// @param _governor New governor address
     function addGovernor(address _governor) external override onlyRole(STABLEMASTER_ROLE) {
         // Access control for this contract
-        grantRole(GOVERNOR_ROLE, _governor);
+        _grantRole(GOVERNOR_ROLE, _governor);
         // Echoes the change to other contracts interacting with this collateral `PoolManager`
         // Since the other contracts interacting with this `PoolManager` do not have governor roles,
         // we just need it to set the new governor as guardian in these contracts
@@ -91,7 +95,7 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     /// @param _governor Governor address to remove
     function removeGovernor(address _governor) external override onlyRole(STABLEMASTER_ROLE) {
         // Access control for this contract
-        revokeRole(GOVERNOR_ROLE, _governor);
+        _revokeRole(GOVERNOR_ROLE, _governor);
         _revokeGuardian(_governor);
     }
 
@@ -99,8 +103,8 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     /// @param _guardian New guardian address
     /// @param guardian Old guardian address to revoke
     function setGuardian(address _guardian, address guardian) external override onlyRole(STABLEMASTER_ROLE) {
-        _addGuardian(_guardian);
         _revokeGuardian(guardian);
+        _addGuardian(_guardian);
     }
 
     /// @notice Revokes the guardian address and echoes the change to other contracts that interact with this `PoolManager`
@@ -123,11 +127,11 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     /// @dev This function is an estimation and is made for external use only
     /// @dev This does not take into account transaction fees which accrue to SLPs too
     /// @dev This can be manipulated by a flash loan attack (SLP deposit/ withdraw) via `_getTotalAsset`
-    /// when entering yous should make sure this hasn't be called by a flash loan and look
+    /// when entering you should make sure this hasn't be called by a flash loan and look
     /// at a mean of past APR.
     function estimatedAPR() external view returns (uint256 apr) {
         apr = 0;
-        (, , ISanToken sanTokenForAPR, , , , uint256 sanRate, SLPData memory slpData, ) = stableMaster.collateralMap(
+        (, ISanToken sanTokenForAPR, , , , uint256 sanRate, , SLPData memory slpData, ) = stableMaster.collateralMap(
             IPoolManager(address(this))
         );
         uint256 supply = sanTokenForAPR.totalSupply();
@@ -136,7 +140,10 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         if (supply == 0) return type(uint256).max;
 
         for (uint256 i = 0; i < strategyList.length; i++) {
-            apr = apr + (strategies[strategyList[i]].debtRatio * IStrategy(strategyList[i]).estimatedAPR()) / BASE;
+            apr =
+                apr +
+                (strategies[strategyList[i]].debtRatio * IStrategy(strategyList[i]).estimatedAPR()) /
+                BASE_PARAMS;
         }
         apr = (apr * slpData.interestsForSLPs * _getTotalAsset()) / sanRate / supply;
     }
@@ -146,29 +153,29 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     /// @dev Since this function is a view function, there is no need to have an access control logic
     /// even though it will just be relevant for a strategy
     /// @dev Manipulating `_getTotalAsset` with a flashloan will only
-    /// result in tokens being transfered at the cost of the caller
+    /// result in tokens being transferred at the cost of the caller
     function creditAvailable() external view override returns (uint256) {
         StrategyParams storage params = strategies[msg.sender];
 
-        uint256 target = (_getTotalAsset() * params.debtRatio) / BASE;
+        uint256 target = (_getTotalAsset() * params.debtRatio) / BASE_PARAMS;
 
-        if (target < params.totalDebt) return 0;
+        if (target < params.totalStrategyDebt) return 0;
 
-        return Math.min(target - params.totalDebt, _getBalance());
+        return Math.min(target - params.totalStrategyDebt, _getBalance());
     }
 
     /// @notice Tells a strategy how much it owes to this `PoolManager`
     /// @return Amount of token a strategy has to reimburse
     /// @dev Manipulating `_getTotalAsset` with a flashloan will only
-    /// result in tokens being transfered at the cost of the caller
+    /// result in tokens being transferred at the cost of the caller
     function debtOutstanding() external view override returns (uint256) {
         StrategyParams storage params = strategies[msg.sender];
 
-        uint256 target = (_getTotalAsset() * params.debtRatio) / BASE;
+        uint256 target = (_getTotalAsset() * params.debtRatio) / BASE_PARAMS;
 
-        if (target > params.totalDebt) return 0;
+        if (target > params.totalStrategyDebt) return 0;
 
-        return (params.totalDebt - target);
+        return (params.totalStrategyDebt - target);
     }
 
     /// @notice Reports the gains or loss made by a strategy
@@ -195,7 +202,7 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
 
         // Updating parameters in the `perpetualManager`
         // This needs to be done now because it has implications in `_getTotalAsset()`
-        params.totalDebt = params.totalDebt + gain - loss;
+        params.totalStrategyDebt = params.totalStrategyDebt + gain - loss;
         totalDebt = totalDebt + gain - loss;
         params.lastReport = block.timestamp;
 
@@ -205,45 +212,121 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         // have no interest in making such txs to have a direct profit, we let it as is.
         // The only issue is if the strategy is compromised; in this case governance
         // should revoke the strategy
-        uint256 target = ((_getTotalAsset()) * params.debtRatio) / BASE;
-        if (target > params.totalDebt) {
+        uint256 target = ((_getTotalAsset()) * params.debtRatio) / BASE_PARAMS;
+        if (target > params.totalStrategyDebt) {
             // If the strategy has some credit left, tokens can be transferred to this strategy
-            uint256 available = Math.min(target - params.totalDebt, _getBalance());
-            params.totalDebt = params.totalDebt + available;
+            uint256 available = Math.min(target - params.totalStrategyDebt, _getBalance());
+            params.totalStrategyDebt = params.totalStrategyDebt + available;
             totalDebt = totalDebt + available;
             if (available > 0) {
                 token.safeTransfer(msg.sender, available);
             }
         } else {
-            uint256 available = Math.min(params.totalDebt - target, debtPayment + gain);
-            params.totalDebt = params.totalDebt - available;
+            uint256 available = Math.min(params.totalStrategyDebt - target, debtPayment + gain);
+            params.totalStrategyDebt = params.totalStrategyDebt - available;
             totalDebt = totalDebt - available;
             if (available > 0) {
                 token.safeTransferFrom(msg.sender, address(this), available);
             }
         }
-        emit StrategyReported(msg.sender, gain, loss, debtPayment, params.totalDebt);
+        emit StrategyReported(msg.sender, gain, loss, debtPayment, params.totalStrategyDebt);
+
+        // Handle gains before losses
+        if (gain > 0) {
+            stableMaster.accumulateInterest(gain);
+            emit FeesDistributed(gain);
+        }
 
         // Handle eventual losses
         if (loss > 0) {
             stableMaster.signalLoss(loss);
         }
-        // Handle gains
-        if (gain > 0) {
-            stableMaster.accumulateInterest(gain);
-            emit FeesDistributed(gain);
-        }
     }
 
     // =========================== Governor Functions ==============================
 
-    /// @notice Allows to recover all ERC20 tokens and to send it to a contract (like the settlement contract)
-    /// @param settlementContract Address of the contract to send collateral to
-    /// @param amount Amount of collateral to transfer
+    /// @notice Allows to recover any ERC20 token, including the token handled by this contract, and to send it
+    /// to a contract
+    /// @param tokenAddress Address of the token to recover
+    /// @param to Address of the contract to send collateral to
+    /// @param amountToRecover Amount of collateral to transfer
     /// @dev As this function can be used to transfer funds to another contract, it has to be a `GOVERNOR` function
-    function transferToSettlement(address settlementContract, uint256 amount) external onlyRole(GOVERNOR_ROLE) {
-        emit Recovered(address(token), settlementContract, amount);
-        token.safeTransfer(settlementContract, amount);
+    /// @dev In case the concerned token is the specific token handled by this contract, this function checks that the
+    /// amount entered is not too big and approximates the surplus of the protocol
+    /// @dev To esimate the amount of user claims on the concerned collateral, this function uses the `stocksUsers` for
+    /// this collateral, but this is just an approximation as users can claim the collateral of their choice provided
+    /// that they own a stablecoin
+    /// @dev The sanity check excludes the HA claims: to get a sense of it, this function would need to compute the cash out
+    /// amount of all the perpetuals, and this cannot be done on-chain in a cheap manner
+    /// @dev Overall, even though there is a sanity check, this function relies on the fact that governance is not corrupted
+    /// in this protocol and will not try to withdraw too much funds
+    function recoverERC20(
+        address tokenAddress,
+        address to,
+        uint256 amountToRecover
+    ) external onlyRole(GOVERNOR_ROLE) {
+        if (tokenAddress == address(token)) {
+            // Fetching info from the `StableMaster`
+            (
+                ,
+                ISanToken sanToken,
+                ,
+                IOracle oracle,
+                uint256 stocksUsers,
+                uint256 sanRate,
+                uint256 collatBase,
+                ,
+
+            ) = IStableMaster(stableMaster).collateralMap(IPoolManager(address(this)));
+
+            // Checking if there are enough reserves for the amount to withdraw
+            require(
+                _getTotalAsset() >=
+                    amountToRecover +
+                        (sanToken.totalSupply() * sanRate) /
+                        BASE_TOKENS +
+                        (stocksUsers * collatBase) /
+                        oracle.readUpper(),
+                "too big amount"
+            );
+
+            token.safeTransfer(to, amountToRecover);
+        } else {
+            IERC20(tokenAddress).safeTransfer(to, amountToRecover);
+        }
+        emit Recovered(tokenAddress, to, amountToRecover);
+    }
+
+    /// @notice Adds a strategy to the `PoolManager`
+    /// @param strategy The address of the strategy to add
+    /// @param _debtRatio The share of the total assets that the strategy has access to
+    /// @dev Multiple checks are made. For instance, the contract must not already belong to the `PoolManager`
+    /// and the underlying token of the strategy has to be consistent with the `PoolManager` contracts
+    /// @dev This function is a `governor` function and not a `guardian` one because a `guardian` could add a strategy
+    /// enabling the withdraw of the funds of the protocol
+    /// @dev The `_debtRatio` should be expressed in `BASE_PARAMS`
+    function addStrategy(address strategy, uint256 _debtRatio) external onlyRole(GOVERNOR_ROLE) zeroCheck(strategy) {
+        StrategyParams storage params = strategies[strategy];
+
+        require(params.lastReport == 0, "strategy already added");
+        require(address(this) == IStrategy(strategy).poolManager(), "strategy not bound to this PoolManager");
+        // Using current code, this condition should always be verified as in the constructor
+        // of the strategy the `want()` is set to the token of this `PoolManager`
+        require(address(token) == IStrategy(strategy).want(), "strategy not linked to the right token");
+        require(debtRatio + _debtRatio <= BASE_PARAMS, "debt ratio above one");
+
+        // Add strategy to approved strategies
+        params.lastReport = 1;
+        params.totalStrategyDebt = 0;
+        params.debtRatio = _debtRatio;
+
+        _grantRole(STRATEGY_ROLE, strategy);
+
+        // Update global parameters
+        debtRatio += _debtRatio;
+        emit StrategyAdded(strategy, debtRatio);
+
+        strategyList.push(strategy);
     }
 
     // =========================== Guardian Functions ==============================
@@ -253,6 +336,8 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     /// @param _debtRatio The share of the total assets that the strategy has access to
     /// @dev The update has to be such that the `debtRatio` does not exceeds the 100% threshold
     /// as this `PoolManager` cannot lend collateral that it doesn't not own.
+    /// @dev `_debtRatio` is stored as a uint256 but as any parameter of the protocol, it should be expressed
+    /// in `BASE_PARAMS`
     function updateStrategyDebtRatio(address strategy, uint256 _debtRatio) external onlyRole(GUARDIAN_ROLE) {
         _updateStrategyDebtRatio(strategy, _debtRatio);
     }
@@ -265,35 +350,6 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         IStrategy(strategy).harvest();
     }
 
-    /// @notice Adds a strategy to the `PoolManager`
-    /// @param strategy The address of the strategy to add
-    /// @param _debtRatio The share of the total assets that the strategy has access to
-    /// @dev Multiple checks are made. For instance, the contract must not already belong to the `PoolManager`
-    /// and the underlying token of the strategy has to be consistent with the `PoolManager` contracts
-    function addStrategy(address strategy, uint256 _debtRatio) external onlyRole(GUARDIAN_ROLE) zeroCheck(strategy) {
-        StrategyParams storage params = strategies[strategy];
-
-        require(params.lastReport == 0, "strategy already added");
-        require(address(this) == IStrategy(strategy).poolManager(), "strategy not bound to this PoolManager");
-        // Using current code, this condition should always be verified as in the constructor
-        // of the strategy the `want()` is set to the token of this `PoolManager`
-        require(address(token) == IStrategy(strategy).want(), "strategy not linked to the right token");
-        require(debtRatio + _debtRatio <= BASE, "debt ratio above one");
-
-        // Add strategy to approved strategies
-        params.lastReport = 1;
-        params.totalDebt = 0;
-        params.debtRatio = _debtRatio;
-
-        grantRole(STRATEGY_ROLE, strategy);
-        emit StrategyAdded(strategy, debtRatio);
-
-        // Update global parameters
-        debtRatio += _debtRatio;
-
-        strategyList.push(strategy);
-    }
-
     /// @notice Revokes a strategy
     /// @param strategy The address of the strategy to revoke
     /// @dev This should only be called after the following happened in order: the `strategy.debtRatio` has been set to 0,
@@ -302,17 +358,14 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         StrategyParams storage params = strategies[strategy];
 
         require(params.debtRatio == 0, "strategy still managing some funds");
-        require(params.totalDebt == 0, "strategy still managing some funds");
-        require(params.lastReport != 0, "invalid strategy");
-        // Checking the correctness of the platform and taking advantage of that to remove the platform
-        // from the strategyList
-        uint256 indexMet = 0;
-        for (uint256 i = 0; i < strategyList.length - 1; i++) {
+        require(params.totalStrategyDebt == 0, "strategy still managing some funds");
+        uint256 strategyListLength = strategyList.length;
+        require(params.lastReport != 0 && strategyListLength >= 1, "invalid strategy");
+        // It has already been checked whether the strategy was a valid strategy
+        for (uint256 i = 0; i < strategyListLength - 1; i++) {
             if (strategyList[i] == strategy) {
-                indexMet = 1;
-            }
-            if (indexMet == 1) {
-                strategyList[i] = strategyList[i + 1];
+                strategyList[i] = strategyList[strategyListLength - 1];
+                break;
             }
         }
 
@@ -322,7 +375,7 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         debtRatio -= params.debtRatio;
         delete strategies[strategy];
 
-        revokeRole(STRATEGY_ROLE, strategy);
+        _revokeRole(STRATEGY_ROLE, strategy);
 
         emit StrategyRevoked(strategy);
     }
@@ -342,10 +395,10 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         (amount, loss) = strategy.withdraw(amount);
 
         // Handling eventual losses
-        params.totalDebt = params.totalDebt - loss - amount;
+        params.totalStrategyDebt = params.totalStrategyDebt - loss - amount;
         totalDebt = totalDebt - loss - amount;
 
-        emit StrategyReported(msg.sender, 0, loss, amount - loss, params.totalDebt);
+        emit StrategyReported(address(strategy), 0, loss, amount - loss, params.totalStrategyDebt);
 
         // Handle eventual losses
         // With the strategy we are using in current tests, it is going to be impossible to have
@@ -355,8 +408,6 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     }
 
     // ======================== Getters - View Functions ===========================
-
-    // The following view functions have been put here because they are part of the interface
 
     /// @notice Gets the current balance of this `PoolManager` contract
     /// @return The amount of the underlying collateral that the contract currently owns

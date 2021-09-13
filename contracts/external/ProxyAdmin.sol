@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.7;
 
 import "./TransparentUpgradeableProxy.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 /**
  * @dev This is an auxiliary contract meant to be assigned as the admin of a {TransparentUpgradeableProxy}. For an
  * explanation of why you would want to use this see the documentation for {TransparentUpgradeableProxy}.
+ * This contract was fully forked from OpenZeppelin `ProxyAdmin`
  */
 contract ProxyAdmin is Ownable {
     /**

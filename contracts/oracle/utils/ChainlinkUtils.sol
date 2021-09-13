@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
 
@@ -22,7 +22,7 @@ abstract contract ChainlinkUtils {
     function _readChainlinkFeed(
         uint256 quoteAmount,
         AggregatorV3Interface feed,
-        uint256 multiplied,
+        uint8 multiplied,
         uint256 decimals,
         uint256 castedRatio
     ) internal view returns (uint256, uint256) {

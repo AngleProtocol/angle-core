@@ -1,9 +1,11 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
+import "../external/AccessControl.sol";
 
 import "../interfaces/IStrategy.sol";
 import "../interfaces/IPoolManager.sol";
@@ -19,15 +21,13 @@ contract BaseStrategyEvents {
 
     event UpdatedMaxReportDelayed(uint256 delay);
 
-    event UpdatedProfitFactor(uint256 profitFactor);
-
     event UpdatedDebtThreshold(uint256 debtThreshold);
 
     event UpdatedRewards(address rewards);
 
     event UpdatedIsRewardActivated(bool activated);
 
-    event UpdatedRewardAmount(uint256 amount);
+    event UpdatedRewardAmountAndMinimumAmountMoved(uint256 _rewardAmount, uint256 _minimumAmountMoved);
 
     event EmergencyExitActivated();
 }

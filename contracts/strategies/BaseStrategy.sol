@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "./BaseStrategyEvents.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
@@ -30,6 +30,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     /// @notice Reference to the ERC20 farmed by this strategy
     IERC20 public want;
 
+    /// @notice Base of the ERC20 token farmed by this strategy
     uint256 public wantBase;
 
     //@notice Reference to the ERC20 distributed as a reward by the strategy
@@ -45,10 +46,6 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     /// `setMaxReportDelay()` for more details
     uint256 public maxReportDelay;
 
-    /// @notice The minimum multiple that `callCost` must be above the credit/profit to
-    /// be "justifiable". See `setProfitFactor()` for more details
-    uint256 public profitFactor;
-
     /// @notice Use this to adjust the threshold at which running a debt causes a
     /// harvest trigger. See `setDebtThreshold()` for more details
     uint256 public debtThreshold;
@@ -56,8 +53,12 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     /// @notice See note on `setEmergencyExit()`
     bool public emergencyExit;
 
+    /// @notice The minimum amount moved for a call to `havest` to
+    /// be "justifiable". See `setRewardAmountAndMinimumAmountMoved()` for more details
+    uint256 public minimumAmountMoved;
+
     /// @notice Reward obtained by calling harvest
-    /// @dev If this is null rewards will never be distributed
+    /// @dev If this is null rewards is not currently being distributed
     uint256 public rewardAmount;
 
     // ============================ Constructor ====================================
@@ -76,14 +77,16 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
         poolManager = IPoolManager(_poolManager);
         want = IERC20(poolManager.token());
         wantBase = 10**(IERC20Metadata(address(want)).decimals());
-
+        // The token given as a reward to keepers should be different from the token handled by the
+        // strategy
+        require(address(_rewards) != address(want), "incorrect reward address");
         rewards = _rewards;
 
         // Initializing variables
         minReportDelay = 0;
         maxReportDelay = 86400;
-        profitFactor = 100;
         debtThreshold = 100 * BASE;
+        minimumAmountMoved = 0;
         rewardAmount = 0;
         emergencyExit = false;
 
@@ -100,7 +103,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
         _setRoleAdmin(GUARDIAN_ROLE, POOLMANAGER_ROLE);
 
         // Give `PoolManager` unlimited access (might save gas)
-        want.safeApprove(address(poolManager), type(uint256).max);
+        want.safeIncreaseAllowance(address(poolManager), type(uint256).max);
     }
 
     // ========================== Core functions ===================================
@@ -148,7 +151,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
                 ((block.timestamp - lastReport >= maxReportDelay) || // If hasn't been called in a while
                     (debtPayment > debtThreshold) || // If the debt was too high
                     (loss > 0) || // If some loss occured
-                    (profitFactor * rewardAmount < want.balanceOf(address(this)) + profit)) // If the amount moved was significant
+                    (minimumAmountMoved < want.balanceOf(address(this)) + profit)) // If the amount moved was significant
             ) {
                 rewards.safeTransfer(msg.sender, rewardAmount);
             }
@@ -182,16 +185,6 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
 
     // ============================ View functions =================================
 
-    /// @notice Provides an accurate conversion from `_amtInWei` (denominated in wei)
-    /// to `want` (using the native decimal characteristics of `want`).
-    /// @param @param _amtInWei The amount (in wei/1e-18 ETH) to convert to `want`
-    /// @return The amount in `want` of `_amtInEth` converted to `want`
-    /// @dev  Care must be taken when working with decimals to assure that the conversion
-    /// is compatible. As an example:
-    /// given 1e17 wei (0.1 ETH) as input, and want is USDC (6 decimals),
-    /// with USDC/ETH = 1800, this should give back 1800000000 (180 USDC)
-    function ethToWant(uint256 _amtInWei) public view virtual returns (uint256);
-
     /// @notice Provides an accurate estimate for the total amount of assets
     /// (principle + return) that this Strategy is currently managing,
     /// denominated in terms of `want` tokens.
@@ -224,17 +217,15 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     /// position would be negatively affected if `harvest()` is not called
     /// shortly, then this can return `true` even if the keeper might be "at a
     /// loss"
-    /// @param callCostInWei The keeper's estimated gas cost to call `harvest()` (in wei).
     /// @return `true` if `harvest()` should be called, `false` otherwise.
     /// @dev `callCostInWei` must be priced in terms of `wei` (1e-18 ETH).
-    /// @dev See `min/maxReportDelay`, `profitFactor`, `debtThreshold` to adjust the
+    /// @dev See `min/maxReportDelay`, `debtThreshold` to adjust the
     /// strategist-controlled parameters that will influence whether this call
     /// returns `true` or not. These parameters will be used in conjunction
     /// with the parameters reported to the Manager (see `params`) to determine
     /// if calling `harvest()` is merited.
     /// @dev This function has been tested in a branch different from the main branch
-    function harvestTrigger(uint256 callCostInWei) public view virtual returns (bool) {
-        uint256 callCost = ethToWant(callCostInWei);
+    function harvestTrigger() external view virtual returns (bool) {
         StrategyParams memory params = poolManager.strategies(address(this));
 
         // Should not trigger if we haven't waited long enough since previous harvest
@@ -256,16 +247,16 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
         uint256 total = estimatedTotalAssets();
         // Trigger if we have a loss to report
 
-        if (total + debtThreshold < params.totalDebt) return true;
+        if (total + debtThreshold < params.totalStrategyDebt) return true;
 
         uint256 profit = 0;
-        if (total > params.totalDebt) profit = total - params.totalDebt; // We've earned a profit!
+        if (total > params.totalStrategyDebt) profit = total - params.totalStrategyDebt; // We've earned a profit!
 
         // Otherwise, only trigger if it "makes sense" economically (gas cost
         // is <N% of value moved)
         uint256 credit = poolManager.creditAvailable();
 
-        return (profitFactor * callCost < credit + profit);
+        return (minimumAmountMoved < credit + profit);
     }
 
     // ============================ Internal Functions =============================
@@ -361,17 +352,23 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     /// @notice Used to change `rewards`.
     /// @param _rewards The address to use for pulling rewards.
     function setRewards(IERC20 _rewards) external onlyRole(GUARDIAN_ROLE) {
-        require(address(_rewards) != address(0), "incorrect address");
+        require(address(_rewards) != address(0) && address(_rewards) != address(want), "incorrect reward address");
         rewards = _rewards;
         emit UpdatedRewards(address(_rewards));
     }
 
-    /// @notice Used to change the reward amount
-    /// @param amount The new amount of reward given to keepers
-    /// @dev A null reward amount corresponds to reward distribution being activated
-    function setRewardAmount(uint256 amount) external onlyRole(GUARDIAN_ROLE) {
-        rewardAmount = amount;
-        emit UpdatedRewardAmount(amount);
+    /// @notice Used to change the reward amount and the `minimumAmountMoved` parameter
+    /// @param _rewardAmount The new amount of reward given to keepers
+    /// @param _minimumAmountMoved The new minimum amount of collateral moved for a call to `harvest` to be
+    /// considered profitable and justifying a reward given to the keeper calling the function
+    /// @dev A null reward amount corresponds to reward distribution being deactivated
+    function setRewardAmountAndMinimumAmountMoved(uint256 _rewardAmount, uint256 _minimumAmountMoved)
+        external
+        onlyRole(GUARDIAN_ROLE)
+    {
+        rewardAmount = _rewardAmount;
+        minimumAmountMoved = _minimumAmountMoved;
+        emit UpdatedRewardAmountAndMinimumAmountMoved(_rewardAmount, _minimumAmountMoved);
     }
 
     /// @notice Used to change `minReportDelay`. `minReportDelay` is the minimum number
@@ -394,14 +391,6 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     function setMaxReportDelay(uint256 _delay) external onlyRole(GUARDIAN_ROLE) {
         maxReportDelay = _delay;
         emit UpdatedMaxReportDelayed(_delay);
-    }
-
-    /// @notice Used to change `profitFactor`. `profitFactor` is used to determine
-    /// if it's worthwhile to harvest, given gas costs.
-    /// @param _profitFactor A ratio to multiply anticipated
-    function setProfitFactor(uint256 _profitFactor) external onlyRole(GUARDIAN_ROLE) {
-        profitFactor = _profitFactor;
-        emit UpdatedProfitFactor(_profitFactor);
     }
 
     /// @notice Sets how far the Strategy can go into loss without a harvest and report
