@@ -61,7 +61,8 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
         address guardian,
         address rewardTokenAddress
     ) {
-        require(rewardTokenAddress != address(0) && guardian != address(0), "zero address");
+        require(rewardTokenAddress != address(0) && guardian != address(0), "0");
+        require(governorList.length > 0, "47");
         rewardToken = IERC20(rewardTokenAddress);
         // Since this contract is independent from the rest of the protocol
         // When updating the governor list, governors should make sure to still update the roles
@@ -69,7 +70,7 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
         _setRoleAdmin(GOVERNOR_ROLE, GOVERNOR_ROLE);
         _setRoleAdmin(GUARDIAN_ROLE, GOVERNOR_ROLE);
         for (uint256 i = 0; i < governorList.length; i++) {
-            require(governorList[i] != address(0), "zero address");
+            require(governorList[i] != address(0), "0");
             _setupRole(GOVERNOR_ROLE, governorList[i]);
             _setupRole(GUARDIAN_ROLE, governorList[i]);
         }
@@ -89,12 +90,12 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     /// the duration of the distribution
     function drip(IStakingRewards stakingContract) external override returns (uint256) {
         StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
-        require(stakingParams.duration > 0, "invalid staking contract");
-        require(_isDripAvailable(stakingParams), "not passed drip frequency");
+        require(stakingParams.duration > 0, "80");
+        require(_isDripAvailable(stakingParams), "81");
 
         uint256 dripAmount = _computeDripAmount(stakingParams);
         stakingParams.lastDistributionTime = block.timestamp;
-        require(dripAmount != 0, "no rewards");
+        require(dripAmount != 0, "82");
         stakingParams.distributedRewards += dripAmount;
         emit Dripped(msg.sender, dripAmount, address(stakingContract));
 
@@ -144,11 +145,8 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
         // in the `setStakingContract` function that reward tokens are compatible with the `rewardsDistributor`. If
         // the `newRewardsDistributor` has a compatible rewards token, then all staking contracts will automatically be
         // compatible with it
-        require(
-            address(IRewardsDistributor(newRewardsDistributor).rewardToken()) == address(rewardToken),
-            "incompatible reward tokens"
-        );
-        require(newRewardsDistributor != address(this), "incorrect rewards distributor");
+        require(address(IRewardsDistributor(newRewardsDistributor).rewardToken()) == address(rewardToken), "83");
+        require(newRewardsDistributor != address(this), "84");
         for (uint256 i = 0; i < stakingContractsList.length; i++) {
             stakingContractsList[i].setNewRewardsDistribution(newRewardsDistributor);
         }
@@ -165,7 +163,7 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     function removeStakingContract(IStakingRewards stakingContract) external override onlyRole(GOVERNOR_ROLE) {
         uint256 indexMet;
         uint256 stakingContractsListLength = stakingContractsList.length;
-        require(stakingContractsListLength >= 1, "incorrect staking contract");
+        require(stakingContractsListLength >= 1, "80");
         for (uint256 i = 0; i < stakingContractsListLength - 1; i++) {
             if (stakingContractsList[i] == stakingContract) {
                 indexMet = 1;
@@ -173,10 +171,7 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
                 break;
             }
         }
-        require(
-            indexMet == 1 || stakingContractsList[stakingContractsListLength - 1] == stakingContract,
-            "incorrect staking contract"
-        );
+        require(indexMet == 1 || stakingContractsList[stakingContractsListLength - 1] == stakingContract, "80");
 
         stakingContractsList.pop();
 
@@ -202,12 +197,12 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
         uint256 _updateFrequency,
         uint256 _amountToDistribute
     ) external override onlyRole(GOVERNOR_ROLE) {
-        require(_duration > 0, "null duration");
-        require(_duration >= _updateFrequency && block.timestamp >= _updateFrequency, "too high frequency");
+        require(_duration > 0, "85");
+        require(_duration >= _updateFrequency && block.timestamp >= _updateFrequency, "86");
 
         IStakingRewards stakingContract = IStakingRewards(_stakingContract);
 
-        require(stakingContract.rewardToken() == rewardToken, "incompatible reward tokens");
+        require(stakingContract.rewardToken() == rewardToken, "83");
 
         StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
 
@@ -233,8 +228,8 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
         onlyRole(GUARDIAN_ROLE)
     {
         StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
-        require(stakingParams.duration > 0, "invalid staking contract");
-        require(stakingParams.duration >= _updateFrequency, "frequency exceeds duration");
+        require(stakingParams.duration > 0, "80");
+        require(stakingParams.duration >= _updateFrequency, "87");
         stakingParams.updateFrequency = _updateFrequency;
         emit FrequencyUpdated(_updateFrequency, address(stakingContract));
     }
@@ -248,7 +243,7 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
         onlyRole(GUARDIAN_ROLE)
     {
         StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
-        require(stakingParams.duration > 0, "invalid staking contract");
+        require(stakingParams.duration > 0, "80");
         stakingParams.incentiveAmount = _incentiveAmount;
         emit IncentiveUpdated(_incentiveAmount, address(stakingContract));
     }
@@ -262,8 +257,8 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
         onlyRole(GUARDIAN_ROLE)
     {
         StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
-        require(stakingParams.duration > 0, "invalid staking contract");
-        require(stakingParams.distributedRewards < _amountToDistribute, "invalid amount to distribute");
+        require(stakingParams.duration > 0, "80");
+        require(stakingParams.distributedRewards < _amountToDistribute, "88");
         stakingParams.amountToDistribute = _amountToDistribute;
         emit AmountToDistributeUpdated(_amountToDistribute, address(stakingContract));
     }
@@ -273,10 +268,10 @@ contract RewardsDistributor is RewardsDistributorEvents, IRewardsDistributor, Ac
     /// @param stakingContract Reference to the staking contract
     function setDuration(uint256 _duration, IStakingRewards stakingContract) external override onlyRole(GUARDIAN_ROLE) {
         StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
-        require(stakingParams.duration > 0, "invalid staking contract");
-        require(_duration >= stakingParams.updateFrequency, "frequency exceeds duration");
+        require(stakingParams.duration > 0, "80");
+        require(_duration >= stakingParams.updateFrequency, "87");
         uint256 timeElapsed = _timeSinceStart(stakingParams);
-        require(timeElapsed < stakingParams.duration && timeElapsed < _duration, "too high amount");
+        require(timeElapsed < stakingParams.duration && timeElapsed < _duration, "66");
         stakingParams.duration = _duration;
         emit DurationUpdated(_duration, address(stakingContract));
     }

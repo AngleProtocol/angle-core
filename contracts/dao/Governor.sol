@@ -69,7 +69,7 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
             "invalid proposal threshold"
         );
 
-        admin = admin_;
+        adminAddress = admin_;
         timelock = ITimelock(timelock_);
         angle = ANGLEInterface(angle_);
         votingPeriod = votingPeriod_;
@@ -358,7 +358,7 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
     /// @notice Admin function for setting the voting delay
     /// @param newVotingDelay New voting delay, in blocks
     function setVotingDelay(uint256 newVotingDelay) external {
-        require(msg.sender == admin, "admin only");
+        require(msg.sender == adminAddress, "admin only");
         require(newVotingDelay >= MIN_VOTING_DELAY && newVotingDelay <= MAX_VOTING_DELAY, "invalid voting delay");
         uint256 oldVotingDelay = votingDelay;
         votingDelay = newVotingDelay;
@@ -369,7 +369,7 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
     /// @notice Admin function for setting the voting period
     /// @param newVotingPeriod New voting period, in blocks
     function setVotingPeriod(uint256 newVotingPeriod) external {
-        require(msg.sender == admin, "admin only");
+        require(msg.sender == adminAddress, "admin only");
         require(newVotingPeriod >= MIN_VOTING_PERIOD && newVotingPeriod <= MAX_VOTING_PERIOD, "invalid voting period");
         uint256 oldVotingPeriod = votingPeriod;
         votingPeriod = newVotingPeriod;
@@ -381,7 +381,7 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
     /// @param newProposalThreshold New proposal threshold
     /// @dev newProposalThreshold Must be greater than the hardcoded min
     function setProposalThreshold(uint256 newProposalThreshold) external {
-        require(msg.sender == admin, "admin only");
+        require(msg.sender == adminAddress, "admin only");
         require(
             newProposalThreshold >= MIN_PROPOSAL_THRESHOLD && newProposalThreshold <= MAX_PROPOSAL_THRESHOLD,
             "invalid proposal threshold"
@@ -397,7 +397,7 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
     /// @param newPendingAdmin New pending admin.
     function setPendingAdmin(address newPendingAdmin) external {
         // Check caller = admin
-        require(msg.sender == admin, "admin only");
+        require(msg.sender == adminAddress, "admin only");
         require(newPendingAdmin != address(0), "zero address");
 
         // Save current value, if any, for inclusion in log
@@ -417,16 +417,16 @@ contract Governor is GovernorStorage, AccessControlUpgradeable {
         require(msg.sender == pendingAdmin && msg.sender != address(0), "pending admin only");
 
         // Save current values for inclusion in log
-        address oldAdmin = admin;
+        address oldAdmin = adminAddress;
         address oldPendingAdmin = pendingAdmin;
 
         // Store admin with value pendingAdmin
-        admin = pendingAdmin;
+        adminAddress = pendingAdmin;
 
         // Clear the pending value
         pendingAdmin = address(0);
 
-        emit NewAdmin(oldAdmin, admin);
+        emit NewAdmin(oldAdmin, adminAddress);
         emit NewPendingAdmin(oldPendingAdmin, pendingAdmin);
     }
 

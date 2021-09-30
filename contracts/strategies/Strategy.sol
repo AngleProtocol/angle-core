@@ -35,7 +35,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
         address[] memory governorList,
         address guardian
     ) BaseStrategy(_poolManager, _rewards, governorList, guardian) {
-        require(guardian != address(0) && address(_rewards) != address(0), "zero address");
+        require(guardian != address(0) && address(_rewards) != address(0), "0");
     }
 
     // ========================== Internal Mechanics ===============================
@@ -372,7 +372,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
                     found = true;
                 }
             }
-            require(found, "invalid lender");
+            require(found, "94");
 
             share = share + _newPositions[i].share;
             uint256 toSend = (assets * _newPositions[i].share) / 1000;
@@ -380,7 +380,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
             IGenericLender(_newPositions[i].lender).deposit();
         }
 
-        require(share == 1000, "invalid shares");
+        require(share == 1000, "95");
     }
 
     /// @notice Changes the withdrawal threshold
@@ -394,10 +394,10 @@ contract Strategy is StrategyEvents, BaseStrategy {
     /// @param newLender The adapter to the added lending platform
     /// @dev Governor, guardian or `PoolManager` only
     function addLender(IGenericLender newLender) external onlyRole(GUARDIAN_ROLE) {
-        require(newLender.strategy() == address(this), "undocked lender");
+        require(newLender.strategy() == address(this), "96");
 
         for (uint256 i = 0; i < lenders.length; i++) {
-            require(address(newLender) != address(lenders[i]), "already added");
+            require(address(newLender) != address(lenders[i]), "97");
         }
         lenders.push(newLender);
 
@@ -426,7 +426,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
                 bool allWithdrawn = lendersList[i].withdrawAll();
 
                 if (!force) {
-                    require(allWithdrawn, "withdrawal failed");
+                    require(allWithdrawn, "98");
                 }
 
                 // Put the last index here
@@ -448,7 +448,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
                 return;
             }
         }
-        require(false, "invalid lender");
+        require(false, "94");
     }
 
     // ========================== Manager functions ================================

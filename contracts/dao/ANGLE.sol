@@ -29,7 +29,7 @@ contract ANGLE is ERC20VotesComp {
     /// @param account Initial account to grant all the tokens to
     /// @param minter_ Account with minting ability
     constructor(address account, address minter_) ERC20Permit("ANGLE") ERC20("ANGLE", "ANGLE") {
-        require(account != address(0) && minter_ != address(0), "zero address");
+        require(account != address(0) && minter_ != address(0), "0");
         _mint(account, 1_000_000_000e18); // 1 billion ANGLE
         minter = minter_;
         emit MinterChanged(address(0), minter);
@@ -39,8 +39,8 @@ contract ANGLE is ERC20VotesComp {
     /// @notice Changes the minter address
     /// @param minter_ Address of the new minter
     function setMinter(address minter_) external {
-        require(msg.sender == minter, "only the minter can change the minter address");
-        require(minter_ != address(0), "zero address");
+        require(msg.sender == minter, "67");
+        require(minter_ != address(0), "0");
         emit MinterChanged(minter, minter_);
         minter = minter_;
     }
@@ -49,9 +49,9 @@ contract ANGLE is ERC20VotesComp {
     /// @param dst Address of the destination account
     /// @param amount Number of tokens to be minted
     function mint(address dst, uint256 amount) external {
-        require(msg.sender == minter, "only the minter can mint");
-        require(block.timestamp >= mintingAllowedAfter, "minting not allowed yet");
-        require(amount <= (totalSupply() * MAX_MINT) / 100, "exceeded mint cap");
+        require(msg.sender == minter, "68");
+        require(block.timestamp >= mintingAllowedAfter, "69");
+        require(amount <= (totalSupply() * MAX_MINT) / 100, "70");
         // Record the mint
         mintingAllowedAfter = block.timestamp + MINIMUM_BETWEEN_MINTS;
 

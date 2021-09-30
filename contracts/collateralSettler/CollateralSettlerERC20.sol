@@ -163,7 +163,7 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
     modifier onlyClaimPeriod() {
         require(
             startTimestamp != 0 && block.timestamp < claimTime + startTimestamp && block.timestamp > startTimestamp,
-            "invalid claim time"
+            "57"
         );
         _;
     }
@@ -173,7 +173,7 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
     /// @dev As the `baseAmountToEachComputed` can only be changed from 0 during redeem period, this modifier
     /// allows at the same time to check if claim period is over
     modifier onlyBaseAmountsComputed() {
-        require(baseAmountToEachComputed != 0, "base amounts not computed");
+        require(baseAmountToEachComputed != 0, "58");
         _;
     }
 
@@ -190,7 +190,7 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
         uint256 _claimTime,
         address[] memory governorList
     ) {
-        require(address(_angle) != address(0), "zero address");
+        require(address(_angle) != address(0), "0");
         // Retrieving from the `_poolManager` all the correct references, this guarantees the integrity of the contract
         poolManager = _poolManager;
         perpetualManager = IPerpetualManagerFront(_poolManager.perpetualManager());
@@ -207,7 +207,7 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
 
         // Access control
         for (uint256 i = 0; i < governorList.length; i++) {
-            require(governorList[i] != address(0), "zero address");
+            require(governorList[i] != address(0), "0");
             _setupRole(GOVERNOR_ROLE, governorList[i]);
             // Governors also have the `STABLEMASTER_ROLE` to allow them to trigger settlement directly
             _setupRole(STABLEMASTER_ROLE, governorList[i]);
@@ -240,8 +240,8 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
         uint256 _sanRate,
         uint256 _stocksUsers
     ) external override onlyRole(STABLEMASTER_ROLE) {
-        require(startTimestamp == 0, "settlement already activated");
-        require(proportionalRatioGovLP != 0 && proportionalRatioGovUser != 0, "invalid proportion");
+        require(startTimestamp == 0, "59");
+        require(proportionalRatioGovLP != 0 && proportionalRatioGovUser != 0, "60");
         oracleValueHA = _oracleValue;
         sanRate = _sanRate;
         maxStablecoinsClaimable = _stocksUsers;
@@ -262,11 +262,8 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
         uint256 amountAgToken,
         uint256 amountGovToken
     ) external onlyClaimPeriod whenNotPaused {
-        require(dest != address(0), "zero address");
-        require(
-            totalUserClaimsWithGov + totalUserClaims + amountAgToken <= maxStablecoinsClaimable,
-            "too many stablecoins claimed"
-        );
+        require(dest != address(0), "0");
+        require(totalUserClaimsWithGov + totalUserClaims + amountAgToken <= maxStablecoinsClaimable, "61");
         // Since this involves a `transferFrom`, it is normal to update the variables after the transfers are done
         // No need to use `safeTransfer` for agTokens and ANGLE tokens
         agToken.transferFrom(msg.sender, address(this), amountAgToken);
@@ -298,11 +295,11 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
     /// @dev If the perpetual of the HA should be liquidated then, this HA will not be able to get
     /// a claim on the remaining collateral
     function claimHA(uint256 perpetualID, uint256 amountGovToken) external onlyClaimPeriod whenNotPaused {
-        require(perpetualManager.isApprovedOrOwner(msg.sender, perpetualID), "not approved");
+        require(perpetualManager.isApprovedOrOwner(msg.sender, perpetualID), "21");
         // Getting the owner of the perpetual
         // The zero address cannot own a perpetual
         address dest = perpetualManager.ownerOf(perpetualID);
-        require(haClaimCheck[perpetualID] == 0, "perpetual already claimed");
+        require(haClaimCheck[perpetualID] == 0, "64");
         // A HA cannot claim a given perpetual twice
         haClaimCheck[perpetualID] = 1;
         // Computing the amount of the claim from the perpetual
@@ -328,7 +325,7 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
         uint256 amountSanToken,
         uint256 amountGovToken
     ) external onlyClaimPeriod whenNotPaused {
-        require(dest != address(0), "zero address");
+        require(dest != address(0), "0");
         sanToken.transferFrom(msg.sender, address(this), amountSanToken);
         // Computing the amount of the claim from the number of sanTokens sent
         uint256 amountInC = (amountSanToken * sanRate) / BASE_TOKENS;
@@ -344,9 +341,9 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
     /// categories of stakeholders and of claims is executed
     function setAmountToRedistributeEach() external whenNotPaused {
         // Checking if it is the right time to call the function: claim period should be over
-        require(startTimestamp != 0 && block.timestamp > claimTime + startTimestamp, "invalid redeem time");
+        require(startTimestamp != 0 && block.timestamp > claimTime + startTimestamp, "63");
         // This is what guarantees that this function can only be computed once
-        require(baseAmountToEachComputed == 0, "base amounts already computed");
+        require(baseAmountToEachComputed == 0, "62");
         baseAmountToEachComputed = 1;
         // Fetching the oracle value at which stablecoins will be converted to collateral
         oracleValueUsers = oracle.readLower();
@@ -432,7 +429,7 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
     /// @dev This function should typically be called after the settlement trigger and after this contract
     /// receives more collateral
     function setAmountToRedistribute(uint256 newAmountToRedistribute) external onlyRole(GOVERNOR_ROLE) onlyClaimPeriod {
-        require(underlyingToken.balanceOf(address(this)) >= newAmountToRedistribute, "too high amount");
+        require(underlyingToken.balanceOf(address(this)) >= newAmountToRedistribute, "66");
         amountToRedistribute = newAmountToRedistribute;
 
         emit AmountRedistributeUpdated(amountToRedistribute);
@@ -451,7 +448,7 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
         uint256 amountToRecover
     ) external onlyRole(GOVERNOR_ROLE) onlyBaseAmountsComputed {
         if (tokenAddress == address(underlyingToken)) {
-            require(amountToRedistribute >= amountToRecover, "too big amount");
+            require(amountToRedistribute >= amountToRecover, "66");
             amountToRedistribute -= amountToRecover;
             underlyingToken.safeTransfer(to, amountToRecover);
         } else {
@@ -470,7 +467,7 @@ contract CollateralSettlerERC20 is CollateralSettlerERC20Events, ICollateralSett
         external
         onlyRole(GOVERNOR_ROLE)
     {
-        require(startTimestamp == 0, "ratios cannot be modified after start");
+        require(startTimestamp == 0, "65");
         proportionalRatioGovUser = _proportionalRatioGovUser;
         proportionalRatioGovLP = _proportionalRatioGovLP;
         emit ProportionalRatioGovUpdated(proportionalRatioGovUser, proportionalRatioGovLP);

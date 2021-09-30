@@ -161,7 +161,7 @@ contract PerpetualManagerInternal is PerpetualManagerStorage {
         // If HAs hedge more than the target amount, then new HAs will not be able to create perpetuals
         // The amount hedged by HAs after opening the perpetual is going to be:
         uint64 ratio = _computeHedgeRatio(totalHedgeAmount + totalHedgeAmountUpdate);
-        require(ratio < uint64(BASE_PARAMS), "too much collateral covered");
+        require(ratio < uint64(BASE_PARAMS), "25");
         // Computing the net margin of HAs to store in the perpetual: it consists simply in deducing fees
         // Those depend on how much is already hedged by HAs compared with what's to hedge
         uint256 haFeesDeposit = (haBonusMalusDeposit * _piecewiseLinear(ratio, xHAFeesDeposit, yHAFeesDeposit)) /
@@ -191,13 +191,18 @@ contract PerpetualManagerInternal is PerpetualManagerStorage {
         feesPaid = (haBonusMalusWithdraw * _piecewiseLinear(ratio, xHAFeesWithdraw, yHAFeesWithdraw)) / BASE_PARAMS;
         // Rounding the fees at the protocol's advantage
         feesPaid = committedAmount - (committedAmount * (BASE_PARAMS - feesPaid)) / BASE_PARAMS;
-        netCashOutAmount = (feesPaid >= cashOutAmount) ? 0 : cashOutAmount - feesPaid;
+        if (feesPaid >= cashOutAmount) {
+            netCashOutAmount = 0;
+            feesPaid = cashOutAmount;
+        } else {
+            netCashOutAmount = cashOutAmount - feesPaid;
+        }
     }
 
     // ========================= Reward Distribution ===============================
 
     /// @notice View function to query the last timestamp at which a reward was distributed
-    /// @return Current timestamp if a reward is being distributed or the last timestep
+    /// @return Current timestamp if a reward is being distributed or the last timestamp
     function _lastTimeRewardApplicable() internal view returns (uint256) {
         uint256 returnValue = block.timestamp < periodFinish ? block.timestamp : periodFinish;
         return returnValue;
@@ -279,7 +284,7 @@ contract PerpetualManagerInternal is PerpetualManagerStorage {
     /// @return owner Owner of the perpetual
     function _ownerOf(uint256 perpetualID) internal view returns (address owner) {
         owner = _owners[perpetualID];
-        require(owner != address(0), "nonexistent perpetual");
+        require(owner != address(0), "2");
     }
 
     /// @notice Gets the addresses approved for a perpetual
@@ -307,7 +312,7 @@ contract PerpetualManagerInternal is PerpetualManagerStorage {
         bytes memory _data
     ) internal {
         _transfer(from, to, perpetualID);
-        require(_checkOnERC721Received(from, to, perpetualID, _data), "transfer to non ERC721Receiver implementer");
+        require(_checkOnERC721Received(from, to, perpetualID, _data), "24");
     }
 
     /// @notice Returns whether `perpetualID` exists
@@ -336,7 +341,7 @@ contract PerpetualManagerInternal is PerpetualManagerStorage {
         _balances[to] += 1;
         _owners[perpetualID] = to;
         emit Transfer(address(0), to, perpetualID);
-        require(_checkOnERC721Received(address(0), to, perpetualID, ""), "transfer to non ERC721Receiver implementer");
+        require(_checkOnERC721Received(address(0), to, perpetualID, ""), "24");
     }
 
     /// @notice Destroys `perpetualID`
@@ -364,8 +369,8 @@ contract PerpetualManagerInternal is PerpetualManagerStorage {
         address to,
         uint256 perpetualID
     ) internal {
-        require(_ownerOf(perpetualID) == from, "incorrect caller");
-        require(to != address(0), "transfer to the zero address");
+        require(_ownerOf(perpetualID) == from, "1");
+        require(to != address(0), "26");
 
         // Clear approvals from the previous owner
         _approve(address(0), perpetualID);
@@ -403,7 +408,7 @@ contract PerpetualManagerInternal is PerpetualManagerStorage {
                 return retval == IERC721ReceiverUpgradeable(to).onERC721Received.selector;
             } catch (bytes memory reason) {
                 if (reason.length == 0) {
-                    revert("ERC721Receiver not implemented");
+                    revert("24");
                 } else {
                     // solhint-disable-next-line no-inline-assembly
                     assembly {

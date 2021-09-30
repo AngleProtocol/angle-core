@@ -188,7 +188,7 @@ abstract contract AccessControlUpgradeable is Initializable, IAccessControl {
      * - the caller must be `account`.
      */
     function renounceRole(bytes32 role, address account) external override {
-        require(account == msg.sender, "AccessControl: can only renounce roles for self");
+        require(account == msg.sender, "71");
 
         _revokeRole(role, account);
     }

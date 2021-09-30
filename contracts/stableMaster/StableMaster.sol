@@ -190,10 +190,10 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
     /// @dev This function can be called by the `agToken` contract after a burn of agTokens for which no collateral has been
     /// redeemed
     function updateStocksUsers(uint256 amount, address poolManager) external override {
-        require(msg.sender == address(agToken), "invalid call");
+        require(msg.sender == address(agToken), "3");
         Collateral storage col = collateralMap[IPoolManager(poolManager)];
         _contractMapCheck(col);
-        require(col.stocksUsers >= amount, "incompatible value");
+        require(col.stocksUsers >= amount, "4");
         col.stocksUsers -= amount;
         emit StocksUsersUpdated(address(col.token), col.stocksUsers);
     }
@@ -298,16 +298,16 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
                 // If the `feeManager` is not initialized with the correct `poolManager` then this function
                 // will revert when `poolManager.deployCollateral` will be executed
                 feeManager.stableMaster() == address(this),
-            "invalid reference"
+            "9"
         );
         // Checking if the base of the tokens and of the oracle are not similar with one another
         address token = poolManager.token();
         uint256 collatBase = 10**(IERC20Metadata(token).decimals());
         // If the address of the oracle was the zero address, the following would revert
-        require(oracle.inBase() == collatBase, "invalid oracle base");
+        require(oracle.inBase() == collatBase, "11");
         // Checking if the collateral has not already been deployed
         Collateral storage col = collateralMap[poolManager];
-        require(address(col.token) == address(0), "deployed");
+        require(address(col.token) == address(0), "13");
 
         // Creating the correct references
         col.token = IERC20(token);
@@ -357,7 +357,7 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
         // the `poolManager` from the list
         uint256 indexMet;
         uint256 managerListLength = _managerList.length;
-        require(managerListLength >= 1, "incorrect poolManager");
+        require(managerListLength >= 1, "10");
         for (uint256 i = 0; i < managerListLength - 1; i++) {
             if (_managerList[i] == poolManager) {
                 indexMet = 1;
@@ -365,7 +365,7 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
                 break;
             }
         }
-        require(indexMet == 1 || _managerList[managerListLength - 1] == poolManager, "incorrect poolManager");
+        require(indexMet == 1 || _managerList[managerListLength - 1] == poolManager, "10");
         _managerList.pop();
         Collateral memory col = collateralMap[poolManager];
 
@@ -443,7 +443,7 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
         _contractMapCheck(colDown);
         // The invariant `col.stocksUsers <= col.capOnStableMinted` should remain true even after a
         // governance update
-        require(colUp.stocksUsers + amount <= colUp.feeData.capOnStableMinted, "incompatible parameters");
+        require(colUp.stocksUsers + amount <= colUp.feeData.capOnStableMinted, "8");
         colDown.stocksUsers -= amount;
         colUp.stocksUsers += amount;
         emit StocksUsersUpdated(address(colUp.token), colUp.stocksUsers);
@@ -462,9 +462,9 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
         Collateral storage col = collateralMap[poolManager];
         // Checking for the `poolManager`
         _contractMapCheck(col);
-        require(col.oracle != _oracle, "identical oracle");
+        require(col.oracle != _oracle, "12");
         // The `inBase` of the new oracle should be the same as the `_collatBase` stored for this collateral
-        require(col.collatBase == _oracle.inBase(), "incorrect oracle base");
+        require(col.collatBase == _oracle.inBase(), "11");
         col.oracle = _oracle;
         emit OracleUpdated(address(poolManager), address(_oracle));
         col.perpetualManager.setOracle(_oracle);
@@ -486,7 +486,7 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
         _contractMapCheck(col);
         // The invariant `col.stocksUsers <= col.capOnStableMinted` should remain true even after a
         // governance update
-        require(_capOnStableMinted >= col.stocksUsers, "incompatible parameters");
+        require(_capOnStableMinted >= col.stocksUsers, "8");
         col.feeData.capOnStableMinted = _capOnStableMinted;
         col.slpData.maxInterestsDistributed = _maxInterestsDistributed;
         emit CapOnStableAndMaxInterestsUpdated(address(poolManager), _capOnStableMinted, _maxInterestsDistributed);
@@ -505,8 +505,8 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
         Collateral storage col = collateralMap[poolManager];
         // Checking for the `poolManager`
         _contractMapCheck(col);
-        require(_contractMap[oldFeeManager] == poolManager, "invalid manager");
-        require(newFeeManager != oldFeeManager, "identical fee manager");
+        require(_contractMap[oldFeeManager] == poolManager, "10");
+        require(newFeeManager != oldFeeManager, "14");
         delete _contractMap[oldFeeManager];
         _contractMap[newFeeManager] = poolManager;
         emit FeeManagerUpdated(address(poolManager), newFeeManager);

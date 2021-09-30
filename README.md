@@ -8,14 +8,18 @@ It is possible to find documentation to understand the Angle Protocol on https:/
 Developers documentation to understand the smart contract architecture can be found here: https://angle.gitbook.io/developers/.
 
 ## Some Remarks on the Code
+
 Our developers documentation is not completely up-to date with the changes we have recently made. The source of truth when it comes to the protocol is what is in the contracts. We will try to update it as soon as possible.
 
 The interfaces we define in the smart contracts are for our own usage. We will work on a SDK where we define the correct interfaces to integrate with our contracts.
 
 There are some risks and vulnerabilities in our code we are aware of. In the code, in each situation where a risk arises, we try to mention it in the comments. A non-exhaustive list of such risks includes:
+
 - Front-running risks for keepers interacting with our contracts: there are some functions which gives rewards to the address calling it and it is easy to get front-ran by miners when calling these functions
 - Reentrancy risks: when running Slither, some reentrancy risks arise. In most situations, these happen for riskless calls to trusted smart contracts of the protocol
-- Dependence on a careful governance for some changes at the protocol level. Extreme care must be taken when deploying and when updating roles. For instance when adding a new governor, as to propagate the changes across all contracts of the protocol, several transactions may be needed 
+- Dependence on a careful governance for some changes at the protocol level. Extreme care must be taken when deploying and when updating roles. For instance when adding a new governor, as to propagate the changes across all contracts of the protocol, several transactions may be needed
+
+The smart contracts use error messages. To optimize for gas, these error messages are encoded in numbers rather than in plain text. The conversion from numbers to error messages can be found in `errorMessages.json`.
 
 ## Usage
 

@@ -58,7 +58,7 @@ contract SanToken is ISanToken, ERC20PermitUpgradeable {
     /// @notice Checks to see if it is the `StableMaster` calling this contract
     /// @dev There is no Access Control here, because it can be handled cheaply through these modifiers
     modifier onlyStableMaster() {
-        require(msg.sender == stableMaster, "incorrect caller");
+        require(msg.sender == stableMaster, "1");
         _;
     }
 
@@ -109,7 +109,7 @@ contract SanToken is ISanToken, ERC20PermitUpgradeable {
         address sender
     ) external override onlyStableMaster {
         uint256 currentAllowance = allowance(burner, sender);
-        require(currentAllowance >= amount, "burn amount exceeds allowance");
+        require(currentAllowance >= amount, "23");
         _approve(burner, sender, currentAllowance - amount);
         _burn(burner, amount);
     }

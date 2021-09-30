@@ -23,8 +23,8 @@ abstract contract ModuleChainlinkMulti is ChainlinkUtils {
     /// @param _circuitChainIsMultiplied Whether we should multiply or divide by this rate when computing Chainlink price
     constructor(address[] memory _circuitChainlink, uint8[] memory _circuitChainIsMultiplied) {
         uint256 circuitLength = _circuitChainlink.length;
-        require(circuitLength > 0, "incorrect Chainlink circuit length");
-        require(circuitLength == _circuitChainIsMultiplied.length, "incompatible lengths");
+        require(circuitLength > 0, "106");
+        require(circuitLength == _circuitChainIsMultiplied.length, "104");
         for (uint256 i = 0; i < circuitLength; i++) {
             AggregatorV3Interface _pool = AggregatorV3Interface(_circuitChainlink[i]);
             circuitChainlink.push(_pool);

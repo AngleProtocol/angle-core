@@ -60,7 +60,7 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
         require(
             (address(allowedStablecoins[token]) != address(0)) ||
                 (referenceCoin == address(token) && referenceCoin != address(0)),
-            "stablecoin not accepted"
+            "45"
         );
         _;
     }
@@ -79,10 +79,10 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
         uint256 _startPrice,
         IERC20 _soldToken
     ) {
-        require(guardian != address(0) && address(_soldToken) != address(0), "zero address");
+        require(guardian != address(0) && address(_soldToken) != address(0), "0");
         // Access control
         for (uint256 i = 0; i < governorList.length; i++) {
-            require(governorList[i] != address(0), "zero address");
+            require(governorList[i] != address(0), "0");
             _setupRole(GOVERNOR_ROLE, governorList[i]);
             _setupRole(GUARDIAN_ROLE, governorList[i]);
         }
@@ -109,7 +109,7 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
         uint256 targetSoldTokenQuantity,
         uint256 maxAmountToPayInAgToken
     ) external override whenNotPaused isValid(_agToken) {
-        require(targetSoldTokenQuantity > 0, "incorrect value");
+        require(targetSoldTokenQuantity > 0, "4");
         // Computing the number of reference stablecoins to burn to get the desired quantity
         // of tokens sold by this contract
         uint256 amountToPayInReference = _computePriceFromQuantity(targetSoldTokenQuantity);
@@ -127,7 +127,7 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
             // which are in base `BASE_TOKENS`
             amountToPayInAgToken = (amountToPayInReference * BASE_TOKENS) / oracleValue;
         }
-        require(amountToPayInAgToken > 0 && amountToPayInAgToken <= maxAmountToPayInAgToken, "incorrect amount to pay");
+        require(amountToPayInAgToken > 0 && amountToPayInAgToken <= maxAmountToPayInAgToken, "50");
 
         // Transferring the correct amount of agToken
         _agToken.transferFrom(msg.sender, address(this), amountToPayInAgToken);
@@ -203,7 +203,7 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
         onlyRole(GOVERNOR_ROLE)
         isValid(_agToken)
     {
-        require((address(_oracle) != address(0)), "oracle required");
+        require((address(_oracle) != address(0)), "51");
         allowedStablecoins[_agToken] = _oracle;
         emit ModifiedStablecoin(address(_agToken), referenceCoin == address(_agToken), address(_oracle));
     }
@@ -222,13 +222,13 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
         IOracle _oracle,
         uint256 _isReference
     ) external onlyRole(GOVERNOR_ROLE) {
-        require((_isReference == 0) || (_isReference == 1), "incorrect reference");
-        require(address(_agToken) != address(0), "incorrect address");
+        require((_isReference == 0) || (_isReference == 1), "9");
+        require(address(_agToken) != address(0), "40");
         // It is impossible to change reference if the reference has not been revoked before
         // There is an hidden if in the followings require. If `_isReference` is true then
         // only the first require is important, otherwise only the second matters
-        require((_isReference == 0) || (referenceCoin == address(0)), "already a reference");
-        require((_isReference == 1) || (address(_oracle) != address(0)), "oracle required");
+        require((_isReference == 0) || (referenceCoin == address(0)), "52");
+        require((_isReference == 1) || (address(_oracle) != address(0)), "51");
 
         if (_isReference == 1) {
             referenceCoin = address(_agToken);
@@ -245,7 +245,7 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
     /// as it could allow to buy governance tokens at a discount
     /// @dev As this function can manipulate the price, it has to be governor only
     function changeStartPrice(uint256 _startPrice) external onlyRole(GOVERNOR_ROLE) {
-        require(_startPrice > 0, "incorrect start price");
+        require(_startPrice > 0, "53");
         startPrice = _startPrice;
 
         emit StartPriceUpdated(_startPrice);
@@ -294,8 +294,8 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
     /// and the balance of tokens of the contract
     /// @dev It can be used to decrease or increase what has already been sold
     function _changeTokensToSell(uint256 _totalTokensToSell) internal {
-        require(_totalTokensToSell > tokensSold, "incorrect amount");
-        require(soldToken.balanceOf(address(this)) >= _totalTokensToSell - tokensSold, "incorrect soldToken balance");
+        require(_totalTokensToSell > tokensSold, "54");
+        require(soldToken.balanceOf(address(this)) >= _totalTokensToSell - tokensSold, "56");
         totalTokensToSell = _totalTokensToSell;
 
         emit TokensToSellUpdated(_totalTokensToSell);
@@ -314,7 +314,7 @@ contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausa
     /// @dev The integral computed by this function is the integral of the inverse of a square root
     function _computePriceFromQuantity(uint256 targetQuantity) internal view returns (uint256 value) {
         uint256 leftToSell = _getQuantityLeftToSell();
-        require(targetQuantity < leftToSell, "not enough token left to sell");
+        require(targetQuantity < leftToSell, "55");
 
         // The global value to compute is (with `power = 2` here):
         // `startPrice * totalTokensToSell **(power) * (leftToSell ** (power - 1) - (leftToSell - targetQuantity) ** (power - 1)) /((power - 1) * BASE_TOKENS * leftToSell ** (power - 1) * (leftToSell - targetQuantity) ** (power - 1))`

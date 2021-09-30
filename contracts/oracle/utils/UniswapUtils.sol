@@ -53,7 +53,7 @@ abstract contract UniswapUtils is AccessControl, OracleMath {
     /// @notice Changes the TWAP period
     /// @param _twapPeriod New window to compute the TWAP
     function changeTwapPeriod(uint32 _twapPeriod) external onlyRole(GUARDIAN_ROLE) {
-        require(int32(_twapPeriod) > 0, "overflow");
+        require(int32(_twapPeriod) > 0, "99");
         twapPeriod = _twapPeriod;
     }
 }

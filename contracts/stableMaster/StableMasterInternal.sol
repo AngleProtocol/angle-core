@@ -19,7 +19,7 @@ contract StableMasterInternal is StableMasterStorage, PausableMapUpgradeable {
     /// @dev We could set `PERPETUALMANAGER_ROLE`, `POOLMANAGER_ROLE` and `FEEMANAGER_ROLE` for this
     /// contract, but this would actually be inefficient
     function _contractMapCheck(Collateral storage col) internal view {
-        require(address(col.token) != address(0), "invalid call");
+        require(address(col.token) != address(0), "3");
     }
 
     /// @notice Checks if the protocol has been paused for an agent and for a given collateral type for this
@@ -27,7 +27,7 @@ contract StableMasterInternal is StableMasterStorage, PausableMapUpgradeable {
     /// @param agent Name of the agent to check, it is either going to be `STABLE` or `SLP`
     /// @param poolManager `PoolManager` contract for which to check pauses
     function _whenNotPaused(bytes32 agent, address poolManager) internal view {
-        require(!paused[keccak256(abi.encodePacked(agent, poolManager))], "paused");
+        require(!paused[keccak256(abi.encodePacked(agent, poolManager))], "18");
     }
 
     /// @notice Updates the `sanRate` that is the exchange rate between sanTokens given to SLPs and collateral or

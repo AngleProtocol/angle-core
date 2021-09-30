@@ -53,7 +53,7 @@ contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti
         ModuleUniswapMulti(_circuitUniswap, _circuitUniIsMultiplied, _twapPeriod, observationLength, guardians)
         ModuleChainlinkMulti(_circuitChainlink, _circuitChainIsMultiplied)
     {
-        require(addressInAndOutUni.length == 2, "invalid size addressInAndOut");
+        require(addressInAndOutUni.length == 2, "107");
         // Using the tokens' metadata to get the in and out currencies decimals
         IERC20Metadata inCur = IERC20Metadata(addressInAndOutUni[0]);
         IERC20Metadata outCur = IERC20Metadata(addressInAndOutUni[1]);

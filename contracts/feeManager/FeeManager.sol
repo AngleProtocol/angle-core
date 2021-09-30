@@ -115,10 +115,10 @@ contract FeeManager is FeeManagerStorage, IFeeManagerFunctions, AccessControl, I
         uint64[] memory yArray,
         uint8 typeChange
     ) external override onlyRole(GUARDIAN_ROLE) {
-        require(xArray.length == yArray.length && yArray.length > 0, "incorrect array length");
+        require(xArray.length == yArray.length && yArray.length > 0, "5");
         for (uint256 i = 0; i <= yArray.length - 1; i++) {
             if (i > 0) {
-                require(xArray[i] > xArray[i - 1], "incorrect x array values");
+                require(xArray[i] > xArray[i - 1], "7");
             }
         }
         if (typeChange == 1) {
@@ -167,11 +167,8 @@ contract FeeManager is FeeManagerStorage, IFeeManagerFunctions, AccessControl, I
         if (xSlippage.length >= 1 && xSlippageFee.length >= 1) {
             for (uint256 i = 0; i <= ySlippageFee.length - 1; i++) {
                 if (ySlippageFee[i] > 0) {
-                    require(ySlippageFee[i] <= BASE_PARAMS_CASTED, "incorrect y array values");
-                    require(
-                        _piecewiseLinearCollatRatio(xSlippageFee[i], xSlippage, ySlippage) > 0,
-                        "incompatible slippage and slippageFee arrays"
-                    );
+                    require(ySlippageFee[i] <= BASE_PARAMS_CASTED, "37");
+                    require(_piecewiseLinearCollatRatio(xSlippageFee[i], xSlippage, ySlippage) > 0, "38");
                 }
             }
         }

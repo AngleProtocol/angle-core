@@ -33,13 +33,13 @@ contract PerpetualManager is
     /// @dev Generally in `PerpetualManager`, perpetual owners should store the ID of the perpetuals
     /// they are able to interact with
     modifier onlyApprovedOrOwner(address caller, uint256 perpetualID) {
-        require(_isApprovedOrOwner(caller, perpetualID), "caller not approved");
+        require(_isApprovedOrOwner(caller, perpetualID), "21");
         _;
     }
 
     /// @notice Checks if the message sender is the rewards distribution address
     modifier onlyRewardsDistribution() {
-        require(msg.sender == rewardsDistribution, "incorrect sender");
+        require(msg.sender == rewardsDistribution, "1");
         _;
     }
 
@@ -77,7 +77,6 @@ contract PerpetualManager is
     /// @dev This function is the equivalent of the `notifyRewardAmount` function found in all staking contracts
     function notifyRewardAmount(uint256 reward) external override onlyRewardsDistribution {
         rewardPerTokenStored = _rewardPerToken();
-        lastUpdateTime = _lastTimeRewardApplicable();
 
         if (block.timestamp >= periodFinish) {
             // If the period is not done, then the reward rate changes
@@ -94,7 +93,7 @@ contract PerpetualManager is
         // Reward + leftover must be less than 2^256 / 10^18 to avoid overflow.
         uint256 balance = rewardToken.balanceOf(address(this));
 
-        require(rewardRate <= balance / rewardsDuration, "reward too high");
+        require(rewardRate <= balance / rewardsDuration, "22");
 
         lastUpdateTime = block.timestamp;
         // Change the duration
@@ -112,7 +111,7 @@ contract PerpetualManager is
         address to,
         uint256 tokenAmount
     ) external override onlyRewardsDistribution {
-        require(tokenAddress != address(rewardToken), "Cannot withdraw the rewards token");
+        require(tokenAddress != address(rewardToken), "20");
         IERC20(tokenAddress).safeTransfer(to, tokenAmount);
         emit Recovered(tokenAddress, to, tokenAmount);
     }
@@ -138,7 +137,7 @@ contract PerpetualManager is
     /// in this case it will be done through the `FeeManager` contract
     /// @dev This dependence can either be a bonus or a malus
     function setFeeKeeper(uint64 feeDeposit, uint64 feeWithdraw) external override {
-        require(msg.sender == address(_feeManager), "incorrect sender");
+        require(msg.sender == address(_feeManager), "1");
         haBonusMalusDeposit = feeDeposit;
         haBonusMalusWithdraw = feeWithdraw;
     }
@@ -207,7 +206,7 @@ contract PerpetualManager is
         onlyCompatibleFees(_maintenanceMargin)
     {
         // Checking the compatibility of the parameters
-        require(BASE_PARAMS**2 > _maxLeverage * _maintenanceMargin, "incorrect bounds");
+        require(BASE_PARAMS**2 > _maxLeverage * _maintenanceMargin, "8");
         maxLeverage = _maxLeverage;
         maintenanceMargin = _maintenanceMargin;
         emit BoundsPerpetualUpdated(_maxLeverage, _maintenanceMargin);
@@ -252,7 +251,7 @@ contract PerpetualManager is
         onlyCompatibleFees(_targetHAHedge)
         onlyCompatibleFees(_limitHAHedge)
     {
-        require(_targetHAHedge <= _limitHAHedge, "invalid input");
+        require(_targetHAHedge <= _limitHAHedge, "8");
         limitHAHedge = _limitHAHedge;
         targetHAHedge = _targetHAHedge;
         // Updating the value in the `stableMaster` contract
@@ -260,7 +259,7 @@ contract PerpetualManager is
         emit TargetAndLimitHAHedgeUpdated(_targetHAHedge, _limitHAHedge);
     }
 
-    /// @notice Sets the proportion of fees going to the keepers when liquidating a HA perpetual
+    /// @notice Sets the portion of the leftover cash out amount of liquidated perpetuals that go to keepers
     /// @param _keeperFeesLiquidationRatio Proportion to keepers
     /// @dev This proportion should be inferior to `BASE_PARAMS`
     function setKeeperFeesLiquidationRatio(uint64 _keeperFeesLiquidationRatio)
@@ -323,7 +322,7 @@ contract PerpetualManager is
     /// @dev The collateral `PoolManager` does not store a reference to an oracle, the value of the oracle
     /// is hence directly set by the `StableMaster`
     function setOracle(IOracle oracle_) external override {
-        require(msg.sender == address(_stableMaster), "incorrect sender");
+        require(msg.sender == address(_stableMaster), "1");
         oracle = oracle_;
     }
 }

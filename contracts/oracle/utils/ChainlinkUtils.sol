@@ -28,7 +28,7 @@ abstract contract ChainlinkUtils {
     ) internal view returns (uint256, uint256) {
         if (castedRatio == 0) {
             (, int256 ratio, , , ) = feed.latestRoundData();
-            require(ratio > 0, "invalid chainlink rate");
+            require(ratio > 0, "100");
             castedRatio = uint256(ratio);
         }
         // Checking whether we should multiply or divide by the ratio computed

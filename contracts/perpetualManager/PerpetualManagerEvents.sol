@@ -3,7 +3,6 @@
 pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts-upgradeable/security/PausableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/security/ReentrancyGuardUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721ReceiverUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/IERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/introspection/ERC165Upgradeable.sol";
@@ -53,7 +52,7 @@ contract PerpetualManagerEvents {
 
     event BoundsPerpetualUpdated(uint64 _maxLeverage, uint64 _maintenanceMargin);
 
-    event HAFeesUpdated(uint64[] _xHAFeesDeposit, uint64[] _yHAFeesDeposit, uint8 deposit);
+    event HAFeesUpdated(uint64[] _xHAFees, uint64[] _yHAFees, uint8 deposit);
 
     event KeeperFeesLiquidationRatioUpdated(uint64 _keeperFeesLiquidationRatio);
 

@@ -72,13 +72,13 @@ contract StableMasterFront is StableMaster {
         amountForUserInStable = (amountForUserInStable * (BASE_PARAMS - fees)) / BASE_PARAMS;
         // Checking if the user got more stablecoins than the least amount specified in the parameters of the
         // function
-        require(amountForUserInStable >= minStableAmount, "too big slippage");
+        require(amountForUserInStable >= minStableAmount, "15");
 
         // Updating the `stocksUsers` for this collateral, that is the amount of collateral that was
         // brought by users
         col.stocksUsers += amountForUserInStable;
         // Checking if stablecoins can still be issued using this collateral type
-        require(col.stocksUsers <= col.feeData.capOnStableMinted, "too many stablecoins issued");
+        require(col.stocksUsers <= col.feeData.capOnStableMinted, "16");
         emit StocksUsersUpdated(address(poolManager), col.stocksUsers);
 
         // Distributing the fees taken to SLPs
@@ -125,7 +125,7 @@ contract StableMasterFront is StableMaster {
         // In this situation, governance should rapidly react to pause the pool and then rebalance the `stocksUsers`
         // between different collateral types, or at least rebalance what is stored in the reserves through
         // the `recoverERC20` function followed by a swap and then a transfer
-        require(amount <= col.stocksUsers, "stocksUsers too small");
+        require(amount <= col.stocksUsers, "17");
 
         // Burning the tokens will revert if there are not enough tokens in balance or if the `msg.sender`
         // does not have approval from the burner
@@ -151,7 +151,7 @@ contract StableMasterFront is StableMaster {
         // but we prefer to avoid doing multiplications after divisions
         uint256 redeemInC = (amount * (BASE_PARAMS - _computeFeeBurn(amount, col)) * col.collatBase) /
             (oracleValue * BASE_PARAMS);
-        require(redeemInC >= minCollatAmount, "too big slippage");
+        require(redeemInC >= minCollatAmount, "15");
 
         // Updating the `stocksUsers` that is the amount of collateral that was brought by users
         col.stocksUsers -= amount;

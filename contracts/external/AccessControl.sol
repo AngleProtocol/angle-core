@@ -182,7 +182,7 @@ abstract contract AccessControl is Context, IAccessControl {
      * - the caller must be `account`.
      */
     function renounceRole(bytes32 role, address account) external override {
-        require(account == _msgSender(), "can only renounce roles for self");
+        require(account == _msgSender(), "71");
 
         _revokeRole(role, account);
     }

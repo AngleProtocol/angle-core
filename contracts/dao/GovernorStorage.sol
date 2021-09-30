@@ -12,7 +12,7 @@ import "./GovernorEvents.sol";
 /// GovernorStorageVX.
 abstract contract GovernorStorage is GovernorEvents {
     /// @notice Administrator for this contract
-    address public admin;
+    address public adminAddress;
 
     /// @notice Pending administrator for this contract
     address public pendingAdmin;

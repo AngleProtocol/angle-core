@@ -21,7 +21,7 @@ abstract contract ModuleChainlinkSingle is ChainlinkUtils {
     /// @param _poolChainlink Chainlink pool address
     /// @param _isChainlinkMultiplied Whether we should multiply or divide the quote amount by the rate
     constructor(address _poolChainlink, uint8 _isChainlinkMultiplied) {
-        require(_poolChainlink != address(0), "incorrect Chainlink pool");
+        require(_poolChainlink != address(0), "105");
         poolChainlink = AggregatorV3Interface(_poolChainlink);
         chainlinkDecimals = AggregatorV3Interface(_poolChainlink).decimals();
         isChainlinkMultiplied = _isChainlinkMultiplied;

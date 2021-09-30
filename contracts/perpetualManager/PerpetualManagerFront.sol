@@ -14,7 +14,7 @@ import "./PerpetualManager.sol";
 /// @dev `PerpetualManager` naturally handles staking, the code allowing HAs to stake has been inspired from
 /// https://github.com/SetProtocol/index-coop-contracts/blob/master/contracts/staking/StakingRewardsV2.sol
 /// @dev Perpetuals at Angle protocol are treated as NFTs, this contract handles the logic for that
-contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, ReentrancyGuardUpgradeable {
+contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront {
     using SafeERC20 for IERC20;
     using CountersUpgradeable for CountersUpgradeable.Counter;
 
@@ -35,7 +35,6 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
         zeroCheck(address(rewardToken_))
     {
         // Initializing contracts
-        __ReentrancyGuard_init();
         __Pausable_init();
         __AccessControl_init();
 
@@ -81,7 +80,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
         uint256 minNetMargin
     ) external override whenNotPaused zeroCheck(owner) returns (uint256 perpetualID) {
         // Transaction will revert anyway if `margin` is zero
-        require(committedAmount > 0, "zero value");
+        require(committedAmount > 0, "27");
 
         // There could be a reentrancy attack as a call to an external contract is done before state variables
         // updates. Yet in this case, the call involves a transfer from the `msg.sender` to the contract which
@@ -93,15 +92,15 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
         (, uint256 rateUp) = _getOraclePrice();
         // Checking if the oracle rate is not too big: a too big oracle rate could mean for a HA that the price
         // has become too high to make it interesting to open a perpetual
-        require(rateUp <= maxOracleRate, "too big oracle rate");
+        require(rateUp <= maxOracleRate, "28");
 
         // Computing the total amount of stablecoins that this perpetual is going to hedge for the protocol
         uint256 totalHedgeAmountUpdate = (committedAmount * rateUp) / _collatBase;
         // Computing the net amount brought by the HAs to store in the perpetual
         uint256 netMargin = _getNetMargin(margin, totalHedgeAmountUpdate, committedAmount);
-        require(netMargin >= minNetMargin, "too small margin");
+        require(netMargin >= minNetMargin, "29");
         // Checking if the perpetual is not too leveraged, even after computing the fees
-        require((committedAmount * BASE_PARAMS) <= maxLeverage * netMargin, "too high leverage");
+        require((committedAmount * BASE_PARAMS) <= maxLeverage * netMargin, "30");
 
         // ERC721 logic
         _perpetualIDcount.increment();
@@ -148,7 +147,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
         (uint256 cashOutAmount, uint256 liquidated) = _checkLiquidation(perpetualID, perpetual, rateDown);
         if (liquidated == 0) {
             // You need to wait `lockTime` before being able to withdraw funds from the protocol as a HA
-            require(perpetual.entryTimestamp + lockTime <= block.timestamp, "invalid timestamp");
+            require(perpetual.entryTimestamp + lockTime <= block.timestamp, "31");
             // Cashing out the perpetual internally
             _closePerpetual(perpetualID, perpetual);
             // Computing exit fees: they depend on how much is already hedgeded by HAs compared with what's to hedge
@@ -159,7 +158,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
                 // `committedAmount` to add to the `totalHedgeAmount` to get the `currentHedgeAmount`
                 _computeHedgeRatio(totalHedgeAmount)
             );
-            require(netCashOutAmount >= minCashOutAmount, "too small cash out amount");
+            require(netCashOutAmount >= minCashOutAmount, "32");
             _secureTransfer(to, netCashOutAmount);
         }
     }
@@ -169,14 +168,11 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// @param perpetualID ID of the perpetual to which amount should be added to `margin`
     /// @param amount Amount to add to the perpetual's `margin`
     /// @dev This decreases the leverage multiple of this perpetual
-    /// @dev `msg.sender` should be the owner of `perpetualID` or be approved for this perpetual
     /// @dev If this perpetual is to be liquidated, the HA is not going to be able to add liquidity to it
-    function addToPerpetual(uint256 perpetualID, uint256 amount)
-        external
-        override
-        whenNotPaused
-        onlyApprovedOrOwner(msg.sender, perpetualID)
-    {
+    /// @dev Since this function can be used to add liquidity to a perpetual, there is no need to restrict
+    /// it to the owner of the perpetual
+    /// @dev Calling this function on a non-existing perpetual makes it revert
+    function addToPerpetual(uint256 perpetualID, uint256 amount) external override whenNotPaused {
         // Loading perpetual data and getting the oracle price
         Perpetual memory perpetual = perpetualData[perpetualID];
         (uint256 rateDown, ) = _getOraclePrice();
@@ -220,7 +216,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
                     // No checks are done on `maintenanceMargin`, as conditions on `maxLeverage` are more restrictive
                     perpetual.committedAmount * BASE_PARAMS <= (cashOutAmount - amount) * maxLeverage &&
                     perpetual.committedAmount * BASE_PARAMS <= (perpetual.margin - amount) * maxLeverage,
-                "invalid conditions"
+                "33"
             );
             perpetualData[perpetualID].margin -= amount;
             emit PerpetualUpdated(perpetualID, perpetual.margin - amount);
@@ -244,15 +240,16 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
         uint256 liquidationFees;
         for (uint256 i = 0; i < perpetualIDs.length; i++) {
             uint256 perpetualID = perpetualIDs[i];
-            require(_exists(perpetualID), "nonexistent perpetual");
-            // Loading perpetual data
-            Perpetual memory perpetual = perpetualData[perpetualID];
-            (uint256 cashOutAmount, uint256 liquidated) = _checkLiquidation(perpetualID, perpetual, rateDown);
-            if (liquidated == 1) {
-                // Computing the incentive for the keeper as a function of the `cashOutAmount` of the perpetual
-                // This incentivizes keepers to react fast when the price starts to go below the liquidation
-                // margin
-                liquidationFees += _computeKeeperLiquidationFees(cashOutAmount);
+            if (_exists(perpetualID)) {
+                // Loading perpetual data
+                Perpetual memory perpetual = perpetualData[perpetualID];
+                (uint256 cashOutAmount, uint256 liquidated) = _checkLiquidation(perpetualID, perpetual, rateDown);
+                if (liquidated == 1) {
+                    // Computing the incentive for the keeper as a function of the `cashOutAmount` of the perpetual
+                    // This incentivizes keepers to react fast when the price starts to go below the liquidation
+                    // margin
+                    liquidationFees += _computeKeeperLiquidationFees(cashOutAmount);
+                }
             }
         }
         _secureTransfer(msg.sender, liquidationFees);
@@ -268,56 +265,65 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// we may have to put an access control logic for this function to only allow white-listed addresses to act
     /// as keepers for the protocol
     function forceClosePerpetuals(uint256[] memory perpetualIDs) external override whenNotPaused {
-        // Getting the oracle price
+        // Getting the oracle prices
+        // `rateUp` is used to compute the cost of manipulation of the covered amounts
         (uint256 rateDown, uint256 rateUp) = _getOraclePrice();
 
         // Fetching `stocksUsers` to check if perpetuals cover too much collateral
         uint256 stocksUsers = _stableMaster.getStocksUsers();
-        uint256 limitHedgeAmount = (stocksUsers * limitHAHedge) / BASE_PARAMS;
         uint256 targetHedgeAmount = (stocksUsers * targetHAHedge) / BASE_PARAMS;
 
-        require(totalHedgeAmount > limitHedgeAmount, "forceCashOut disabled");
+        // `totalHedgeAmount` should be greater than the limit hedge amount
+        require(totalHedgeAmount > (stocksUsers * limitHAHedge) / BASE_PARAMS, "34");
         uint256 liquidationFees;
         uint256 cashOutFees;
+
+        // Array of pairs `(owner, netCashOutAmount)`
+        Pairs[] memory outputPairs = new Pairs[](perpetualIDs.length);
+
         for (uint256 i = 0; i < perpetualIDs.length; i++) {
             uint256 perpetualID = perpetualIDs[i];
-            address owner = _ownerOf(perpetualID);
-            // Loading perpetual data and getting the oracle price
-            Perpetual memory perpetual = perpetualData[perpetualID];
-            // First checking if the perpetual should not be liquidated
-            (uint256 cashOutAmount, uint256 liquidated) = _checkLiquidation(perpetualID, perpetual, rateDown);
-            if (liquidated == 1) {
-                // This results in the perpetual being liquidated and the keeper being paid the same amount of fees as
-                // what would have been paid if the perpetual had been liquidated using the `liquidatePerpetualFunction`
-                // Computing the incentive for the keeper as a function of the `cashOutAmount` of the perpetual
-                // This incentivizes keepers to react fast
-                liquidationFees += _computeKeeperLiquidationFees(cashOutAmount);
-            } else if (perpetual.entryTimestamp + lockTime <= block.timestamp) {
-                // It is impossible to force the closing a perpetual that was just created: in the other case, this
-                // function could be used to do some insider trading and to bypass the `lockTime` limit
-                // If too much collateral is hedged by HAs, then the perpetual can be cashed out
-                _closePerpetual(perpetualID, perpetual);
-                uint64 ratioPostCashOut;
-                // In this situation, `totalHedgeAmount` is the `currentHedgeAmount`
-                if (targetHedgeAmount > totalHedgeAmount) {
-                    ratioPostCashOut = uint64((totalHedgeAmount * BASE_PARAMS) / targetHedgeAmount);
-                } else {
-                    ratioPostCashOut = uint64(BASE_PARAMS);
+            address owner = _owners[perpetualID];
+            if (owner != address(0)) {
+                // Loading perpetual data and getting the oracle price
+                Perpetual memory perpetual = perpetualData[perpetualID];
+                // First checking if the perpetual should not be liquidated
+                (uint256 cashOutAmount, uint256 liquidated) = _checkLiquidation(perpetualID, perpetual, rateDown);
+                if (liquidated == 1) {
+                    // This results in the perpetual being liquidated and the keeper being paid the same amount of fees as
+                    // what would have been paid if the perpetual had been liquidated using the `liquidatePerpetualFunction`
+                    // Computing the incentive for the keeper as a function of the `cashOutAmount` of the perpetual
+                    // This incentivizes keepers to react fast
+                    liquidationFees += _computeKeeperLiquidationFees(cashOutAmount);
+                } else if (perpetual.entryTimestamp + lockTime <= block.timestamp) {
+                    // It is impossible to force the closing a perpetual that was just created: in the other case, this
+                    // function could be used to do some insider trading and to bypass the `lockTime` limit
+                    // If too much collateral is hedged by HAs, then the perpetual can be cashed out
+                    _closePerpetual(perpetualID, perpetual);
+                    uint64 ratioPostCashOut;
+                    // In this situation, `totalHedgeAmount` is the `currentHedgeAmount`
+                    if (targetHedgeAmount > totalHedgeAmount) {
+                        ratioPostCashOut = uint64((totalHedgeAmount * BASE_PARAMS) / targetHedgeAmount);
+                    } else {
+                        ratioPostCashOut = uint64(BASE_PARAMS);
+                    }
+                    // Computing how much the HA will get and the amount of fees paid at closing
+                    (uint256 netCashOutAmount, uint256 fees) = _getNetCashOutAmount(
+                        cashOutAmount,
+                        perpetual.committedAmount,
+                        ratioPostCashOut
+                    );
+                    cashOutFees += fees;
+                    // Storing the owners of perpetuals that were forced cash out in a memory array to avoid
+                    // reentrancy attacks
+                    outputPairs[i] = Pairs(owner, netCashOutAmount);
                 }
-                // Computing how much the HA will get and the amount of fees paid at closing
-                (uint256 netCashOutAmount, uint256 fees) = _getNetCashOutAmount(
-                    cashOutAmount,
-                    perpetual.committedAmount,
-                    ratioPostCashOut
-                );
-                cashOutFees += fees;
 
-                _secureTransfer(owner, netCashOutAmount);
+                // Checking if at this point enough perpetuals have been cashed out
+                if (totalHedgeAmount <= targetHedgeAmount) break;
             }
-
-            // Checking if at this point enough perpetuals have been cashed out
-            if (totalHedgeAmount <= targetHedgeAmount) break;
         }
+
         uint64 ratio = (targetHedgeAmount == 0)
             ? 0
             : uint64((totalHedgeAmount * BASE_PARAMS) / (2 * targetHedgeAmount));
@@ -340,6 +346,13 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
         uint256 estimatedCost = (5 * (limitHAHedge - targetHAHedge) * stocksUsers * _collatBase) /
             (rateUp * 10000 * BASE_PARAMS);
         cashOutFees = cashOutFees < estimatedCost ? cashOutFees : estimatedCost;
+
+        // Processing transfers after all calculations have been performed
+        for (uint256 j = 0; j < perpetualIDs.length; j++) {
+            if (outputPairs[j].netCashOutAmount > 0) {
+                _secureTransfer(outputPairs[j].owner, outputPairs[j].netCashOutAmount);
+            }
+        }
         _secureTransfer(msg.sender, cashOutFees + liquidationFees);
     }
 
@@ -368,12 +381,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// @notice Allows a perpetual owner to withdraw rewards
     /// @param perpetualID ID of the perpetual which accumulated tokens
     /// @dev Only an approved caller can claim the rewards for the perpetual with perpetualID
-    function getReward(uint256 perpetualID)
-        external
-        nonReentrant
-        whenNotPaused
-        onlyApprovedOrOwner(msg.sender, perpetualID)
-    {
+    function getReward(uint256 perpetualID) external whenNotPaused onlyApprovedOrOwner(msg.sender, perpetualID) {
         _getReward(perpetualID, perpetualData[perpetualID].committedAmount * perpetualData[perpetualID].entryRate);
     }
 
@@ -392,7 +400,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// @notice Gets the URI containing metadata
     /// @param perpetualID ID of the perpetual
     function tokenURI(uint256 perpetualID) external view override returns (string memory) {
-        require(_exists(perpetualID), "nonexistent token");
+        require(_exists(perpetualID), "2");
         // There is no perpetual with `perpetualID` equal to 0, so the following variable is
         // always greater than zero
         uint256 temp = perpetualID;
@@ -414,7 +422,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// @param owner Address of the owner
     /// @dev Balance here represents the number of perpetuals owned by a HA
     function balanceOf(address owner) external view override returns (uint256) {
-        require(owner != address(0), "zero address");
+        require(owner != address(0), "0");
         return _balances[owner];
     }
 
@@ -432,8 +440,8 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// address that will be able to receive the proceeds of the perpetual
     function approve(address to, uint256 perpetualID) external override {
         address owner = _ownerOf(perpetualID);
-        require(to != owner, "approval to owner");
-        require(msg.sender == owner || isApprovedForAll(owner, msg.sender), "caller is not approved");
+        require(to != owner, "35");
+        require(msg.sender == owner || isApprovedForAll(owner, msg.sender), "21");
 
         _approve(to, perpetualID);
     }
@@ -441,7 +449,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// @notice Gets the approved address by a perpetual owner
     /// @param perpetualID ID of the concerned perpetual
     function getApproved(uint256 perpetualID) external view override returns (address) {
-        require(_exists(perpetualID), "nonexistent perpetual");
+        require(_exists(perpetualID), "2");
         return _getApproved(perpetualID);
     }
 
@@ -449,7 +457,7 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront, Reen
     /// @param operator Address to approve (or block) on all perpetuals
     /// @param approved Whether the sender wants to approve or block the operator
     function setApprovalForAll(address operator, bool approved) external override {
-        require(operator != msg.sender, "approve to caller");
+        require(operator != msg.sender, "36");
         _operatorApprovals[msg.sender][operator] = approved;
         emit ApprovalForAll(_msgSender(), operator, approved);
     }

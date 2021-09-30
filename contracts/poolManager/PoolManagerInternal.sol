@@ -61,9 +61,9 @@ contract PoolManagerInternal is PoolManagerStorage, AccessControlUpgradeable {
     /// @dev Updates the debt ratio for a strategy
     function _updateStrategyDebtRatio(address strategy, uint256 _debtRatio) internal {
         StrategyParams storage params = strategies[strategy];
-        require(params.lastReport != 0, "invalid strategy");
+        require(params.lastReport != 0, "78");
         debtRatio = debtRatio + _debtRatio - params.debtRatio;
-        require(debtRatio <= BASE_PARAMS, "debt ratio above one");
+        require(debtRatio <= BASE_PARAMS, "76");
         params.debtRatio = _debtRatio;
         emit StrategyAdded(strategy, debtRatio);
     }

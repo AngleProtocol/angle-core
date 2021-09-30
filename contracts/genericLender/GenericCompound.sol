@@ -48,7 +48,7 @@ contract GenericCompound is GenericLenderBase {
         address[] memory governorList,
         address guardian
     ) GenericLenderBase(_strategy, name, governorList, guardian) {
-        require(address(_comp) != address(0) && address(_strategy) != address(0), "zero address");
+        require(address(_comp) != address(0) && address(_strategy) != address(0), "0");
         uniswapRouter = _uniswapRouter;
         comp = _comp;
         path = _path;

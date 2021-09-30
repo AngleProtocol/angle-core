@@ -33,7 +33,7 @@ contract Core is CoreEvents, ICore {
     /// The reason for having such modifiers rather than OpenZeppelin's Access Control logic is to make
     /// sure that governors cannot bypass the `addGovernor` or `revokeGovernor` functions
     modifier onlyGovernor() {
-        require(governorMap[msg.sender], "incorrect caller");
+        require(governorMap[msg.sender], "1");
         _;
     }
 
@@ -41,14 +41,14 @@ contract Core is CoreEvents, ICore {
     /// Same here, we do not use OpenZeppelin's Access Control logic to make sure that the `guardian`
     /// cannot bypass the functions defined on purpose in this contract
     modifier onlyGuardian() {
-        require(governorMap[msg.sender] || msg.sender == guardian, "incorrect caller");
+        require(governorMap[msg.sender] || msg.sender == guardian, "1");
         _;
     }
 
     /// @notice Checks if the new address given is not null
     /// @param newAddress Address to check
     modifier zeroCheck(address newAddress) {
-        require(newAddress != address(0), "zero address");
+        require(newAddress != address(0), "0");
         _;
     }
 
@@ -59,8 +59,8 @@ contract Core is CoreEvents, ICore {
     /// @param _guardian Address of the guardian
     constructor(address _governor, address _guardian) {
         // Creating references
-        require(_guardian != address(0) && _governor != address(0), "zero address");
-        require(_guardian != _governor, "guardian cannot be governor");
+        require(_guardian != address(0) && _governor != address(0), "0");
+        require(_guardian != _governor, "39");
         _governorList.push(_governor);
         guardian = _guardian;
         governorMap[_governor] = true;
@@ -78,12 +78,12 @@ contract Core is CoreEvents, ICore {
     /// @dev To maintain consistency, checks are performed. The governance of the new `Core`
     /// contract should be exactly the same of this one
     function setCore(ICore newCore) external onlyGovernor zeroCheck(address(newCore)) {
-        require(address(this) != address(newCore), "incorrect address");
-        require(guardian == newCore.guardian(), "incorrect guardian");
+        require(address(this) != address(newCore), "40");
+        require(guardian == newCore.guardian(), "41");
         // The length of the list is stored as a cache variable to avoid duplicate reads in storage
         uint256 governorListLength = _governorList.length;
         address[] memory _newCoreGovernorList = newCore.governorList();
-        require(governorListLength == _newCoreGovernorList.length, "invalid lists length");
+        require(governorListLength == _newCoreGovernorList.length, "42");
         uint256 indexMet;
         for (uint256 i = 0; i < governorListLength; i++) {
             if (!governorMap[_newCoreGovernorList[i]]) {
@@ -91,7 +91,7 @@ contract Core is CoreEvents, ICore {
                 break;
             }
         }
-        require(indexMet == 0, "incorrect governor");
+        require(indexMet == 0, "43");
 
         // Propagates the change
         for (uint256 i = 0; i < stablecoinList.length; i++) {
@@ -111,7 +111,7 @@ contract Core is CoreEvents, ICore {
     function deployStableMaster(address agToken) external onlyGovernor zeroCheck(agToken) {
         address stableMaster = IAgToken(agToken).stableMaster();
         // Checking if `stableMaster` has not already been deployed
-        require(!deployedStableMasterMap[stableMaster], "stableMaster previously deployed");
+        require(!deployedStableMasterMap[stableMaster], "44");
 
         // Storing and initializing information about the stablecoin
         stablecoinList.push(stableMaster);
@@ -133,7 +133,7 @@ contract Core is CoreEvents, ICore {
     function revokeStableMaster(address stableMaster) external override onlyGovernor {
         uint256 stablecoinListLength = stablecoinList.length;
         // Checking if `stableMaster` is correct and removing the stablecoin from the `stablecoinList`
-        require(stablecoinListLength >= 1, "incorrect stablecoin");
+        require(stablecoinListLength >= 1, "45");
         uint256 indexMet;
         for (uint256 i = 0; i < stablecoinListLength - 1; i++) {
             if (stablecoinList[i] == stableMaster) {
@@ -142,7 +142,7 @@ contract Core is CoreEvents, ICore {
                 break;
             }
         }
-        require(indexMet == 1 || stablecoinList[stablecoinListLength - 1] == stableMaster, "incorrect stablecoin");
+        require(indexMet == 1 || stablecoinList[stablecoinListLength - 1] == stableMaster, "45");
         stablecoinList.pop();
         // Deleting the stablecoin from the list
         emit StableMasterRevoked(stableMaster);
@@ -159,7 +159,7 @@ contract Core is CoreEvents, ICore {
     /// @dev This function propagates the new governor role across most contracts of the protocol
     /// @dev Governor is also guardian everywhere in all contracts
     function addGovernor(address _governor) external override onlyGovernor zeroCheck(_governor) {
-        require(!governorMap[_governor], "governor already added");
+        require(!governorMap[_governor], "46");
         governorMap[_governor] = true;
         _governorList.push(_governor);
         // Propagates the changes to maintain consistency across all the contracts that are attached to this
@@ -179,7 +179,7 @@ contract Core is CoreEvents, ICore {
     function removeGovernor(address _governor) external override onlyGovernor {
         // Checking if removing the governor will leave with at least more than one governor
         uint256 governorListLength = _governorList.length;
-        require(governorListLength > 1, "must have at least one governor");
+        require(governorListLength > 1, "47");
         // Removing the governor from the list of governors
         // We still need to check if the address provided was well in the list
         uint256 indexMet;
@@ -190,7 +190,7 @@ contract Core is CoreEvents, ICore {
                 break;
             }
         }
-        require(indexMet == 1 || _governorList[governorListLength - 1] == _governor, "governor not in the list");
+        require(indexMet == 1 || _governorList[governorListLength - 1] == _governor, "48");
         _governorList.pop();
         // Once it has been checked that the given address was a correct address, we can proceed to other changes
         delete governorMap[_governor];
@@ -212,8 +212,8 @@ contract Core is CoreEvents, ICore {
     /// @dev There can only be one guardian address in the protocol
     /// @dev The guardian address cannot be a governor address
     function setGuardian(address _newGuardian) external override onlyGuardian zeroCheck(_newGuardian) {
-        require(!governorMap[_newGuardian], "guardian cannot be governor");
-        require(guardian != _newGuardian, "wrong new guardian");
+        require(!governorMap[_newGuardian], "39");
+        require(guardian != _newGuardian, "49");
         address oldGuardian = guardian;
         guardian = _newGuardian;
         for (uint256 i = 0; i < stablecoinList.length; i++) {

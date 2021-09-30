@@ -79,7 +79,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
         wantBase = 10**(IERC20Metadata(address(want)).decimals());
         // The token given as a reward to keepers should be different from the token handled by the
         // strategy
-        require(address(_rewards) != address(want), "incorrect reward address");
+        require(address(_rewards) != address(want), "92");
         rewards = _rewards;
 
         // Initializing variables
@@ -95,7 +95,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
         // `PoolManager` is guardian as well to allow for more flexibility
         _setupRole(POOLMANAGER_ROLE, address(_poolManager));
         for (uint256 i = 0; i < governorList.length; i++) {
-            require(governorList[i] != address(0), "zero address");
+            require(governorList[i] != address(0), "0");
             _setupRole(GUARDIAN_ROLE, governorList[i]);
         }
         _setupRole(GUARDIAN_ROLE, guardian);
@@ -352,7 +352,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     /// @notice Used to change `rewards`.
     /// @param _rewards The address to use for pulling rewards.
     function setRewards(IERC20 _rewards) external onlyRole(GUARDIAN_ROLE) {
-        require(address(_rewards) != address(0) && address(_rewards) != address(want), "incorrect reward address");
+        require(address(_rewards) != address(0) && address(_rewards) != address(want), "92");
         rewards = _rewards;
         emit UpdatedRewards(address(_rewards));
     }
@@ -420,13 +420,13 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     /// Implement `_protectedTokens()` to specify any additional tokens that
     /// should be protected from sweeping in addition to `want`.
     function sweep(address _token, address to) external onlyRole(GUARDIAN_ROLE) {
-        require(_token != address(want), "protected token");
+        require(_token != address(want), "93");
 
         address[] memory __protectedTokens = _protectedTokens();
         for (uint256 i = 0; i < __protectedTokens.length; i++)
             // In the strategy we use so far, the only protectedToken is the want token
             // and this has been checked above
-            require(_token != __protectedTokens[i], "protected token");
+            require(_token != __protectedTokens[i], "93");
 
         IERC20(_token).safeTransfer(to, IERC20(_token).balanceOf(address(this)));
     }

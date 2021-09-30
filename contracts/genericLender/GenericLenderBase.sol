@@ -100,8 +100,7 @@ abstract contract GenericLenderBase is IGenericLender, AccessControl {
     /// should be protected from sweeping in addition to `want`.
     function sweep(address _token, address to) external override onlyRole(GUARDIAN_ROLE) {
         address[] memory __protectedTokens = _protectedTokens();
-        for (uint256 i = 0; i < __protectedTokens.length; i++)
-            require(_token != __protectedTokens[i], "protected token");
+        for (uint256 i = 0; i < __protectedTokens.length; i++) require(_token != __protectedTokens[i], "93");
 
         SafeERC20.safeTransfer(IERC20(_token), to, IERC20(_token).balanceOf(address(this)));
     }

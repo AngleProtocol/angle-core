@@ -29,17 +29,17 @@ abstract contract ModuleUniswapMulti is UniswapUtils {
         address[] memory guardians
     ) {
         // There is no `GOVERNOR_ROLE` in this contract, governor has `GUARDIAN_ROLE`
-        require(guardians.length > 0, "incorrect guardians");
+        require(guardians.length > 0, "101");
         for (uint256 i = 0; i < guardians.length; i++) {
-            require(guardians[i] != address(0), "zero address");
+            require(guardians[i] != address(0), "0");
             _setupRole(GUARDIAN_ROLE, guardians[i]);
         }
         _setRoleAdmin(GUARDIAN_ROLE, GUARDIAN_ROLE);
 
-        require(int32(_twapPeriod) > 0, "too large twap period");
+        require(int32(_twapPeriod) > 0, "102");
         uint256 circuitUniLength = _circuitUniswap.length;
-        require(circuitUniLength > 0, "incorrect Uniswap circuit");
-        require(circuitUniLength == _circuitUniIsMultiplied.length, "incompatible lengths");
+        require(circuitUniLength > 0, "103");
+        require(circuitUniLength == _circuitUniIsMultiplied.length, "104");
 
         twapPeriod = _twapPeriod;
 

@@ -69,11 +69,11 @@ contract FunctionUtils {
     /// in the `xArray` are in ascending order and if the values in the `xArray` and in the `yArray` are not superior
     /// to `BASE_PARAMS`
     modifier onlyCompatibleInputArrays(uint64[] memory xArray, uint64[] memory yArray) {
-        require(xArray.length == yArray.length && xArray.length > 0, "incorrect array length");
+        require(xArray.length == yArray.length && xArray.length > 0, "5");
         for (uint256 i = 0; i <= yArray.length - 1; i++) {
-            require(yArray[i] <= uint64(BASE_PARAMS) && xArray[i] <= uint64(BASE_PARAMS), "too big array values");
+            require(yArray[i] <= uint64(BASE_PARAMS) && xArray[i] <= uint64(BASE_PARAMS), "6");
             if (i > 0) {
-                require(xArray[i] > xArray[i - 1], "incorrect x array values");
+                require(xArray[i] > xArray[i - 1], "7");
             }
         }
         _;
@@ -83,7 +83,7 @@ contract FunctionUtils {
     /// if it corresponds to a ratio)
     /// @param fees Value of the new parameter to check
     modifier onlyCompatibleFees(uint64 fees) {
-        require(fees <= BASE_PARAMS, "incorrect value");
+        require(fees <= BASE_PARAMS, "4");
         _;
     }
 
@@ -91,7 +91,7 @@ contract FunctionUtils {
     /// @param newAddress Address to check
     /// @dev Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
     modifier zeroCheck(address newAddress) {
-        require(newAddress != address(0), "zero address");
+        require(newAddress != address(0), "0");
         _;
     }
 }

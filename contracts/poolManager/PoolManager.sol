@@ -196,7 +196,7 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         uint256 loss,
         uint256 debtPayment
     ) external override onlyRole(STRATEGY_ROLE) {
-        require(token.balanceOf(msg.sender) >= gain + debtPayment, "incorrect freed amount by strategy");
+        require(token.balanceOf(msg.sender) >= gain + debtPayment, "72");
 
         StrategyParams storage params = strategies[msg.sender];
 
@@ -287,7 +287,7 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
                         BASE_TOKENS +
                         (stocksUsers * collatBase) /
                         oracle.readUpper(),
-                "too big amount"
+                "66"
             );
 
             token.safeTransfer(to, amountToRecover);
@@ -308,12 +308,12 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     function addStrategy(address strategy, uint256 _debtRatio) external onlyRole(GOVERNOR_ROLE) zeroCheck(strategy) {
         StrategyParams storage params = strategies[strategy];
 
-        require(params.lastReport == 0, "strategy already added");
-        require(address(this) == IStrategy(strategy).poolManager(), "strategy not bound to this PoolManager");
+        require(params.lastReport == 0, "73");
+        require(address(this) == IStrategy(strategy).poolManager(), "74");
         // Using current code, this condition should always be verified as in the constructor
         // of the strategy the `want()` is set to the token of this `PoolManager`
-        require(address(token) == IStrategy(strategy).want(), "strategy not linked to the right token");
-        require(debtRatio + _debtRatio <= BASE_PARAMS, "debt ratio above one");
+        require(address(token) == IStrategy(strategy).want(), "75");
+        require(debtRatio + _debtRatio <= BASE_PARAMS, "76");
 
         // Add strategy to approved strategies
         params.lastReport = 1;
@@ -357,10 +357,10 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     function revokeStrategy(address strategy) external onlyRole(GUARDIAN_ROLE) {
         StrategyParams storage params = strategies[strategy];
 
-        require(params.debtRatio == 0, "strategy still managing some funds");
-        require(params.totalStrategyDebt == 0, "strategy still managing some funds");
+        require(params.debtRatio == 0, "77");
+        require(params.totalStrategyDebt == 0, "77");
         uint256 strategyListLength = strategyList.length;
-        require(params.lastReport != 0 && strategyListLength >= 1, "invalid strategy");
+        require(params.lastReport != 0 && strategyListLength >= 1, "78");
         // It has already been checked whether the strategy was a valid strategy
         for (uint256 i = 0; i < strategyListLength - 1; i++) {
             if (strategyList[i] == strategy) {
@@ -389,7 +389,7 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     /// what has been asked and what has been returned.
     function withdrawFromStrategy(IStrategy strategy, uint256 amount) external onlyRole(GUARDIAN_ROLE) {
         StrategyParams storage params = strategies[address(strategy)];
-        require(params.lastReport != 0, "invalid strategy");
+        require(params.lastReport != 0, "78");
 
         uint256 loss;
         (amount, loss) = strategy.withdraw(amount);

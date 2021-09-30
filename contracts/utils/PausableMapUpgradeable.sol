@@ -28,7 +28,7 @@ contract PausableMapUpgradeable {
     /// @param name Name for which to pause the contract
     /// @dev The contract must not be paused for `name`
     function _pause(bytes32 name) internal {
-        require(!paused[name], "paused");
+        require(!paused[name], "18");
         paused[name] = true;
         emit Paused(name);
     }
@@ -37,7 +37,7 @@ contract PausableMapUpgradeable {
     /// @param name Name for which to unpause the contract
     /// @dev The contract must be paused for `name`
     function _unpause(bytes32 name) internal {
-        require(paused[name], "not paused");
+        require(paused[name], "19");
         paused[name] = false;
         emit Unpaused(name);
     }

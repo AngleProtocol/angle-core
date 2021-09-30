@@ -15,7 +15,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, ReentrancyGuar
     /// @notice Checks to see if it is the `rewardsDistribution` calling this contract
     /// @dev There is no Access Control here, because it can be handled cheaply through these modifiers
     modifier onlyRewardsDistribution() {
-        require(msg.sender == rewardsDistribution, "incorrect caller");
+        require(msg.sender == rewardsDistribution, "1");
         _;
     }
 
@@ -77,10 +77,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, ReentrancyGuar
         address _stakingToken,
         uint256 _rewardsDuration
     ) {
-        require(
-            _stakingToken != address(0) && _rewardToken != address(0) && _rewardsDistribution != address(0),
-            "zero address"
-        );
+        require(_stakingToken != address(0) && _rewardToken != address(0) && _rewardsDistribution != address(0), "0");
 
         // We are not checking the compatibility of the reward token between the distributor and this contract here
         // because it is checked by the `RewardsDistributor` when activating the staking contract
@@ -98,7 +95,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, ReentrancyGuar
     /// @notice Checks to see if the calling address is the zero address
     /// @param account Address to check
     modifier zeroCheck(address account) {
-        require(account != address(0), "zero address");
+        require(account != address(0), "0");
         _;
     }
 
@@ -171,7 +168,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, ReentrancyGuar
     /// @notice Lets a user withdraw a given amount of collateral from the staking contract
     /// @param amount Amount of the ERC20 staking token that the `msg.sender` wants to withdraw
     function withdraw(uint256 amount) public nonReentrant updateReward(msg.sender) {
-        require(amount > 0, "Cannot withdraw 0");
+        require(amount > 0, "89");
         _totalSupply = _totalSupply - amount;
         _balances[msg.sender] = _balances[msg.sender] - amount;
         stakingToken.safeTransfer(msg.sender, amount);
@@ -218,7 +215,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, ReentrancyGuar
     /// @param onBehalf Address to stake on behalf of
     /// @dev Before calling this function, it has already been verified whether this address was a zero address or not
     function _stake(uint256 amount, address onBehalf) internal {
-        require(amount > 0, "Cannot stake 0");
+        require(amount > 0, "90");
         stakingToken.safeTransferFrom(msg.sender, address(this), amount);
         _totalSupply = _totalSupply + amount;
         _balances[onBehalf] = _balances[onBehalf] + amount;
@@ -252,7 +249,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, ReentrancyGuar
         // very high values of `rewardRate` in the earned and `rewardsPerToken` functions;
         // Reward + leftover must be less than 2^256 / 10^18 to avoid overflow.
         uint256 balance = rewardToken.balanceOf(address(this));
-        require(rewardRate <= balance / rewardsDuration, "Provided reward too high");
+        require(rewardRate <= balance / rewardsDuration, "91");
 
         lastUpdateTime = block.timestamp;
         periodFinish = block.timestamp + rewardsDuration; // Change the duration
@@ -269,8 +266,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, ReentrancyGuar
         address to,
         uint256 amount
     ) external override onlyRewardsDistribution {
-        require(tokenAddress != address(stakingToken), "Cannot withdraw the staking token");
-        require(tokenAddress != address(rewardToken), "Cannot withdraw the rewards token");
+        require(tokenAddress != address(stakingToken) && tokenAddress != address(rewardToken), "20");
 
         IERC20(tokenAddress).safeTransfer(to, amount);
         emit Recovered(tokenAddress, to, amount);

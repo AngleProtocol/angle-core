@@ -54,11 +54,20 @@ const config: HardhatUserConfig = {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 1,
+            runs: 830,
           },
         },
       },
       'contracts/perpetualManager/PerpetualManagerFront.sol': {
+        version: '0.8.7',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 300,
+          },
+        },
+      },
+      'contracts/mock/PerpetualManagerFrontUpgrade.sol': {
         version: '0.8.7',
         settings: {
           optimizer: {
@@ -79,7 +88,7 @@ const config: HardhatUserConfig = {
       forking: {
         enabled: argv.fork || false,
         url: nodeUrl('fork'),
-        blockNumber: 12478945,
+        // blockNumber: 13242603,
       },
       mining: argv.disableAutoMining
         ? {
@@ -104,6 +113,14 @@ const config: HardhatUserConfig = {
       gas: 'auto',
       gasPrice: 12e8,
       chainId: 4,
+    },
+    mainnet: {
+      live: false,
+      url: nodeUrl('mainnet'),
+      accounts: accounts('mainnet'),
+      gas: 'auto',
+      gasPrice: 12e8,
+      chainId: 1,
     },
     angleTestNet: {
       url: nodeUrl('angle'),
@@ -155,10 +172,6 @@ const config: HardhatUserConfig = {
     clear: true,
     flat: true,
     spacing: 2,
-  },
-  tenderly: {
-    project: process.env.TENDERLY_PROJECT || '',
-    username: process.env.TENDERLY_USERNAME || '',
   },
   typechain: {
     outDir: 'typechain',

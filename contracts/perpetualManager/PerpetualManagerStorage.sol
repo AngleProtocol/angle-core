@@ -17,6 +17,13 @@ struct Perpetual {
     uint256 committedAmount;
 }
 
+// Used in the `forceCashOutPerpetuals` function to store owners of perpetuals which have been force cashed
+// out, along with the amount associated to it
+struct Pairs {
+    address owner;
+    uint256 netCashOutAmount;
+}
+
 /// @title PerpetualManagerStorage
 /// @author Angle Core Team
 /// @notice `PerpetualManager` is the contract handling all the Hedging Agents positions and perpetuals
@@ -128,7 +135,8 @@ contract PerpetualManagerStorage is PerpetualManagerEvents, FunctionUtils {
     // ================================= Keeper fees ======================================
     // All these parameters can be modified by their corresponding governance function
 
-    /// @notice Portion of the fees that go to keepers liquidating HA perpetuals
+    /// @notice Portion of the leftover cash out amount of liquidated perpetuals that go to
+    /// liquidating keepers
     uint64 public keeperFeesLiquidationRatio;
 
     /// @notice Cap on the fees that go to keepers liquidating a perpetual
