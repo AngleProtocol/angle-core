@@ -22,8 +22,8 @@ contract Core is CoreEvents, ICore {
     /// The protocol has only one guardian address
     address public override guardian;
 
-    /// @notice List of all the stablecoins accepted by the system
-    address[] public stablecoinList;
+    /// @notice List of the addresses of the `StableMaster` contracts accepted by the system
+    address[] internal _stablecoinList;
 
     // List of all the governor addresses of Angle's protocol
     // Initially only the timelock will be appointed governor but new addresses can be added along the way
@@ -76,14 +76,21 @@ contract Core is CoreEvents, ICore {
     /// @notice Changes the `Core` contract of the protocol
     /// @param newCore Address of the new `Core` contract
     /// @dev To maintain consistency, checks are performed. The governance of the new `Core`
-    /// contract should be exactly the same of this one
+    /// contract should be exactly the same as this one, and the `_stablecoinList` should be
+    /// identical
     function setCore(ICore newCore) external onlyGovernor zeroCheck(address(newCore)) {
         require(address(this) != address(newCore), "40");
         require(guardian == newCore.guardian(), "41");
-        // The length of the list is stored as a cache variable to avoid duplicate reads in storage
+        // The length of the lists are stored as cache variables to avoid duplicate reads in storage
+        // Checking the consistency of the `_governorList` and of the `_stablecoinList`
         uint256 governorListLength = _governorList.length;
         address[] memory _newCoreGovernorList = newCore.governorList();
-        require(governorListLength == _newCoreGovernorList.length, "42");
+        uint256 stablecoinListLength = _stablecoinList.length;
+        address[] memory _newStablecoinList = newCore.stablecoinList();
+        require(
+            governorListLength == _newCoreGovernorList.length && stablecoinListLength == _newStablecoinList.length,
+            "42"
+        );
         uint256 indexMet;
         for (uint256 i = 0; i < governorListLength; i++) {
             if (!governorMap[_newCoreGovernorList[i]]) {
@@ -91,11 +98,18 @@ contract Core is CoreEvents, ICore {
                 break;
             }
         }
+        for (uint256 i = 0; i < stablecoinListLength; i++) {
+            // The stablecoin lists should preserve exactly the same order of elements
+            if (_stablecoinList[i] != _newStablecoinList[i]) {
+                indexMet = 1;
+                break;
+            }
+        }
+        // Only performing one require, hence making it cheaper for a governance with a correct initialization
         require(indexMet == 0, "43");
-
         // Propagates the change
-        for (uint256 i = 0; i < stablecoinList.length; i++) {
-            IStableMaster(stablecoinList[i]).setCore(address(newCore));
+        for (uint256 i = 0; i < stablecoinListLength; i++) {
+            IStableMaster(_stablecoinList[i]).setCore(address(newCore));
         }
         emit CoreChanged(address(newCore));
     }
@@ -114,7 +128,7 @@ contract Core is CoreEvents, ICore {
         require(!deployedStableMasterMap[stableMaster], "44");
 
         // Storing and initializing information about the stablecoin
-        stablecoinList.push(stableMaster);
+        _stablecoinList.push(stableMaster);
         // Adding this `stableMaster` in the `deployedStableMasterMap`: it is not going to be possible
         // to revoke and then redeploy this contract
         deployedStableMasterMap[stableMaster] = true;
@@ -126,24 +140,24 @@ contract Core is CoreEvents, ICore {
 
     /// @notice Revokes a `StableMaster` contract
     /// @param stableMaster Address of  the `StableMaster` to revoke
-    /// @dev This function just removes a `StableMaster` contract from the `stablecoinList`
+    /// @dev This function just removes a `StableMaster` contract from the `_stablecoinList`
     /// @dev The consequence is that the `StableMaster` contract will no longer be affected by changes in
     /// governor or guardian occuring from the protocol
     /// @dev This function is mostly here to clean the mappings and save some storage space
     function revokeStableMaster(address stableMaster) external override onlyGovernor {
-        uint256 stablecoinListLength = stablecoinList.length;
-        // Checking if `stableMaster` is correct and removing the stablecoin from the `stablecoinList`
+        uint256 stablecoinListLength = _stablecoinList.length;
+        // Checking if `stableMaster` is correct and removing the stablecoin from the `_stablecoinList`
         require(stablecoinListLength >= 1, "45");
         uint256 indexMet;
         for (uint256 i = 0; i < stablecoinListLength - 1; i++) {
-            if (stablecoinList[i] == stableMaster) {
+            if (_stablecoinList[i] == stableMaster) {
                 indexMet = 1;
-                stablecoinList[i] = stablecoinList[stablecoinListLength - 1];
+                _stablecoinList[i] = _stablecoinList[stablecoinListLength - 1];
                 break;
             }
         }
-        require(indexMet == 1 || stablecoinList[stablecoinListLength - 1] == stableMaster, "45");
-        stablecoinList.pop();
+        require(indexMet == 1 || _stablecoinList[stablecoinListLength - 1] == stableMaster, "45");
+        _stablecoinList.pop();
         // Deleting the stablecoin from the list
         emit StableMasterRevoked(stableMaster);
     }
@@ -164,10 +178,10 @@ contract Core is CoreEvents, ICore {
         _governorList.push(_governor);
         // Propagates the changes to maintain consistency across all the contracts that are attached to this
         // `Core` contract
-        for (uint256 i = 0; i < stablecoinList.length; i++) {
+        for (uint256 i = 0; i < _stablecoinList.length; i++) {
             // Since a zero address check has already been performed in this contract, there is no need
             // to repeat this check in underlying contracts
-            IStableMaster(stablecoinList[i]).addGovernor(_governor);
+            IStableMaster(_stablecoinList[i]).addGovernor(_governor);
         }
 
         emit GovernorRoleGranted(_governor);
@@ -195,10 +209,10 @@ contract Core is CoreEvents, ICore {
         // Once it has been checked that the given address was a correct address, we can proceed to other changes
         delete governorMap[_governor];
         // Maintaining consistency across all contracts
-        for (uint256 i = 0; i < stablecoinList.length; i++) {
+        for (uint256 i = 0; i < _stablecoinList.length; i++) {
             // We have checked in this contract that the mentionned `_governor` here was well a governor
             // There is no need to check this in the underlying contracts where this is going to be updated
-            IStableMaster(stablecoinList[i]).removeGovernor(_governor);
+            IStableMaster(_stablecoinList[i]).removeGovernor(_governor);
         }
 
         emit GovernorRoleRevoked(_governor);
@@ -216,8 +230,8 @@ contract Core is CoreEvents, ICore {
         require(guardian != _newGuardian, "49");
         address oldGuardian = guardian;
         guardian = _newGuardian;
-        for (uint256 i = 0; i < stablecoinList.length; i++) {
-            IStableMaster(stablecoinList[i]).setGuardian(_newGuardian, oldGuardian);
+        for (uint256 i = 0; i < _stablecoinList.length; i++) {
+            IStableMaster(_stablecoinList[i]).setGuardian(_newGuardian, oldGuardian);
         }
         emit GuardianRoleChanged(oldGuardian, _newGuardian);
     }
@@ -228,8 +242,8 @@ contract Core is CoreEvents, ICore {
     function revokeGuardian() external override onlyGuardian {
         address oldGuardian = guardian;
         guardian = address(0);
-        for (uint256 i = 0; i < stablecoinList.length; i++) {
-            IStableMaster(stablecoinList[i]).revokeGuardian(oldGuardian);
+        for (uint256 i = 0; i < _stablecoinList.length; i++) {
+            IStableMaster(_stablecoinList[i]).revokeGuardian(oldGuardian);
         }
         emit GuardianRoleChanged(oldGuardian, address(0));
     }
@@ -242,5 +256,12 @@ contract Core is CoreEvents, ICore {
     /// and initializing them with correct references
     function governorList() external view override returns (address[] memory) {
         return _governorList;
+    }
+
+    /// @notice Returns the list of all the `StableMaster` addresses of the protocol
+    /// @return `_stablecoinList`
+    /// @dev This getter is used by the `Core` contract when setting a new `Core`
+    function stablecoinList() external view override returns (address[] memory) {
+        return _stablecoinList;
     }
 }

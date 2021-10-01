@@ -88,6 +88,7 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
                 // Normally it should be set to 0, but this would imply that no SLP can enter afterwards
                 // we therefore set it to 1 (equivalent to 10**(-18))
                 col.sanRate = 1;
+                col.slpData.lockedInterests = 0;
                 // As it is a critical time, governance pauses SLPs to solve the situation
                 _pause(keccak256(abi.encodePacked(SLP, address(poolManager))));
             }

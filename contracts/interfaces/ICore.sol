@@ -6,7 +6,7 @@ import "./IStableMaster.sol";
 
 /// @title ICore
 /// @author Angle Core Team
-/// @dev Interface for the `Core` contract
+/// @dev Interface for the functions of the `Core` contract
 interface ICore {
     function revokeStableMaster(address stableMaster) external;
 
@@ -19,6 +19,8 @@ interface ICore {
     function revokeGuardian() external;
 
     function governorList() external view returns (address[] memory);
+
+    function stablecoinList() external view returns (address[] memory);
 
     function guardian() external view returns (address);
 }
