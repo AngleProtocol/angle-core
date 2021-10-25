@@ -1,27 +1,35 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "../interfaces/external/compound/CErc20I.sol";
+import "../interfaces/external/compound/IComptroller.sol";
 import "../interfaces/external/compound/InterestRateModel.sol";
-import "../interfaces/external/uniswap/IUniswapV3Router.sol";
+import "../interfaces/external/uniswap/IUniswapRouter.sol";
 
 import "./GenericLenderBase.sol";
 
 /// @title GenericCompound
-/// @author Forked from https://github.com/Grandthrax/yearnv2/blob/master/contracts/GenericDyDx/GenericCompound.sol
+/// @author Forker from here: https://github.com/Grandthrax/yearnV2-generic-lender-strat/blob/master/contracts/GenericLender/GenericCompound.sol
 /// @notice A contract to lend any ERC20 to Compound
 contract GenericCompound is GenericLenderBase {
     using SafeERC20 for IERC20;
     using Address for address;
 
-    uint256 public constant BLOCKS_PER_YEAR = 2_300_000;
+    event PathUpdated(bytes _path);
+
+    uint256 public constant BLOCKS_PER_YEAR = 2_350_000;
 
     // ==================== References to contracts =============================
 
-    address public uniswapRouter;
-    address public comp;
-    CErc20I public cToken;
+    CErc20I public immutable cToken;
+    address public immutable comp;
+    IComptroller public immutable comptroller;
+    IUniswapV3Router public immutable uniswapV3Router;
+    // Used to get the `want` price of the AAVE token
+    IUniswapV2Router public immutable uniswapV2Router;
+
+    address public constant WETH = address(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
 
     // ==================== Parameters =============================
 
@@ -32,30 +40,38 @@ contract GenericCompound is GenericLenderBase {
 
     /// @notice Constructor of the `GenericCompound`
     /// @param _strategy Reference to the strategy using this lender
-    /// @param _uniswapRouter Uniswap router interface to swap reward tokens (`COMP` tokens)
-    /// @param _comp Address of the `COMP` token
-    /// @param _path Bytes to encode the swap from `COMP` to `want`
+    /// @param _path Bytes to encode the swap from `comp` to `want`
     /// @param _cToken Address of the cToken
     /// @param governorList List of addresses with governor privilege
     /// @param guardian Address of the guardian
     constructor(
         address _strategy,
         string memory name,
-        address _uniswapRouter,
+        IUniswapV3Router _uniswapV3Router,
+        IUniswapV2Router _uniswapV2Router,
+        IComptroller _comptroller,
         address _comp,
         bytes memory _path,
         address _cToken,
         address[] memory governorList,
         address guardian
     ) GenericLenderBase(_strategy, name, governorList, guardian) {
-        require(address(_comp) != address(0) && address(_strategy) != address(0), "zero address");
-        uniswapRouter = _uniswapRouter;
-        comp = _comp;
+        // This transaction is going to revert if `_strategy`, `_comp` or `_cToken` are equal to the zero address
+        require(
+            address(_uniswapV2Router) != address(0) &&
+                address(_uniswapV3Router) != address(0) &&
+                address(_comptroller) != address(0),
+            "0"
+        );
         path = _path;
+        uniswapV3Router = _uniswapV3Router;
+        uniswapV2Router = _uniswapV2Router;
+        comptroller = _comptroller;
+        comp = _comp;
         cToken = CErc20I(_cToken);
-        require(cToken.underlying() == address(want), "wrong cToken");
+        require(CErc20I(_cToken).underlying() == address(want), "wrong cToken");
         want.safeApprove(_cToken, type(uint256).max);
-        IERC20(comp).safeApprove(address(_uniswapRouter), type(uint256).max);
+        IERC20(_comp).safeApprove(address(_uniswapV3Router), type(uint256).max);
     }
 
     // ===================== External Strategy Functions ===========================
@@ -127,8 +143,8 @@ contract GenericCompound is GenericLenderBase {
 
         // The supply rate is derived from the borrow rate, reserve factor and the amount of total borrows.
         uint256 supplyRate = model.getSupplyRate(cashPrior + amount, borrows, reserves, reserverFactor);
-
-        return supplyRate * BLOCKS_PER_YEAR;
+        // Adding the yield from comp
+        return supplyRate * BLOCKS_PER_YEAR + _incentivesRate(amount);
     }
 
     /// @notice Check if assets are currently managed by this contract
@@ -138,10 +154,11 @@ contract GenericCompound is GenericLenderBase {
 
     // ============================= Governance =============================
 
-    /// @notice Sets the path for the swap of `COMP` tokens
+    /// @notice Sets the path for the swap of `comp` tokens
     /// @param _path New path
     function setPath(bytes memory _path) external onlyRole(GUARDIAN_ROLE) {
         path = _path;
+        emit PathUpdated(_path);
     }
 
     /// @notice Withdraws as much as possible in case of emergency and sends it to the `PoolManager`
@@ -158,7 +175,7 @@ contract GenericCompound is GenericLenderBase {
 
     /// @notice See `apr`
     function _apr() internal view returns (uint256) {
-        return cToken.supplyRatePerBlock() * BLOCKS_PER_YEAR;
+        return cToken.supplyRatePerBlock() * BLOCKS_PER_YEAR + _incentivesRate(0);
     }
 
     /// @notice See `nav`
@@ -202,15 +219,57 @@ contract GenericCompound is GenericLenderBase {
         return looseBalance;
     }
 
-    /// @notice Claims and swaps from Uniswap the `COMP` earned
+    /// @notice Claims and swaps from Uniswap the `comp` earned
     function _disposeOfComp() internal {
         uint256 _comp = IERC20(comp).balanceOf(address(this));
 
         if (_comp > minCompToSell) {
-            IUniswapV3Router(uniswapRouter).exactInput(
-                ExactInputParams(path, address(this), block.timestamp, _comp, uint256(0))
-            );
+            uniswapV3Router.exactInput(ExactInputParams(path, address(this), block.timestamp, _comp, uint256(0)));
         }
+    }
+
+    /// @notice Calculates APR from Compound's Liquidity Mining Program
+    /// @param amountToAdd Amount to add to the `totalSupplyInWant` (for the `aprAfterDeposit` function)
+    function _incentivesRate(uint256 amountToAdd) internal view returns (uint256) {
+        uint256 supplySpeed = comptroller.compSupplySpeeds(address(cToken));
+        uint256 totalSupplyInWant = (cToken.totalSupply() * cToken.exchangeRateStored()) / 1e18 + amountToAdd;
+        // `supplySpeed` is in `COMP` unit -> the following operation is going to put it in `want` unit
+        supplySpeed = _comptoWant(supplySpeed);
+        uint256 incentivesRate;
+        // Added for testing purposes and to handle the edge case where there is nothing left in a market
+        if (totalSupplyInWant == 0) {
+            incentivesRate = supplySpeed * BLOCKS_PER_YEAR;
+        } else {
+            // `incentivesRate` is expressed in base 18 like all APR
+            incentivesRate = (supplySpeed * BLOCKS_PER_YEAR * 1e18) / totalSupplyInWant;
+        }
+        return (incentivesRate * 9500) / 10000; // 95% of estimated APR to avoid overestimations
+    }
+
+    /// @notice Estimates the value of `_amount` AAVE tokens
+    /// @param _amount Amount of comp to compute the `want` price of
+    /// @dev This function uses a UniswapV2 oracle to easily compute the price (which is not feasible
+    /// with UniswapV3)
+    function _comptoWant(uint256 _amount) internal view returns (uint256) {
+        if (_amount == 0) {
+            return 0;
+        }
+        // We use a different path when trying to get the price of the AAVE in `want`
+        address[] memory pathPrice;
+
+        if (address(want) == address(WETH)) {
+            pathPrice = new address[](2);
+            pathPrice[0] = address(comp);
+            pathPrice[1] = address(want);
+        } else {
+            pathPrice = new address[](3);
+            pathPrice[0] = address(comp);
+            pathPrice[1] = address(WETH);
+            pathPrice[2] = address(want);
+        }
+
+        uint256[] memory amounts = uniswapV2Router.getAmountsOut(_amount, pathPrice); // APRs are in 1e18
+        return amounts[amounts.length - 1];
     }
 
     /// @notice Specifies the token managed by this contract during normal operation

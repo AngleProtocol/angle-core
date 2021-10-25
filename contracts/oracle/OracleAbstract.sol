@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "../interfaces/IOracle.sol";
 
@@ -14,22 +14,9 @@ abstract contract OracleAbstract is IOracle {
     /// @notice Base used for computation
     uint256 public constant BASE = 10**18;
     /// @notice Unit of the in-currency
-    uint256 public inBase;
-    /// @notice Oracle description
+    uint256 public override inBase;
+    /// @notice Description of the assets concerned by the oracle and the price outputted
     bytes32 public description;
-    /// @notice Whether the description has been set
-    uint256 public lockDescription;
-
-    /// @notice Creates a description for the oracle contract
-    /// @param _description Description of the oracle contract
-    /// @dev This function can only be called once, therefore it should be init
-    /// at deployment by governance. The risks of being front runned are low as
-    /// there is no reward associated to calling this function
-    function initDescription(bytes32 _description) external {
-        require(lockDescription == 0, "description already set");
-        lockDescription = 1;
-        description = _description;
-    }
 
     /// @notice Reads one of the rates from the circuits given
     /// @return rate The current rate between the in-currency and out-currency
@@ -48,18 +35,22 @@ abstract contract OracleAbstract is IOracle {
 
     /// @notice Reads rates from the circuit of both Uniswap and Chainlink if there are both circuits
     /// and returns either the highest of both rates or the lowest
-    /// @param lower Whether the lower or the upper price should be returned by the function
-    /// @return The lower/upper rate between Chainlink and Uniswap
+    /// @return rate The lower rate between Chainlink and Uniswap
     /// @dev If there is only one rate computed in an oracle contract, then the only rate is returned
     /// regardless of the value of the `lower` parameter
     /// @dev The rate returned is expressed with base `BASE` (and not the base of the out-currency)
-    function readLower(uint256 lower) external view override returns (uint256) {
-        (uint256 rateSmall, uint256 rateBig) = _readAll(inBase);
-        if (lower == 1) {
-            return rateSmall;
-        } else {
-            return rateBig;
-        }
+    function readLower() external view override returns (uint256 rate) {
+        (rate, ) = _readAll(inBase);
+    }
+
+    /// @notice Reads rates from the circuit of both Uniswap and Chainlink if there are both circuits
+    /// and returns either the highest of both rates or the lowest
+    /// @return rate The upper rate between Chainlink and Uniswap
+    /// @dev If there is only one rate computed in an oracle contract, then the only rate is returned
+    /// regardless of the value of the `lower` parameter
+    /// @dev The rate returned is expressed with base `BASE` (and not the base of the out-currency)
+    function readUpper() external view override returns (uint256 rate) {
+        (, rate) = _readAll(inBase);
     }
 
     /// @notice Converts an in-currency quote amount to out-currency using one of the rates available in the oracle
@@ -79,12 +70,6 @@ abstract contract OracleAbstract is IOracle {
     function readQuoteLower(uint256 quoteAmount) external view override returns (uint256) {
         (uint256 quoteSmall, ) = _readAll(quoteAmount);
         return quoteSmall;
-    }
-
-    /// @notice Gets the base of the input currency
-    /// @return Base of the input currency
-    function getInBase() external view override returns (uint256) {
-        return inBase;
     }
 
     /// @notice Returns Uniswap and Chainlink values (with the first one being the smallest one) or twice the same value

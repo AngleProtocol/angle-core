@@ -1,10 +1,11 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+import "../external/AccessControl.sol";
 
 import "../interfaces/IRewardsDistributor.sol";
 import "../interfaces/IStakingRewards.sol";
@@ -15,7 +16,7 @@ import "../interfaces/IStakingRewards.sol";
 contract RewardsDistributorEvents {
     event Dripped(address indexed _caller, uint256 _amount, address _stakingContract);
 
-    event ANGLEWithdrawn(uint256 _amount);
+    event RewardTokenWithdrawn(uint256 _amount);
 
     event FrequencyUpdated(uint256 _frequency, address indexed _stakingContract);
 

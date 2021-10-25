@@ -1,11 +1,12 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 
 /**
- * @dev This contract implements a proxy that is upgradeable by an admin.
+ * @dev This contract implements a proxy that is upgradeable by an admin. It is fully forked from OpenZeppelin
+ * `TransparentUpgradeableProxy`
  *
  * To avoid https://medium.com/nomic-labs-blog/malicious-backdoors-in-ethereum-proxies-62629adf3357[proxy selector
  * clashing], which can potentially be used in an attack, this contract uses the
@@ -59,7 +60,7 @@ contract TransparentUpgradeableProxy is ERC1967Proxy {
      * https://eth.wiki/json-rpc/API#eth_getstorageat[`eth_getStorageAt`] RPC call.
      * `0xb53127684a568b3173ae13b9f8a6016e243e63b6e8ee1178d6a717850b5d6103`
      */
-    function checkIfadmin() external ifAdmin returns (address admin_) {
+    function admin() external ifAdmin returns (address admin_) {
         admin_ = _getAdmin();
     }
 

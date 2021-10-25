@@ -1,17 +1,19 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 
+import "../external/AccessControl.sol";
+
 import "../interfaces/IGenericLender.sol";
 import "../interfaces/IPoolManager.sol";
 import "../interfaces/IStrategy.sol";
 
-/// @title GenericCompound
-/// @author Forked from https://github.com/Grandthrax/yearnV2-generic-lender-strat/blob/master/contracts/GenericLender/GenericLenderBase.sol
+/// @title GenericLenderBase
+/// @author Forked from https://github.com/Grandthrax/yearnV2-generic-lender-strat/tree/master/contracts/GenericLender
 /// @notice A base contract to build contracts to lend assets
 abstract contract GenericLenderBase is IGenericLender, AccessControl {
     using SafeERC20 for IERC20;
@@ -98,9 +100,8 @@ abstract contract GenericLenderBase is IGenericLender, AccessControl {
     /// should be protected from sweeping in addition to `want`.
     function sweep(address _token, address to) external override onlyRole(GUARDIAN_ROLE) {
         address[] memory __protectedTokens = _protectedTokens();
-        for (uint256 i = 0; i < __protectedTokens.length; i++)
-            require(_token != __protectedTokens[i], "protected token");
+        for (uint256 i = 0; i < __protectedTokens.length; i++) require(_token != __protectedTokens[i], "93");
 
-        SafeERC20.safeTransfer(IERC20(_token), to, IERC20(_token).balanceOf(address(this)));
+        IERC20(_token).safeTransfer(to, IERC20(_token).balanceOf(address(this)));
     }
 }

@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "./PoolManagerEvents.sol";
 
@@ -14,12 +14,10 @@ contract PoolManagerStorage is PoolManagerEvents, FunctionUtils {
     // ================ References to contracts that cannot be modified ============
 
     /// @notice Interface for the underlying token accepted by this contract
-    /// This reference cannot be changed, to change this a new `PoolManager` should be deployed
-    /// with its own `PerpetualManager` and `SanToken` contracts
     IERC20 public token;
 
     /// @notice Reference to the `PerpetualManager` for this collateral/stablecoin pair
-    /// `PerpetualManager` is an upgradable contract, there is therefore no need to be able to update this reference
+    /// `PerpetualManager` is an upgradeable contract, there is therefore no need to be able to update this reference
     IPerpetualManager public perpetualManager;
 
     /// @notice Reference to the `StableMaster` contract corresponding to this `PoolManager`
@@ -38,7 +36,7 @@ contract PoolManagerStorage is PoolManagerEvents, FunctionUtils {
     uint256 public totalDebt;
 
     /// @notice Proportion of the funds managed dedicated to strategies
-    /// Has to be between 0 and BASE
+    /// Has to be between 0 and `BASE_PARAMS`
     uint256 public debtRatio;
 
     /// The struct `StrategyParams` is defined in the interface `IPoolManager`

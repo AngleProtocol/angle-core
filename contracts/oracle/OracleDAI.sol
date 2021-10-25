@@ -9,14 +9,14 @@ import "./OracleAbstract.sol";
 import "./modules/ModuleChainlinkMulti.sol";
 import "./modules/ModuleUniswapMulti.sol";
 
-/// @title OracleMulti
+/// @title OracleDAI
 /// @author Angle Core Team
 /// @notice Oracle contract, one contract is deployed per collateral/stablecoin pair
 /// @dev This contract concerns an oracle that only uses both Chainlink and Uniswap for multiple pools
 /// @dev This is going to be used for like ETH/EUR oracles
 /// @dev Like all oracle contracts, this contract is an instance of `OracleAstract` that contains some
 /// base functions
-contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti {
+contract OracleDAI is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti {
     /// @notice Whether the final rate obtained with Uniswap should be multiplied to last rate from Chainlink
     uint8 public immutable uniFinalCurrency;
 
@@ -101,9 +101,24 @@ contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti
             quoteAmountUni = _changeUniswapNotFinal(ratio, quoteAmountUni);
         }
 
+        // As DAI is made to be a stablecoin, computing the rate as if Uniswap returned `BASE * quoteAmount`
+        ratio = _changeUniswapNotFinal(ratio, quoteAmount * BASE / inBase);
+
         if (quoteAmountCL <= quoteAmountUni) {
+            if (ratio <= quoteAmountCL) {
+                return (ratio, quoteAmountUni);
+            } else if (quoteAmountUni <= ratio) {
+                return (quoteAmountCL, ratio);
+            }
             return (quoteAmountCL, quoteAmountUni);
-        } else return (quoteAmountUni, quoteAmountCL);
+        } else {
+            if (ratio <= quoteAmountUni) {
+                return (ratio, quoteAmountCL);
+            } else if (quoteAmountCL <= ratio) {
+                return (quoteAmountUni, ratio);
+            }
+            return (quoteAmountUni, quoteAmountCL);
+        }
     }
 
     /// @notice Uses Chainlink's value to change Uniswap's rate

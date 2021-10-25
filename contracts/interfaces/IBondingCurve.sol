@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "./IAgToken.sol";
 import "./IOracle.sol";
@@ -11,7 +11,11 @@ import "./IOracle.sol";
 interface IBondingCurve {
     // ============================ User Functions =================================
 
-    function buySoldToken(IAgToken _agToken, uint256 targetANGLEQuantity) external;
+    function buySoldToken(
+        IAgToken _agToken,
+        uint256 targetSoldTokenQuantity,
+        uint256 maxAmountToPayInAgToken
+    ) external;
 
     // ========================== Governance Functions =============================
 

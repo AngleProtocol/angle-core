@@ -1,21 +1,21 @@
-import 'dotenv/config';
+import 'dotenv/config'
 
-import yargs from 'yargs';
-import { nodeUrl, accounts } from './utils/network';
-import { HardhatUserConfig } from 'hardhat/config';
+import yargs from 'yargs'
+import { nodeUrl, accounts } from './utils/network'
+import { HardhatUserConfig } from 'hardhat/config'
 
-import 'hardhat-contract-sizer';
-import 'hardhat-spdx-license-identifier';
-import 'hardhat-docgen';
-import 'hardhat-deploy';
-import 'hardhat-abi-exporter';
-import '@nomiclabs/hardhat-ethers';
-import '@nomiclabs/hardhat-truffle5';
-import '@nomiclabs/hardhat-solhint';
-import '@openzeppelin/hardhat-upgrades';
-import 'solidity-coverage';
-import '@tenderly/hardhat-tenderly';
-import '@typechain/hardhat';
+import 'hardhat-contract-sizer'
+import 'hardhat-spdx-license-identifier'
+import 'hardhat-docgen'
+import 'hardhat-deploy'
+import 'hardhat-abi-exporter'
+import '@nomiclabs/hardhat-ethers'
+import '@nomiclabs/hardhat-truffle5'
+import '@nomiclabs/hardhat-solhint'
+import '@openzeppelin/hardhat-upgrades'
+import 'solidity-coverage'
+import '@tenderly/hardhat-tenderly'
+import '@typechain/hardhat'
 
 const argv = yargs
   .env('')
@@ -24,21 +24,45 @@ const argv = yargs
   .number('runs')
   .boolean('fork')
   .boolean('disableAutoMining')
-  .parseSync();
+  .parseSync()
 
 if (argv.enableGasReport) {
-  import('hardhat-gas-reporter'); // eslint-disable-line
+  import('hardhat-gas-reporter') // eslint-disable-line
 }
 
 const config: HardhatUserConfig = {
   solidity: {
-    version: '0.8.2',
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 100,
+    compilers: [
+      {
+        version: '0.8.7',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 1000000,
+          },
+          // debug: { revertStrings: 'strip' },
+        },
       },
-      // debug: { revertStrings: 'strip' },
+    ],
+    overrides: {
+      'contracts/stableMaster/StableMasterFront.sol': {
+        version: '0.8.7',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 830,
+          },
+        },
+      },
+      'contracts/perpetualManager/PerpetualManagerFront.sol': {
+        version: '0.8.7',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 283,
+          },
+        },
+      },
     },
   },
   defaultNetwork: 'hardhat',
@@ -47,16 +71,17 @@ const config: HardhatUserConfig = {
       accounts: accounts('local'),
       live: argv.fork || false,
       blockGasLimit: 125e5,
+      hardfork: 'london',
       forking: {
         enabled: argv.fork || false,
         url: nodeUrl('fork'),
-        blockNumber: 12478945,
+        blockNumber: 13473325,
       },
       mining: argv.disableAutoMining
         ? {
-          auto: false,
-          interval: 1000,
-        }
+            auto: false,
+            interval: 1000,
+          }
         : { auto: true },
       chainId: 1337,
     },
@@ -80,6 +105,14 @@ const config: HardhatUserConfig = {
       gas: 12e6,
       gasPrice: 12e8,
       chainId: 4,
+    },
+    mainnet: {
+      live: true,
+      url: nodeUrl('mainnet'),
+      accounts: accounts('mainnet'),
+      gas: 'auto',
+      gasMultiplier: 1.3,
+      chainId: 1,
     },
     angleTestNet: {
       url: nodeUrl('angle'),
@@ -105,8 +138,8 @@ const config: HardhatUserConfig = {
     keeper2: 9,
   },
   mocha: {
-    timeout: 10000,
-    retries: 10,
+    timeout: 60000,
+    retries: argv.ci ? 10 : 0,
   },
   contractSizer: {
     alphaSort: true,
@@ -136,6 +169,6 @@ const config: HardhatUserConfig = {
     outDir: 'typechain',
     target: 'ethers-v5',
   },
-};
+}
 
-export default config;
+export default config

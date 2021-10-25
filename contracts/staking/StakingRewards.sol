@@ -1,6 +1,6 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
 import "./StakingRewardsEvents.sol";
 
@@ -9,19 +9,27 @@ import "./StakingRewardsEvents.sol";
 /// https://github.com/SetProtocol/index-coop-contracts/blob/master/contracts/staking/StakingRewards.sol
 /// @notice The `StakingRewards` contracts allows to stake an ERC20 token to receive as reward another ERC20
 /// @dev This contracts is managed by the reward distributor and implements the staking interface
-contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl, ReentrancyGuard {
+contract StakingRewards is StakingRewardsEvents, IStakingRewards, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
-    uint256 public constant BASE = 10**18;
-    bytes32 public constant REWARD_DISTRIBUTOR_ROLE = keccak256("REWARD_DISTRIBUTOR_ROLE");
+    /// @notice Checks to see if it is the `rewardsDistribution` calling this contract
+    /// @dev There is no Access Control here, because it can be handled cheaply through these modifiers
+    modifier onlyRewardsDistribution() {
+        require(msg.sender == rewardsDistribution, "1");
+        _;
+    }
 
     // ============================ References to contracts ========================
 
     /// @notice ERC20 token given as reward
-    IERC20 public rewardsToken;
+    IERC20 public immutable override rewardToken;
 
     /// @notice ERC20 token used for staking
-    IERC20 public stakingToken;
+    IERC20 public immutable stakingToken;
+
+    /// @notice Base of the staked token, it is going to be used in the case of sanTokens
+    /// which are not in base 10**18
+    uint256 public immutable stakingBase;
 
     /// @notice Rewards Distribution contract for this staking contract
     address public rewardsDistribution;
@@ -29,10 +37,10 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
     // ============================ Staking parameters =============================
 
     /// @notice Time at which distribution ends
-    uint256 public periodFinish = 0;
+    uint256 public periodFinish;
 
     /// @notice Reward per second given to the staking contract, split among the staked tokens
-    uint256 public rewardRate = 0;
+    uint256 public rewardRate;
 
     /// @notice Duration of the reward distribution
     uint256 public rewardsDuration;
@@ -42,7 +50,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
 
     /// @notice Helps to compute the amount earned by someone
     /// Cumulates rewards accumulated for one token since the beginning.
-    /// Stored as a uint so is actually a float times 1e18
+    /// Stored as a uint so it is actually a float times the base of the reward token
     uint256 public rewardPerTokenStored;
 
     /// @notice Stores for each account the `rewardPerToken`: we do the difference
@@ -60,28 +68,26 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
 
     /// @notice Initializes the staking contract with a first set of parameters
     /// @param _rewardsDistribution Address owning the rewards token
-    /// @param _rewardsToken ERC20 token given as reward
+    /// @param _rewardToken ERC20 token given as reward
     /// @param _stakingToken ERC20 token used for staking
     /// @param _rewardsDuration Duration of the staking contract
     constructor(
         address _rewardsDistribution,
-        address _rewardsToken,
+        address _rewardToken,
         address _stakingToken,
         uint256 _rewardsDuration
     ) {
-        require(
-            _stakingToken != address(0) && _rewardsToken != address(0) && _rewardsDistribution != address(0),
-            "zero address"
-        );
+        require(_stakingToken != address(0) && _rewardToken != address(0) && _rewardsDistribution != address(0), "0");
+
+        // We are not checking the compatibility of the reward token between the distributor and this contract here
+        // because it is checked by the `RewardsDistributor` when activating the staking contract
         // Parameters
-        rewardsToken = IERC20(_rewardsToken);
+        rewardToken = IERC20(_rewardToken);
         stakingToken = IERC20(_stakingToken);
         rewardsDuration = _rewardsDuration;
         rewardsDistribution = _rewardsDistribution;
 
-        // Access control
-        _setupRole(REWARD_DISTRIBUTOR_ROLE, _rewardsDistribution);
-        _setRoleAdmin(REWARD_DISTRIBUTOR_ROLE, REWARD_DISTRIBUTOR_ROLE);
+        stakingBase = 10**IERC20Metadata(_stakingToken).decimals();
     }
 
     // ============================ Modifiers ======================================
@@ -89,7 +95,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
     /// @notice Checks to see if the calling address is the zero address
     /// @param account Address to check
     modifier zeroCheck(address account) {
-        require(account != address(0), "zero address");
+        require(account != address(0), "0");
         _;
     }
 
@@ -135,7 +141,8 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
             return rewardPerTokenStored;
         }
         return
-            rewardPerTokenStored + (((lastTimeRewardApplicable() - lastUpdateTime) * rewardRate * BASE) / _totalSupply);
+            rewardPerTokenStored +
+            (((lastTimeRewardApplicable() - lastUpdateTime) * rewardRate * stakingBase) / _totalSupply);
     }
 
     /// @notice Returns how much a given account earned rewards
@@ -144,7 +151,10 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
     /// @dev It adds to the rewards the amount of reward earned since last time that is the difference
     /// in reward per token from now and last time multiplied by the number of tokens staked by the person
     function earned(address account) public view returns (uint256) {
-        return (_balances[account] * (rewardPerToken() - userRewardPerTokenPaid[account])) / BASE + rewards[account];
+        return
+            (_balances[account] * (rewardPerToken() - userRewardPerTokenPaid[account])) /
+            stakingBase +
+            rewards[account];
     }
 
     // ======================== Mutative functions forked ==========================
@@ -158,7 +168,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
     /// @notice Lets a user withdraw a given amount of collateral from the staking contract
     /// @param amount Amount of the ERC20 staking token that the `msg.sender` wants to withdraw
     function withdraw(uint256 amount) public nonReentrant updateReward(msg.sender) {
-        require(amount > 0, "Cannot withdraw 0");
+        require(amount > 0, "89");
         _totalSupply = _totalSupply - amount;
         _balances[msg.sender] = _balances[msg.sender] - amount;
         stakingToken.safeTransfer(msg.sender, amount);
@@ -170,7 +180,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
         uint256 reward = rewards[msg.sender];
         if (reward > 0) {
             rewards[msg.sender] = 0;
-            rewardsToken.safeTransfer(msg.sender, reward);
+            rewardToken.safeTransfer(msg.sender, reward);
             emit RewardPaid(msg.sender, reward);
         }
     }
@@ -205,7 +215,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
     /// @param onBehalf Address to stake on behalf of
     /// @dev Before calling this function, it has already been verified whether this address was a zero address or not
     function _stake(uint256 amount, address onBehalf) internal {
-        require(amount > 0, "Cannot stake 0");
+        require(amount > 0, "90");
         stakingToken.safeTransferFrom(msg.sender, address(this), amount);
         _totalSupply = _totalSupply + amount;
         _balances[onBehalf] = _balances[onBehalf] + amount;
@@ -220,7 +230,7 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
     function notifyRewardAmount(uint256 reward)
         external
         override
-        onlyRole(REWARD_DISTRIBUTOR_ROLE)
+        onlyRewardsDistribution
         nonReentrant
         updateReward(address(0))
     {
@@ -238,8 +248,8 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
         // This keeps the reward rate in the right range, preventing overflows due to
         // very high values of `rewardRate` in the earned and `rewardsPerToken` functions;
         // Reward + leftover must be less than 2^256 / 10^18 to avoid overflow.
-        uint256 balance = rewardsToken.balanceOf(address(this));
-        require(rewardRate <= balance / rewardsDuration, "Provided reward too high");
+        uint256 balance = rewardToken.balanceOf(address(this));
+        require(rewardRate <= balance / rewardsDuration, "91");
 
         lastUpdateTime = block.timestamp;
         periodFinish = block.timestamp + rewardsDuration; // Change the duration
@@ -255,29 +265,20 @@ contract StakingRewards is StakingRewardsEvents, IStakingRewards, AccessControl,
         address tokenAddress,
         address to,
         uint256 amount
-    ) external override onlyRole(REWARD_DISTRIBUTOR_ROLE) {
-        require(tokenAddress != address(stakingToken), "Cannot withdraw the staking token");
-        require(tokenAddress != address(rewardsToken), "Cannot withdraw the rewards token");
+    ) external override onlyRewardsDistribution {
+        require(tokenAddress != address(stakingToken) && tokenAddress != address(rewardToken), "20");
 
-        emit Recovered(tokenAddress, to, amount);
         IERC20(tokenAddress).safeTransfer(to, amount);
+        emit Recovered(tokenAddress, to, amount);
     }
 
     /// @notice Changes the rewards distributor associated to this contract
-    /// @param newRewardsDistributor Address of the new rewards distributor contract
-    /// @dev The staking rewards interface does not implement the access control interface as
-    /// it may create conflicts in the `PerpetualManager` contract which implements access control
-    /// upgradable. We therefore need to define this function
+    /// @param _rewardsDistribution Address of the new rewards distributor contract
     /// @dev This function was also added by Angle Core Team
-    /// @dev A zero address check is already performed in the current `RewardsDistributor` implementation
+    /// @dev A compatibility check of the reward token is already performed in the current `RewardsDistributor` implementation
     /// which has right to call this function
-    function setNewRewardsDistributor(address newRewardsDistributor)
-        external
-        override
-        onlyRole(REWARD_DISTRIBUTOR_ROLE)
-    {
-        grantRole(REWARD_DISTRIBUTOR_ROLE, newRewardsDistributor);
-        revokeRole(REWARD_DISTRIBUTOR_ROLE, rewardsDistribution);
-        rewardsDistribution = newRewardsDistributor;
+    function setNewRewardsDistribution(address _rewardsDistribution) external override onlyRewardsDistribution {
+        rewardsDistribution = _rewardsDistribution;
+        emit RewardsDistributionUpdated(_rewardsDistribution);
     }
 }

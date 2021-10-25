@@ -1,29 +1,28 @@
 # Angle Protocol
 
-Core smart contracts of the Angle Protocol
+This repo contains the Core Smart Contracts of the Angle Protocol. It is these contracts that are going to be deployed on mainnet and that have been audited by Chainsecurity and Sigma Prime.
 
 ## Documentation
 
-It is possible to find documentation to understand the Angle Protocol on https://docs.angle.money.
-Developers documentation to understand the smart contract architecture can be found here: https://angle.gitbook.io/developers/.
+Angle is a decentralized stablecoin protocol, designed to be both over-collateralized and capital-efficient. For more information about the protocol, you can refer to [Angle Official Documentation](https://docs.angle.money).
 
-## Some Remarks on the Code
-Our developers documentation is not completely up-to date with the changes we have recently made. The source of truth when it comes to the protocol is what is in the contracts. We will try to update it as soon as possible.
+If you would like to know how the protocol works under the hood and how these smart contracts work together, you can also check [Angle Developers Doc](https://developers.angle.money).
 
-The interfaces we define in the smart contracts are for our own usage. We will work on a SDK where we define the correct interfaces to integrate with our contracts.
+The smart contracts of the protocol are structured as follows:
 
-There are some risks and vulnerabilities in our code we are aware of. In the code, in each situation where a risk arises, we try to mention it in the comments. A non-exhaustive list of such risks includes:
-- Front-running risks for keepers interacting with our contracts: there are some functions which gives rewards to the address calling it and it is easy to get front-ran by miners when calling these functions
-- Reentrancy risks: when running Slither, some reentrancy risks arise. In most situations, these happen for riskless calls to trusted smart contracts of the protocol
-- Dependence on a careful governance for some changes at the protocol level. Extreme care must be taken when deploying and when updating roles. For instance when adding a new governor, as to propagate the changes across all contracts of the protocol, several transactions may be needed 
+![Angle Protocol Smart Contract Architecture](./AngleArchitectureSchema.png)
+
+For a broader overview of the protocol, you can also check the [Angle Interfaces Repo](https://github.com/AngleProtocol/angle-interfaces).
+
+## Audits
+
+Angle smart contracts have been audited by Sigma Prime and [Chainsecurity](https://chainsecurity.com/security-audit/angle-protocol/). The audit reports can be found in the `audits/` folder of this repo.
+
+The `main` branch contains of this repo contains the code of the contracts that have been deployed. The other branches are the audited branches.
 
 ## Usage
 
-To install all the packages needed to run the tests, run:
-`yarn`
-
-Create a  `.env` file with the following variables:
-ETH_NODE_URI_KOVAN, MNEMONIC_KOVAN, MNEMONIC_LOCAL
+Note that this repo is not the repo on which the Angle Core Team develops. This one, containing all the tests around this code, will be shared after the official launch of the protocol. We still feel that it is important for everyone to be able to evaluate the content of the smart contracts of the protocol before interacting with it on mainnet.
 
 ## Responsible Disclosure
 
@@ -56,3 +55,10 @@ We will promise the following:
     In the public information concerning the problem reported, we will give your name as the discoverer of the problem (unless you desire otherwise); and
 
     As a token of our gratitude for your assistance, we offer a reward for every report of a security problem that was not yet known to us. The amount of the reward will be determined based on the severity of the leak, the quality of the report and any additional assistance you provide.
+
+## Further Information
+
+For more info about the protocol:
+
+- [Twitter](https://twitter.com/AngleProtocol)
+- [Discord](https://discord.gg/9EKFec2MBm)

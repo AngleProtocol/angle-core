@@ -1,32 +1,44 @@
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: GNU GPLv3
 
-pragma solidity 0.8.2;
+pragma solidity ^0.8.7;
 
-import "../interfaces/external/uniswap/IUniswapV3Router.sol";
+import "../interfaces/external/uniswap/IUniswapRouter.sol";
 import "../interfaces/external/aave/IAave.sol";
 
 import "./GenericLenderBase.sol";
 
+struct AaveReferences {
+    IAToken aToken;
+    IProtocolDataProvider protocolDataProvider;
+    IStakedAave stkAave;
+    address aave;
+}
+
 /// @title GenericAave
 /// @author Forked from https://github.com/Grandthrax/yearnV2-generic-lender-strat/blob/master/contracts/GenericLender/GenericAave.sol
 /// @notice A contract to lend any ERC20 to Aave
-/// @dev This contract is already in production, see at 0x71bE8726C96873F04d2690AA05b2ACcA7C7104d0
+/// @dev This contract is already in production, see at 0x71bE8726C96873F04d2690AA05b2ACcA7C7104d0 or there: https://etherscan.io/address/0xb164c0f42d9C6DBf976b60962fFe790A35e42b13#code
 contract GenericAave is GenericLenderBase {
     using SafeERC20 for IERC20;
     using Address for address;
+
+    event PathUpdated(bytes _path);
+    event IncentivisedUpdated(bool _isIncentivised);
+    event CustomReferralUpdated(uint16 customReferral);
 
     uint256 internal constant _SECONDS_IN_YEAR = 365 days;
     uint16 internal constant _DEFAULT_REFERRAL = 179; // jmonteer's referral code
 
     // ==================== References to contracts =============================
-
-    IProtocolDataProvider public constant protocolDataProvider =
-        IProtocolDataProvider(address(0x057835Ad21a177dbdd3090bB1CAE03EaCF78Fc6d));
-    IAToken public aToken;
-    IStakedAave public constant stkAave = IStakedAave(0x4da27a545c0c5B758a6BA100e3a049001de870f5);
     address public constant WETH = address(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
-    address public constant AAVE = address(0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9);
-    IUniswapV3Router public uniswapRouter;
+
+    IAToken public immutable aToken;
+    IProtocolDataProvider public immutable protocolDataProvider;
+    IStakedAave public immutable stkAave;
+    address public immutable aave;
+    IUniswapV3Router public immutable uniswapV3Router;
+    // Used to get the `want` price of the AAVE token
+    IUniswapV2Router public immutable uniswapV2Router;
 
     // ==================== Parameters =============================
 
@@ -40,25 +52,45 @@ contract GenericAave is GenericLenderBase {
     constructor(
         address _strategy,
         string memory name,
-        IUniswapV3Router _uniswapRouter,
-        IAToken _aToken,
+        IUniswapV3Router _uniswapV3Router,
+        IUniswapV2Router _uniswapV2Router,
+        AaveReferences memory aaveReferences,
         bool _isIncentivised,
         bytes memory _path,
         address[] memory governorList,
         address guardian
     ) GenericLenderBase(_strategy, name, governorList, guardian) {
-        require(address(aToken) == address(0), "already initialized");
-
+        // This transaction is going to revert if `_strategy`, `aave`, `protocolDataProvider` or `aToken`
+        // are equal to the zero address
         require(
-            !_isIncentivised || address(_aToken.getIncentivesController()) != address(0),
+            address(_uniswapV2Router) != address(0) &&
+                address(_uniswapV3Router) != address(0) &&
+                address(aaveReferences.stkAave) != address(0),
+            "0"
+        );
+        require(
+            !_isIncentivised || address(aaveReferences.aToken.getIncentivesController()) != address(0),
             "aToken does not have incentives controller set up"
         );
-        uniswapRouter = _uniswapRouter;
+        uniswapV3Router = _uniswapV3Router;
+        uniswapV2Router = _uniswapV2Router;
+        aToken = aaveReferences.aToken;
+        protocolDataProvider = aaveReferences.protocolDataProvider;
+        stkAave = aaveReferences.stkAave;
+        aave = aaveReferences.aave;
         isIncentivised = _isIncentivised;
-        aToken = _aToken;
         path = _path;
-        require(_lendingPool().getReserveData(address(want)).aTokenAddress == address(_aToken), "wrong aToken");
-        IERC20(address(want)).safeApprove(address(_lendingPool()), type(uint256).max);
+        ILendingPool lendingPool = ILendingPool(
+            aaveReferences.protocolDataProvider.ADDRESSES_PROVIDER().getLendingPool()
+        );
+        // We cannot store a `lendingPool` variable here otherwise we would get a stack too deep problem
+        require(
+            lendingPool.getReserveData(address(want)).aTokenAddress == address(aaveReferences.aToken),
+            "wrong aToken"
+        );
+        IERC20(address(want)).safeApprove(address(lendingPool), type(uint256).max);
+        // Approving the Uniswap router for the transactions
+        IERC20(aaveReferences.aave).safeApprove(address(_uniswapV3Router), type(uint256).max);
     }
 
     // ============================= External Functions =============================
@@ -109,7 +141,7 @@ contract GenericAave is GenericLenderBase {
         }
 
         // sell AAVE for want
-        uint256 aaveBalance = IERC20(AAVE).balanceOf(address(this));
+        uint256 aaveBalance = IERC20(aave).balanceOf(address(this));
         _sellAAVEForWant(aaveBalance);
 
         // deposit want in lending protocol
@@ -187,8 +219,9 @@ contract GenericAave is GenericLenderBase {
                 averageStableBorrowRate,
                 reserveFactor
             );
+        uint256 incentivesRate = _incentivesRate(newLiquidity + totalStableDebt + totalVariableDebt); // total supplied liquidity in Aave v2
 
-        return newLiquidityRate / 1e9; // divided by 1e9 to go from Ray to Wad
+        return newLiquidityRate / 1e9 + incentivesRate; // divided by 1e9 to go from Ray to Wad
     }
 
     /// @notice Checks if assets are currently managed by this contract
@@ -206,7 +239,20 @@ contract GenericAave is GenericLenderBase {
     /// @notice See `apr`
     function _apr() internal view returns (uint256) {
         uint256 liquidityRate = uint256(_lendingPool().getReserveData(address(want)).currentLiquidityRate) / 1e9; // dividing by 1e9 to pass from ray to wad
-        return liquidityRate;
+        (
+            uint256 availableLiquidity,
+            uint256 totalStableDebt,
+            uint256 totalVariableDebt,
+            ,
+            ,
+            ,
+            ,
+            ,
+            ,
+
+        ) = protocolDataProvider.getReserveData(address(want));
+        uint256 incentivesRate = _incentivesRate(availableLiquidity + totalStableDebt + totalVariableDebt); // total supplied liquidity in Aave v2
+        return liquidityRate + incentivesRate;
     }
 
     /// @notice See `nav`
@@ -214,7 +260,7 @@ contract GenericAave is GenericLenderBase {
         return want.balanceOf(address(this)) + underlyingBalanceStored();
     }
 
-    /// @notice See `withdrawù
+    /// @notice See `withdraw`
     function _withdraw(uint256 amount) internal returns (uint256) {
         uint256 balanceUnderlying = aToken.balanceOf(address(this));
         uint256 looseBalance = want.balanceOf(address(this));
@@ -295,6 +341,53 @@ contract GenericAave is GenericLenderBase {
         }
     }
 
+    /// @notice Calculates APR from Liquidity Mining Program
+    /// @param totalLiquidity Total liquidity available in the pool
+    /// @dev At Angle, compared with Yearn implementation, we have decided to add a check
+    /// about the `totalLiquidity` before entering the `if` branch
+    function _incentivesRate(uint256 totalLiquidity) internal view returns (uint256) {
+        // only returns != 0 if the incentives are in place at the moment.
+        // it will fail if the isIncentivised is set to true but there is no incentives
+        IAaveIncentivesController incentivesController = _incentivesController();
+        if (isIncentivised && block.timestamp < incentivesController.getDistributionEnd() && totalLiquidity > 0) {
+            uint256 _emissionsPerSecond;
+            (, _emissionsPerSecond, ) = _incentivesController().getAssetData(address(aToken));
+            if (_emissionsPerSecond > 0) {
+                uint256 emissionsInWant = _AAVEtoWant(_emissionsPerSecond); // amount of emissions in want
+
+                uint256 incentivesRate = (emissionsInWant * _SECONDS_IN_YEAR * 1e18) / totalLiquidity; // APRs are in 1e18
+
+                return (incentivesRate * 9500) / 10000; // 95% of estimated APR to avoid overestimations
+            }
+        }
+        return 0;
+    }
+
+    /// @notice Estimates the value of `_amount` AAVE tokens
+    /// @param _amount Amount of AAVE to compute the `want` price of
+    /// @dev This function uses a UniswapV2 oracle to easily compute the price (which is not feasible
+    /// with UniswapV3)
+    ///@dev When entering this function, it has been checked that the `amount` parameter is not null
+    // solhint-disable-next-line func-name-mixedcase
+    function _AAVEtoWant(uint256 _amount) internal view returns (uint256) {
+        // We use a different path when trying to get the price of the AAVE in `want`
+        address[] memory pathPrice;
+
+        if (address(want) == address(WETH)) {
+            pathPrice = new address[](2);
+            pathPrice[0] = address(aave);
+            pathPrice[1] = address(want);
+        } else {
+            pathPrice = new address[](3);
+            pathPrice[0] = address(aave);
+            pathPrice[1] = address(WETH);
+            pathPrice[2] = address(want);
+        }
+
+        uint256[] memory amounts = uniswapV2Router.getAmountsOut(_amount, pathPrice);
+        return amounts[amounts.length - 1];
+    }
+
     /// @notice Swaps an amount from `AAVE` to Want
     /// @param _amount The amount to convert
     function _sellAAVEForWant(uint256 _amount) internal {
@@ -302,12 +395,12 @@ contract GenericAave is GenericLenderBase {
             return;
         }
 
-        if (IERC20(AAVE).allowance(address(this), address(uniswapRouter)) < _amount) {
-            IERC20(AAVE).safeApprove(address(uniswapRouter), 0);
-            IERC20(AAVE).safeApprove(address(uniswapRouter), type(uint256).max);
+        if (IERC20(aave).allowance(address(this), address(uniswapV3Router)) < _amount) {
+            IERC20(aave).safeApprove(address(uniswapV3Router), 0);
+            IERC20(aave).safeApprove(address(uniswapV3Router), type(uint256).max);
         }
 
-        uniswapRouter.exactInput(ExactInputParams(path, address(this), block.timestamp, _amount, uint256(0)));
+        uniswapV3Router.exactInput(ExactInputParams(path, address(this), block.timestamp, _amount, uint256(0)));
     }
 
     /// @notice Returns the incentive controller
@@ -332,13 +425,14 @@ contract GenericAave is GenericLenderBase {
     /// @notice For the management to activate / deactivate incentives functionality
     /// @param _isIncentivised Boolean for activation
     function setIsIncentivised(bool _isIncentivised) external onlyRole(GUARDIAN_ROLE) {
-        // NOTE: if the aToken is not incentivised, getIncentivesController() might revert (aToken won't implement it)
+        // NOTE: if the aToken is not incentivised, `getIncentivesController()` might revert (aToken won't implement it)
         // to avoid calling it, we use the OR and lazy evaluation
         require(
             !_isIncentivised || address(aToken.getIncentivesController()) != address(0),
             "aToken does not have incentives controller set up"
         );
         isIncentivised = _isIncentivised;
+        emit IncentivisedUpdated(_isIncentivised);
     }
 
     /// @notice Sets the referral
@@ -346,11 +440,13 @@ contract GenericAave is GenericLenderBase {
     function setReferralCode(uint16 __customReferral) external onlyRole(GUARDIAN_ROLE) {
         require(__customReferral != 0, "invalid referral code");
         _customReferral = __customReferral;
+        emit CustomReferralUpdated(_customReferral);
     }
 
-    /// @notice Sets the path for swap
+    /// @notice Sets the path for swap of AAVE to `want`
     /// @param _path New path
     function setPath(bytes memory _path) external onlyRole(GUARDIAN_ROLE) {
         path = _path;
+        emit PathUpdated(_path);
     }
 }
