@@ -53,7 +53,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-standard": "5.0.0",
     "ethereum-waffle": "^3.4.0",
-    "ethers": "^5.4.5",
+    "ethers": "5.4.5",
     "express": "4.17.1",
     "ganache-cli": "^6.12.2",
     "graphql": "15.5.1",
