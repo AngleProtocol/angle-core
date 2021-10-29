@@ -16,9 +16,9 @@ For a broader overview of the protocol, you can also check the [Angle Interfaces
 
 ## Audits
 
-Angle smart contracts have been audited by Sigma Prime and [Chainsecurity](https://chainsecurity.com/security-audit/angle-protocol/). The audit reports can be found in the `audits/` folder of this repo.
+Angle smart contracts have been audited by Sigma Prime and [Chainsecurity](https://chainsecurity.com/security-audit/angle-protocol/). The audit reports can be found in the `audits/` folder of this repo. Every contract of the protocol has been audited at least by one of the two auditors. 
 
-The `main` branch contains of this repo contains the code of the contracts that have been deployed. The other branches are the audited branches.
+The `main` branch of this repo contains the code of the contracts that have been deployed. The other branches are the audited branches.
 
 ## Usage
 
