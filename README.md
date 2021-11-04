@@ -22,7 +22,7 @@ The `main` branch of this repo contains the code of the contracts that have been
 
 ## Bug Bounty
 
-At Angle, we consider the security of our systems a top priority. But even putting top priority status and maximum effort, there is still possibility that vulnerabilities can exist.
+At Angle, we consider the security of our systems a top priority. But even putting top priority status and maximum effort, there is still possibility that vulnerabilities exist.
 
 We have therefore setup a bug bounty program with the help of Immunefi. The Angle Protocol bug bounty program is focused around our smart contracts with a primary interest in the prevention of:
 
@@ -43,7 +43,7 @@ All bug reports must include a Proof of Concept demonstrating how the vulnerabil
 
 ## Usage
 
-Note that this repo is not the repo on which the Angle Core Team develops. This one, containing all the tests around this code, will be shared after the official launch of the protocol. We still feel that it is important for everyone to be able to evaluate the content of the smart contracts of the protocol before interacting with it on mainnet.
+Note that this repo is not the repo on which the Angle Core Team develops. The one containing all the tests on the smart contracts will be shared after short the official launch of the protocol. We still feel that it is important for everyone to be able to evaluate the content of the smart contracts of the protocol before interacting with it on mainnet.
 
 ## Further Information
 
