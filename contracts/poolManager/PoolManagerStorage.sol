@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -45,4 +45,14 @@ contract PoolManagerStorage is PoolManagerEvents, FunctionUtils {
 
     /// @notice List of the current strategies
     address[] public strategyList;
+
+    /// @notice Address of the surplus distributor allowed to distribute rewards
+    address public surplusDistributor;
+
+    /// @notice Share of the interests going to surplus and share going to SLPs
+    uint64 public interestsForSurplus;
+
+    /// @notice Interests accumulated by the protocol and to be distributed through ANGLE or veANGLE
+    /// token holders
+    uint256 public interestsAccumulated;
 }

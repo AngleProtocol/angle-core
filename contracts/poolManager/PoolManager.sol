@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -42,8 +42,10 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         // `addStrategy` and `revokeStrategy`
     }
 
+    /*
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
+    */
 
     // ========================= `StableMaster` Functions ==========================
 
@@ -236,13 +238,21 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
 
         // Handle gains before losses
         if (gain > 0) {
-            stableMaster.accumulateInterest(gain);
+            uint256 gainForSurplus = (gain * interestsForSurplus) / BASE_PARAMS;
+            interestsAccumulated += gainForSurplus;
+            stableMaster.accumulateInterest(gain - gainForSurplus);
             emit FeesDistributed(gain);
         }
 
         // Handle eventual losses
         if (loss > 0) {
-            stableMaster.signalLoss(loss);
+            uint256 lossForSurplus = (loss * interestsForSurplus) / BASE_PARAMS;
+            uint256 interestsAccumulatedPreLoss = interestsAccumulated;
+            interestsAccumulated = lossForSurplus > interestsAccumulated ? 0 : interestsAccumulated - lossForSurplus;
+            // If there are not enough interests for the loss on the surplus, the rest is taken to SLPs
+            // The loss signaled to SLPs should be `loss - (interestsAccumulatedPreLoss - interestsAccumulated)`
+            // Mathematically speaking, we thus store it as: `loss + interestsAccumulated - interestsAccumulatedPreLoss `
+            stableMaster.signalLoss(loss + interestsAccumulated - interestsAccumulatedPreLoss);
         }
     }
 
@@ -334,6 +344,27 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
 
     // =========================== Guardian Functions ==============================
 
+    /// @notice Sets a new surplus distributor that will be able to pull surplus from the protocol
+    /// @param newSurplusDistributor Address to which the role needs to be granted
+    /// @dev It is as if the `GUARDIAN_ROLE` was admin of the `SURPLUS_DISTRIBUTOR_ROLE`
+    /// @dev The address can be the zero address in case the protocol revokes the `surplusDistributor`
+    function setSurplusDistributor(address newSurplusDistributor) external onlyRole(GUARDIAN_ROLE) {
+        address oldSurplusDistributor = surplusDistributor;
+        surplusDistributor = newSurplusDistributor;
+        emit SurplusDistributorUpdated(newSurplusDistributor, oldSurplusDistributor);
+    }
+
+    /// @notice Sets the share of the interests going directly to the surplus
+    /// @param _interestsForSurplus New value of the interests going directly to the surplus for buybacks
+    function setInterestsForSurplus(uint64 _interestsForSurplus)
+        external
+        onlyRole(GUARDIAN_ROLE)
+        onlyCompatibleFees(_interestsForSurplus)
+    {
+        interestsForSurplus = _interestsForSurplus;
+        emit InterestsForSurplusUpdated(_interestsForSurplus);
+    }
+
     /// @notice Modifies the funds a strategy has access to
     /// @param strategy The address of the Strategy
     /// @param _debtRatio The share of the total assets that the strategy has access to
@@ -408,6 +439,22 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         // a positive loss by calling strategy.withdraw, this function indeed calls _liquidatePosition
         // which output value is always zero
         if (loss > 0) stableMaster.signalLoss(loss);
+    }
+
+    // =================== Surplus Distributor Function ============================
+
+    /// @notice Allows to pull interests revenue accumulated by the protocol to do buybacks or another
+    /// form of redistribution to ANGLE or veANGLE token holders
+    /// @dev This function is permissionless and anyone can transfer the `interestsAccumulated` by the protocol
+    /// to the `surplusDistributor`
+    function pullSurplus() external {
+        // If the surplusDistributor has not been initialized, surplus should not be distributed
+        require(surplusDistributor != address(0), "0");
+        uint256 amount = interestsAccumulated;
+        interestsAccumulated = 0;
+        // We could potentially have an interface for the `surplusDistributor`
+        token.safeTransfer(surplusDistributor, amount);
+        emit Recovered(address(token), surplusDistributor, amount);
     }
 
     // ======================== Getters - View Functions ===========================

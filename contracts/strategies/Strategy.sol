@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -20,7 +20,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
 
     // ======================== Parameters =========================================
 
-    uint256 public withdrawalThreshold = 1e14;
+    uint256 public withdrawalThreshold;
 
     // ============================== Constructor ==================================
 
@@ -35,7 +35,7 @@ contract Strategy is StrategyEvents, BaseStrategy {
         address[] memory governorList,
         address guardian
     ) BaseStrategy(_poolManager, _rewards, governorList, guardian) {
-        require(guardian != address(0) && address(_rewards) != address(0), "0");
+        withdrawalThreshold = 1000 * wantBase;
     }
 
     // ========================== Internal Mechanics ===============================

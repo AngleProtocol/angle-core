@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -19,7 +19,7 @@ abstract contract UniswapUtils is AccessControl, OracleMath {
     uint32 public twapPeriod;
 
     // Role for guardians and governors
-    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+    bytes32 public constant GUARDIAN_ROLE_UNISWAP = keccak256("GUARDIAN_ROLE");
 
     /// @notice Gets a quote for an amount of in-currency using UniswapV3 TWAP and converts this
     /// amount to out-currency
@@ -52,7 +52,7 @@ abstract contract UniswapUtils is AccessControl, OracleMath {
 
     /// @notice Changes the TWAP period
     /// @param _twapPeriod New window to compute the TWAP
-    function changeTwapPeriod(uint32 _twapPeriod) external onlyRole(GUARDIAN_ROLE) {
+    function changeTwapPeriod(uint32 _twapPeriod) external onlyRole(GUARDIAN_ROLE_UNISWAP) {
         require(int32(_twapPeriod) > 0, "99");
         twapPeriod = _twapPeriod;
     }

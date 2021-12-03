@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -20,10 +20,24 @@ abstract contract ModuleChainlinkSingle is ChainlinkUtils {
     /// @notice Constructor for an oracle using only a single Chainlink
     /// @param _poolChainlink Chainlink pool address
     /// @param _isChainlinkMultiplied Whether we should multiply or divide the quote amount by the rate
-    constructor(address _poolChainlink, uint8 _isChainlinkMultiplied) {
+    constructor(
+        address _poolChainlink,
+        uint8 _isChainlinkMultiplied,
+        uint32 _stalePeriod,
+        address[] memory guardians
+    ) {
         require(_poolChainlink != address(0), "105");
         poolChainlink = AggregatorV3Interface(_poolChainlink);
         chainlinkDecimals = AggregatorV3Interface(_poolChainlink).decimals();
+        // There is no `GOVERNOR_ROLE` in this contract, governor has `GUARDIAN_ROLE`
+        require(guardians.length > 0, "101");
+        for (uint256 i = 0; i < guardians.length; i++) {
+            require(guardians[i] != address(0), "0");
+            _setupRole(GUARDIAN_ROLE_CHAINLINK, guardians[i]);
+        }
+        _setRoleAdmin(GUARDIAN_ROLE_CHAINLINK, GUARDIAN_ROLE_CHAINLINK);
+
+        stalePeriod = _stalePeriod;
         isChainlinkMultiplied = _isChainlinkMultiplied;
     }
 

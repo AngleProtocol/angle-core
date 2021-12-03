@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -59,8 +59,10 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront {
         _pause();
     }
 
+    /*
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
+    */
 
     // ================================= HAs =======================================
 
