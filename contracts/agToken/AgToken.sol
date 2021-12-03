@@ -37,10 +37,8 @@ contract AgToken is IAgToken, ERC20PermitUpgradeable {
         stableMaster = stableMaster_;
     }
 
-    /*
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
-    */
 
     /// @notice Checks to see if it is the `StableMaster` calling this contract
     /// @dev There is no Access Control here, because it can be handled cheaply through this modifier

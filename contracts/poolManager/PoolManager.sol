@@ -42,10 +42,8 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         // `addStrategy` and `revokeStrategy`
     }
 
-    /*
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
-    */
 
     // ========================= `StableMaster` Functions ==========================
 

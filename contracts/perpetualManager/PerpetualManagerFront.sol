@@ -59,10 +59,8 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront {
         _pause();
     }
 
-    /*
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
-    */
 
     // ================================= HAs =======================================
 

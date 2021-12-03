@@ -89,10 +89,8 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
         _setupRole(GUARDIAN_ROLE, governor);
     }
 
-    /*
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
-    */
 
     // ======================== Internal Functions =================================
 
