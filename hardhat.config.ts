@@ -6,12 +6,13 @@ import { HardhatUserConfig } from 'hardhat/config'
 
 import 'hardhat-contract-sizer'
 import 'hardhat-spdx-license-identifier'
-import 'hardhat-docgen'
 import 'hardhat-deploy'
+import 'hardhat-docgen'
 import 'hardhat-abi-exporter'
 import '@nomiclabs/hardhat-ethers'
-import '@nomiclabs/hardhat-truffle5'
 import '@nomiclabs/hardhat-solhint'
+import '@nomiclabs/hardhat-truffle5'
+import '@nomiclabs/hardhat-vyper';
 import '@openzeppelin/hardhat-upgrades'
 import 'solidity-coverage'
 import '@tenderly/hardhat-tenderly'
@@ -24,10 +25,10 @@ const argv = yargs
   .number('runs')
   .boolean('fork')
   .boolean('disableAutoMining')
-  .parseSync()
+  .parseSync();
 
 if (argv.enableGasReport) {
-  import('hardhat-gas-reporter') // eslint-disable-line
+  import('hardhat-gas-reporter'); // eslint-disable-line
 }
 
 const config: HardhatUserConfig = {
@@ -64,6 +65,9 @@ const config: HardhatUserConfig = {
         },
       },
     },
+  },
+  vyper: {
+    version: '0.2.15',
   },
   defaultNetwork: 'hardhat',
   networks: {
@@ -170,5 +174,3 @@ const config: HardhatUserConfig = {
     target: 'ethers-v5',
   },
 }
-
-export default config
