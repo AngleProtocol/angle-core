@@ -1,9 +1,12 @@
-# @version 0.2.15
+# @version 0.2.16
 """
-@title Curve Fee Distribution
-@author Curve Finance
+@title Angle Fee Distribution
+@author Angle Protocol
 @license MIT
 """
+
+# Original idea and credit:
+# Curve Finance's FeeDistributor
 
 from vyper.interfaces import ERC20
 
@@ -469,3 +472,4 @@ def recover_balance(_coin: address) -> bool:
         assert convert(response, bool)
 
     return True
+    

@@ -22,4 +22,5 @@ contract AngleDistributorEvents {
     event GaugeControllerUpdated(address indexed _controller);
     event DistributionsToggled(bool _distributionsOn);
     event RewardDistributed(address indexed gaugeAddr, uint256 rewardTally);
+    event DelegateGaugeUpdated(address indexed _delegateGauge);
 }

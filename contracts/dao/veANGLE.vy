@@ -1,7 +1,7 @@
-# @version 0.2.15
+# @version 0.2.16
 """
 @title Voting Escrow
-@author Curve Finance
+@author Angle Protocol
 @license MIT
 @notice Votes have a weight depending on time, so that users are
         committed to the future of (whatever they are voting for)
@@ -114,17 +114,31 @@ smart_wallet_checker: public(address)
 admin: public(address)  # Can and will be a smart contract
 future_admin: public(address)
 
+initialized: public(bool)
+
 
 @external
-def __init__(_admin: address, token_addr: address, _smart_wallet_checker: address, _name: String[64], _symbol: String[32]):
+def __init__():
     """
     @notice Contract constructor
+    @dev The contract has an initializer to prevent the take over of the implementation
+    """
+    ## Below should be uncommented upon deployment
+    assert self.initialized == False #dev: contract is already initialized
+    self.initialized = True
+
+@external
+def initialize(_admin: address, token_addr: address, _smart_wallet_checker: address, _name: String[64], _symbol: String[32]):
+    """
+    @notice Contract initializer
     @param _admin Future veANGLE admin
     @param token_addr `ERC20ANGLE` token address
     @param _smart_wallet_checker Future smart wallet checker contract
     @param _name Token name
     @param _symbol Token symbol
     """
+    assert self.initialized == False #dev: contract is already initialized
+    self.initialized = True
     assert _admin!= ZERO_ADDRESS #dev: admin cannot be the 0 address
     self.admin = _admin
     self.token = token_addr
@@ -137,7 +151,7 @@ def __init__(_admin: address, token_addr: address, _smart_wallet_checker: addres
     self.decimals = _decimals
 
     self.name = _name
-    self.symbol = _symbol
+    self.symbol = _symbol    
 
 
 @external

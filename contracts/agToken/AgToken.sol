@@ -37,6 +37,7 @@ contract AgToken is IAgToken, ERC20PermitUpgradeable {
         stableMaster = stableMaster_;
     }
 
+    
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
 

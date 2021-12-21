@@ -17,12 +17,6 @@ contract SurplusConverterUniV2Sushi is BaseSurplusConverter {
     event PathAdded(address indexed token, address[] path, uint8 typePath);
     event PathRevoked(address indexed token, uint8 _type);
 
-    // Struct to store for a given token the Uniswap Path
-    struct Path {
-        address[] pathAddresses;
-        uint256 lengthAddresses;
-    }
-
     /// @notice Address of the uniswapV2Router for swaps
     IUniswapV2Router public immutable uniswapV2Router;
 
@@ -30,10 +24,10 @@ contract SurplusConverterUniV2Sushi is BaseSurplusConverter {
     IUniswapV2Router public immutable sushiswapRouter;
 
     /// @notice Maps a token to the related path on Uniswap to do the swap to the reward token
-    mapping(address => Path) public uniswapPaths;
+    mapping(address => address[]) public uniswapPaths;
 
     /// @notice Maps a token to the related path on Sushiswap to do the swap to the reward token
-    mapping(address => Path) public sushiswapPaths;
+    mapping(address => address[]) public sushiswapPaths;
 
     /// @notice Constructor of the `SurplusConverterUniV2Sushi`
     /// @param _rewardToken Reward token that this contract tries to buy
@@ -41,6 +35,7 @@ contract SurplusConverterUniV2Sushi is BaseSurplusConverter {
     /// @param _uniswapV2Router Reference to the `UniswapV2Router`
     /// @param _sushiswapRouter Reference to the `SushiswapRouter`
     /// @param whitelisted Reference to the first whitelisted address that will have the right
+    /// @param governor Governor of the protocol
     /// @param guardians List of guardians of the protocol
     constructor(
         address _rewardToken,
@@ -48,8 +43,9 @@ contract SurplusConverterUniV2Sushi is BaseSurplusConverter {
         address _uniswapV2Router,
         address _sushiswapRouter,
         address whitelisted,
+        address governor,
         address[] memory guardians
-    ) BaseSurplusConverter(_rewardToken, _feeDistributor, whitelisted, guardians) {
+    ) BaseSurplusConverter(_rewardToken, _feeDistributor, whitelisted, governor, guardians) {
         require(_uniswapV2Router != address(0) && _sushiswapRouter != address(0), "0");
         sushiswapRouter = IUniswapV2Router(_sushiswapRouter);
         uniswapV2Router = IUniswapV2Router(_uniswapV2Router);
@@ -72,19 +68,17 @@ contract SurplusConverterUniV2Sushi is BaseSurplusConverter {
         uint256 pathLength = path.length;
         require(pathLength >= 2 && path[pathLength - 1] == address(rewardToken) && path[0] == token, "111");
         if (typePath == 0) {
-            if (sushiswapPaths[token].lengthAddresses == 0) {
+            if (sushiswapPaths[token].length == 0) {
                 // If this path is for a brand new token, then we need to approve the Sushiswap Router contract
                 IERC20(token).safeApprove(address(sushiswapRouter), type(uint256).max);
             }
-            sushiswapPaths[token].pathAddresses = path;
-            sushiswapPaths[token].lengthAddresses = pathLength;
+            sushiswapPaths[token] = path;
         } else {
-            if (uniswapPaths[token].lengthAddresses == 0) {
+            if (uniswapPaths[token].length == 0) {
                 // If this path is a brand new path, then we need to approve the Uniswap Router contract
                 IERC20(token).safeApprove(address(uniswapV2Router), type(uint256).max);
             }
-            uniswapPaths[token].pathAddresses = path;
-            uniswapPaths[token].lengthAddresses = pathLength;
+            uniswapPaths[token] = path;
         }
         emit PathAdded(token, path, typePath);
     }
@@ -94,9 +88,9 @@ contract SurplusConverterUniV2Sushi is BaseSurplusConverter {
     /// @param typePath Type of path to fetch (= 0 if Sushiswap, > 0 if Uniswap)
     function getPath(address token, uint8 typePath) external view returns (address[] memory) {
         if (typePath == 0) {
-            return sushiswapPaths[token].pathAddresses;
+            return sushiswapPaths[token];
         } else {
-            return uniswapPaths[token].pathAddresses;
+            return uniswapPaths[token];
         }
     }
 
@@ -109,72 +103,66 @@ contract SurplusConverterUniV2Sushi is BaseSurplusConverter {
     function revokeToken(address token, uint8 _type) external onlyRole(GUARDIAN_ROLE) {
         if (_type == 0) {
             delete sushiswapPaths[token];
-            delete uniswapPaths[token];
-            IERC20(token).safeApprove(address(uniswapV2Router), 0);
             IERC20(token).safeApprove(address(sushiswapRouter), 0);
         } else if (_type == 1) {
-            delete sushiswapPaths[token];
-            IERC20(token).safeApprove(address(sushiswapRouter), 0);
-        } else {
             delete uniswapPaths[token];
             IERC20(token).safeApprove(address(uniswapV2Router), 0);
+        } else {
+            delete sushiswapPaths[token];
+            delete uniswapPaths[token];
+            IERC20(token).safeApprove(address(uniswapV2Router), 0);
+            IERC20(token).safeApprove(address(sushiswapRouter), 0);
         }
         emit PathRevoked(token, _type);
     }
 
     /// @notice Buys back `rewardToken` from Uniswap or Sushiswap using the accumulated `token` and distributes
-    /// the results of the swaps to the `FeeDistributor` contract
+    /// the results of the swaps to the `FeeDistributor` or some other `SurplusConverter` contract
     /// @param token Token to use for buybacks of `rewardToken`
     /// @param amount Amount of tokens to use for the buyback
+    /// @param minAmount Specify the minimum amount to receive out of the swap as a slippage protection
     /// @param transfer Whether the function should transfer the bought back `rewardToken` directly to the `FeeDistributor`
-    /// contract
+    /// contract or to the associated other `SurplusConverter`
     /// @dev If a `token` has two paths associated to it (one from Uniswap, one from Sushiswap), this function optimizes
     /// and chooses the best path
     function buyback(
         address token,
         uint256 amount,
+        uint256 minAmount,
         bool transfer
     ) external override whenNotPaused onlyRole(WHITELISTED_ROLE) {
-        uint256 sushiswapLength = sushiswapPaths[token].lengthAddresses;
-        uint256 uniswapLength = uniswapPaths[token].lengthAddresses;
-        require(sushiswapLength > 0 || uniswapLength > 0, "20");
-        // uint256 amount = IERC20(token).balanceOf(address(this));
-        if (sushiswapLength > 0 && uniswapLength > 0) {
-            uint256[] memory amountsUni = uniswapV2Router.getAmountsOut(amount, uniswapPaths[token].pathAddresses);
-            uint256[] memory amountsSushi = sushiswapRouter.getAmountsOut(amount, sushiswapPaths[token].pathAddresses);
+        // Storing the values in memory to avoid multiple storage reads
+        address[] memory sushiswapPath = sushiswapPaths[token];
+        address[] memory uniswapPath = uniswapPaths[token];
+        require(sushiswapPath.length > 0 || uniswapPath.length > 0, "20");
+        if (sushiswapPath.length > 0 && uniswapPath.length > 0) {
+            // Storing the router addresses in memory to avoid duplicate storage reads for one of the two
+            // addresses
+            IUniswapV2Router uniswapV2RouterMem = uniswapV2Router;
+            IUniswapV2Router sushiswapRouterMem = sushiswapRouter;
+            uint256[] memory amountsUni = uniswapV2RouterMem.getAmountsOut(amount, uniswapPath);
+            uint256[] memory amountsSushi = sushiswapRouterMem.getAmountsOut(amount, sushiswapPath);
             if (amountsUni[amountsUni.length - 1] >= amountsSushi[amountsSushi.length - 1]) {
-                uniswapV2Router.swapExactTokensForTokens(
+                uniswapV2RouterMem.swapExactTokensForTokens(
                     amount,
-                    0,
-                    uniswapPaths[token].pathAddresses,
+                    minAmount,
+                    uniswapPath,
                     address(this),
                     block.timestamp
                 );
             } else {
-                sushiswapRouter.swapExactTokensForTokens(
+                sushiswapRouterMem.swapExactTokensForTokens(
                     amount,
-                    0,
-                    sushiswapPaths[token].pathAddresses,
+                    minAmount,
+                    sushiswapPath,
                     address(this),
                     block.timestamp
                 );
             }
-        } else if (sushiswapLength > 0) {
-            sushiswapRouter.swapExactTokensForTokens(
-                amount,
-                0,
-                sushiswapPaths[token].pathAddresses,
-                address(this),
-                block.timestamp
-            );
+        } else if (sushiswapPath.length > 0) {
+            sushiswapRouter.swapExactTokensForTokens(amount, minAmount, sushiswapPath, address(this), block.timestamp);
         } else {
-            uniswapV2Router.swapExactTokensForTokens(
-                amount,
-                0,
-                uniswapPaths[token].pathAddresses,
-                address(this),
-                block.timestamp
-            );
+            uniswapV2Router.swapExactTokensForTokens(amount, minAmount, uniswapPath, address(this), block.timestamp);
         }
         if (transfer) {
             // This call will automatically transfer all the `rewardToken` balance of this contract to the `FeeDistributor`

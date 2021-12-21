@@ -33,7 +33,7 @@ contract PoolManagerEvents {
 
     event InterestsForSurplusUpdated(uint64 _interestsForSurplus);
 
-    event SurplusDistributorUpdated(address indexed newSurplusDistributor, address indexed oldSurplusDistributor);
+    event SurplusConverterUpdated(address indexed newSurplusConverter, address indexed oldSurplusConverter);
 
     event StrategyRevoked(address indexed strategy);
 

@@ -29,8 +29,10 @@ contract StableMasterFront is StableMaster {
         // in the `deployCollateral`, `revokeCollateral` and `setFeeManager` functions by updating the `contractMap`
     }
 
+    /*
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
+    */
 
     // ============================= USERS =========================================
 

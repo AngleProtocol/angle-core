@@ -1,18 +1,25 @@
+/// ENVVAR
+// - ENABLE_GAS_REPORT
+// - CI
+// - RUNS
 import 'dotenv/config'
 
 import yargs from 'yargs'
 import { nodeUrl, accounts } from './utils/network'
-import { HardhatUserConfig } from 'hardhat/config'
+import { HardhatUserConfig, subtask } from 'hardhat/config'
+import { TASK_COMPILE_GET_COMPILATION_TASKS } from 'hardhat/builtin-tasks/task-names'
+import '@nomiclabs/hardhat-vyper'
+import path from 'path'
+import fse from 'fs-extra'
 
 import 'hardhat-contract-sizer'
 import 'hardhat-spdx-license-identifier'
-import 'hardhat-deploy'
 import 'hardhat-docgen'
+import 'hardhat-deploy'
 import 'hardhat-abi-exporter'
 import '@nomiclabs/hardhat-ethers'
-import '@nomiclabs/hardhat-solhint'
 import '@nomiclabs/hardhat-truffle5'
-import '@nomiclabs/hardhat-vyper';
+import '@nomiclabs/hardhat-solhint'
 import '@openzeppelin/hardhat-upgrades'
 import 'solidity-coverage'
 import '@tenderly/hardhat-tenderly'
@@ -25,11 +32,76 @@ const argv = yargs
   .number('runs')
   .boolean('fork')
   .boolean('disableAutoMining')
-  .parseSync();
+  .parseSync()
 
 if (argv.enableGasReport) {
-  import('hardhat-gas-reporter'); // eslint-disable-line
+  import('hardhat-gas-reporter') // eslint-disable-line
 }
+
+const VYPER_TEMP_DIR = path.join(__dirname, 'vyper_temp_dir')
+subtask(
+  TASK_COMPILE_GET_COMPILATION_TASKS,
+  async (_, { config }, runSuper): Promise<string[]> => {
+    await runSuper()
+
+    // We save already compiled vyper artifacts
+    const glob = await import('glob')
+    const vyFiles = glob.sync(path.join(config.paths.artifacts, '**', '*.vy'))
+    const vpyFiles = glob.sync(
+      path.join(config.paths.artifacts, '**', '*.v.py'),
+    )
+    const files = [...vyFiles, ...vpyFiles]
+
+    await fse.remove(VYPER_TEMP_DIR)
+    await fse.mkdir(VYPER_TEMP_DIR)
+    for (const file of files) {
+      const filename = file.replace(config.paths.artifacts + '/contracts/', '')
+      await fse.move(file, path.join(VYPER_TEMP_DIR, filename))
+    }
+
+    return ['compile:solidity', 'restore_vyper_artifacts', 'compile:vyper']
+  },
+)
+
+subtask<{ force: boolean }>(
+  'restore_vyper_artifacts',
+  async (args, { config }) => {
+    if (!args.force) {
+      const dirs = await fse.readdir(VYPER_TEMP_DIR)
+
+      for (const dir of dirs) {
+        const destination = path.join(config.paths.artifacts, 'contracts', dir)
+
+        if (!fse.pathExists(destination)) {
+          await fse.move(
+            path.join(VYPER_TEMP_DIR, dir),
+            path.join(config.paths.artifacts, 'contracts', dir),
+          )
+        } else {
+          const files = await fse.readdir(path.join(VYPER_TEMP_DIR, dir))
+          for (const file of files) {
+            await fse.move(
+              path.join(VYPER_TEMP_DIR, dir, file),
+              path.join(config.paths.artifacts, 'contracts', dir, file),
+              {
+                overwrite: true,
+              },
+            )
+          }
+        }
+      }
+    }
+    await fse.remove(VYPER_TEMP_DIR)
+  },
+)
+
+subtask('compile:vyper', async (_, { config, artifacts }) => {
+  const { compile } = await import('./vyperCompile')
+  const { generateVyperTypes } = await import('./vyperTypesGenerator')
+
+  await compile(config.vyper, config.paths, artifacts)
+  await generateVyperTypes()
+})
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -67,19 +139,20 @@ const config: HardhatUserConfig = {
     },
   },
   vyper: {
-    version: '0.2.15',
+    version: '0.2.16',
   },
   defaultNetwork: 'hardhat',
   networks: {
     hardhat: {
-      accounts: accounts('local'),
+      accounts: accounts('mainnet'),
       live: argv.fork || false,
       blockGasLimit: 125e5,
+      initialBaseFeePerGas: 0,
       hardfork: 'london',
       forking: {
         enabled: argv.fork || false,
         url: nodeUrl('fork'),
-        blockNumber: 13473325,
+        // blockNumber: 13473325,
       },
       mining: argv.disableAutoMining
         ? {
@@ -88,11 +161,6 @@ const config: HardhatUserConfig = {
           }
         : { auto: true },
       chainId: 1337,
-    },
-    ganache: {
-      url: 'http://127.0.0.1:8545',
-      gas: 12e6,
-      gasPrice: 40e9,
     },
     kovan: {
       live: false,
@@ -106,9 +174,19 @@ const config: HardhatUserConfig = {
       live: true,
       url: nodeUrl('rinkeby'),
       accounts: accounts('rinkeby'),
-      gas: 12e6,
-      gasPrice: 12e8,
+      gas: 'auto',
+      // gasPrice: 12e8,
       chainId: 4,
+    },
+    mumbai: {
+      url: nodeUrl('mumbai'),
+      accounts: accounts('mumbai'),
+      gas: 'auto',
+    },
+    polygon: {
+      url: nodeUrl('polygon'),
+      accounts: accounts('polygon'),
+      gas: 'auto',
     },
     mainnet: {
       live: true,
@@ -142,7 +220,7 @@ const config: HardhatUserConfig = {
     keeper2: 9,
   },
   mocha: {
-    timeout: 60000,
+    timeout: 100000,
     retries: argv.ci ? 10 : 0,
   },
   contractSizer: {
@@ -174,3 +252,5 @@ const config: HardhatUserConfig = {
     target: 'ethers-v5',
   },
 }
+
+export default config

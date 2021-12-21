@@ -38,6 +38,10 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
     /// @notice Address of the `GaugeController` contract
     IGaugeController public controller;
 
+    /// @notice Address responsible for pulling rewards of type 2 gauges and distributing it to the
+    /// associated contracts
+    address public delegateGauge;
+
     /// @notice ANGLE current emission rate, it is initialized in the constructor
     uint256 public rate;
 
@@ -61,15 +65,19 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
     /// @param _controller Address of the GaugeController
     /// @param _initialRate Initial ANGLE emission rate
     /// @param _startEpochSupply Amount of ANGLE tokens already distributed via liquidity mining
-    /// @param governor Governor address of the protocol
+    /// @param governor Governor address of the contract
+    /// @param guardian Address of the guardian of this contract
+    /// @param _delegateGauge Address that will be used to pull rewards for type 2 gauges
     /// @dev After this contract is created, the correct amount of ANGLE tokens should be transferred to the contract
+    /// @dev The `_delegateGauge` can be the zero address
     function initialize(
         address _rewardToken,
         address _controller,
         uint256 _initialRate,
         uint256 _startEpochSupply,
         address governor,
-        address guardian
+        address guardian,
+        address _delegateGauge
     ) external initializer {
         require(
             _controller != address(0) && _rewardToken != address(0) && guardian != address(0) && governor != address(0),
@@ -80,6 +88,7 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
         startEpochSupply = _startEpochSupply;
         miningEpoch = 0;
         rate = _initialRate;
+        delegateGauge = _delegateGauge;
         distributionsOn = false;
         startEpochTime = block.timestamp;
         _setRoleAdmin(GOVERNOR_ROLE, GOVERNOR_ROLE);
@@ -149,8 +158,9 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
             weeklyRate = (weeklyRate * RATE_REDUCTION_COEFFICIENT) / BASE;
         }
 
-        // Update the last time paid
-        lastTimeGaugePaid[gaugeAddr] = block.timestamp;
+        // Update the last time paid, rounded to the closest week
+        // in order not to have an ever moving time on when to call this function
+        lastTimeGaugePaid[gaugeAddr] = (block.timestamp / WEEK) * WEEK;
 
         // If the `gaugeType > 2`, this means that the gauge is a gauge on another chain and that tokens need
         // to be bridged
@@ -165,7 +175,14 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
         } else if (gaugeType == 2) {
             // This is for the case of a contract which interface is not supported by this contract
             // Tokens would be transferred to a multisig handling the distribution
-            rewardToken.safeTransfer(gaugeAddr, rewardTally);
+            address dest = delegateGauge;
+            // Checking if transferring to the same address for all type 2 gauges handling distribution
+            // has been activated
+            if (dest != address(0)) {
+                rewardToken.safeTransfer(dest, rewardTally);
+            } else {
+                rewardToken.safeTransfer(gaugeAddr, rewardTally);
+            }
         } else if (gaugeType == 1) {
             // This is for the case of Perpetual contracts which need to be able to receive their reward tokens
             rewardToken.safeTransfer(gaugeAddr, rewardTally);
@@ -245,12 +262,12 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
 
     /// @notice Updates the status of a gauge that has been killed in the `GaugeController` contract
     /// @param gaugeAddr Gauge to update the status of
-    /// @dev This function can be called permissionlessly by anyone provided that the gauge has been killed in the
-    /// GaugeController and that some rewards have already been distributed to it
+    /// @dev This function can be called by guardians, it should be called after that the gauge has been killed in the
+    /// `GaugeController` and that some rewards have already been distributed to it
     /// @dev It resets the timestamps at which this gauge has been approved and disapproves the gauge to spend the
     /// token
-    function setGaugeKilled(address gaugeAddr) external {
-        require(IGaugeController(controller).gauge_types(gaugeAddr) == -1 && lastTimeGaugePaid[gaugeAddr] != 0, "112");
+    function setGaugeKilled(address gaugeAddr) external onlyRole(GUARDIAN_ROLE) {
+        require(lastTimeGaugePaid[gaugeAddr] != 0, "112");
         delete lastTimeGaugePaid[gaugeAddr];
         rewardToken.safeApprove(gaugeAddr, 0);
     }
@@ -280,11 +297,20 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
         emit GaugeControllerUpdated(_controller);
     }
 
+    /// @notice Sets a new delegate gauge for pulling rewards of type 2 gauges
+    /// @param _delegateGauge Address of the new gauge delegate
+    /// @dev This function can be used to remove delegating to a given gauge
+    function setDelegateGauge(address _delegateGauge) external onlyRole(GOVERNOR_ROLE) {
+        delegateGauge = _delegateGauge;
+        emit DelegateGaugeUpdated(_delegateGauge);
+    }
+
     // ========================= Guardian Function =================================
 
     /// @notice Halts or activates distribution of rewards
     function toggleDistributions() external onlyRole(GUARDIAN_ROLE) {
-        distributionsOn = !distributionsOn;
-        emit DistributionsToggled(distributionsOn);
+        bool distributionsOnMem = distributionsOn;
+        distributionsOn = !distributionsOnMem;
+        emit DistributionsToggled(!distributionsOnMem);
     }
 }

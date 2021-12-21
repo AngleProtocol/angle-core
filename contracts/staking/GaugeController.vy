@@ -1,11 +1,15 @@
-# @version 0.2.15
+# @version 0.2.16
 
 """
 @title Gauge Controller
-@author Curve Finance
+@author Angle Protocol
 @license MIT
 @notice Controls liquidity gauges and the issuance of coins through the gauges
 """
+
+# Full fork from:
+# Curve Finance's gauge controller
+# https://github.com/curvefi/curve-dao-contracts/blob/master/contracts/GaugeController.vy
 
 # 7 * 86400 seconds - all future times are rounded by week
 WEEK: constant(uint256) = 604800
@@ -291,7 +295,7 @@ def _get_weight(gauge_addr: address) -> uint256:
 
 
 @external
-def add_gauge(addr: address, gauge_type: int128, weight: uint256 = 0):
+def add_gauge(addr: address, gauge_type: int128, weight: uint256):
     """
     @notice Add gauge `addr` of type `gauge_type` with weight `weight`
     @param addr Gauge address
@@ -423,7 +427,7 @@ def _change_type_weight(type_id: int128, weight: uint256):
 
 
 @external
-def add_type(_name: String[64], weight: uint256 = 0):
+def add_type(_name: String[64], weight: uint256):
     """
     @notice Add gauge type with name `_name` and weight `weight`
     @param _name Name of gauge type
@@ -618,3 +622,4 @@ def get_weights_sum_per_type(type_id: int128) -> uint256:
     @return Sum of gauge weights
     """
     return self.points_sum[type_id][self.time_sum[type_id]].bias
+    

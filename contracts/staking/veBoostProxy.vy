@@ -1,9 +1,12 @@
-# @version 0.2.15
+# @version 0.2.16
 """
 @title Voting Escrow Delegation Proxy
-@author Curve Finance
+@author Angle Protocol
 @license MIT
 """
+
+# Full fork from:
+# Curve Finance's veBoostProxy
 
 from vyper.interfaces import ERC20
 
@@ -111,3 +114,4 @@ def accept_transfer_ownership():
     self.admin = _admin
 
     log ApplyAdmin(_admin)
+    

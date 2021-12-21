@@ -14,7 +14,7 @@ import "./PoolManagerStorageV2.sol";
 /// storage clash when upgrading
 contract PoolManagerStorageV3 is PoolManagerStorageV2 {
     /// @notice Address of the surplus distributor allowed to distribute rewards
-    address public surplusDistributor;
+    address public surplusConverter;
 
     /// @notice Share of the interests going to surplus and share going to SLPs
     uint64 public interestsForSurplus;
@@ -22,4 +22,7 @@ contract PoolManagerStorageV3 is PoolManagerStorageV2 {
     /// @notice Interests accumulated by the protocol and to be distributed through ANGLE or veANGLE
     /// token holders
     uint256 public interestsAccumulated;
+
+    /// @notice Debt that must be paid by admins after a loss on a strategy
+    uint256 public adminDebt;
 }

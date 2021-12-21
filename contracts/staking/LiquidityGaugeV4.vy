@@ -1,4 +1,4 @@
-# @version 0.2.15
+# @version 0.2.16
 """
 @title Liquidity Gauge v4
 @author Angle Protocol
@@ -24,6 +24,7 @@ interface VotingEscrowBoost:
 
 interface ERC20Extended:
     def symbol() -> String[26]: view
+    def decimals() -> uint256: view
 
 
 event Deposit:
@@ -57,6 +58,10 @@ event Approval:
     _spender: indexed(address)
     _value: uint256
 
+event RewardDataUpdate:
+    _token: indexed(address)
+    _amount: uint256
+
 struct Reward:
     token: address
     distributor: address
@@ -74,7 +79,8 @@ ANGLE: public(address)
 voting_escrow: public(address)
 veBoost_proxy: public(address)
 
-lp_token: public(address)
+staking_token: public(address)
+decimal_staking_token: public(uint256)
 
 balanceOf: public(HashMap[address, uint256])
 totalSupply: public(uint256)
@@ -108,14 +114,32 @@ future_admin: public(address)
 
 is_killed: public(bool)
 
+initialized: public(bool)
+
 
 @external
-def __init__(_lp_token: address, _admin: address, _ANGLE: address, _voting_escrow: address, _veBoost_proxy: address, _distributor: address):
+def __init__():
     """
     @notice Contract constructor
-    @param _lp_token Liquidity Pool contract address
-    @param _admin Admin who can kill the gauge
+    @dev The contract has an initializer to prevent the take over of the implementation
     """
+    ## Below should be uncommented upon deployment
+    assert self.initialized == False #dev: contract is already initialized
+    self.initialized = True
+
+@external
+def initialize(_staking_token: address, _admin: address, _ANGLE: address, _voting_escrow: address, _veBoost_proxy: address, _distributor: address):
+    """
+    @notice Contract initializer
+    @param _staking_token Liquidity Pool contract address
+    @param _admin Admin who can kill the gauge
+    @param _ANGLE Address of the ANGLE token
+    @param _voting_escrow Address of the veANGLE contract
+    @param _veBoost_proxy Address of the proxy contract used to query veANGLE balances and taking into account potential delegations
+    @param _distributor Address of the contract responsible for distributing ANGLE tokens to this gauge
+    """
+    assert self.initialized == False #dev: contract is already initialized
+    self.initialized = True
 
     assert _admin != ZERO_ADDRESS
     assert _ANGLE != ZERO_ADDRESS
@@ -124,9 +148,10 @@ def __init__(_lp_token: address, _admin: address, _ANGLE: address, _voting_escro
     assert _distributor != ZERO_ADDRESS
 
     self.admin = _admin
-    self.lp_token = _lp_token
+    self.staking_token = _staking_token
+    self.decimal_staking_token = ERC20Extended(_staking_token).decimals()
 
-    symbol: String[26] = ERC20Extended(_lp_token).symbol()
+    symbol: String[26] = ERC20Extended(_staking_token).symbol()
     self.name = concat("Angle ", symbol, " Gauge Deposit")
     self.symbol = concat(symbol, "-gauge")
     self.ANGLE = _ANGLE
@@ -147,7 +172,7 @@ def decimals() -> uint256:
     @dev Implemented as a view method to reduce gas costs
     @return uint256 decimal places
     """
-    return 18
+    return self.decimal_staking_token
 
 
 @internal
@@ -377,7 +402,7 @@ def deposit(_value: uint256, _addr: address = msg.sender, _claim_rewards: bool =
 
         self._update_liquidity_limit(_addr, new_balance, total_supply)
 
-        ERC20(self.lp_token).transferFrom(msg.sender, self, _value)
+        ERC20(self.staking_token).transferFrom(msg.sender, self, _value)
     else:
         self._checkpoint_rewards(_addr, total_supply, False, ZERO_ADDRESS, True)
 
@@ -407,7 +432,7 @@ def withdraw(_value: uint256, _claim_rewards: bool = False):
 
         self._update_liquidity_limit(msg.sender, new_balance, total_supply)
 
-        ERC20(self.lp_token).transfer(msg.sender, _value)
+        ERC20(self.staking_token).transfer(msg.sender, _value)
     else:
         self._checkpoint_rewards(msg.sender, total_supply, False, ZERO_ADDRESS, True)
 
@@ -583,6 +608,8 @@ def deposit_reward_token(_reward_token: address, _amount: uint256):
 
     self.reward_data[_reward_token].last_update = block.timestamp
     self.reward_data[_reward_token].period_finish = block.timestamp + WEEK
+
+    log RewardDataUpdate(_reward_token,_amount)
 
 
 @external

@@ -41,9 +41,11 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         // No admin is set for `STRATEGY_ROLE`, checks are made in the appropriate functions
         // `addStrategy` and `revokeStrategy`
     }
-    
+
+    /*
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
+    */
 
     // ========================= `StableMaster` Functions ==========================
 
@@ -202,7 +204,6 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         require(token.balanceOf(msg.sender) >= gain + debtPayment, "72");
 
         StrategyParams storage params = strategies[msg.sender];
-
         // Updating parameters in the `perpetualManager`
         // This needs to be done now because it has implications in `_getTotalAsset()`
         params.totalStrategyDebt = params.totalStrategyDebt + gain - loss;
@@ -237,7 +238,13 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         // Handle gains before losses
         if (gain > 0) {
             uint256 gainForSurplus = (gain * interestsForSurplus) / BASE_PARAMS;
-            interestsAccumulated += gainForSurplus;
+            uint256 adminDebtPre = adminDebt;
+            // Depending on the current admin debt distribute the necessary gain from the strategies
+            if (adminDebtPre == 0) interestsAccumulated += gainForSurplus;
+            else if (adminDebtPre <= gainForSurplus) {
+                interestsAccumulated += gainForSurplus - adminDebtPre;
+                adminDebt = 0;
+            } else adminDebt -= gainForSurplus;
             stableMaster.accumulateInterest(gain - gainForSurplus);
             emit FeesDistributed(gain);
         }
@@ -246,11 +253,14 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
         if (loss > 0) {
             uint256 lossForSurplus = (loss * interestsForSurplus) / BASE_PARAMS;
             uint256 interestsAccumulatedPreLoss = interestsAccumulated;
-            interestsAccumulated = lossForSurplus > interestsAccumulated ? 0 : interestsAccumulated - lossForSurplus;
-            // If there are not enough interests for the loss on the surplus, the rest is taken to SLPs
-            // The loss signaled to SLPs should be `loss - (interestsAccumulatedPreLoss - interestsAccumulated)`
-            // Mathematically speaking, we thus store it as: `loss + interestsAccumulated - interestsAccumulatedPreLoss `
-            stableMaster.signalLoss(loss + interestsAccumulated - interestsAccumulatedPreLoss);
+            // If the loss can not be entirely soaked by the interests to be distributed then
+            // the protocol keeps track of the debt
+            if (lossForSurplus > interestsAccumulatedPreLoss) {
+                interestsAccumulated = 0;
+                adminDebt += lossForSurplus - interestsAccumulatedPreLoss;
+            } else interestsAccumulated -= lossForSurplus;
+            // The rest is incurred to SLPs
+            stableMaster.signalLoss(loss - lossForSurplus);
         }
     }
 
@@ -297,7 +307,8 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
                         (sanToken.totalSupply() * sanRate) /
                         BASE_TOKENS +
                         (stocksUsers * collatBase) /
-                        oracle.readUpper(),
+                        oracle.readUpper() +
+                        interestsAccumulated,
                 "66"
             );
 
@@ -343,17 +354,18 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     // =========================== Guardian Functions ==============================
 
     /// @notice Sets a new surplus distributor that will be able to pull surplus from the protocol
-    /// @param newSurplusDistributor Address to which the role needs to be granted
+    /// @param newSurplusConverter Address to which the role needs to be granted
     /// @dev It is as if the `GUARDIAN_ROLE` was admin of the `SURPLUS_DISTRIBUTOR_ROLE`
-    /// @dev The address can be the zero address in case the protocol revokes the `surplusDistributor`
-    function setSurplusDistributor(address newSurplusDistributor) external onlyRole(GUARDIAN_ROLE) {
-        address oldSurplusDistributor = surplusDistributor;
-        surplusDistributor = newSurplusDistributor;
-        emit SurplusDistributorUpdated(newSurplusDistributor, oldSurplusDistributor);
+    /// @dev The address can be the zero address in case the protocol revokes the `surplusConverter`
+    function setSurplusConverter(address newSurplusConverter) external onlyRole(GUARDIAN_ROLE) {
+        address oldSurplusConverter = surplusConverter;
+        surplusConverter = newSurplusConverter;
+        emit SurplusConverterUpdated(newSurplusConverter, oldSurplusConverter);
     }
 
     /// @notice Sets the share of the interests going directly to the surplus
     /// @param _interestsForSurplus New value of the interests going directly to the surplus for buybacks
+    /// @dev Guardian should make sure the incentives for SLPs are still high enough for them to enter the protocol
     function setInterestsForSurplus(uint64 _interestsForSurplus)
         external
         onlyRole(GUARDIAN_ROLE)
@@ -444,15 +456,19 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     /// @notice Allows to pull interests revenue accumulated by the protocol to do buybacks or another
     /// form of redistribution to ANGLE or veANGLE token holders
     /// @dev This function is permissionless and anyone can transfer the `interestsAccumulated` by the protocol
-    /// to the `surplusDistributor`
+    /// to the `surplusConverter`
     function pullSurplus() external {
-        // If the surplusDistributor has not been initialized, surplus should not be distributed
-        require(surplusDistributor != address(0), "0");
+        // If the `surplusConverter` has not been initialized, surplus should not be distributed
+        // Storing the `surplusConverter` in an intermediate variable to avoid multiple reads in
+        // storage
+        address surplusConverterMem = surplusConverter;
+        require(surplusConverterMem != address(0), "0");
         uint256 amount = interestsAccumulated;
         interestsAccumulated = 0;
-        // We could potentially have an interface for the `surplusDistributor`
-        token.safeTransfer(surplusDistributor, amount);
-        emit Recovered(address(token), surplusDistributor, amount);
+        // Storing the `token` in memory to avoid duplicate reads in storage
+        IERC20 tokenMem = token;
+        tokenMem.safeTransfer(surplusConverterMem, amount);
+        emit Recovered(address(tokenMem), surplusConverterMem, amount);
     }
 
     // ======================== Getters - View Functions ===========================
