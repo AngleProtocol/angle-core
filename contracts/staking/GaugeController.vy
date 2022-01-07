@@ -114,6 +114,10 @@ time_total: public(uint256)  # last scheduled time
 points_type_weight: public(HashMap[int128, HashMap[uint256, uint256]])  # type_id -> time -> type weight
 time_type_weight: public(uint256[1000000000])  # type_id -> last scheduled time (next week)
 
+# gauge -> is killed
+gauge_is_killed: public(HashMap[address, bool])
+
+
 @external
 def __init__(_token: address, _voting_escrow: address, _admin: address):
     """
@@ -291,7 +295,7 @@ def _get_weight(gauge_addr: address) -> uint256:
 
 
 @external
-def add_gauge(addr: address, gauge_type: int128, weight: uint256 = 0):
+def add_gauge(addr: address, gauge_type: int128, weight: uint256):
     """
     @notice Add gauge `addr` of type `gauge_type` with weight `weight`
     @param addr Gauge address
@@ -423,7 +427,7 @@ def _change_type_weight(type_id: int128, weight: uint256):
 
 
 @external
-def add_type(_name: String[64], weight: uint256 = 0):
+def add_type(_name: String[64], weight: uint256):
     """
     @notice Add gauge type with name `_name` and weight `weight`
     @param _name Name of gauge type

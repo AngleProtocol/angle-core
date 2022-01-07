@@ -112,8 +112,6 @@ claim_data: HashMap[address, HashMap[address, uint256]]
 admin: public(address)
 future_admin: public(address)
 
-is_killed: public(bool)
-
 initialized: public(bool)
 
 
@@ -610,18 +608,6 @@ def deposit_reward_token(_reward_token: address, _amount: uint256):
     self.reward_data[_reward_token].period_finish = block.timestamp + WEEK
 
     log RewardDataUpdate(_reward_token,_amount)
-
-
-@external
-def set_killed(_is_killed: bool):
-    """
-    @notice Set the killed status for this contract
-    @dev When killed, the gauge always yields a rate of 0 and so cannot mint ANGLE
-    @param _is_killed Killed status to set
-    """
-    assert msg.sender == self.admin  # dev: only owner
-
-    self.is_killed = _is_killed
 
 @external
 def commit_transfer_ownership(addr: address):

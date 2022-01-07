@@ -17,16 +17,14 @@ import "../external/AccessControlUpgradeable.sol";
 /// @author Angle Core Team
 /// @notice All the events used in `AngleDistributor` contract
 contract AngleDistributorEvents {
-  event DelegateGaugeUpdated(address indexed _delegateGauge);
-  event DistributionsToggled(bool _distributionsOn);
-  event GaugeControllerUpdated(address indexed _controller);
-  event GaugeToggled(address indexed gaugeAddr, bool newStatus);
-  event RateUpdated(uint256 _newRate);
   event Recovered(
     address indexed tokenAddress,
     address indexed to,
     uint256 amount
   );
-  event RewardDistributed(address indexed gaugeAddr, uint256 rewardTally);
   event UpdateMiningParameters(uint256 time, uint256 rate, uint256 supply);
+  event GaugeControllerUpdated(address indexed _controller);
+  event DistributionsToggled(bool _distributionsOn);
+  event RewardDistributed(address indexed gaugeAddr, uint256 rewardTally);
+  event DelegateGaugeUpdated(address indexed _delegateGauge);
 }

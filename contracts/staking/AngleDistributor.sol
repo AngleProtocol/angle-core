@@ -36,10 +36,6 @@ contract AngleDistributor is
   /// @notice Maps the address of a gauge to the last time this gauge was paid
   mapping(address => uint256) public lastTimeGaugePaid;
 
-  /// @notice Maps the address of a gauge to whether it was killed or not
-  /// A gauge killed in this contract cannot receive any rewards
-  mapping(address => bool) public killedGauges;
-
   /// @notice Address of the ANGLE token given as a reward
   IERC20 public rewardToken;
 
@@ -127,9 +123,9 @@ contract AngleDistributor is
     internal
     returns (uint256 weeksElapsed, uint256 rewardTally)
   {
-    // Checking if the gauge has been added or if it still possible to distribute rewards to this gauge
+    // Checking if the gauge has been added
     int128 gaugeType = IGaugeController(controller).gauge_types(gaugeAddr);
-    require(gaugeType >= 0 && !killedGauges[gaugeAddr], "110");
+    require(gaugeType >= 0, "110");
 
     // Calculate the elapsed time in weeks.
     uint256 lastTimePaid = lastTimeGaugePaid[gaugeAddr];
@@ -291,6 +287,18 @@ contract AngleDistributor is
     _updateMiningParameters();
   }
 
+  /// @notice Updates the status of a gauge that has been killed in the `GaugeController` contract
+  /// @param gaugeAddr Gauge to update the status of
+  /// @dev This function can be called by guardians, it should be called after that the gauge has been killed in the
+  /// `GaugeController` and that some rewards have already been distributed to it
+  /// @dev It resets the timestamps at which this gauge has been approved and disapproves the gauge to spend the
+  /// token
+  function setGaugeKilled(address gaugeAddr) external onlyRole(GUARDIAN_ROLE) {
+    require(lastTimeGaugePaid[gaugeAddr] != 0, "112");
+    delete lastTimeGaugePaid[gaugeAddr];
+    rewardToken.safeApprove(gaugeAddr, 0);
+  }
+
   // ========================= Governor Functions ================================
 
   /// @notice Withdraws ERC20 tokens that could accrue on this contract
@@ -304,22 +312,6 @@ contract AngleDistributor is
     address to,
     uint256 amount
   ) external onlyRole(GOVERNOR_ROLE) {
-    // If the token is the ANGLE token, we need to make sure that governance is not going to withdraw
-    // too many tokens and that it'll be able to sustain the weekly distribution forever
-    // This check assumes that `distributeReward` has been called for gauges and that there are no gauges
-    // which have not received their past week's rewards
-    if (tokenAddress == address(rewardToken)) {
-      uint256 currentBalance = rewardToken.balanceOf(address(this));
-      // The amount distributed till the end is `rate * WEEK / (1 - RATE_REDUCTION_FACTOR)` where
-      // `RATE_REDUCTION_FACTOR = BASE / RATE_REDUCTION_COEFFICIENT` which translates to:
-      require(
-        currentBalance >=
-          ((rate * RATE_REDUCTION_COEFFICIENT) * WEEK) /
-            (RATE_REDUCTION_COEFFICIENT - BASE) +
-            amount,
-        "4"
-      );
-    }
     IERC20(tokenAddress).safeTransfer(to, amount);
     emit Recovered(tokenAddress, to, amount);
   }
