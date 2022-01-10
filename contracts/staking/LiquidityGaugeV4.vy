@@ -121,7 +121,6 @@ def __init__():
     @notice Contract constructor
     @dev The contract has an initializer to prevent the take over of the implementation
     """
-    ## Below should be uncommented upon deployment
     assert self.initialized == False #dev: contract is already initialized
     self.initialized = True
 
@@ -150,7 +149,7 @@ def initialize(_staking_token: address, _admin: address, _ANGLE: address, _votin
     self.decimal_staking_token = ERC20Extended(_staking_token).decimals()
 
     symbol: String[26] = ERC20Extended(_staking_token).symbol()
-    self.name = concat("Angle ", symbol, " Gauge Deposit")
+    self.name = concat("Angle ", symbol, " Gauge")
     self.symbol = concat(symbol, "-gauge")
     self.ANGLE = _ANGLE
     self.voting_escrow = _voting_escrow

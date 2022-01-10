@@ -123,7 +123,6 @@ def __init__():
     @notice Contract constructor
     @dev The contract has an initializer to prevent the take over of the implementation
     """
-    ## Below should be uncommented upon deployment
     assert self.initialized == False #dev: contract is already initialized
     self.initialized = True
 
