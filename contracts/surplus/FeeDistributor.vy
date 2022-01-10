@@ -7,6 +7,7 @@
 
 # Original idea and credit:
 # Curve Finance's FeeDistributor
+# https://github.com/curvefi/curve-dao-contracts/blob/master/contracts/FeeDistributor.vy
 
 from vyper.interfaces import ERC20
 

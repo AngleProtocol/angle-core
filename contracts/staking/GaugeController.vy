@@ -114,9 +114,6 @@ time_total: public(uint256)  # last scheduled time
 points_type_weight: public(HashMap[int128, HashMap[uint256, uint256]])  # type_id -> time -> type weight
 time_type_weight: public(uint256[1000000000])  # type_id -> last scheduled time (next week)
 
-# gauge -> is killed
-gauge_is_killed: public(HashMap[address, bool])
-
 
 @external
 def __init__(_token: address, _voting_escrow: address, _admin: address):
@@ -133,6 +130,7 @@ def __init__(_token: address, _voting_escrow: address, _admin: address):
     self.token = _token
     self.voting_escrow = _voting_escrow
     self.time_total = block.timestamp / WEEK * WEEK
+    
 
 @external
 def commit_transfer_ownership(addr: address):
@@ -145,6 +143,7 @@ def commit_transfer_ownership(addr: address):
     self.future_admin = addr
     log CommitOwnership(addr)
 
+
 @external
 def accept_transfer_ownership():
     """
@@ -155,6 +154,7 @@ def accept_transfer_ownership():
 
     self.admin = _admin
     log ApplyOwnership(_admin)
+
 
 @external
 @view
@@ -295,7 +295,7 @@ def _get_weight(gauge_addr: address) -> uint256:
 
 
 @external
-def add_gauge(addr: address, gauge_type: int128, weight: uint256):
+def add_gauge(addr: address, gauge_type: int128, weight: uint256 = 0):
     """
     @notice Add gauge `addr` of type `gauge_type` with weight `weight`
     @param addr Gauge address
@@ -427,7 +427,7 @@ def _change_type_weight(type_id: int128, weight: uint256):
 
 
 @external
-def add_type(_name: String[64], weight: uint256):
+def add_type(_name: String[64], weight: uint256 = 0):
     """
     @notice Add gauge type with name `_name` and weight `weight`
     @param _name Name of gauge type
@@ -488,26 +488,6 @@ def change_gauge_weight(addr: address, weight: uint256):
     assert msg.sender == self.admin
     self._change_gauge_weight(addr, weight)
 
-@external
-def set_killed(_gauge_addr: address):
-    """
-    @notice Set the killed status for a gauge
-    @param _gauge_addr `GaugeController` contract address
-    @dev When killed, no one can vote anymore for the gauge.
-    @dev Duplicate with the is_killed feature in each gauge, in case someone would 
-    @dev want to reduce the inflation by voting for killed gauges
-    """
-    assert msg.sender == self.admin
-    assert self.gauge_types_[_gauge_addr] >= 1, "Gauge not added"
-    self._change_gauge_weight(_gauge_addr, 0)
-    # self.n_gauges and self.gauges are useless in this contract. Keeping track of n_gauges but not
-    # gauges as it would require extra work
-    n: int128 = self.n_gauges
-    self.n_gauges = n - 1
-    # Will make revert the vote_for_gauge_weights if called on this address
-    self.gauge_types_[_gauge_addr] = 0
-
-    log KilledGauge(_gauge_addr)
 
 @external
 def vote_for_gauge_weights(_gauge_addr: address, _user_weight: uint256):
