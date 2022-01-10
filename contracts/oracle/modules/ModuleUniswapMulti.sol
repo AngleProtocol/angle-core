@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -32,9 +32,9 @@ abstract contract ModuleUniswapMulti is UniswapUtils {
         require(guardians.length > 0, "101");
         for (uint256 i = 0; i < guardians.length; i++) {
             require(guardians[i] != address(0), "0");
-            _setupRole(GUARDIAN_ROLE, guardians[i]);
+            _setupRole(GUARDIAN_ROLE_UNISWAP, guardians[i]);
         }
-        _setRoleAdmin(GUARDIAN_ROLE, GUARDIAN_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE_UNISWAP, GUARDIAN_ROLE_UNISWAP);
 
         require(int32(_twapPeriod) > 0, "102");
         uint256 circuitUniLength = _circuitUniswap.length;

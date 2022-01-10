@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -27,4 +27,12 @@ interface IUniswapV2Router {
     /// other asset (accounting for fees) given reserves.
     /// @param path Addresses of the pools used to get prices
     function getAmountsOut(uint256 amountIn, address[] calldata path) external view returns (uint256[] memory amounts);
+
+    function swapExactTokensForTokens(
+        uint256 swapAmount,
+        uint256 minExpected,
+        address[] calldata path,
+        address receiver,
+        uint256 swapDeadline
+    ) external;
 }

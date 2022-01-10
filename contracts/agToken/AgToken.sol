@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -36,7 +36,7 @@ contract AgToken is IAgToken, ERC20PermitUpgradeable {
         require(stableMaster_ != address(0), "0");
         stableMaster = stableMaster_;
     }
-
+ 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
 

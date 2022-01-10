@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -30,6 +30,10 @@ contract PoolManagerEvents {
     event Recovered(address indexed token, address indexed to, uint256 amount);
 
     event StrategyAdded(address indexed strategy, uint256 debtRatio);
+
+    event InterestsForSurplusUpdated(uint64 _interestsForSurplus);
+
+    event SurplusConverterUpdated(address indexed newSurplusConverter, address indexed oldSurplusConverter);
 
     event StrategyRevoked(address indexed strategy);
 

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -58,7 +58,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
     uint256 public minimumAmountMoved;
 
     /// @notice Reward obtained by calling harvest
-    /// @dev If this is null rewards is not currently being distributed
+    /// @dev If this is null rewards are not currently being distributed
     uint256 public rewardAmount;
 
     // ============================ Constructor ====================================
@@ -77,6 +77,7 @@ abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
         poolManager = IPoolManager(_poolManager);
         want = IERC20(poolManager.token());
         wantBase = 10**(IERC20Metadata(address(want)).decimals());
+        require(guardian != address(0) && address(_rewards) != address(0), "0");
         // The token given as a reward to keepers should be different from the token handled by the
         // strategy
         require(address(_rewards) != address(want), "92");

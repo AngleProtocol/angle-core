@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -47,11 +47,12 @@ contract OracleMulti is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti
         uint8 _uniFinalCurrency,
         address[] memory _circuitChainlink,
         uint8[] memory _circuitChainIsMultiplied,
+        uint32 stalePeriod,
         address[] memory guardians,
         bytes32 _description
     )
         ModuleUniswapMulti(_circuitUniswap, _circuitUniIsMultiplied, _twapPeriod, observationLength, guardians)
-        ModuleChainlinkMulti(_circuitChainlink, _circuitChainIsMultiplied)
+        ModuleChainlinkMulti(_circuitChainlink, _circuitChainIsMultiplied, stalePeriod, guardians)
     {
         require(addressInAndOutUni.length == 2, "107");
         // Using the tokens' metadata to get the in and out currencies decimals

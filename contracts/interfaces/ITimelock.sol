@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 // Forked from https://github.com/compound-finance/compound-protocol/tree/master/contracts/Governance
 

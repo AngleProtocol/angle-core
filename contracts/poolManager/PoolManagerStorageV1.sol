@@ -1,16 +1,17 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
 import "./PoolManagerEvents.sol";
 
-/// @title PoolManagerStorage
+/// @title PoolManagerStorageV1
 /// @author Angle Core Team
 /// @notice The `PoolManager` contract corresponds to a collateral pool of the protocol for a stablecoin,
 /// it manages a single ERC20 token. It is responsible for interacting with the strategies enabling the protocol
 /// to get yield on its collateral
-/// @dev This file contains all the variables and parameters stored for this contract
-contract PoolManagerStorage is PoolManagerEvents, FunctionUtils {
+/// @dev This file contains most of the variables and parameters stored for this contract. It does not contain all
+/// as the storage file has been split into multiple files to avoid clashes when upgrading the smart contract
+contract PoolManagerStorageV1 is PoolManagerEvents, FunctionUtils {
     // ================ References to contracts that cannot be modified ============
 
     /// @notice Interface for the underlying token accepted by this contract

@@ -1,8 +1,8 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
-import "./PoolManagerStorage.sol";
+import "./PoolManagerStorageV3.sol";
 
 /// @title PoolManagerInternal
 /// @author Angle Core Team
@@ -10,7 +10,7 @@ import "./PoolManagerStorage.sol";
 /// it manages a single ERC20 token. It is responsible for interacting with the strategies enabling the protocol
 /// to get yield on its collateral
 /// @dev This file contains all the internal functions of the `PoolManager` contract
-contract PoolManagerInternal is PoolManagerStorage, AccessControlUpgradeable {
+contract PoolManagerInternal is PoolManagerStorageV3 {
     using SafeERC20 for IERC20;
 
     // Roles need to be defined here because there are some internal access control functions

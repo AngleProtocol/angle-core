@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 // contracts/oracle/OracleChainlinkSingle.sol
 pragma solidity ^0.8.7;
@@ -24,8 +24,10 @@ contract OracleChainlinkSingle is OracleAbstract, ModuleChainlinkSingle {
         address _poolChainlink,
         uint8 _isChainlinkMultiplied,
         uint256 _inBase,
+        uint32 stalePeriod,
+        address[] memory guardians,
         bytes32 _description
-    ) ModuleChainlinkSingle(_poolChainlink, _isChainlinkMultiplied) {
+    ) ModuleChainlinkSingle(_poolChainlink, _isChainlinkMultiplied, stalePeriod, guardians) {
         inBase = _inBase;
         description = _description;
     }

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -28,10 +28,10 @@ contract StableMasterFront is StableMaster {
         // All the roles that are specific to a given collateral can be changed by the governor
         // in the `deployCollateral`, `revokeCollateral` and `setFeeManager` functions by updating the `contractMap`
     }
-
+ 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() initializer {}
-
+    
     // ============================= USERS =========================================
 
     /// @notice Lets a user send collateral to the system to mint stablecoins

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -20,8 +20,10 @@ contract OracleChainlinkMulti is OracleAbstract, ModuleChainlinkMulti {
         address[] memory _circuitChainlink,
         uint8[] memory _circuitChainIsMultiplied,
         uint256 _inBase,
+        uint32 stalePeriod,
+        address[] memory guardians,
         bytes32 _description
-    ) ModuleChainlinkMulti(_circuitChainlink, _circuitChainIsMultiplied) {
+    ) ModuleChainlinkMulti(_circuitChainlink, _circuitChainIsMultiplied, stalePeriod, guardians) {
         inBase = _inBase;
         description = _description;
     }

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: GNU GPLv3
+// SPDX-License-Identifier: GPL-3.0
 
 pragma solidity ^0.8.7;
 
@@ -221,6 +221,11 @@ contract GenericCompound is GenericLenderBase {
 
     /// @notice Claims and swaps from Uniswap the `comp` earned
     function _disposeOfComp() internal {
+        address[] memory holders = new address[](1);
+        CTokenI[] memory cTokens = new CTokenI[](1);
+        holders[0] = address(this);
+        cTokens[0] = CTokenI(address(cToken));
+        comptroller.claimComp(holders, cTokens, false, true);
         uint256 _comp = IERC20(comp).balanceOf(address(this));
 
         if (_comp > minCompToSell) {
