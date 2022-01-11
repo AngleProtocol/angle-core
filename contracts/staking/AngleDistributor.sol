@@ -36,14 +36,22 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
     /// A gauge killed in this contract cannot receive any rewards
     mapping(address => bool) public killedGauges;
 
+    /// @notice Maps the address of a type >= 2 gauge to a delegate address responsible
+    /// for giving rewards to the actual gauge
+    mapping(address => address) public delegateGauges;
+
+    /// @notice Maps the address of a gauge delegate to whether this delegate supports the `notifyReward` interface
+    /// and is therefore built for automation
+    mapping(address => bool) public isInterfaceKnown;
+
     /// @notice Address of the ANGLE token given as a reward
     IERC20 public rewardToken;
 
     /// @notice Address of the `GaugeController` contract
     IGaugeController public controller;
 
-    /// @notice Address responsible for pulling rewards of type 2 gauges and distributing it to the
-    /// associated contracts
+    /// @notice Address responsible for pulling rewards of type >= 2 gauges and distributing it to the
+    /// associated contracts if there is not already an address delegated for this specific contract
     address public delegateGauge;
 
     /// @notice ANGLE current emission rate, it is first defined in the initializer and then updated every week
@@ -167,24 +175,23 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
         // in order not to have an ever moving time on when to call this function
         lastTimeGaugePaid[gaugeAddr] = (block.timestamp / WEEK) * WEEK;
 
-        // If the `gaugeType > 2`, this means that the gauge is a gauge on another chain and that tokens need
-        // to be bridged
-        if (gaugeType > 2) {
-            // Cross chain: Pay out the rewards to the middleman contract
-            // Approve for the middleman first: since these contracts may change in time and their implementation
-            // has not been exactly decided yet, we prefer to approve these contracts all the time
-            rewardToken.safeIncreaseAllowance(gaugeAddr, rewardTally);
-
-            // Trigger the middleman
-            IAngleMiddlemanGauge(gaugeAddr).pullAndBridge(rewardTally);
-        } else if (gaugeType == 2) {
-            // This is for the case of a contract which interface is not supported by this contract
-            // Tokens would be transferred to a multisig handling the distribution
-            address dest = delegateGauge;
-            // Checking if transferring to the same address for all type 2 gauges handling distribution
-            // has been activated
-            if (dest != address(0)) {
-                rewardToken.safeTransfer(dest, rewardTally);
+        // If the `gaugeType >= 2`, this means that the gauge is a gauge on another chain (and corresponds to tokens
+        // that need to be bridged) or is associated to an external contract of the Angle Protocol
+        if (gaugeType >= 2) {
+            // If it is defined, we use the specific delegate attached to the gauge
+            address delegate = delegateGauges[gaugeAddr];
+            if (delegate == address(0)) {
+                // If not, we check if a delegate common to all gauges with type >= 2 can be used
+                delegate = delegateGauge;
+            }
+            if (delegate != address(0)) {
+                // In the case where the gauge has a delegate (specific or not), then rewards are transferred to this gauge
+                rewardToken.safeTransfer(delegate, rewardTally);
+                // If this delegate supports a specific interface, then rewards sent are notified through this
+                // interface
+                if (isInterfaceKnown[delegate]) {
+                    IAngleMiddlemanGauge(delegate).notifyReward(gaugeAddr, rewardTally);
+                }
             } else {
                 rewardToken.safeTransfer(gaugeAddr, rewardTally);
             }
@@ -222,6 +229,15 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
         rate = _rate;
         startEpochSupply = _startEpochSupply;
         emit UpdateMiningParameters(block.timestamp, _rate, _startEpochSupply);
+    }
+
+    /// @notice Toggles the fact that a gauge delegate can be used for automation or not and therefore supports
+    /// the `notifyReward` interface
+    /// @param _delegateGauge Address of the gauge to change
+    function _toggleInterfaceKnown(address _delegateGauge) internal {
+        bool isInterfaceKnownMem = isInterfaceKnown[_delegateGauge];
+        isInterfaceKnown[_delegateGauge] = !isInterfaceKnownMem;
+        emit InterfaceKnownToggled(_delegateGauge, !isInterfaceKnownMem);
     }
 
     // ================= Permissionless External Functions =========================
@@ -305,12 +321,29 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
         emit GaugeControllerUpdated(_controller);
     }
 
-    /// @notice Sets a new delegate gauge for pulling rewards of type 2 gauges
-    /// @param _delegateGauge Address of the new gauge delegate
+    /// @notice Sets a new delegate gauge for pulling rewards of a type >= 2 gauges or of all type >= 2 gauges
+    /// @param gaugeAddr Gauge to change the delegate of
+    /// @param _delegateGauge Address of the new gauge delegate related to `gaugeAddr`
+    /// @param toggleInterface Whether we should toggle the fact that the `_delegateGauge` is built for automation or not
     /// @dev This function can be used to remove delegating or introduce the pulling of rewards to a given address
-    function setDelegateGauge(address _delegateGauge) external onlyRole(GOVERNOR_ROLE) {
-        delegateGauge = _delegateGauge;
-        emit DelegateGaugeUpdated(_delegateGauge);
+    /// @dev If `gaugeAddr` is the zero address, this function updates the delegate gauge common to all gauges with type >= 2
+    /// @dev The `toggleInterface` parameter has been added for convenience to save one transaction when adding a gauge delegate
+    /// which supports the `notifyReward` interface
+    function setDelegateGauge(
+        address gaugeAddr,
+        address _delegateGauge,
+        bool toggleInterface
+    ) external onlyRole(GOVERNOR_ROLE) {
+        if (gaugeAddr != address(0)) {
+            delegateGauges[gaugeAddr] = _delegateGauge;
+        } else {
+            delegateGauge = _delegateGauge;
+        }
+        emit DelegateGaugeUpdated(gaugeAddr, _delegateGauge);
+
+        if (toggleInterface) {
+            _toggleInterfaceKnown(_delegateGauge);
+        }
     }
 
     /// @notice Changes the ANGLE emission rate
@@ -362,5 +395,12 @@ contract AngleDistributor is AngleDistributorEvents, ReentrancyGuardUpgradeable,
         bool distributionsOnMem = distributionsOn;
         distributionsOn = !distributionsOnMem;
         emit DistributionsToggled(!distributionsOnMem);
+    }
+
+    /// @notice Notifies that the interface of a gauge delegate is known or has changed
+    /// @param _delegateGauge Address of the gauge to change
+    /// @dev Gauge delegates that are built for automation should be toggled
+    function toggleInterfaceKnown(address _delegateGauge) external onlyRole(GUARDIAN_ROLE) {
+        _toggleInterfaceKnown(_delegateGauge);
     }
 }
