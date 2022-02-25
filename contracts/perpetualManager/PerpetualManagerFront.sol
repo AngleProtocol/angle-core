@@ -387,8 +387,8 @@ contract PerpetualManagerFront is PerpetualManager, IPerpetualManagerFront {
 
     /// @notice Allows a perpetual owner to withdraw rewards
     /// @param perpetualID ID of the perpetual which accumulated tokens
-    /// @dev Only an approved caller can claim the rewards for the perpetual with perpetualID
-    function getReward(uint256 perpetualID) external whenNotPaused onlyApprovedOrOwner(msg.sender, perpetualID) {
+    function getReward(uint256 perpetualID) external whenNotPaused {
+        require(_exists(perpetualID), "2");
         _getReward(perpetualID, perpetualData[perpetualID].committedAmount * perpetualData[perpetualID].entryRate);
     }
 
