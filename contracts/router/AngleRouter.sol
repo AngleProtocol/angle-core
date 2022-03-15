@@ -136,7 +136,8 @@ contract AngleRouter is Initializable, ReentrancyGuardUpgradeable {
 
     uint256[50] private __gap;
 
-    // constructor() initializer {}
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() initializer {}
 
     /// @notice Deploys the `AngleRouter` contract
     /// @param _governor Governor address
