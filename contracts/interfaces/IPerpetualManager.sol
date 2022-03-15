@@ -103,3 +103,10 @@ interface IPerpetualManager is IPerpetualManagerFunctions {
 
     function totalHedgeAmount() external view returns (uint256);
 }
+
+/// @title Interface of the contract managing perpetuals with claim function
+/// @author Angle Core Team
+/// @dev Front interface with rewards function, meaning only user-facing functions
+interface IPerpetualManagerFrontWithClaim is IPerpetualManagerFront, IPerpetualManager {
+    function getReward(uint256 perpetualID) external;
+}
