@@ -140,16 +140,22 @@ contract StableMaster is StableMasterInternal, IStableMasterFunctions, AccessCon
     /// @notice Returns the collateral ratio for this stablecoin
     /// @dev The ratio returned is scaled by `BASE_PARAMS` since the value is used to
     /// in the `FeeManager` contrat to be compared with the values in `xArrays` expressed in `BASE_PARAMS`
+    /// @dev The collateral ratio computed here does not take into account the total supply of the stablecoin
+    /// since stablecoins can be minted in other places than in this module
+    /// @dev This means that parameters depending on collateral ratio like slippage will strictly depend on what's going on
+    /// in this module: like if this module is under-collateralized but other modules are functioning well, slippage
+    /// will still apply to SLPs here
     function getCollateralRatio() external view override returns (uint256) {
-        uint256 mints = agToken.totalSupply();
+        uint256 val;
+        uint256 mints;
+        for (uint256 i = 0; i < _managerList.length; i++) {
+            mints += collateralMap[_managerList[i]].stocksUsers;
+            // Oracle needs to be called for each collateral to compute the collateral ratio
+            val += collateralMap[_managerList[i]].oracle.readQuote(_managerList[i].getTotalAsset());
+        }
         if (mints == 0) {
             // If nothing has been minted, the collateral ratio is infinity
             return type(uint256).max;
-        }
-        uint256 val;
-        for (uint256 i = 0; i < _managerList.length; i++) {
-            // Oracle needs to be called for each collateral to compute the collateral ratio
-            val += collateralMap[_managerList[i]].oracle.readQuote(_managerList[i].getTotalAsset());
         }
         return (val * BASE_PARAMS) / mints;
     }

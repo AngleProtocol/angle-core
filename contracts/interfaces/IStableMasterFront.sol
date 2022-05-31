@@ -2,14 +2,12 @@
 
 pragma solidity ^0.8.7;
 
-import "./IStableMaster.sol";
-import "./IPoolManager.sol";
+import "../interfaces/IPoolManager.sol";
 
 /// @title IStableMasterFront
-/// @author Yearn
-/// @notice Interface for the `StableMasterFront` contract
-interface IStableMasterFront is IStableMaster {
-
+/// @author Angle Core Team
+/// @dev Front interface, meaning only user-facing functions
+interface IStableMasterFront {
     function mint(
         uint256 amount,
         address user,
@@ -39,5 +37,4 @@ interface IStableMasterFront is IStableMaster {
     ) external;
 
     function agToken() external view returns (address);
-
 }
