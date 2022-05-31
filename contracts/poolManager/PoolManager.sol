@@ -132,6 +132,7 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
     /// @dev This can be manipulated by a flash loan attack (SLP deposit/ withdraw) via `_getTotalAsset`
     /// when entering you should make sure this hasn't be called by a flash loan and look
     /// at a mean of past APR.
+    /// @dev Returned APR is in base 18
     function estimatedAPR() external view returns (uint256 apr) {
         apr = 0;
         (, ISanToken sanTokenForAPR, , , , uint256 sanRate, , SLPData memory slpData, ) = stableMaster.collateralMap(
@@ -148,7 +149,10 @@ contract PoolManager is PoolManagerInternal, IPoolManagerFunctions {
                 (strategies[strategyList[i]].debtRatio * IStrategy(strategyList[i]).estimatedAPR()) /
                 BASE_PARAMS;
         }
-        apr = (apr * slpData.interestsForSLPs * _getTotalAsset()) / sanRate / supply;
+        apr =
+            (apr * (BASE_PARAMS - interestsForSurplus) * slpData.interestsForSLPs * _getTotalAsset()) /
+            sanRate /
+            supply;
     }
 
     /// @notice Tells a strategy how much it can borrow from this `PoolManager`
