@@ -6,11 +6,8 @@ import 'dotenv/config'
 
 import yargs from 'yargs'
 import { nodeUrl, accounts } from './utils/network'
-import { HardhatUserConfig, subtask } from 'hardhat/config'
-import { TASK_COMPILE_GET_COMPILATION_TASKS } from 'hardhat/builtin-tasks/task-names'
+import { HardhatUserConfig } from 'hardhat/config'
 import '@nomiclabs/hardhat-vyper'
-import path from 'path'
-import fse from 'fs-extra'
 
 import 'hardhat-contract-sizer'
 import 'hardhat-spdx-license-identifier'
@@ -37,71 +34,6 @@ const argv = yargs
 if (argv.enableGasReport) {
   import('hardhat-gas-reporter') // eslint-disable-line
 }
-
-const VYPER_TEMP_DIR = path.join(__dirname, 'vyper_temp_dir')
-subtask(
-  TASK_COMPILE_GET_COMPILATION_TASKS,
-  async (_, { config }, runSuper): Promise<string[]> => {
-    await runSuper()
-
-    // We save already compiled vyper artifacts
-    const glob = await import('glob')
-    const vyFiles = glob.sync(path.join(config.paths.artifacts, '**', '*.vy'))
-    const vpyFiles = glob.sync(
-      path.join(config.paths.artifacts, '**', '*.v.py'),
-    )
-    const files = [...vyFiles, ...vpyFiles]
-
-    await fse.remove(VYPER_TEMP_DIR)
-    await fse.mkdir(VYPER_TEMP_DIR)
-    for (const file of files) {
-      const filename = file.replace(config.paths.artifacts + '/contracts/', '')
-      await fse.move(file, path.join(VYPER_TEMP_DIR, filename))
-    }
-
-    return ['compile:solidity', 'restore_vyper_artifacts', 'compile:vyper']
-  },
-)
-
-subtask<{ force: boolean }>(
-  'restore_vyper_artifacts',
-  async (args, { config }) => {
-    if (!args.force) {
-      const dirs = await fse.readdir(VYPER_TEMP_DIR)
-
-      for (const dir of dirs) {
-        const destination = path.join(config.paths.artifacts, 'contracts', dir)
-
-        if (!fse.pathExists(destination)) {
-          await fse.move(
-            path.join(VYPER_TEMP_DIR, dir),
-            path.join(config.paths.artifacts, 'contracts', dir),
-          )
-        } else {
-          const files = await fse.readdir(path.join(VYPER_TEMP_DIR, dir))
-          for (const file of files) {
-            await fse.move(
-              path.join(VYPER_TEMP_DIR, dir, file),
-              path.join(config.paths.artifacts, 'contracts', dir, file),
-              {
-                overwrite: true,
-              },
-            )
-          }
-        }
-      }
-    }
-    await fse.remove(VYPER_TEMP_DIR)
-  },
-)
-
-subtask('compile:vyper', async (_, { config, artifacts }) => {
-  const { compile } = await import('./vyperCompile')
-  const { generateVyperTypes } = await import('./vyperTypesGenerator')
-
-  await compile(config.vyper, config.paths, artifacts)
-  await generateVyperTypes()
-})
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -132,7 +64,34 @@ const config: HardhatUserConfig = {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 283,
+            runs: 200,
+          },
+        },
+      },
+      'contracts/router/AngleRouter.sol': {
+        version: '0.8.12',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 833,
+          },
+        },
+      },
+      'contracts/interfaces/external/lido/ISteth.sol': {
+        version: '0.8.12',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 1000000,
+          },
+        },
+      },
+      'contracts/interfaces/external/lido/IWStETH.sol': {
+        version: '0.8.12',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 1000000,
           },
         },
       },
