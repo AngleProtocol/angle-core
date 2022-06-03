@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for dao/Governor.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">dao/</a> Governor.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/33</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/33</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "@openzeppelin/contracts-upgradeable/governance/GovernorUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/governance/extensions/GovernorProposalThresholdUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/governance/extensions/GovernorCountingSimpleUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/governance/extensions/GovernorVotesUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/governance/extensions/GovernorTimelockControlUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+&nbsp;
+contract Governor is
+    Initializable,
+    GovernorUpgradeable,
+    GovernorProposalThresholdUpgradeable,
+    GovernorCountingSimpleUpgradeable,
+    GovernorVotesUpgradeable,
+    GovernorTimelockControlUpgradeable
+{
+    event QuorumUpdated(uint256 oldQuorum, uint256 newQuorum);
+    event VotingDelayUpdated(uint256 oldVotingDelay, uint256 newVotingDelay);
+    event VotingPeriodUpdated(uint256 oldVotingPeriod, uint256 newVotingPeriod);
+    event ProposalThresholdUpdated(uint256 oldProposalThreshold, uint256 newProposalThreshold);
+&nbsp;
+    /// @custom:oz-upgrades-unsafe-allow constructor
+<span class="fstat-no" title="function not covered" >    constructor() initializer {}</span>
+&nbsp;
+    uint256 private _votingDelay;
+    uint256 private _votingPeriod;
+    uint256 private _quorum;
+    uint256 private _proposalThreshold;
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function initialize(ERC20VotesUpgradeable _token, TimelockControllerUpgradeable _timelock) public initializer {</span>
+<span class="cstat-no" title="statement not covered" >        __Governor_init("Angle Governor")</span>;
+<span class="cstat-no" title="statement not covered" >        __GovernorProposalThreshold_init()</span>;
+<span class="cstat-no" title="statement not covered" >        __GovernorCountingSimple_init()</span>;
+<span class="cstat-no" title="statement not covered" >        __GovernorVotes_init(_token)</span>;
+<span class="cstat-no" title="statement not covered" >        __GovernorTimelockControl_init(_timelock)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        _votingDelay = 545</span>; // 2 hours
+<span class="cstat-no" title="statement not covered" >        _votingPeriod = 19636</span>; // 3 day
+<span class="cstat-no" title="statement not covered" >        _quorum = 25_000_000e18</span>; // 25M ANGLE
+<span class="cstat-no" title="statement not covered" >        _proposalThreshold = 2500_000e18</span>; // 2M5 ANGLE
+    }
+&nbsp;
+    /// @notice Returns the voting delay
+<span class="fstat-no" title="function not covered" >    function votingDelay() public view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _votingDelay;</span>
+    }
+&nbsp;
+    /// @notice Returns the voting period
+<span class="fstat-no" title="function not covered" >    function votingPeriod() public view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _votingPeriod;</span>
+    }
+&nbsp;
+    /// @notice Returns the quorum
+<span class="fstat-no" title="function not covered" >    function quorum(uint256 blockNumber) public view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        require(blockNumber &lt; block.number, "ERC20Votes: block not yet mined")</span>;
+<span class="cstat-no" title="statement not covered" >        return _quorum;</span>
+    }
+&nbsp;
+    /// @notice Returns the proposal threshold
+<span class="fstat-no" title="function not covered" >    function proposalThreshold() public view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _proposalThreshold;</span>
+    }
+&nbsp;
+    /// @notice Sets the voting delay
+    /// @param newVotingDelay New voting delay
+<span class="fstat-no" title="function not covered" >    function setVotingDelay(uint256 newVotingDelay) public onlyGovernance {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 oldVotingDelay = _votingDelay;</span>
+<span class="cstat-no" title="statement not covered" >        _votingDelay = newVotingDelay</span>;
+<span class="cstat-no" title="statement not covered" >        emit VotingDelayUpdated(oldVotingDelay, newVotingDelay);</span>
+    }
+&nbsp;
+    /// @notice Sets the voting period
+    /// @param newVotingPeriod New voting period
+<span class="fstat-no" title="function not covered" >    function setVotingPeriod(uint256 newVotingPeriod) public onlyGovernance {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 oldVotingPeriod = _votingPeriod;</span>
+<span class="cstat-no" title="statement not covered" >        _votingPeriod = newVotingPeriod</span>;
+<span class="cstat-no" title="statement not covered" >        emit VotingPeriodUpdated(oldVotingPeriod, newVotingPeriod);</span>
+    }
+&nbsp;
+    /// @notice Sets the quorum
+    /// @param newQuorum New quorum
+<span class="fstat-no" title="function not covered" >    function setQuorum(uint256 newQuorum) public onlyGovernance {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 oldQuorum = _quorum;</span>
+<span class="cstat-no" title="statement not covered" >        _quorum = newQuorum</span>;
+<span class="cstat-no" title="statement not covered" >        emit QuorumUpdated(oldQuorum, newQuorum);</span>
+    }
+&nbsp;
+    /// @notice Sets the proposal threshold
+    /// @param newProposalThreshold Proposal threshold
+<span class="fstat-no" title="function not covered" >    function setProposalThreshold(uint256 newProposalThreshold) public onlyGovernance {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 oldProposalThreshold = _proposalThreshold;</span>
+<span class="cstat-no" title="statement not covered" >        _proposalThreshold = newProposalThreshold</span>;
+<span class="cstat-no" title="statement not covered" >        emit ProposalThresholdUpdated(oldProposalThreshold, newProposalThreshold);</span>
+    }
+&nbsp;
+    // The following functions are overrides required by Solidity.
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function getVotes(address account, uint256 blockNumber)</span>
+        public
+        view
+        override(IGovernorUpgradeable, GovernorVotesUpgradeable)
+        returns (uint256)
+    {
+<span class="cstat-no" title="statement not covered" >        return super.getVotes(account, blockNumber);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function state(uint256 proposalId)</span>
+        public
+        view
+        override(GovernorUpgradeable, GovernorTimelockControlUpgradeable)
+        returns (ProposalState)
+    {
+<span class="cstat-no" title="statement not covered" >        return super.state(proposalId);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function propose(</span>
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        string memory description
+    )
+        public
+        override(GovernorUpgradeable, GovernorProposalThresholdUpgradeable, IGovernorUpgradeable)
+        returns (uint256)
+    {
+<span class="cstat-no" title="statement not covered" >        return super.propose(targets, values, calldatas, description);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _execute(</span>
+        uint256 proposalId,
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        bytes32 descriptionHash
+    ) internal override(GovernorUpgradeable, GovernorTimelockControlUpgradeable) {
+<span class="cstat-no" title="statement not covered" >        super._execute(proposalId, targets, values, calldatas, descriptionHash)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _cancel(</span>
+        address[] memory targets,
+        uint256[] memory values,
+        bytes[] memory calldatas,
+        bytes32 descriptionHash
+    ) internal override(GovernorUpgradeable, GovernorTimelockControlUpgradeable) returns (uint256) {
+<span class="cstat-no" title="statement not covered" >        return super._cancel(targets, values, calldatas, descriptionHash);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _executor()</span>
+        internal
+        view
+        override(GovernorUpgradeable, GovernorTimelockControlUpgradeable)
+        returns (address)
+    {
+<span class="cstat-no" title="statement not covered" >        return super._executor();</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function supportsInterface(bytes4 interfaceId)</span>
+        public
+        view
+        override(GovernorUpgradeable, GovernorTimelockControlUpgradeable)
+        returns (bool)
+    {
+<span class="cstat-no" title="statement not covered" >        return super.supportsInterface(interfaceId);</span>
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Nov 17 2021 18:40:54 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

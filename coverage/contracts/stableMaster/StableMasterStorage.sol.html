@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/stableMaster/StableMasterStorage.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/stableMaster/</a> StableMasterStorage.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/16</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.0;
+&nbsp;
+import '@openzeppelin/contracts/access/AccessControl.sol';
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
+&nbsp;
+import '../external/FunctionUtils.sol';
+&nbsp;
+import '../interfaces/ICollateralSettler.sol';
+import '../interfaces/IVaultManager.sol';
+import '../interfaces/IManager.sol';
+import '../interfaces/IKeeperFees.sol';
+import '../interfaces/IOracle.sol';
+import '../interfaces/ISanToken.sol';
+import '../interfaces/IAToken.sol';
+import '../interfaces/IVaultManager.sol';
+&nbsp;
+import './StableMasterEvents.sol';
+&nbsp;
+/// @title StableMasterStorage
+/// @author Angle Core Team
+/// @notice All parameters for the StableMaster contract
+/// @dev This contract handles all the parameters for the stableMaster contract
+contract StableMasterStorage is StableMasterEvents{
+&nbsp;
+	// ======================== References =============================
+&nbsp;
+	struct Collateral {
+		// Amount of collateral in the reserves that comes from users
+		// + capital losses from HAs - capital gains of HAs
+		int256 stocksUsers;
+		// Exchange rate between sanToken and collateral
+		uint256 sanRate;
+		// Reference to the sanToken for the pool
+		ISanToken sanToken;
+		// Reference to the vault Manager for the pool
+		IVaultManager vaultManager;
+		// Adress of the oracle for the change rate between
+		// collateral and the corresponding stablecoin
+		IOracle oracle;
+		// Values of the thresholds to compute the minting fees
+		// depending on HA coverage (scaled by BASE)
+		uint256[] XFeeMint;
+		// Values of the fees at threshold (scaled by BASE)
+		uint256[] YFeeMint;
+		// Minting fees set by the keeper contract: they are going to be multiplied
+		// to the value computed with HA coverage
+		uint256 feeMintByKeeper;
+		// Burn fee (depends on collateral ratio)
+		// Updated by keepers
+		uint256 feeBurn;
+		// Slippage factor that's applied to SLPs exiting (depends on collateral ratio)
+		// If slippage = BASE, SLPs can get nothing, if slippage = 0 they get their full claim
+		// Updated by keepers
+		uint256 slippage;
+		// Part of the fees normally going to SLPs that is left aside
+		// before the protocol is collateralized back again (depends on collateral ratio)
+		// Updated by keepers
+		uint256 slippageFee;
+		// Amount of fees left aside for SLPs and that will be distributed
+		// when the protocol is collateralized back again
+		uint256 feesAside;
+		// Fees accumulated by SLPs and that can be distributed to them
+		// with the updateSanRate function
+		uint256 feesAccumulated;
+	}
+&nbsp;
+	/// @notice maps a manager handling collateral to the properties of this struct
+	mapping(IManager =&gt; Collateral) public collateralMap;
+&nbsp;
+	/// @notice list of all collateral managers
+	IManager[] public managerList;
+&nbsp;
+	/// @notice Maps a contract to an address corresponding to the IManager address
+	mapping(address =&gt; IManager) public contractMap;
+&nbsp;
+	/// @notice Name of the stablecoin
+	string public name;
+&nbsp;
+	/// @notice Reference to the aToken used in this stableMaster
+	IAToken public aToken;
+&nbsp;
+	// ======================== Governance parameters =============================
+&nbsp;
+	/// @notice BASE used to compute ratios and make divisions
+	uint256 public BASE = 10**18;
+&nbsp;
+	/// @notice Portion of the fees that go to LPs (the rest goes to surplus)
+	uint256 public feesForLPs = (5 * BASE) / 10;
+&nbsp;
+	/// @notice Max proportion of collateral from users that can be covered by HAs
+	uint256 public maxALock = (9 * BASE) / 10;
+&nbsp;
+	/// @notice Initializes the name of the stablecoin
+	/// @param _name name of the stablecoin
+<span class="fstat-no" title="function not covered" >	constructor(string memory _name) {</span>
+<span class="cstat-no" title="statement not covered" >		name = _name</span>;
+	}
+&nbsp;
+	// ============================== Internal ======================================
+&nbsp;
+	/// @notice initializes a collateral for this stablecoin
+	/// @param manager interface handling the money
+	/// @param _vaultManager the contract managing HA vaults
+	/// @param _sanToken address of the sanToken
+	/// @param _oracle interface for the oracle
+<span class="fstat-no" title="function not covered" >	function _setCollateral(</span>
+		IManager manager,
+		IVaultManager _vaultManager,
+		ISanToken _sanToken,
+		IOracle _oracle
+	) internal {
+<span class="cstat-no" title="statement not covered" >		Collateral storage col = collateralMap[manager];</span>
+<span class="cstat-no" title="statement not covered" >		col.sanRate = BASE</span>;
+<span class="cstat-no" title="statement not covered" >		col.sanToken = _sanToken</span>;
+<span class="cstat-no" title="statement not covered" >		col.vaultManager = _vaultManager</span>;
+<span class="cstat-no" title="statement not covered" >		col.oracle = _oracle</span>;
+&nbsp;
+		// Fees need to be initialized for the stablecoin
+		// Governance can change them afterwards
+<span class="cstat-no" title="statement not covered" >		col.XFeeMint = [0, (3 * BASE) / 10, (6 * BASE) / 10, BASE]</span>;
+<span class="cstat-no" title="statement not covered" >		col.YFeeMint = [BASE / 10, BASE / 10, BASE / 10, BASE / 10]</span>;
+<span class="cstat-no" title="statement not covered" >		col.feeMintByKeeper = BASE</span>;
+<span class="cstat-no" title="statement not covered" >		col.feeBurn = BASE / 10</span>;
+<span class="cstat-no" title="statement not covered" >		col.slippage = 0</span>;
+<span class="cstat-no" title="statement not covered" >		col.slippageFee = 0</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		contractMap[address(_sanToken)] = manager</span>;
+<span class="cstat-no" title="statement not covered" >		contractMap[address(_vaultManager)] = manager</span>;
+<span class="cstat-no" title="statement not covered" >		managerList.push(manager)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit NewCollateral(manager, _vaultManager, _sanToken, _oracle);</span>
+	}
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,1337 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for perpetualManager/PerpetualManagerInternal.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">perpetualManager/</a> PerpetualManagerInternal.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>89/89</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>34/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>24/24</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>91/91</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">118×</span>
+<span class="cline-any cline-yes">118×</span>
+<span class="cline-any cline-yes">118×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">110×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">105×</span>
+<span class="cline-any cline-yes">105×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">248×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">147×</span>
+<span class="cline-any cline-yes">147×</span>
+<span class="cline-any cline-yes">131×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">120×</span>
+<span class="cline-any cline-yes">120×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">104×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">104×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">104×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-yes">34×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">379×</span>
+<span class="cline-any cline-yes">379×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">402×</span>
+<span class="cline-any cline-yes">196×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">206×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-yes">73×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">199×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">173×</span>
+<span class="cline-any cline-yes">173×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">173×</span>
+<span class="cline-any cline-yes">173×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">335×</span>
+<span class="cline-any cline-yes">335×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">47×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">162×</span>
+<span class="cline-any cline-yes">148×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">100×</span>
+<span class="cline-any cline-yes">100×</span>
+<span class="cline-any cline-yes">100×</span>
+<span class="cline-any cline-yes">100×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">64×</span>
+<span class="cline-any cline-yes">64×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">109×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">100×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "./PerpetualManagerStorage.sol";
+&nbsp;
+/// @title PerpetualManagerInternal
+/// @author Angle Core Team
+/// @notice `PerpetualManager` is the contract handling all the Hedging Agents perpetuals
+/// @dev There is one `PerpetualManager` contract per pair stablecoin/collateral in the protocol
+/// @dev This file contains all the internal functions of the `PerpetualManager` contract
+contract PerpetualManagerInternal is PerpetualManagerStorage {
+    using Address for address;
+    using SafeERC20 for IERC20;
+&nbsp;
+    // ======================== State Modifying Functions ==========================
+&nbsp;
+    /// @notice Cashes out a perpetual, which means that it simply deletes the references to the perpetual
+    /// in the contract
+    /// @param perpetualID ID of the perpetual
+    /// @param perpetual Data of the perpetual
+    function _closePerpetual(uint256 perpetualID, Perpetual memory perpetual) internal {
+        // Handling the staking logic
+        // Reward should always be updated before the `totalHedgeAmount`
+        // Rewards are distributed to the perpetual which is liquidated
+        uint256 hedge = perpetual.committedAmount * perpetual.entryRate;
+        _getReward(perpetualID, hedge);
+        delete perpetualRewardPerTokenPaid[perpetualID];
+&nbsp;
+        // Updating `totalHedgeAmount` to represent the fact that less money is insured
+        totalHedgeAmount -= hedge / _collatBase;
+&nbsp;
+        _burn(perpetualID);
+    }
+&nbsp;
+    /// @notice Allows the protocol to transfer collateral to an address while handling the case where there are
+    /// not enough reserves
+    /// @param owner Address of the receiver
+    /// @param amount The amount of collateral sent
+    /// @dev If there is not enough collateral in balance (this can happen when money has been lent to strategies),
+    /// then the owner is reimbursed by receiving what is missing in sanTokens at the correct value
+    function _secureTransfer(address owner, uint256 amount) internal {
+        uint256 curBalance = poolManager.getBalance();
+        if (curBalance &gt;= amount &amp;&amp; amount &gt; 0) {
+            // Case where there is enough in reserves to reimburse the person
+            _token.safeTransferFrom(address(poolManager), owner, amount);
+        } else if (amount &gt; 0) {
+            // When there is not enough to reimburse the entire amount, the protocol reimburses
+            // what it can using its reserves and the rest is paid in sanTokens at the current
+            // exchange rate
+            uint256 amountLeft = amount - curBalance;
+            _token.safeTransferFrom(address(poolManager), owner, curBalance);
+            _stableMaster.convertToSLP(amountLeft, owner);
+        }
+    }
+&nbsp;
+    /// @notice Checks whether the perpetual should be liquidated or not, and if so liquidates the perpetual
+    /// @param perpetualID ID of the perpetual to check and potentially liquidate
+    /// @param perpetual Data of the perpetual to check
+    /// @param rateDown Oracle value to compute the cash out amount of the perpetual
+    /// @return Cash out amount of the perpetual
+    /// @return Whether the perpetual was liquidated or not
+    /// @dev Generally, to check for the liquidation of a perpetual, we use the lowest oracle value possible:
+    /// it's the one that is most at the advantage of the protocol, hence the `rateDown` parameter
+    function _checkLiquidation(
+        uint256 perpetualID,
+        Perpetual memory perpetual,
+        uint256 rateDown
+    ) internal returns (uint256, uint256) {
+        uint256 liquidated;
+        (uint256 cashOutAmount, uint256 reachMaintenanceMargin) = _getCashOutAmount(perpetual, rateDown);
+        if (cashOutAmount == 0 || reachMaintenanceMargin == 1) {
+            _closePerpetual(perpetualID, perpetual);
+            // No need for an event to find out that a perpetual is liquidated
+            liquidated = 1;
+        }
+        return (cashOutAmount, liquidated);
+    }
+&nbsp;
+    // ========================= Internal View Functions ===========================
+&nbsp;
+    /// @notice Gets the current cash out amount of a perpetual
+    /// @param perpetual Data of the concerned perpetual
+    /// @param rate Value of the oracle
+    /// @return cashOutAmount Amount that the HA could get by closing this perpetual
+    /// @return reachMaintenanceMargin Whether the position of the perpetual is now too small
+    /// compared with its initial position
+    /// @dev Refer to the whitepaper or the doc for the formulas of the cash out amount
+    /// @dev The notion of `maintenanceMargin` is standard in centralized platforms offering perpetual futures
+    function _getCashOutAmount(Perpetual memory perpetual, uint256 rate)
+        internal
+        view
+        returns (uint256 cashOutAmount, uint256 reachMaintenanceMargin)
+    {
+        // All these computations are made just because we are working with uint and not int
+        // so we cannot do x-y if x&lt;y
+        uint256 newCommit = (perpetual.committedAmount * perpetual.entryRate) / rate;
+        // Checking if a liquidation is needed: for this to happen the `cashOutAmount` should be inferior
+        // to the maintenance margin of the perpetual
+        reachMaintenanceMargin;
+        if (newCommit &gt;= perpetual.committedAmount + perpetual.margin) cashOutAmount = 0;
+        else {
+            // The definition of the margin ratio is `(margin + PnL) / committedAmount`
+            // where `PnL = commit * (1-entryRate/currentRate)`
+            // So here: `newCashOutAmount = margin + PnL`
+            cashOutAmount = perpetual.committedAmount + perpetual.margin - newCommit;
+            if (cashOutAmount * BASE_PARAMS &lt;= perpetual.committedAmount * maintenanceMargin)
+                reachMaintenanceMargin = 1;
+        }
+    }
+&nbsp;
+    /// @notice Calls the oracle to read both Chainlink and Uniswap rates
+    /// @return The lowest oracle value (between Chainlink and Uniswap) is the first outputted value
+    /// @return The highest oracle value is the second output
+    /// @dev If the oracle only involves a single oracle fees (like just Chainlink for USD-EUR),
+    /// the same value is returned twice
+    function _getOraclePrice() internal view returns (uint256, uint256) {
+        return oracle.readAll();
+    }
+&nbsp;
+    /// @notice Computes the incentive for the keeper as a function of the cash out amount of a liquidated perpetual
+    /// which value falls below its maintenance margin
+    /// @param cashOutAmount Value remaining in the perpetual
+    /// @dev By computing keeper fees as a fraction of the cash out amount of a perpetual rather than as a fraction
+    /// of the `committedAmount`, keepers are incentivized to react fast when a perpetual is below the maintenance margin
+    /// @dev Perpetual exchange protocols typically compute liquidation fees using an equivalent of the `committedAmount`,
+    /// this is not the case here
+    function _computeKeeperLiquidationFees(uint256 cashOutAmount) internal view returns (uint256 keeperFees) {
+        keeperFees = (cashOutAmount * keeperFeesLiquidationRatio) / BASE_PARAMS;
+        keeperFees = keeperFees &lt; keeperFeesLiquidationCap ? keeperFees : keeperFeesLiquidationCap;
+    }
+&nbsp;
+    /// @notice Gets the value of the hedge ratio that is the ratio between the amount currently hedged by HAs
+    /// and the target amount that should be hedged by them
+    /// @param currentHedgeAmount Amount currently covered by HAs
+    /// @return ratio Ratio between the amount of collateral (in stablecoin value) currently hedged
+    /// and the target amount to hedge
+    function _computeHedgeRatio(uint256 currentHedgeAmount) internal view returns (uint64 ratio) {
+        // Fetching info from the `StableMaster`: the amount to hedge is based on the `stocksUsers`
+        // of the given collateral
+        uint256 targetHedgeAmount = (_stableMaster.getStocksUsers() * targetHAHedge) / BASE_PARAMS;
+        if (currentHedgeAmount &lt; targetHedgeAmount)
+            ratio = uint64((currentHedgeAmount * BASE_PARAMS) / targetHedgeAmount);
+        else ratio = uint64(BASE_PARAMS);
+    }
+&nbsp;
+    // =========================== Fee Computation =================================
+&nbsp;
+    /// @notice Gets the net margin corrected from the fees at perpetual opening
+    /// @param margin Amount brought in the perpetual at creation
+    /// @param totalHedgeAmountUpdate Amount of stablecoins that this perpetual is going to insure
+    /// @param committedAmount Committed amount in the perpetual, we need it to compute the fees
+    /// paid by the HA
+    /// @return netMargin Amount that will be written in the perpetual as the `margin`
+    /// @dev The amount of stablecoins insured by a perpetual is `committedAmount * oracleRate / _collatBase`
+    function _getNetMargin(
+        uint256 margin,
+        uint256 totalHedgeAmountUpdate,
+        uint256 committedAmount
+    ) internal view returns (uint256 netMargin) {
+        // Checking if the HA has the right to open a perpetual with such amount
+        // If HAs hedge more than the target amount, then new HAs will not be able to create perpetuals
+        // The amount hedged by HAs after opening the perpetual is going to be:
+        uint64 ratio = _computeHedgeRatio(totalHedgeAmount + totalHedgeAmountUpdate);
+        require(ratio &lt; uint64(BASE_PARAMS), "25");
+        // Computing the net margin of HAs to store in the perpetual: it consists simply in deducing fees
+        // Those depend on how much is already hedged by HAs compared with what's to hedge
+        uint256 haFeesDeposit = (haBonusMalusDeposit * _piecewiseLinear(ratio, xHAFeesDeposit, yHAFeesDeposit)) /
+            BASE_PARAMS;
+        // Fees are rounded to the advantage of the protocol
+        haFeesDeposit = committedAmount - (committedAmount * (BASE_PARAMS - haFeesDeposit)) / BASE_PARAMS;
+        // Fees are computed based on the committed amount of the perpetual
+        // The following reverts if fees are too big compared to the margin
+        netMargin = margin - haFeesDeposit;
+    }
+&nbsp;
+    /// @notice Gets the net amount to give to a HA (corrected from the fees) in case of a perpetual closing
+    /// @param committedAmount Committed amount in the perpetual
+    /// @param cashOutAmount The current cash out amount of the perpetual
+    /// @param ratio What's hedged divided by what's to hedge
+    /// @return netCashOutAmount Amount that will be distributed to the HA
+    /// @return feesPaid Amount of fees paid by the HA at perpetual closing
+    /// @dev This function is called by the `closePerpetual` and by the `forceClosePerpetuals`
+    /// function
+    /// @dev The amount of fees paid by the HA is used to compute the incentive given to HAs closing perpetuals
+    /// when too much is covered
+    function _getNetCashOutAmount(
+        uint256 cashOutAmount,
+        uint256 committedAmount,
+        uint64 ratio
+    ) internal view returns (uint256 netCashOutAmount, uint256 feesPaid) {
+        feesPaid = (haBonusMalusWithdraw * _piecewiseLinear(ratio, xHAFeesWithdraw, yHAFeesWithdraw)) / BASE_PARAMS;
+        // Rounding the fees at the protocol's advantage
+        feesPaid = committedAmount - (committedAmount * (BASE_PARAMS - feesPaid)) / BASE_PARAMS;
+        if (feesPaid &gt;= cashOutAmount) {
+            netCashOutAmount = 0;
+            feesPaid = cashOutAmount;
+        } else {
+            netCashOutAmount = cashOutAmount - feesPaid;
+        }
+    }
+&nbsp;
+    // ========================= Reward Distribution ===============================
+&nbsp;
+    /// @notice View function to query the last timestamp at which a reward was distributed
+    /// @return Current timestamp if a reward is being distributed or the last timestamp
+    function _lastTimeRewardApplicable() internal view returns (uint256) {
+        uint256 returnValue = block.timestamp &lt; periodFinish ? block.timestamp : periodFinish;
+        return returnValue;
+    }
+&nbsp;
+    /// @notice Used to actualize the `rewardPerTokenStored`
+    /// @dev It adds to the reward per token: the time elapsed since the `rewardPerTokenStored`
+    /// was last updated multiplied by the `rewardRate` divided by the number of tokens
+    /// @dev Specific attention should be placed on the base here: `rewardRate` is in the base of the reward token
+    /// and `totalHedgeAmount` is in `BASE_TOKENS` here: as this function concerns an amount of reward
+    /// tokens, the output of this function should be in the base of the reward token too
+    function _rewardPerToken() internal view returns (uint256) {
+        if (totalHedgeAmount == 0) {
+            return rewardPerTokenStored;
+        }
+        return
+            rewardPerTokenStored +
+            ((_lastTimeRewardApplicable() - lastUpdateTime) * rewardRate * BASE_TOKENS) /
+            totalHedgeAmount;
+    }
+&nbsp;
+    /// @notice Allows a perpetual owner to withdraw rewards
+    /// @param perpetualID ID of the perpetual which accumulated tokens
+    /// @param hedge Perpetual commit amount times the entry rate
+    /// @dev Internal version of the `getReward` function
+    /// @dev In case where an approved address calls to close a perpetual, rewards are still going to get distributed
+    /// to the owner of the perpetual, and not necessarily to the address getting the proceeds of the perpetual
+    function _getReward(uint256 perpetualID, uint256 hedge) internal {
+        _updateReward(perpetualID, hedge);
+        uint256 reward = rewards[perpetualID];
+        if (reward &gt; 0) {
+            rewards[perpetualID] = 0;
+            address owner = _owners[perpetualID];
+            // Attention here, there may be reentrancy attacks because of the following call
+            // to an external contract done before other things are modified. Yet since the `rewardToken`
+            // is mostly going to be a trusted contract controlled by governance (namely the ANGLE token), then
+            // there is no point in putting an expensive `nonReentrant` modifier in the functions in `PerpetualManagerFront`
+            // that allow indirect interactions with `_updateReward`. If new `rewardTokens` are set, we could think about
+            // upgrading the `PerpetualManagerFront` contract
+            rewardToken.safeTransfer(owner, reward);
+            emit RewardPaid(owner, reward);
+        }
+    }
+&nbsp;
+    /// @notice Allows to check the amount of gov tokens earned by a perpetual
+    /// @param perpetualID ID of the perpetual which accumulated tokens
+    /// @param hedge Perpetual commit amount times the entry rate
+    /// @return Amount of gov tokens earned by the perpetual
+    /// @dev A specific attention should be paid to have the base here: we consider that each HA stakes an amount
+    /// equal to `committedAmount * entryRate / _collatBase`, here as the `hedge` corresponds to `committedAmount * entryRate`,
+    /// we just need to divide by `_collatBase`
+    /// @dev HAs earn reward tokens which are in base `BASE_TOKENS`
+    function _earned(uint256 perpetualID, uint256 hedge) internal view returns (uint256) {
+        return
+            (hedge * (_rewardPerToken() - perpetualRewardPerTokenPaid[perpetualID])) /
+            BASE_TOKENS /
+            _collatBase +
+            rewards[perpetualID];
+    }
+&nbsp;
+    /// @notice Updates the amount of gov tokens earned by a perpetual
+    /// @param perpetualID of the perpetual which earns tokens
+    /// @param hedge Perpetual commit amount times the entry rate
+    /// @dev When this function is called in the code, it has already been checked that the `perpetualID`
+    /// exists
+    function _updateReward(uint256 perpetualID, uint256 hedge) internal {
+        rewardPerTokenStored = _rewardPerToken();
+        lastUpdateTime = _lastTimeRewardApplicable();
+        // No need to check if the `perpetualID` exists here, it has already been checked
+        // in the code before when this internal function is called
+        rewards[perpetualID] = _earned(perpetualID, hedge);
+        perpetualRewardPerTokenPaid[perpetualID] = rewardPerTokenStored;
+    }
+&nbsp;
+    // =============================== ERC721 Logic ================================
+&nbsp;
+    /// @notice Gets the owner of a perpetual
+    /// @param perpetualID ID of the concerned perpetual
+    /// @return owner Owner of the perpetual
+    function _ownerOf(uint256 perpetualID) internal view returns (address owner) {
+        owner = _owners[perpetualID];
+        require(owner != address(0), "2");
+    }
+&nbsp;
+    /// @notice Gets the addresses approved for a perpetual
+    /// @param perpetualID ID of the concerned perpetual
+    /// @return Address approved for this perpetual
+    function _getApproved(uint256 perpetualID) internal view returns (address) {
+        return _perpetualApprovals[perpetualID];
+    }
+&nbsp;
+    /// @notice Safely transfers `perpetualID` token from `from` to `to`, checking first that contract recipients
+    /// are aware of the ERC721 protocol to prevent tokens from being forever locked
+    /// @param perpetualID ID of the concerned perpetual
+    /// @param _data Additional data, it has no specified format and it is sent in call to `to`
+    /// @dev This internal function is equivalent to {safeTransferFrom}, and can be used to e.g.
+    /// implement alternative mechanisms to perform token transfer, such as signature-based
+    /// @dev Requirements:
+    ///     - `from` cannot be the zero address.
+    ///     - `to` cannot be the zero address.
+    ///     - `perpetualID` token must exist and be owned by `from`.
+    ///     - If `to` refers to a smart contract, it must implement {IERC721Receiver-onERC721Received}, which is called upon a safe transfer.
+    function _safeTransfer(
+        address from,
+        address to,
+        uint256 perpetualID,
+        bytes memory _data
+    ) internal {
+        _transfer(from, to, perpetualID);
+        require(_checkOnERC721Received(from, to, perpetualID, _data), "24");
+    }
+&nbsp;
+    /// @notice Returns whether `perpetualID` exists
+    /// @dev Tokens can be managed by their owner or approved accounts via {approve} or {setApprovalForAll}
+    /// @dev Tokens start existing when they are minted (`_mint`),
+    /// and stop existing when they are burned (`_burn`)
+    function _exists(uint256 perpetualID) internal view returns (bool) {
+        return _owners[perpetualID] != address(0);
+    }
+&nbsp;
+    /// @notice Returns whether `spender` is allowed to manage `perpetualID`
+    /// @dev `perpetualID` must exist
+    function _isApprovedOrOwner(address spender, uint256 perpetualID) internal view returns (bool) {
+        // The following checks if the perpetual exists
+        address owner = _ownerOf(perpetualID);
+        return (spender == owner || _getApproved(perpetualID) == spender || _operatorApprovals[owner][spender]);
+    }
+&nbsp;
+    /// @notice Mints `perpetualID` and transfers it to `to`
+    /// @dev This method is equivalent to the `_safeMint` method used in OpenZeppelin ERC721 contract
+    /// @dev `perpetualID` must not exist and `to` cannot be the zero address
+    /// @dev Before calling this function it is checked that the `perpetualID` does not exist as it
+    /// comes from a counter that has been incremented
+    /// @dev Emits a {Transfer} event
+    function _mint(address to, uint256 perpetualID) internal {
+        _balances[to] += 1;
+        _owners[perpetualID] = to;
+        emit Transfer(address(0), to, perpetualID);
+        require(_checkOnERC721Received(address(0), to, perpetualID, ""), "24");
+    }
+&nbsp;
+    /// @notice Destroys `perpetualID`
+    /// @dev `perpetualID` must exist
+    /// @dev Emits a {Transfer} event
+    function _burn(uint256 perpetualID) internal {
+        address owner = _ownerOf(perpetualID);
+&nbsp;
+        // Clear approvals
+        _approve(address(0), perpetualID);
+&nbsp;
+        _balances[owner] -= 1;
+        delete _owners[perpetualID];
+        delete perpetualData[perpetualID];
+&nbsp;
+        emit Transfer(owner, address(0), perpetualID);
+    }
+&nbsp;
+    /// @notice Transfers `perpetualID` from `from` to `to` as opposed to {transferFrom},
+    /// this imposes no restrictions on msg.sender
+    /// @dev `to` cannot be the zero address and `perpetualID` must be owned by `from`
+    /// @dev Emits a {Transfer} event
+    function _transfer(
+        address from,
+        address to,
+        uint256 perpetualID
+    ) internal {
+        require(_ownerOf(perpetualID) == from, "1");
+        require(to != address(0), "26");
+&nbsp;
+        // Clear approvals from the previous owner
+        _approve(address(0), perpetualID);
+&nbsp;
+        _balances[from] -= 1;
+        _balances[to] += 1;
+        _owners[perpetualID] = to;
+&nbsp;
+        emit Transfer(from, to, perpetualID);
+    }
+&nbsp;
+    /// @notice Approves `to` to operate on `perpetualID`
+    function _approve(address to, uint256 perpetualID) internal {
+        _perpetualApprovals[perpetualID] = to;
+        emit Approval(_ownerOf(perpetualID), to, perpetualID);
+    }
+&nbsp;
+    /// @notice Internal function to invoke {IERC721Receiver-onERC721Received} on a target address
+    /// The call is not executed if the target address is not a contract
+    /// @param from Address representing the previous owner of the given token ID
+    /// @param to Target address that will receive the tokens
+    /// @param perpetualID ID of the token to be transferred
+    /// @param _data Bytes optional data to send along with the call
+    /// @return Bool whether the call correctly returned the expected magic value
+    function _checkOnERC721Received(
+        address from,
+        address to,
+        uint256 perpetualID,
+        bytes memory _data
+    ) private returns (bool) {
+        if (to.isContract()) {
+            try IERC721ReceiverUpgradeable(to).onERC721Received(msg.sender, from, perpetualID, _data) returns (
+                bytes4 retval
+            ) {
+                return retval == IERC721ReceiverUpgradeable(to).onERC721Received.selector;
+            } catch (bytes memory reason) {
+                if (reason.length == 0) {
+                    revert("24");
+                } else {
+                    // solhint-disable-next-line no-inline-assembly
+                    assembly {
+                        revert(add(32, reason), mload(reason))
+                    }
+                }
+            }
+        } else {
+            return true;
+        }
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

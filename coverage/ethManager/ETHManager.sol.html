@@ -1,0 +1,962 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ethManager/ETHManager.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">ethManager/</a> ETHManager.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/105</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/106</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">pragma solidity 0.8.0;
+//TODO change lending
+&nbsp;
+import './ETHManagerInternal.sol';
+&nbsp;
+/// @title ETHManager
+/// @author Angle Core Team
+/// @notice Manager of the ETH.
+contract ETHManager is ETHManagerInternal, IManager, PausableAgents {
+	using Decimal for Decimal.D256;
+	using SafeERC20 for IERC20;
+&nbsp;
+	bytes32 public constant STABLEMASTER_ROLE = keccak256('STABLEMASTER_ROLE');
+	bytes32 public constant GOVERNOR_ROLE = keccak256('GOVERNOR_ROLE');
+	// when private key not needed anymore the gov should be able to revoke the guardian
+	bytes32 public constant GUARDIAN_ROLE = keccak256('GUARDIAN_ROLE');
+&nbsp;
+	// ============================ Constructor ===================================
+&nbsp;
+	/// @notice Initialize roles
+<span class="fstat-no" title="function not covered" >	function initializeRoles() internal {</span>
+<span class="cstat-no" title="statement not covered" >		_setupRole(STABLEMASTER_ROLE, address(stableMaster))</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(STABLEMASTER_ROLE, STABLEMASTER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GOVERNOR_ROLE, STABLEMASTER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GUARDIAN_ROLE, STABLEMASTER_ROLE)</span>;
+	}
+&nbsp;
+	// TODO : add a boolean to be sure only called once
+	/// @notice deploy the associated collateral for this manager
+	/// @param governor address of the protocol
+	/// @param guardian address
+	/// @param _sanToken will be distributed to SLP
+	/// @param _vaultManager is the manager for ha vaults
+<span class="fstat-no" title="function not covered" >	function deployCollateral(</span>
+		address governor,
+		address guardian,
+		ISanToken _sanToken,
+		IVaultManager _vaultManager,
+		IKeeperFees _keeper
+	) external override onlyRole(STABLEMASTER_ROLE) {
+<span class="cstat-no" title="statement not covered" >		sanToken = _sanToken</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager = _vaultManager</span>;
+<span class="cstat-no" title="statement not covered" >		keeper = _keeper</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		grantRole(GOVERNOR_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, guardian)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		vaultManager.deployCollateral(governor, guardian, _keeper)</span>;
+<span class="cstat-no" title="statement not covered" >		sanToken.init(governor, guardian)</span>;
+	}
+&nbsp;
+	// ============================ Users / SLP ===============================
+&nbsp;
+	/// @notice Removes collateral to the system
+	/// @param _user the address of the contract to send the released collateral to
+	/// @param amount the amount of collateral sent
+<span class="fstat-no" title="function not covered" >	function exit(address _user, uint256 amount) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		address payable user = payable(_user);</span>
+<span class="cstat-no" title="statement not covered" >		require(int256(amount) &gt;= 0, 'ETHManager::exit: Overflow')</span>;
+<span class="cstat-no" title="statement not covered" >		(bool success, ) = user.call{value: amount}('');</span>
+<span class="cstat-no" title="statement not covered" >		require(success, 'ETHManager::exit: Transfer failed')</span>;
+	}
+&nbsp;
+	// ============================ Governance ==========================
+&nbsp;
+	/// @notice deploy a new lending protocol
+	/// @param platformName of the lending protocol
+	/// @param _interfaceContract address of the contract
+	/// @param _bounds percentage range in which we agree to
+	/// to lent to the protocol (should be consistent with the other lending protocol
+<span class="fstat-no" title="function not covered" >	function deployLendingInterface(</span>
+		bytes32 platformName,
+		address _interfaceContract,
+		uint256[] memory _bounds
+	) external override onlyRole(GOVERNOR_ROLE) {
+<span class="cstat-no" title="statement not covered" >		require(_interfaceContract != address(0), 'ETHManager::deployLendingInterface: invalid contract address')</span>;
+<span class="cstat-no" title="statement not covered" >		require(_bounds.length == 3, 'ETHManager::deployLendingInterface: incorrect lending bounds')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].interfaceContract = ILending(_interfaceContract)</span>;
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].lowerBound = _bounds[0]</span>;
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].upperBound = _bounds[1]</span>;
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].target = _bounds[2]</span>;
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].amountLent = 0</span>;
+<span class="cstat-no" title="statement not covered" >		lendingInterfacesList.push(platformName)</span>;
+	}
+&nbsp;
+	/// @notice revoke a lending protocol
+	/// @param platformName of the lending protocol
+<span class="fstat-no" title="function not covered" >	function revokeLendingInterface(bytes32 platformName) external override onlyRole(GOVERNOR_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].lowerBound = 0</span>;
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].upperBound = 0</span>;
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].target = 0</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 gains = _correctLendingRate(platformName);</span>
+<span class="cstat-no" title="statement not covered" >		if (gains &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >			stableMaster.accumulateFees(gains)</span>;
+<span class="cstat-no" title="statement not covered" >			emit DistributingFees(gains);</span>
+		}
+&nbsp;
+		delete lendingInterfaceMap[platformName];
+&nbsp;
+		// Removing the platform from the lendingInterfacesList
+<span class="cstat-no" title="statement not covered" >		uint256 indexMet = 0;</span>
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; lendingInterfacesList.length - 1; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			if (lendingInterfacesList[i] == platformName) {</span>
+<span class="cstat-no" title="statement not covered" >				indexMet = 1</span>;
+			}
+<span class="cstat-no" title="statement not covered" >			if (indexMet == 1) {</span>
+<span class="cstat-no" title="statement not covered" >				lendingInterfacesList[i] = lendingInterfacesList[i + 1]</span>;
+			}
+		}
+<span class="cstat-no" title="statement not covered" >		lendingInterfacesList.pop()</span>;
+	}
+&nbsp;
+	/// @notice to change the governor address
+	/// @param _governor new  address
+	/// @param governor old  address
+<span class="fstat-no" title="function not covered" >	function setGovernor(address _governor, address governor) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		grantRole(GOVERNOR_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(GUARDIAN_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(GOVERNOR_ROLE, governor)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		sanToken.grantRole(GOVERNOR_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		sanToken.grantRole(GUARDIAN_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		sanToken.revokeRole(GUARDIAN_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		sanToken.revokeRole(GOVERNOR_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.grantRole(GOVERNOR_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.grantRole(GUARDIAN_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.revokeRole(GUARDIAN_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.revokeRole(GOVERNOR_ROLE, governor)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; lendingInterfacesList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			LendingInterface storage platform = lendingInterfaceMap[lendingInterfacesList[i]];</span>
+<span class="cstat-no" title="statement not covered" >			platform.interfaceContract.grantRole(GUARDIAN_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >			platform.interfaceContract.revokeRole(GUARDIAN_ROLE, governor)</span>;
+		}
+	}
+&nbsp;
+	/// @notice to change the guardian address
+	/// @param _guardian new  address
+	/// @param guardian old  address
+<span class="fstat-no" title="function not covered" >	function setGuardian(address _guardian, address guardian) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		revokeRole(GUARDIAN_ROLE, _guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, guardian)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		sanToken.grantRole(GUARDIAN_ROLE, _guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		sanToken.revokeRole(GUARDIAN_ROLE, guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.grantRole(GUARDIAN_ROLE, _guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.revokeRole(GUARDIAN_ROLE, guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		keeper.setGuardian(_guardian, guardian)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; lendingInterfacesList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			LendingInterface storage platform = lendingInterfaceMap[lendingInterfacesList[i]];</span>
+<span class="cstat-no" title="statement not covered" >			platform.interfaceContract.grantRole(GUARDIAN_ROLE, _guardian)</span>;
+<span class="cstat-no" title="statement not covered" >			platform.interfaceContract.revokeRole(GUARDIAN_ROLE, guardian)</span>;
+		}
+	}
+&nbsp;
+	/// @notice to revoke the guardian address
+<span class="fstat-no" title="function not covered" >	function revokeGuardian(address guardian) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		revokeRole(GUARDIAN_ROLE, guardian)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		sanToken.revokeRole(GUARDIAN_ROLE, guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.revokeRole(GUARDIAN_ROLE, guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		keeper.revokeGuardian(guardian)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; lendingInterfacesList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			LendingInterface storage platform = lendingInterfaceMap[lendingInterfacesList[i]];</span>
+<span class="cstat-no" title="statement not covered" >			platform.interfaceContract.revokeRole(GUARDIAN_ROLE, guardian)</span>;
+		}
+	}
+&nbsp;
+	/// @notice Allows to recover ETH and to send it to other contracts
+	/// @param settlementContract of this collateral
+<span class="fstat-no" title="function not covered" >	function transferToSettlement(address settlementContract) external override onlyRole(GOVERNOR_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 balance = _getBalance();</span>
+<span class="cstat-no" title="statement not covered" >		(bool success, ) = settlementContract.call{value: balance}('');</span>
+<span class="cstat-no" title="statement not covered" >		require(success, 'ETHManager::recoverETH: invalid transfer')</span>;
+<span class="cstat-no" title="statement not covered" >		emit Recovered(address(0), address(settlementContract), balance);</span>
+	}
+&nbsp;
+	/// @notice set a new stable master contract
+	/// @param _stableMaster contract
+<span class="fstat-no" title="function not covered" >	function setStableMaster(IStableMaster _stableMaster) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		grantRole(STABLEMASTER_ROLE, address(_stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		stableMaster = _stableMaster</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.setStableMaster(stableMaster)</span>;
+<span class="cstat-no" title="statement not covered" >		sanToken.setStableMaster(stableMaster)</span>;
+<span class="cstat-no" title="statement not covered" >		keeper.setStableMaster(stableMaster)</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(STABLEMASTER_ROLE, address(stableMaster))</span>;
+	}
+&nbsp;
+	/// @notice this allows to propagate the change of oracle for one collateral
+	/// @param _oracle new contract
+<span class="fstat-no" title="function not covered" >	function setOracle(IOracle _oracle) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		vaultManager.setOracle(_oracle)</span>;
+	}
+&nbsp;
+	/// @notice this allows to propagate the change of base
+	/// @param _BASE new BASE
+<span class="fstat-no" title="function not covered" >	function setBase(uint256 _BASE) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		BASE = _BASE</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.setBase(_BASE)</span>;
+<span class="cstat-no" title="statement not covered" >		keeper.setBase(_BASE)</span>;
+	}
+&nbsp;
+	/// @notice set lending bounds for the platformName / set the aim ratio of reserves lend
+	/// @param platformName to find the protocol in map
+	/// @param _bounds new bounds
+<span class="fstat-no" title="function not covered" >	function setLendingBounds(bytes32 platformName, uint256[] memory _bounds) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].lowerBound = _bounds[0]</span>;
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].upperBound = _bounds[1]</span>;
+<span class="cstat-no" title="statement not covered" >		lendingInterfaceMap[platformName].target = _bounds[2]</span>;
+	}
+&nbsp;
+	/// @notice set the proportion of fees going to the keepers when liquidating
+	/// @param _keeperFeesLiquidate proportion
+<span class="fstat-no" title="function not covered" >	function setKeeperFeesLiquidate(uint256 _keeperFeesLiquidate) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		keeperFeesLiquidate = _keeperFeesLiquidate</span>;
+	}
+&nbsp;
+	/// @notice set the maximum amount going to the keepers when cashing out an external user
+	/// @param _keeperFeesCashOutCap proportion
+<span class="fstat-no" title="function not covered" >	function setKeeperFeesCashOutCap(uint256 _keeperFeesCashOutCap) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		keeperFeesCashOutCap = _keeperFeesCashOutCap</span>;
+	}
+&nbsp;
+	/// @notice set the x-array (ie thresholds) for keeper fees when cashing out vault
+	/// @param _XKeeperFeesCashOut thresholds for cash out fees
+<span class="fstat-no" title="function not covered" >	function setXKeeperFeesCashOut(uint256[] memory _XKeeperFeesCashOut) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		XKeeperFeesCashOut = _XKeeperFeesCashOut</span>;
+	}
+&nbsp;
+	/// @notice set the y-array (ie proportion) for keeper fees when cashing out vault
+	/// @param _YKeeperFeesCashOut proportion for cash out fees
+<span class="fstat-no" title="function not covered" >	function setYKeeperFeesCashOut(uint256[] memory _YKeeperFeesCashOut) external override onlyRole(GOVERNOR_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		YKeeperFeesCashOut = _YKeeperFeesCashOut</span>;
+	}
+&nbsp;
+	/// @notice set pausable methods to pause user actions
+<span class="fstat-no" title="function not covered" >	function pauseStabler() external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_pauseStabler()</span>;
+	}
+&nbsp;
+	/// @notice set pausable methods to unpause user actions
+<span class="fstat-no" title="function not covered" >	function unpauseStabler() external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_unpauseStabler()</span>;
+	}
+&nbsp;
+	/// @notice set pausable methods to pause HA actions
+<span class="fstat-no" title="function not covered" >	function pauseHA() external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_pauseHA()</span>;
+	}
+&nbsp;
+	/// @notice set pausable methods to unpause HA actions
+<span class="fstat-no" title="function not covered" >	function unpauseHA() external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_unpauseHA()</span>;
+	}
+&nbsp;
+	/// @notice set pausable methods to pause SLP actions
+<span class="fstat-no" title="function not covered" >	function pauseSLP() external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_pauseSLP()</span>;
+	}
+&nbsp;
+	/// @notice set pausable methods to unpause SLP actions
+<span class="fstat-no" title="function not covered" >	function unpauseSLP() external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_unpauseSLP()</span>;
+	}
+&nbsp;
+	/// @notice Withdraw everything that is lent to other protocols
+<span class="fstat-no" title="function not covered" >	function withdrawAllLending() external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; lendingInterfacesList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			LendingInterface storage platform = lendingInterfaceMap[lendingInterfacesList[i]];</span>
+			// TODO logic to withdraw more from the lending contract than what we have in amount lent if we have more
+<span class="cstat-no" title="statement not covered" >			platform.interfaceContract.withdrawLending(platform.amountLent)</span>;
+<span class="cstat-no" title="statement not covered" >			platform.amountLent = 0</span>;
+		}
+	}
+&nbsp;
+	//============================= Lending ===================================
+&nbsp;
+	// Reference here : https://docs.soliditylang.org/en/v0.7.4/contracts.html#receive-ether-function
+	receive() external payable {} // Needed to receive ETH when withdrawing lending from Compound
+&nbsp;
+	// ============================ Getters ===================================
+&nbsp;
+	/// @notice gets the balance of this manager
+<span class="fstat-no" title="function not covered" >	function getBalance() external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _getBalance();</span>
+	}
+&nbsp;
+	/// @notice returns all collateral owned by the manager (reserves + lending)
+<span class="fstat-no" title="function not covered" >	function getTotalAsset() external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _getTotalAsset();</span>
+	}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 25 2021 19:50:12 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

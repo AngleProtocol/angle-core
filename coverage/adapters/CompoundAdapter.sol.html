@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for adapters/CompoundAdapter.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">adapters/</a> CompoundAdapter.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>27/27</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>4/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>27/27</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.2;
+&nbsp;
+import "./AdapterEvents.sol";
+&nbsp;
+/// @title ICompound
+/// @author Angle Core Team
+/// @notice Interface for Compound CErc20 contracts
+interface ICompound {
+    function mint(uint256) external returns (uint256);
+&nbsp;
+    function redeemUnderlying(uint256) external returns (uint256);
+&nbsp;
+    function balanceOfUnderlying(address owner) external view returns (uint256);
+}
+&nbsp;
+/// @title CompoundAdapter
+/// @author Angle Core Team
+/// @notice This contract acts as a bridge between a collateral manager and Compound
+/// @dev The purpose of this contract is to have modularity and to adapt easily to diverse lending interfaces
+/// @dev There will be one such contracts deployed per stablecoin/collateral/lending platform tuple
+contract CompoundAdapter is ILendingAdapter, AccessControl, AdapterEvents {
+    using SafeERC20 for IERC20;
+&nbsp;
+    bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+&nbsp;
+    // ============================ References to contracts ===================================
+&nbsp;
+    /// @notice Reference to Compound's cToken contracts
+    ICompound public cToken;
+&nbsp;
+    /// @notice Reference to the underlying token lent to Compound
+    IERC20 public token;
+&nbsp;
+    /// @notice Address of the collateral manager interacting with this adapter
+    address public manager;
+&nbsp;
+    // ============================ Variables ===================================
+&nbsp;
+    /// @notice Balance of this contract on Compound
+    uint256 public balanceOfUnderlying = 0;
+&nbsp;
+    // ============================ Constructor ===================================
+&nbsp;
+    /// @notice Constructor for the CompoundAdapter contract
+    /// @param _cToken Interface of Compound's contract
+    /// @param _token Address of the underlying token
+    /// @param _manager Address of the corresponding ERCManager
+    /// @param governorList List of the governor addresses of the protocol
+    /// @param guardian Address of the guardian
+    constructor(
+        ICompound _cToken,
+        IERC20 _token,
+        address _manager,
+        address[] memory governorList,
+        address guardian
+    ) {
+        cToken = _cToken;
+        token = _token;
+        manager = _manager;
+&nbsp;
+        // Access control
+        // Governor is guardian so no need for a governor role
+        // Manager is guardian as well to allow for more flexibility
+        _setupRole(MANAGER_ROLE, _manager);
+        for (uint256 i = 0; i &lt; governorList.length; i++) {
+            _setupRole(GUARDIAN_ROLE, governorList[i]);
+        }
+        _setupRole(GUARDIAN_ROLE, guardian);
+        _setupRole(GUARDIAN_ROLE, address(_manager));
+        _setRoleAdmin(MANAGER_ROLE, MANAGER_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE, MANAGER_ROLE);
+&nbsp;
+        // As this contract will not own collateral, approve the lending contract
+        token.approve(address(cToken), type(uint256).max);
+    }
+&nbsp;
+    // ============================ Interaction Functions ===================================
+&nbsp;
+    /// @notice Deposits the ERC20 corresponding to this contract on Aave
+    /// @param amountToLend Amount to lend to the protocol
+    /// @return balanceOfUnderlying Total amount of collateral lent to the platform
+    /// @dev Usually called by the manager through keepers readjusting the amount lent with respect to the lending
+    /// bounds of the platform
+    function depositLending(uint256 amountToLend) external override onlyRole(MANAGER_ROLE) returns (uint256) {
+        // Transfering to Compound
+        token.safeTransferFrom(manager, address(this), amountToLend);
+        cToken.mint(amountToLend);
+        emit Lending(amountToLend);
+&nbsp;
+        return _getAndUpdateUnderlyingBalance();
+    }
+&nbsp;
+    /// @notice Withdraws the underlying ERC20 token from Aave
+    /// @param amountToWithdraw Amount to withdraw from the protocol
+    /// @return balanceOfUnderlying Total amount of collateral lent to the platform
+    /// @dev Usually called by the manager through keepers readjusting the amount lent with respect to the lending
+    /// bounds of the platform
+    function withdrawLending(uint256 amountToWithdraw) external override onlyRole(MANAGER_ROLE) returns (uint256) {
+        // Withdrawing from Compound
+        cToken.redeemUnderlying(amountToWithdraw);
+        token.safeTransfer(manager, token.balanceOf(address(this)));
+        emit Withdrawing(amountToWithdraw);
+&nbsp;
+        return _getAndUpdateUnderlyingBalance();
+    }
+&nbsp;
+    /// @notice Returns the total amount of collateral lent to the platform
+    /// @return Total amount of collateral lent to the platform
+    /// @dev Only the manager can update the balance of underlying collateral lent, this is used to record capital
+    /// gains and distribute it to HAs
+    function getUnderlyingBalance() external override onlyRole(MANAGER_ROLE) returns (uint256) {
+        return _getAndUpdateUnderlyingBalance();
+    }
+&nbsp;
+    /// @notice Computes how much collateral has been lent to the lending platform and updates the corresponding
+    /// balanceOfUnderlying quantity
+    /// @return newBalanceOfUnderlying Total amount of collateral lent to the platform
+    /// @dev Internal function called accross the three interaction functions of the interface
+    function _getAndUpdateUnderlyingBalance() internal returns (uint256 newBalanceOfUnderlying) {
+        newBalanceOfUnderlying = cToken.balanceOfUnderlying(address(this));
+        // Updating the balance
+        balanceOfUnderlying = newBalanceOfUnderlying;
+    }
+&nbsp;
+    // ============================ Governance Functions ===================================
+&nbsp;
+    /// @notice Changes the approval amount for Compound contract
+    /// @dev Should not be used very often
+    function changeTokenApprovalAmount(uint256 newAmount) external override onlyRole(GUARDIAN_ROLE) {
+        token.approve(address(cToken), newAmount);
+    }
+&nbsp;
+    /// @notice Recovers other tokens earned by lending to Compound
+    /// @param tokenAddress Address of the token to recover
+    /// @param to Address to send the tokens to
+    /// @param tokenAmount Amount to transfer
+    /// @dev This is typically used if COMP tokens are accrued by the contract
+    function recoverERC20(
+        address tokenAddress,
+        address to,
+        uint256 tokenAmount
+    ) external override onlyRole(GUARDIAN_ROLE) {
+        require(tokenAddress != address(cToken), "CompoundAdapter::recoverERC20: cannot recover the cToken");
+        require(tokenAddress != address(token), "CompoundAdapter::recoverERC20: cannot recover the underlying token");
+&nbsp;
+        IERC20(tokenAddress).safeTransfer(to, tokenAmount);
+        emit Recovered(tokenAddress, to, tokenAmount);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 25 2021 16:59:01 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

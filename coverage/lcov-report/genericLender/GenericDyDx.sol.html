@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for genericLender/GenericDyDx.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">genericLender/</a> GenericDyDx.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/74</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/74</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.2;
+&nbsp;
+import "../interfaces/external/dYdX/dYdX.sol";
+&nbsp;
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+&nbsp;
+import "./GenericLenderBase.sol";
+&nbsp;
+/// @title GenericDyDx
+/// @author Forked from https://github.com/Grandthrax/yearnv2/blob/master/contracts/GenericLender/GenericDyDx.sol
+/// @notice An contract to lend any ERC20 to dYdX
+contract GenericDyDx is GenericLenderBase {
+    using SafeERC20 for IERC20;
+    using Address for address;
+&nbsp;
+    uint256 internal constant _SECONDS_PER_YEAR = 365 days;
+&nbsp;
+    // ==================== References to contracts =============================
+&nbsp;
+    address private constant _SOLO = 0x1E0447b19BB6EcFdAe1e4AE1694b0C3659614e4e;
+&nbsp;
+    // ==================== Parameters =============================
+&nbsp;
+    uint256 public dydxMarketId;
+&nbsp;
+    // ============================= Constructor =============================
+&nbsp;
+<span class="fstat-no" title="function not covered" >    constructor(</span>
+        address _strategy,
+        string memory name,
+        address[] memory governorList,
+        address guardian
+    ) GenericLenderBase(_strategy, name, governorList, guardian) {
+<span class="cstat-no" title="statement not covered" >        want.safeApprove(_SOLO, type(uint256).max)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        ISoloMargin solo = ISoloMargin(_SOLO);</span>
+<span class="cstat-no" title="statement not covered" >        uint256 numMarkets = solo.getNumMarkets();</span>
+<span class="cstat-no" title="statement not covered" >        address curToken;</span>
+<span class="cstat-no" title="statement not covered" >        for (uint256 i = 0; i &lt; numMarkets; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            curToken = solo.getMarketTokenAddress(i)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (curToken == address(want)) {</span>
+<span class="cstat-no" title="statement not covered" >                dydxMarketId = i</span>;
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        revert("GenericDyDx::constructor: no marketId found for provided token")</span>;
+    }
+&nbsp;
+    // ============================= External Functions =============================
+&nbsp;
+    /// @notice Deposits the current balance to the lending platform
+<span class="fstat-no" title="function not covered" >    function deposit() external override onlyRole(STRATEGY_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 balance = want.balanceOf(address(this));</span>
+<span class="cstat-no" title="statement not covered" >        _dydxDeposit(balance)</span>;
+    }
+&nbsp;
+    /// @notice Withdraws a given amount from lender
+    /// @param amount The amounts to withdraw
+    /// @return The amounts actually withdrawn
+<span class="fstat-no" title="function not covered" >    function withdraw(uint256 amount) external override onlyRole(STRATEGY_ROLE) returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _withdraw(amount);</span>
+    }
+&nbsp;
+    /// @notice Withdraws as much as possible in case of emergency and sends it to the manager
+    /// @param amount The amounts to withdraw
+    /// @dev Does not check if any error occurs or the amount withdrawn
+<span class="fstat-no" title="function not covered" >    function emergencyWithdraw(uint256 amount) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >        _withdraw(amount)</span>;
+<span class="cstat-no" title="statement not covered" >        want.safeTransfer(address(manager), want.balanceOf(address(this)))</span>;
+    }
+&nbsp;
+    /// @notice Withdraws as much as possible
+<span class="fstat-no" title="function not covered" >    function withdrawAll() external override onlyRole(STRATEGY_ROLE) returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 balance = _nav();</span>
+<span class="cstat-no" title="statement not covered" >        uint256 returned = _withdraw(balance);</span>
+<span class="cstat-no" title="statement not covered" >        return returned &gt;= balance;</span>
+    }
+&nbsp;
+    // ============================= External View Functions =============================
+&nbsp;
+    /// @notice Returns the current total of assets managed
+<span class="fstat-no" title="function not covered" >    function nav() external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _nav();</span>
+    }
+&nbsp;
+    /// @notice Returns the current balance of cTokens
+<span class="fstat-no" title="function not covered" >    function underlyingBalanceStored() public view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        (address[] memory cur, , Types.Wei[] memory balance) = ISoloMargin(_SOLO).getAccountBalances(_getAccountInfo());</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        for (uint256 i = 0; i &lt; cur.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >            if (cur[i] == address(want)) {</span>
+<span class="cstat-no" title="statement not covered" >                return balance[i].value;</span>
+            }
+        }
+    }
+&nbsp;
+    /// @notice Returns an estimation of the current Annual Percentage Rate
+<span class="fstat-no" title="function not covered" >    function apr() external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _apr(0);</span>
+    }
+&nbsp;
+    /// @notice Returns an estimation of the current Annual Percentage Rate weighted by a factor
+<span class="fstat-no" title="function not covered" >    function weightedApr() external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 a = _apr(0);</span>
+<span class="cstat-no" title="statement not covered" >        return a * _nav();</span>
+    }
+&nbsp;
+    /// @notice Returns an estimation of the current Annual Percentage Rate after a new deposit
+    /// @param amount The amount to add to the lending platform
+<span class="fstat-no" title="function not covered" >    function aprAfterDeposit(uint256 amount) external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _apr(amount);</span>
+    }
+&nbsp;
+    /// @notice Check if any assets is currently managed by this contract
+<span class="fstat-no" title="function not covered" >    function hasAssets() external view override returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >        return underlyingBalanceStored() &gt; 0;</span>
+    }
+&nbsp;
+    // ============================= Internal Functions =============================
+&nbsp;
+    /// @notice See 'apr'
+<span class="fstat-no" title="function not covered" >    function _apr(uint256 extraSupply) internal view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        ISoloMargin solo = ISoloMargin(_SOLO);</span>
+<span class="cstat-no" title="statement not covered" >        Types.TotalPar memory par = solo.getMarketTotalPar(dydxMarketId);</span>
+<span class="cstat-no" title="statement not covered" >        Interest.Index memory index = solo.getMarketCurrentIndex(dydxMarketId);</span>
+<span class="cstat-no" title="statement not covered" >        address interestSetter = solo.getMarketInterestSetter(dydxMarketId);</span>
+<span class="cstat-no" title="statement not covered" >        uint256 borrow = (uint256(par.borrow) * index.borrow) / 1e18;</span>
+<span class="cstat-no" title="statement not covered" >        uint256 supply = ((uint256(par.supply) * index.supply) / 1e18) + extraSupply;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        uint256 borrowInterestRate =</span>
+            IInterestSetter(interestSetter).getInterestRate(address(want), borrow, supply).value;
+<span class="cstat-no" title="statement not covered" >        uint256 lendInterestRate = (borrowInterestRate * borrow) / supply;</span>
+<span class="cstat-no" title="statement not covered" >        return lendInterestRate * _SECONDS_PER_YEAR;</span>
+    }
+&nbsp;
+    /// @notice See 'nav'
+<span class="fstat-no" title="function not covered" >    function _nav() internal view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 underlying = underlyingBalanceStored();</span>
+<span class="cstat-no" title="statement not covered" >        return want.balanceOf(address(this)) + underlying;</span>
+    }
+&nbsp;
+    /// @notice See 'withdraw'
+<span class="fstat-no" title="function not covered" >    function _withdraw(uint256 amount) internal returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 balanceUnderlying = underlyingBalanceStored();</span>
+<span class="cstat-no" title="statement not covered" >        uint256 looseBalance = want.balanceOf(address(this));</span>
+<span class="cstat-no" title="statement not covered" >        uint256 total = balanceUnderlying + looseBalance;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (amount &gt; total) {</span>
+            //cant withdraw more than we own
+<span class="cstat-no" title="statement not covered" >            amount = total</span>;
+        }
+<span class="cstat-no" title="statement not covered" >        if (looseBalance &gt;= amount) {</span>
+<span class="cstat-no" title="statement not covered" >            want.safeTransfer(address(strategy), amount)</span>;
+<span class="cstat-no" title="statement not covered" >            return amount;</span>
+        }
+&nbsp;
+        //not state changing but OK because of previous call
+<span class="cstat-no" title="statement not covered" >        uint256 liquidity = want.balanceOf(_SOLO);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        if (liquidity &gt; 1) {</span>
+<span class="cstat-no" title="statement not covered" >            uint256 toWithdraw = amount - looseBalance;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if (toWithdraw &lt;= liquidity) {</span>
+                //we can take all
+<span class="cstat-no" title="statement not covered" >                _dydxWithdraw(toWithdraw)</span>;
+            } else {
+                //take all we can
+<span class="cstat-no" title="statement not covered" >                _dydxWithdraw(liquidity)</span>;
+            }
+        }
+<span class="cstat-no" title="statement not covered" >        looseBalance = want.balanceOf(address(this))</span>;
+<span class="cstat-no" title="statement not covered" >        want.safeTransfer(address(strategy), looseBalance)</span>;
+<span class="cstat-no" title="statement not covered" >        return looseBalance;</span>
+    }
+&nbsp;
+    /// @notice See 'deposit'
+<span class="fstat-no" title="function not covered" >    function _dydxDeposit(uint256 depositAmount) internal {</span>
+<span class="cstat-no" title="statement not covered" >        ISoloMargin solo = ISoloMargin(_SOLO);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        Actions.ActionArgs[] memory operations = new Actions.ActionArgs[](1);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        operations[0] = _getDepositAction(dydxMarketId, depositAmount)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        Account.Info[] memory accountInfos = new Account.Info[](1);</span>
+<span class="cstat-no" title="statement not covered" >        accountInfos[0] = _getAccountInfo()</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        solo.operate(accountInfos, operations)</span>;
+    }
+&nbsp;
+    /// @notice See 'withdraw'
+<span class="fstat-no" title="function not covered" >    function _dydxWithdraw(uint256 amount) internal {</span>
+<span class="cstat-no" title="statement not covered" >        ISoloMargin solo = ISoloMargin(_SOLO);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        Actions.ActionArgs[] memory operations = new Actions.ActionArgs[](1);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        operations[0] = _getWithdrawAction(dydxMarketId, amount)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        Account.Info[] memory accountInfos = new Account.Info[](1);</span>
+<span class="cstat-no" title="statement not covered" >        accountInfos[0] = _getAccountInfo()</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        solo.operate(accountInfos, operations)</span>;
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _getWithdrawAction(uint256 marketId, uint256 amount) internal view returns (Actions.ActionArgs memory) {</span>
+<span class="cstat-no" title="statement not covered" >        return</span>
+            Actions.ActionArgs({
+                actionType: Actions.ActionType.Withdraw,
+                accountId: 0,
+                amount: Types.AssetAmount({
+                    sign: false,
+                    denomination: Types.AssetDenomination.Wei,
+                    ref: Types.AssetReference.Delta,
+                    value: amount
+                }),
+                primaryMarketId: marketId,
+                secondaryMarketId: 0,
+                otherAddress: address(this),
+                otherAccountId: 0,
+                data: ""
+            });
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _getDepositAction(uint256 marketId, uint256 amount) internal view returns (Actions.ActionArgs memory) {</span>
+<span class="cstat-no" title="statement not covered" >        return</span>
+            Actions.ActionArgs({
+                actionType: Actions.ActionType.Deposit,
+                accountId: 0,
+                amount: Types.AssetAmount({
+                    sign: true,
+                    denomination: Types.AssetDenomination.Wei,
+                    ref: Types.AssetReference.Delta,
+                    value: amount
+                }),
+                primaryMarketId: marketId,
+                secondaryMarketId: 0,
+                otherAddress: address(this),
+                otherAccountId: 0,
+                data: ""
+            });
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function _getAccountInfo() internal view returns (Account.Info memory) {</span>
+<span class="cstat-no" title="statement not covered" >        return Account.Info({ owner: address(this), number: 0 });</span>
+    }
+&nbsp;
+    /// @notice Specifies the token managed by this contract during normal operation
+<span class="fstat-no" title="function not covered" >    function _protectedTokens() internal view override returns (address[] memory) {</span>
+<span class="cstat-no" title="statement not covered" >        address[] memory protected = new address[](1);</span>
+<span class="cstat-no" title="statement not covered" >        protected[0] = address(want)</span>;
+<span class="cstat-no" title="statement not covered" >        return protected;</span>
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jun 30 2021 18:18:45 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

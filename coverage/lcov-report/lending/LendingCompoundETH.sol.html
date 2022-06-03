@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for lending/LendingCompoundETH.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">lending/</a> LendingCompoundETH.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/29</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/29</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">pragma solidity 0.8.0;
+&nbsp;
+import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+&nbsp;
+import '../external/LendingInterfaces.sol';
+&nbsp;
+import '../interfaces/ILending.sol';
+&nbsp;
+/// @title LendingCompoundETH
+/// @author Angle Core Team
+/// @notice Contract interacting with Compound to lend ETH tokens
+contract LendingCompoundETH is ILending, AccessControl {
+	using SafeERC20 for IERC20;
+&nbsp;
+	bytes32 public constant MANAGER_ROLE = keccak256('MANAGER_ROLE');
+	bytes32 public constant GUARDIAN_ROLE = keccak256('GUARDIAN_ROLE');
+&nbsp;
+	CETHCompound public cETH;
+&nbsp;
+	uint256 public balanceOfUnderlying = 0;
+&nbsp;
+	address public manager;
+&nbsp;
+	// ============================ Constructor ===================================
+&nbsp;
+	/// @notice Constructor
+	/// @param _compoundContract Address of Compound's contract
+	/// @param _manager address of the corresponding ERCManager
+	/// @param governor address of the governor
+	/// @param guardian address of the guardian
+<span class="fstat-no" title="function not covered" >	constructor(</span>
+		address _compoundContract,
+		address _manager,
+		address governor,
+		address guardian
+	) {
+<span class="cstat-no" title="statement not covered" >		address payable compoundContract = payable(_compoundContract);</span>
+<span class="cstat-no" title="statement not covered" >		cETH = CETHCompound(compoundContract)</span>;
+<span class="cstat-no" title="statement not covered" >		manager = _manager</span>;
+<span class="cstat-no" title="statement not covered" >		_setupRole(MANAGER_ROLE, _manager)</span>;
+<span class="cstat-no" title="statement not covered" >		_setupRole(GUARDIAN_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		_setupRole(GUARDIAN_ROLE, guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(MANAGER_ROLE, MANAGER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GUARDIAN_ROLE, MANAGER_ROLE)</span>;
+	}
+&nbsp;
+	// ============================ FUNCTIONS ===================================
+&nbsp;
+	/// @notice Deposit ETH on compound
+	/// @param amountToLend on the protocol
+	/// Reference here : https://github.com/compound-developers/compound-supply-examples/blob/master/solidity-examples/MyContracts.sol
+<span class="fstat-no" title="function not covered" >	function depositLending(uint256 amountToLend) external override onlyRole(MANAGER_ROLE) returns (uint256 gain) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 newBalanceOfUnderlying = cETH.balanceOfUnderlying(address(this));</span>
+<span class="cstat-no" title="statement not covered" >		gain = newBalanceOfUnderlying - balanceOfUnderlying</span>;
+<span class="cstat-no" title="statement not covered" >		emit LendingGainsAchieved(gain);</span>
+&nbsp;
+		// ETH transfer has normally been done before
+<span class="cstat-no" title="statement not covered" >		cETH.mint{value: amountToLend}()</span>;
+<span class="cstat-no" title="statement not covered" >		emit Lending(amountToLend);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		balanceOfUnderlying = cETH.balanceOfUnderlying(address(this))</span>;
+	}
+&nbsp;
+	/// @notice Withdraws ETH from Compound
+	/// @param amountToWithdraw from the lending protocol
+<span class="fstat-no" title="function not covered" >	function withdrawLending(uint256 amountToWithdraw) external override onlyRole(MANAGER_ROLE) returns (uint256 gain) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 newBalanceOfUnderlying = cETH.balanceOfUnderlying(address(this));</span>
+<span class="cstat-no" title="statement not covered" >		gain = newBalanceOfUnderlying - balanceOfUnderlying</span>;
+<span class="cstat-no" title="statement not covered" >		emit LendingGainsAchieved(gain);</span>
+&nbsp;
+		// redeem type is always true in this interface, we redeem the asset based on an amount of it
+		// Retrieve your asset based on an amount of the asset
+<span class="cstat-no" title="statement not covered" >		require(newBalanceOfUnderlying &gt; amountToWithdraw, 'LendingCompoundERC20:withdrawLending Incorrect balance')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		cETH.redeemUnderlying(amountToWithdraw)</span>;
+<span class="cstat-no" title="statement not covered" >		(bool success, ) = manager.call{value: address(this).balance}('');</span>
+<span class="cstat-no" title="statement not covered" >		require(success, 'LendingCompoundETH::withdrawLending: transfer failed')</span>;
+<span class="cstat-no" title="statement not covered" >		emit Withdrawing(amountToWithdraw);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		balanceOfUnderlying = cETH.balanceOfUnderlying(address(this))</span>;
+	}
+&nbsp;
+	// Reference here : https://docs.soliditylang.org/en/v0.7.4/contracts.html#receive-ether-function
+	receive() external payable {} // Needed to receive ETH when withdrawing lending from Compound
+&nbsp;
+	/// @notice Computes the capital gains made by lending ERC20 on Compound
+<span class="fstat-no" title="function not covered" >	function getLendingGains() external override onlyRole(MANAGER_ROLE) returns (uint256 gain) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 newBalanceOfUnderlying = cETH.balanceOfUnderlying(address(this));</span>
+<span class="cstat-no" title="statement not covered" >		gain = newBalanceOfUnderlying - balanceOfUnderlying</span>;
+<span class="cstat-no" title="statement not covered" >		emit LendingGainsAchieved(gain);</span>
+<span class="cstat-no" title="statement not covered" >		balanceOfUnderlying = newBalanceOfUnderlying</span>;
+	}
+&nbsp;
+	/// @notice Function is here in case of, if the withdrawal does not work well
+<span class="fstat-no" title="function not covered" >	function recoverETH(uint256 ethAmount) external onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		(bool success, ) = manager.call{value: ethAmount}('');</span>
+<span class="cstat-no" title="statement not covered" >		require(success, 'LendingCompoundETH::recoverETH: transfer failed')</span>;
+	}
+}
+/*
+	/// @notice Update the new exchange rate from Compound
+	function updateCompoundExchangeRate() internal returns (uint256) {
+		LendingPlatform storage compound = lendingPlatformMap[COMPOUND];
+		// require(compound.contractAddress!=address(0),"Manager::updateCompoundExchangeRate: Compound should be initialized");
+		uint256 newExchangeRate = CErc20Compound(compound.contractAddress).exchangeRateStored();
+		compound.exchangeRateLending = newExchangeRate;
+		emit UpdatingExchangeRate(COMPOUND, newExchangeRate);
+		return newExchangeRate;
+	}
+*/
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue May 25 2021 19:50:12 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

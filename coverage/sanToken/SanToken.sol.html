@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for sanToken/SanToken.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">sanToken/</a> SanToken.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>14/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>4/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>7/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>15/15</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">111×</span>
+<span class="cline-any cline-yes">111×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">111×</span>
+<span class="cline-any cline-yes">111×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">111×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">74×</span>
+<span class="cline-any cline-yes">68×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/IERC20MetadataUpgradeable.sol";
+// OpenZeppelin may update its version of the ERC20PermitUpgradeable token
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-ERC20PermitUpgradeable.sol";
+&nbsp;
+import "../interfaces/IPoolManager.sol";
+import "../interfaces/ISanToken.sol";
+import "../interfaces/IStableMaster.sol";
+&nbsp;
+/// @title SanToken
+/// @author Angle Core Team
+/// @notice Base contract for sanTokens, these tokens are used to mark the debt the contract has to SLPs
+/// @dev The exchange rate between sanTokens and collateral will automatically change as interests and transaction fees accrue to SLPs
+/// @dev There is one `SanToken` contract per pair stablecoin/collateral
+contract SanToken is ISanToken, ERC20PermitUpgradeable {
+    /// @notice Number of decimals used for this ERC20
+    uint8 public decimal;
+&nbsp;
+    // ========================= References to other contracts =====================
+&nbsp;
+    /// @notice Address of the corresponding `StableMaster` contract
+    /// This address cannot be modified
+    address public override stableMaster;
+&nbsp;
+    /// @notice Address of the corresponding `PoolManager` contract
+    /// This address cannot be modified
+    /// Although it is not used in the functions of the contract, this address is stored in
+    /// order to make sure that there cannot be a shared sanToken for multiple `PoolManager` contracts
+    address public override poolManager;
+&nbsp;
+    // =============================== Constructor =================================
+&nbsp;
+    /// @notice Initializes the `SanToken` contract
+    /// @param name_ Name of the token
+    /// @param symbol_ Symbol of the token
+    /// @param _poolManager Reference to the `PoolManager` contract associated to this `SanToken`
+    function initialize(
+        string memory name_,
+        string memory symbol_,
+        address _poolManager
+    ) public initializer {
+        __ERC20Permit_init(name_);
+        __ERC20_init(name_, symbol_);
+&nbsp;
+        poolManager = _poolManager;
+        stableMaster = IPoolManager(poolManager).stableMaster();
+&nbsp;
+        // It is possible that some ERC20 tokens do not implement this interface, in which case
+        // we will have to change the constructor
+        // The number of decimals of a sanToken is the number of decimals of the collateral that
+        // corresponds to it
+        decimal = IERC20MetadataUpgradeable(IPoolManager(poolManager).token()).decimals();
+    }
+&nbsp;
+    /*
+    /// @custom:oz-upgrades-unsafe-allow constructor
+    constructor() initializer {}
+    */
+&nbsp;
+    /// @notice Checks to see if it is the `StableMaster` calling this contract
+    /// @dev There is no Access Control here, because it can be handled cheaply through these modifiers
+    modifier onlyStableMaster() {
+        require(msg.sender == stableMaster, "1");
+        _;
+    }
+&nbsp;
+    // ========================= External Functions ================================
+&nbsp;
+    /// @notice Returns the number of decimals used to get its user representation.
+    /// @dev For example, if `decimals` equals `2`, a balance of `505` tokens should
+    /// be displayed to a user as `5,05` (`505 / 10 ** 2`)
+    /// @dev Tokens usually opt for a value of 18, imitating the relationship between
+    /// Ether and Wei. This is the value {ERC20} uses, unless this function is overridden
+    function decimals() public view override returns (uint8) {
+        return decimal;
+    }
+&nbsp;
+    /// @notice Destroys `amount` token for the caller without giving collateral back
+    /// @param amount Amount to burn
+    function burnNoRedeem(uint256 amount) external {
+        _burn(msg.sender, amount);
+    }
+&nbsp;
+    // ===================== `StableMaster` Functions ==============================
+&nbsp;
+    /// @notice Lets the `StableMaster` contract mint sanTokens
+    /// @param account Address to mint to
+    /// @param amount Amount to mint
+    /// @dev Only the `StableMaster` contract can issue sanTokens
+    /// @dev There is no need to make this function pausable (as well as the `StableMaster` functions below)
+    /// as the corresponding function can directly be paused from the `StableMaster`
+    function mint(address account, uint256 amount) external override onlyStableMaster {
+        _mint(account, amount);
+    }
+&nbsp;
+    /// @notice Lets an address burn sanTokens
+    /// @param amount Amount of sanTokens to burn from caller
+    /// @dev This can only be called by the `StableMaster` which performs all the security checks
+    /// to see for instance if the `burner` was the initial `msg.sender`
+    function burnSelf(uint256 amount, address burner) external override onlyStableMaster {
+        _burn(burner, amount);
+    }
+&nbsp;
+    /// @notice Lets a `sender` address burn sanTokens from another `burner` address
+    /// @param burner Address to burn from and to redeem collateral to
+    /// @param amount Amount of sanTokens to burn
+    /// @dev Only the `StableMaster` can call this function
+    function burnFrom(
+        uint256 amount,
+        address burner,
+        address sender
+    ) external override onlyStableMaster {
+        uint256 currentAllowance = allowance(burner, sender);
+        require(currentAllowance &gt;= amount, "23");
+        _approve(burner, sender, currentAllowance - amount);
+        _burn(burner, amount);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

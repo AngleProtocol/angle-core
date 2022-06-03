@@ -1,0 +1,860 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for staking/AngleRewardsDistributor.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">staking/</a> AngleRewardsDistributor.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>69/69</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>34/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>15/15</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>70/70</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+// Inspired from FEI contract: https://github.com/fei-protocol/fei-protocol-core/blob/master/contracts/staking/FeiRewardsDistributor.sol
+pragma solidity 0.8.0;
+&nbsp;
+import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+&nbsp;
+import "../interfaces/IRewardsDistributor.sol";
+&nbsp;
+import "./AngleRewardsDistributorEvents.sol";
+&nbsp;
+/// @title Distributor for MUR rewards to the different staking contracts
+/// @author Angle Protocol (inspired by FEI protocol)
+/// @notice distributes MUR over time at a constant rate (FEI chose a linearly decreasing rate)
+contract AngleRewardsDistributor is AccessControl, IRewardsDistributor, AngleRewardsDistributorEvents {
+    bytes32 public constant GOVERNOR_ROLE = keccak256("GOVERNOR_ROLE");
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+&nbsp;
+    // Distribution parameters for a given contract
+    struct StakingParameters {
+        // Amount of rewards distributed since the beginning
+        uint256 distributedRewards;
+        // Last time rewards were distributed to the staking contract
+        uint256 lastDistributionTime;
+        // Frequency with which rewards should be given to the underlying given contract
+        uint256 dripFrequency;
+        // Number of MUR tokens distributed for the person calling the drip function
+        uint256 incentiveAmount;
+        // Time at which reward distribution started for this reward contract
+        uint256 timeStarted;
+        // Duration during which rewards will be distributed
+        uint256 duration;
+        // Amount of tokens to distribute to the concerned contract
+        uint256 amountToDistribute;
+    }
+&nbsp;
+    /// @notice Governance Token used as a reward
+    IERC20 public murToken;
+&nbsp;
+    /// @notice maps a stakingContract to its distribution parameters
+    mapping(IStakingRewards =&gt; StakingParameters) public stakingContractsMap;
+&nbsp;
+    constructor(
+        address governor,
+        address guardian,
+        address murTokenAddress
+    ) {
+        murToken = IERC20(murTokenAddress);
+        _setRoleAdmin(GOVERNOR_ROLE, GOVERNOR_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE, GOVERNOR_ROLE);
+        _setupRole(GOVERNOR_ROLE, governor);
+        _setupRole(GUARDIAN_ROLE, governor);
+        _setupRole(GUARDIAN_ROLE, guardian);
+    }
+&nbsp;
+    /// @notice Modifier to check if it's not a contract calling a function
+    modifier nonContract() {
+        require(!Address.isContract(msg.sender), "AngleRewardsDistributor::nonContract: caller is a contract");
+        _;
+    }
+&nbsp;
+    /// @notice initializes a staking contract
+    /// @param _stakingContract address of the staking contract
+    /// @param _duration time length during which tokens will be distributed
+    /// @param _incentiveAmount amount given to keepers calling the drip function
+    /// @param _dripFrequency frequency with which it is possible to call the drip function and give tokens to the staking contract
+    /// @param _amountToDistribute amount of gov tokens to give to the staking contract across all drips
+    /// @dev called by governance to activate a contract
+    function setStakingContract(
+        address _stakingContract,
+        uint256 _duration,
+        uint256 _incentiveAmount,
+        uint256 _dripFrequency,
+        uint256 _amountToDistribute
+    ) external override onlyRole(GUARDIAN_ROLE) {
+        require(_duration &gt; 0, "AngleRewardsDistributor::setStakingContract: null duration");
+        // We use the above to check if a contract has been initialized
+        require(_duration &gt;= _dripFrequency, "AngleRewardsDistributor::setStakingContract: frequency exceeds duration");
+        require(_amountToDistribute &lt;= murToken.balanceOf(address(this)));
+&nbsp;
+        IStakingRewards stakingContract = IStakingRewards(_stakingContract);
+&nbsp;
+        StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
+&nbsp;
+        stakingParams.dripFrequency = _dripFrequency;
+        stakingParams.incentiveAmount = _incentiveAmount;
+        stakingParams.lastDistributionTime = block.timestamp;
+        stakingParams.timeStarted = block.timestamp;
+        stakingParams.duration = _duration;
+&nbsp;
+        stakingParams.amountToDistribute = _amountToDistribute;
+&nbsp;
+        emit NewStakingContract(_stakingContract);
+    }
+&nbsp;
+    /// @notice sends governance token to the staking contract
+    /// @param stakingContract reference to the concerned staking contract
+    /// @dev the way to pause this function is to set dripFrequency to infinity,
+    ///      to set duration to zero or to completely delete the contract
+    function drip(IStakingRewards stakingContract) external override nonContract returns (uint256) {
+        StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
+        require(stakingParams.duration &gt; 0, "AngleRewardsDistributor::drip: invalid staking contract");
+        require(_isDripAvailable(stakingParams), "AngleRewardsDistributor::drip: not passed drip frequency");
+&nbsp;
+        stakingParams.lastDistributionTime = block.timestamp;
+&nbsp;
+        uint256 dripAmount = _computeDripAmount(stakingParams);
+        require(dripAmount != 0, "AngleRewardsDistributor::drip: no rewards");
+        stakingParams.distributedRewards = stakingParams.distributedRewards + dripAmount;
+&nbsp;
+        murToken.transfer(address(stakingContract), dripAmount);
+        stakingContract.notifyRewardAmount(dripAmount);
+        _incentivize(stakingParams);
+&nbsp;
+        emit Drip(msg.sender, dripAmount, address(stakingContract));
+        return dripAmount;
+    }
+&nbsp;
+    // =========================== Governor Functions ================================
+&nbsp;
+    /// @notice sends tokens back to governance treasury or another address. Only callable by governance
+    /// @param amount the amount of tokens to send back to treasury
+    /// @param governance address of governance
+    function governorWithdrawMur(uint256 amount, address governance) external override onlyRole(GOVERNOR_ROLE) {
+        murToken.transfer(governance, amount); // change the address potentially : address(core()) as done on FEI
+        emit MurWithdraw(amount);
+    }
+&nbsp;
+    /// @notice recover ERC20 tokens from the staking contract (different from staker or from MUR tokens)
+    /// @param tokenAddress address of the stablecoin
+    /// @param to destination address
+    /// @param amount the amount of tokens to recover
+    /// @param stakingContract reference to the concerned staking contract
+    function governorRecover(
+        address tokenAddress,
+        address to,
+        uint256 amount,
+        IStakingRewards stakingContract
+    ) external override onlyRole(GOVERNOR_ROLE) {
+        stakingContract.recoverERC20(tokenAddress, to, amount); // it should be set so that it comes back here
+    }
+&nbsp;
+    // =========================== Guardian Functions (for parameters) ================================
+&nbsp;
+    /// @notice sets the drip frequency
+    /// @param _frequency new frequency
+    /// @param stakingContract reference to the concerned staking contract
+    function setDripFrequency(uint256 _frequency, IStakingRewards stakingContract)
+        external
+        override
+        onlyRole(GUARDIAN_ROLE)
+    {
+        StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
+        require(stakingParams.duration &gt; 0, "AngleRewardsDistributor::setDripFrequency: invalid staking contract");
+        stakingParams.dripFrequency = _frequency;
+        emit FrequencyUpdate(_frequency, address(stakingContract));
+    }
+&nbsp;
+    /// @notice sets the incentive amount for calling drip: it's expressed in governance tokens
+    /// @param _incentiveAmount new incentive amount
+    /// @param stakingContract reference to the concerned staking contract
+    function setIncentiveAmount(uint256 _incentiveAmount, IStakingRewards stakingContract)
+        external
+        override
+        onlyRole(GUARDIAN_ROLE)
+    {
+        StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
+        require(stakingParams.duration &gt; 0, "AngleRewardsDistributor::setIncentiveAmount: invalid staking contract");
+        stakingParams.incentiveAmount = _incentiveAmount;
+        emit IncentiveUpdate(_incentiveAmount, address(stakingContract));
+    }
+&nbsp;
+    /// @notice sets the new amount to distribute to a staking contract
+    /// @param _amountToDistribute new amount to distribute, this value is going to update the old amount to distribute value
+    /// @param stakingContract reference to the concerned staking contract
+    function setAmountToDistribute(uint256 _amountToDistribute, IStakingRewards stakingContract)
+        external
+        override
+        onlyRole(GUARDIAN_ROLE)
+    {
+        StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
+        require(stakingParams.duration &gt; 0, "AngleRewardsDistributor::setAmountToDistribute: invalid staking contract");
+        require(
+            stakingParams.distributedRewards &lt; _amountToDistribute,
+            "AngleRewardsDistributor::setAmountToDistribute: invalid amount to distribute"
+        );
+        require(
+            _amountToDistribute - stakingParams.distributedRewards + stakingParams.incentiveAmount &lt;
+                murToken.balanceOf(address(this)),
+            "AngleRewardsDistributor::setAmountToDistribute: too high amount"
+        );
+        stakingParams.amountToDistribute = _amountToDistribute;
+        emit AmountToDistributeUpdate(_amountToDistribute, address(stakingContract));
+    }
+&nbsp;
+    /// @notice sets the new duration with which tokens will be distributed to the staking contract
+    /// @param _duration new duration
+    /// @param stakingContract reference to the concerned staking contract
+    function setDuration(uint256 _duration, IStakingRewards stakingContract) external override onlyRole(GUARDIAN_ROLE) {
+        StakingParameters storage stakingParams = stakingContractsMap[stakingContract];
+        require(stakingParams.duration &gt; 0, "AngleRewardsDistributor::setDuration: invalid staking contract");
+        uint256 timeElapsed = _timeSinceStart(stakingParams);
+        require(
+            timeElapsed &lt; stakingParams.duration &amp;&amp; timeElapsed &lt; _duration,
+            "AngleRewardsDistributor::setduration: too high amount"
+        );
+        stakingParams.duration = _duration;
+        emit DurationUpdate(_duration, address(stakingContract));
+    }
+&nbsp;
+    // ============================== Internal Functions ======================================
+&nbsp;
+    /// @notice returns the block timestamp when drip will next be available
+    /// @param stakingParams parameters of the concerned staking contract
+    function _nextDripAvailable(StakingParameters memory stakingParams) internal pure returns (uint256) {
+        return stakingParams.lastDistributionTime + stakingParams.dripFrequency;
+    }
+&nbsp;
+    /// @notice return true if the dripFrequency has passed since the last drip
+    /// @param stakingParams parameters of the concerned staking contract
+    function _isDripAvailable(StakingParameters memory stakingParams) internal view returns (bool) {
+        return block.timestamp &gt;= _nextDripAvailable(stakingParams);
+    }
+&nbsp;
+    /// @notice computes the amount of tokens to give at the current drip
+    /// @param stakingParams parameters of the concerned staking contract
+    /// @dev linear drip amount across time
+    function _computeDripAmount(StakingParameters memory stakingParams) internal view returns (uint256) {
+        uint256 timeElapsed = _timeSinceStart(stakingParams);
+        uint256 timeLeft = stakingParams.duration - timeElapsed;
+        if (stakingParams.distributedRewards &gt;= stakingParams.amountToDistribute || timeLeft == 0) {
+            return 0;
+        }
+        // TODO : check formula here when you review the code: G.OK for me
+        uint256 rewardsLeftToDistribute = stakingParams.amountToDistribute - stakingParams.distributedRewards;
+        if (timeLeft &lt; stakingParams.dripFrequency) {
+            return rewardsLeftToDistribute;
+        } else {
+            return (stakingParams.dripFrequency * rewardsLeftToDistribute) / timeLeft;
+        }
+    }
+&nbsp;
+    /// @notice computes the time since distribution has started for the staking contract
+    /// @param stakingParams parameters of the concerned staking contract
+    function _timeSinceStart(StakingParameters memory stakingParams) internal view returns (uint256) {
+        uint256 _duration = stakingParams.duration;
+        uint256 timePassed = block.timestamp - stakingParams.timeStarted; // block timestamp always &gt;= timeStarted
+        return timePassed &gt; _duration ? _duration : timePassed;
+    }
+&nbsp;
+    /// @notice incentivizes the person calling the drip function
+    /// @param stakingParams parameters of the concerned staking contract
+    function _incentivize(StakingParameters memory stakingParams) internal {
+        // because require not true will let to revert every time
+        require(
+            murToken.balanceOf(address(this)) &gt;=
+                stakingParams.amountToDistribute + stakingParams.incentiveAmount - stakingParams.distributedRewards,
+            "AngleRewardsDistributor::_incentivize: incorrect amount"
+        );
+        murToken.transfer(msg.sender, stakingParams.incentiveAmount);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jun 09 2021 21:02:12 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

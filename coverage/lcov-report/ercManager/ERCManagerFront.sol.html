@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for ercManager/ERCManagerFront.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">ercManager/</a> ERCManagerFront.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>46/46</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>8/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>11/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>45/45</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-yes">54×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">59×</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">64×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-yes">19×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: COMING SOON
+&nbsp;
+pragma solidity 0.8.2;
+&nbsp;
+import "./ERCManager.sol";
+&nbsp;
+/// @title ERCManagerFront
+/// @author Angle Core Team
+/// @notice This contract corresponds to a collateral pool of the protocol for a stablecoin,
+/// it manages a single ERC20 token
+/// @dev This file contains the front end, that is all external functions associated to the collateral pool
+contract ERCManagerFront is ERCManager {
+    using SafeERC20 for IERC20;
+&nbsp;
+    // ============================ Constructor ====================================
+&nbsp;
+    /// @notice Constructor of the `ERCManagerFront` contract
+    /// @param _name Name of the concerned collateral
+    /// @param _token Address of the collateral
+    /// @param _stableMaster Reference to the master stablecoin (`StableMaster`) interface
+    function initialize(
+        bytes32 _name,
+        address _token,
+        IStableMaster _stableMaster
+    ) external initializer {
+        __AccessControl_init();
+&nbsp;
+        // Creating the correct references
+        name = _name;
+        stableMaster = _stableMaster;
+        token = IERC20(_token);
+&nbsp;
+        // Initializing the various transaction fees
+        // Governance will be able to update it afterwards
+        keeperFeesRatio = (5 * BASE) / 10;
+        keeperFeesCap = BASE * 100;
+        xKeeperFeesCashOut = [BASE / 2, BASE, 2 * BASE];
+        yKeeperFeesCashOut = [BASE / 10, (6 * BASE) / 10, BASE / 10];
+&nbsp;
+        // Access Control
+        // The roles in this contract can only be modified from the `StableMaster`
+        // For the moment `StableMaster` never uses the `GOVERNOR_ROLE`
+        _setupRole(STABLEMASTER_ROLE, address(stableMaster));
+        _setupRole(GOVERNOR_ROLE, address(stableMaster));
+        _setupRole(GUARDIAN_ROLE, address(stableMaster));
+        _setRoleAdmin(STABLEMASTER_ROLE, STABLEMASTER_ROLE);
+        _setRoleAdmin(GOVERNOR_ROLE, STABLEMASTER_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE, STABLEMASTER_ROLE);
+        _setRoleAdmin(STRATEGY_ROLE, GUARDIAN_ROLE);
+    }
+&nbsp;
+    // =============================== Users =======================================
+&nbsp;
+    /// @notice Lets a user add collateral to the system to mint stablecoins
+    /// @param user Address of the user to mint for
+    /// @param amount Amount of collateral sent
+    /// @dev Amount is not scaled, so 1 means that if decimals = 18, it is 10**(-18) tokens
+    function mint(address user, uint256 amount) external whenNotPaused(STABLE_HOLDER) {
+        // Overflow check for the amount is done when casting amount minus fees to int
+        token.safeTransferFrom(msg.sender, address(this), amount);
+        stableMaster.notifyMint(amount, user);
+    }
+&nbsp;
+    // ================================ SLPs =======================================
+&nbsp;
+    /// @notice Lets a SLP enter the protocol by adding collateral to the system in exchange of sanTokens
+    /// @param user Address of the SLP to send sanTokens to
+    /// @param amount Amount of collateral sent
+    function deposit(address user, uint256 amount) external whenNotPaused(SLP) {
+        // No overflow check needed for the amount since it's never casted to int and Solidity 0.8.0
+        // automatically handles overflows
+        token.safeTransferFrom(msg.sender, address(this), amount);
+        stableMaster.notifyDeposit(amount, user);
+    }
+&nbsp;
+    // ================================= HAs =======================================
+&nbsp;
+    /// @notice Lets a HA join the protocol for this stablecoin/collateral pair
+    /// @param amountBrought Amount of collateral brought by the HA
+    /// @param amountCommitted Amount of collateral covered by the HA
+    /// @return perpetualID The ID of the perpetual opened by this HA
+    function joinHA(uint256 amountBrought, uint256 amountCommitted)
+        external
+        whenNotPaused(HA)
+        returns (uint256 perpetualID)
+    {
+        // Overflow check: this is needed as these values may be casted to int when updating
+        // some of the protocol's quantities
+        require(int256(amountBrought) &gt; 0 &amp;&amp; int256(amountCommitted) &gt; 0, "ERCManager::joinHA: overflow");
+        token.safeTransferFrom(msg.sender, address(this), amountBrought);
+        perpetualID = perpetualManager.createPerpetual(msg.sender, amountBrought, amountCommitted);
+    }
+&nbsp;
+    /// @notice Lets a HA cash out a perpetual owned for the stablecoin/collateral pair associated
+    /// to this `ERCManager` contract
+    /// @param perpetualID ID of the perpetual to cash out
+    /// @dev The HA gets the current amount of her position depending on the entry oracle value
+    /// and current oracle value
+    /// @dev `msg.sender` should be the owner of `perpetualID`
+    function exitHA(uint256 perpetualID) external whenNotPaused(HA) {
+        uint256 amountReturn = perpetualManager.cashOutPerpetual(msg.sender, perpetualID);
+        _secureTransfer(msg.sender, amountReturn);
+    }
+&nbsp;
+    /// @notice Lets a HA increase the `cashOutAmount` in a perpetual she controls for this
+    /// stablecoin/collateral pair
+    /// @param perpetualID ID of the perpetual to which amount should be added to `cashOutAmount`
+    /// @param amount Amount to add to the perpetual's `cashOutAmount`
+    /// @dev This decreases the leverage multiple of this perpetual
+    /// @dev `msg.sender` should be the owner of `perpetualID`
+    function addHA(uint256 perpetualID, uint256 amount) external whenNotPaused(HA) {
+        // Overflow check
+        require(int256(amount) &gt; 0, "ERCManager::addHA: overflow");
+        token.safeTransferFrom(msg.sender, address(this), amount);
+        perpetualManager.addToPerpetual(msg.sender, perpetualID, amount);
+    }
+&nbsp;
+    /// @notice Lets a HA decrease the `cashOutAmount` in a perpetual she controls for this
+    /// stablecoin/collateral pair
+    /// @param perpetualID ID of the perpetual from which collateral should be removed
+    /// @param amount Amount to remove from the perpetual's `cashOutAmount`
+    /// @dev This increases the leverage multiple of this perpetual
+    /// @dev `msg.sender` should be the owner of `perpetualID`
+    function removeHA(uint256 perpetualID, uint256 amount) external whenNotPaused(HA) {
+        // Overflow check
+        require(int256(amount) &gt; 0, "ERCManager::removeHA: overflow");
+        uint256 netAmount = perpetualManager.removeFromPerpetual(msg.sender, perpetualID, amount);
+        _secureTransfer(msg.sender, netAmount);
+    }
+&nbsp;
+    /// @notice Allows an outside caller to liquidate a perpetual if the perpetual position is
+    /// under the maintenance margin
+    /// @param perpetualID ID of the targeted perpetual
+    /// @dev The outside caller (namely a keeper) gets a portion of the fees that were taken to
+    /// the HA at perpetual creation
+    function liquidateHA(uint256 perpetualID) external whenNotPaused(HA) {
+        uint256 originalFees = perpetualManager.tryLiquidatePerpetual(perpetualID);
+&nbsp;
+        // Computing the incentive for the keeper as a function of the fees taken initially to the HA
+        uint256 keeperFeesCapped = _computeKeeperHAFees(0, originalFees);
+        // Transfering the rewards to the HA
+        _secureTransfer(msg.sender, keeperFeesCapped);
+    }
+&nbsp;
+    /// @notice Allows an outside caller to cash out a perpetual if too much of the collateral from
+    /// users is covered by HAs or if the leverage of this perpetual has become too high because of
+    /// a too important collateral price decrease
+    /// @param perpetualID ID of the targeted perpetual
+    /// @dev This function allows to make sure that the protocol will not have too much HAs for a long period of time
+    /// or that HAs cannot stay too long with a high leverage in the protocol
+    /// @dev The HA that owns the targeted perpetual will get the current value of her perpetual
+    /// @dev The call to the function above will revert if the HA cannot be cashed out
+    /// @dev Keepers should call the the `testCashOut` method of `PerpetualManagerFront` to simplify everything
+    /// and make sure that their call will succeed
+    function forceExitHA(uint256 perpetualID) external whenNotPaused(HA) {
+        // `amountReturn` is the amount to return to the HA which owned the perpetual
+        // `ratio` is the ratio between the amount covered by this perpetual and the surplus amount
+        // that is covered by HAs although it should not be covered
+        // `fees` correspond to the fees initially paid by the HA which opened the perpetual
+        // `owner` is the owner of the perpetual targeted
+        (uint256 ratio, uint256 amountReturn, uint256 fees, address owner) = perpetualManager.tryCashOutPerpetual(
+            perpetualID
+        );
+&nbsp;
+        // Giving the perpetual owner the value of her position back
+        _secureTransfer(owner, amountReturn);
+&nbsp;
+        // Computing the rewards given to the keeper calling this function
+        uint256 keeperFeesCapped = _computeKeeperHAFees(ratio, fees);
+&nbsp;
+        // Transferring the rewards to the keeper
+        _secureTransfer(msg.sender, keeperFeesCapped);
+    }
+&nbsp;
+    // ============================= View Functions ================================
+&nbsp;
+    /// @notice Allows a keeper to compute the amount of fees that will be received by cashing out a perpetual
+    /// which paid entry fees equal to `originalFees` and for a ratio between the amount covered and the gap
+    /// between what's covered and what's to cover equal to `ratio`
+    /// @param ratio Ratio between what's covered by the perpetual and the gap between what's covered
+    /// and what's really to cover
+    /// @param originalFees Amount of fees paid by the perpetual owner at creation
+    /// @return The amount of rewards going to the keeper
+    /// @dev In case of a perpetual being cashed out because too much was covered, the portion of the fees paid
+    /// by the HA that is actually going to the keeper
+    /// @dev If `ratio = 0`, then the fees are computed for a perpetual being liquidated or cashed out
+    /// in the case of a too high leverage
+    /// @dev Combining a call to this function with a call to the `testCashOut` method of `PerpetualManagerFront`
+    /// allows keepers to measure the profit they could make for cashing out or liquidating a perpetual
+    function computeKeeperHAFees(uint256 ratio, uint256 originalFees) external view returns (uint256) {
+        return _computeKeeperHAFees(ratio, originalFees);
+    }
+&nbsp;
+    /// @notice Provides estimated Annual Percentage Rate for SLPs based on lending to other protocols
+    /// @dev This function is an estimation and is made for external use only
+    /// @dev This does not take into account transaction fees which accrue to SLPs too
+    function estimatedAPR() external view returns (uint256 apr) {
+        apr = 0;
+        (, ISanToken sanTokenForAPR, , , , uint256 sanRate, uint256 interestForSLPs, ) = stableMaster.collateralMap(
+            IManager(address(this))
+        );
+        uint256 supply = sanTokenForAPR.totalSupply();
+&nbsp;
+        if (sanRate == 0 || supply == 0) return type(uint256).max;
+&nbsp;
+        for (uint256 i = 0; i &lt; strategyList.length; i++) {
+            apr = apr + (strategies[strategyList[i]].debtRatio * IStrategy(strategyList[i]).estimatedAPR()) / BASE;
+        }
+        apr = (apr * interestForSLPs * _getTotalAsset()) / sanRate / supply;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jul 14 2021 10:59:30 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for oracle/OracleChainlinkMulti.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">oracle/</a> OracleChainlinkMulti.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/8</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.2;
+&nbsp;
+import "./modules/ModuleChainlinkMulti.sol";
+import "./OracleAbstract.sol";
+&nbsp;
+/// @title OracleChainlinkMulti
+/// @author Angle Core Team
+/// @notice Oracle contract, one contract is deployed per collateral/stablecoin pair
+/// @dev This contract concerns an oracle that uses Chainlink with multiple pools to read from
+/// @dev It inherits the ModuleChainlinkMulti contract
+contract OracleChainlinkMulti is OracleAbstract, ModuleChainlinkMulti {
+    /// @notice Constructor for an oracle using both Uniswap and Chainlink with multiple pool to read from
+    /// @param _circuitChainlink Chainlink pool addresses (in order)
+    /// @param _circuitChainIsMultiplied whether we should multiply or divide by this rate
+<span class="fstat-no" title="function not covered" >    constructor(</span>
+        address[] memory _circuitChainlink,
+        uint256[] memory _circuitChainIsMultiplied,
+        uint256 _inBase
+    ) ModuleChainlinkMulti(_circuitChainlink, _circuitChainIsMultiplied) {
+<span class="cstat-no" title="statement not covered" >        inBase = _inBase</span>;
+    }
+&nbsp;
+    /// @notice Reads the rate from the Chainlink circuit
+    /// @return rate The current rate between the in currency and out currency
+<span class="fstat-no" title="function not covered" >    function read() external view override returns (uint256 rate) {</span>
+<span class="cstat-no" title="statement not covered" >        (rate, ) = _quoteChainlink(BASE)</span>;
+    }
+&nbsp;
+    /// @notice Converts an in-currency quote amount to out currency using Chainlink's circuit
+    /// @param quoteAmount Amount (in the input collateral) to be converted in out currency
+    /// @return Quote amount in out currency from the base amount in in-currency
+    /// @dev The amount returned is expressed with base BASE (and not the base of the out-currency)
+<span class="fstat-no" title="function not covered" >    function readQuote(uint256 quoteAmount) external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _readQuote(quoteAmount);</span>
+    }
+&nbsp;
+    /// @notice Returns Chainlink quote values twice
+    /// @param quoteAmount Amount expressed in the in currency base.
+    /// @dev If quoteAmount is inBase, rates are returned
+    /// @return The two return values are similar
+<span class="fstat-no" title="function not covered" >    function _readAll(uint256 quoteAmount) internal view override returns (uint256, uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        uint256 quote = _readQuote(quoteAmount);</span>
+<span class="cstat-no" title="statement not covered" >        return (quote, quote);</span>
+    }
+&nbsp;
+    /// @notice Internal function to convert an in-currency quote amount to out currency using Chainlink's circuit
+    /// @param quoteAmount Amount (in the input collateral) to be converted to be converted in out currency
+<span class="fstat-no" title="function not covered" >    function _readQuote(uint256 quoteAmount) internal view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        quoteAmount = (quoteAmount * BASE) / inBase</span>;
+<span class="cstat-no" title="statement not covered" >        (quoteAmount, ) = _quoteChainlink(quoteAmount)</span>;
+        // We return only rates with base as decimals
+<span class="cstat-no" title="statement not covered" >        return quoteAmount;</span>
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jul 21 2021 08:41:25 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

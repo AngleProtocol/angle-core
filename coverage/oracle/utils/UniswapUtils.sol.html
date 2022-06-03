@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for oracle/utils/UniswapUtils.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">oracle/utils/</a> UniswapUtils.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>10/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.91% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>10/11</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
+&nbsp;
+import "../../external/AccessControl.sol";
+&nbsp;
+import "../../utils/OracleMath.sol";
+&nbsp;
+/// @title UniswapUtils
+/// @author Angle Core Team
+/// @notice Utility contract that is used in the Uniswap module contract
+abstract contract UniswapUtils is AccessControl, OracleMath {
+    // The parameters below are common among the different Uniswap modules contracts
+&nbsp;
+    /// @notice Time weigthed average window that should be used for each Uniswap rate
+    /// It is mainly going to be 5 minutes in the protocol
+    uint32 public twapPeriod;
+&nbsp;
+    // Role for guardians and governors
+    bytes32 public constant GUARDIAN_ROLE_UNISWAP = keccak256("GUARDIAN_ROLE");
+&nbsp;
+    /// @notice Gets a quote for an amount of in-currency using UniswapV3 TWAP and converts this
+    /// amount to out-currency
+    /// @param quoteAmount The amount to convert in the out-currency
+    /// @param pool UniswapV3 pool to query
+    /// @param isUniMultiplied Whether the rate corresponding to the Uniswap pool should be multiplied or divided
+    /// @return The value of the `quoteAmount` expressed in out-currency
+    function _readUniswapPool(
+        uint256 quoteAmount,
+        IUniswapV3Pool pool,
+        uint8 isUniMultiplied
+    ) internal view returns (uint256) {
+        uint32[] memory secondAgos = new uint32[](2);
+&nbsp;
+        secondAgos[0] = twapPeriod;
+        secondAgos[1] = 0;
+&nbsp;
+        (int56[] memory tickCumulatives, ) = pool.observe(secondAgos);
+        int56 tickCumulativesDelta = tickCumulatives[1] - tickCumulatives[0];
+&nbsp;
+        int24 timeWeightedAverageTick = int24(tickCumulativesDelta / int32(twapPeriod));
+&nbsp;
+        // Always round to negative infinity
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (tickCumulativesDelta &lt; 0 &amp;&amp; (tickCumulativesDelta % int56(int32(twapPeriod)) != 0))
+            timeWeightedAverageTick--;
+&nbsp;
+        // Computing the `quoteAmount` from the ticks obtained from Uniswap
+        return _getQuoteAtTick(timeWeightedAverageTick, quoteAmount, isUniMultiplied);
+    }
+&nbsp;
+    /// @notice Changes the TWAP period
+    /// @param _twapPeriod New window to compute the TWAP
+    function changeTwapPeriod(uint32 _twapPeriod) external onlyRole(GUARDIAN_ROLE_UNISWAP) {
+        require(int32(_twapPeriod) &gt; 0, "99");
+        twapPeriod = _twapPeriod;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

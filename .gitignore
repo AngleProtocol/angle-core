@@ -22,7 +22,6 @@ solidity-flattenedContracts
 typechain
 
 # Test output
-coverage
 coverage.json
 
 # Running output

@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for oracle/modules/ModuleUniswapMulti.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">oracle/modules/</a> ModuleUniswapMulti.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>19/19</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>8/10</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>19/19</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "../utils/UniswapUtils.sol";
+&nbsp;
+/// @title ModuleUniswapMulti
+/// @author Angle Core Team
+/// @notice Module Contract that is going to be used to help compute Uniswap prices
+/// @dev This contract will help for an oracle using multiple UniswapV3 pools
+/// @dev An oracle using Uniswap is either going to be a `ModuleUniswapSingle` or a `ModuleUniswapMulti`
+abstract contract ModuleUniswapMulti is UniswapUtils {
+    /// @notice Uniswap pools, the order of the pools to arrive to the final price should be respected
+    IUniswapV3Pool[] public circuitUniswap;
+    /// @notice Whether the rate obtained with each pool should be multiplied or divided to the current amount
+    uint8[] public circuitUniIsMultiplied;
+&nbsp;
+    /// @notice Constructor for an oracle using multiple Uniswap pool
+    /// @param _circuitUniswap Path of the Uniswap pools
+    /// @param _circuitUniIsMultiplied Whether we should multiply or divide by this rate in the path
+    /// @param _twapPeriod Time weighted average window, it is common for all Uniswap pools
+    /// @param observationLength Number of observations that each pool should have stored
+    /// @param guardians List of governor or guardian addresses
+    constructor(
+        IUniswapV3Pool[] memory _circuitUniswap,
+        uint8[] memory _circuitUniIsMultiplied,
+        uint32 _twapPeriod,
+        uint16 observationLength,
+        address[] memory guardians
+    ) {
+        // There is no `GOVERNOR_ROLE` in this contract, governor has `GUARDIAN_ROLE`
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(guardians.length &gt; 0, "101");
+        for (uint256 i = 0; i &lt; guardians.length; i++) {
+            <span class="missing-if-branch" title="else path not taken" >E</span>require(guardians[i] != address(0), "0");
+            _setupRole(GUARDIAN_ROLE_UNISWAP, guardians[i]);
+        }
+        _setRoleAdmin(GUARDIAN_ROLE_UNISWAP, GUARDIAN_ROLE_UNISWAP);
+&nbsp;
+        require(int32(_twapPeriod) &gt; 0, "102");
+        uint256 circuitUniLength = _circuitUniswap.length;
+        require(circuitUniLength &gt; 0, "103");
+        require(circuitUniLength == _circuitUniIsMultiplied.length, "104");
+&nbsp;
+        twapPeriod = _twapPeriod;
+&nbsp;
+        circuitUniswap = _circuitUniswap;
+        circuitUniIsMultiplied = _circuitUniIsMultiplied;
+&nbsp;
+        for (uint256 i = 0; i &lt; circuitUniLength; i++) {
+            circuitUniswap[i].increaseObservationCardinalityNext(observationLength);
+        }
+    }
+&nbsp;
+    /// @notice Reads Uniswap current block oracle rate
+    /// @param quoteAmount The amount in the in-currency base to convert using the Uniswap oracle
+    /// @return The value of the oracle of the initial amount is then expressed in the decimal from
+    /// the end currency
+    function _quoteUniswap(uint256 quoteAmount) internal view returns (uint256) {
+        for (uint256 i = 0; i &lt; circuitUniswap.length; i++) {
+            quoteAmount = _readUniswapPool(quoteAmount, circuitUniswap[i], circuitUniIsMultiplied[i]);
+        }
+        // The decimal here is the one from the end currency
+        return quoteAmount;
+    }
+&nbsp;
+    /// @notice Increases the number of observations for each Uniswap pools
+    /// @param newLengthStored Size asked for
+    /// @dev newLengthStored should be larger than all previous pools observations length
+    function increaseTWAPStore(uint16 newLengthStored) external {
+        for (uint256 i = 0; i &lt; circuitUniswap.length; i++) {
+            circuitUniswap[i].increaseObservationCardinalityNext(newLengthStored);
+        }
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

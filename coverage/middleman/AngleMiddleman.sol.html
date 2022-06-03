@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for middleman/AngleMiddleman.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">middleman/</a> AngleMiddleman.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>58/58</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">95.83% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>46/48</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>9/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>54/54</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">151×</span>
+<span class="cline-any cline-yes">150×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">149×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">149×</span>
+<span class="cline-any cline-yes">153×</span>
+<span class="cline-any cline-yes">151×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">147×</span>
+<span class="cline-any cline-yes">147×</span>
+<span class="cline-any cline-yes">147×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-yes">23×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-yes">45×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.7;
+&nbsp;
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+&nbsp;
+import "../interfaces/IAngleDistributor.sol";
+import "../interfaces/IAngleMiddlemanGauge.sol";
+&nbsp;
+interface ICurveGauge {
+    function deposit_reward_token(address _reward_token, uint256 _amount) external; // solhint-disable-line
+}
+&nbsp;
+interface IPolygonBridge {
+    function depositFor(
+        address user,
+        address rootToken,
+        bytes memory depositData
+    ) external;
+&nbsp;
+    function tokenToType(address) external view returns (bytes32);
+&nbsp;
+    function typeToPredicate(bytes32) external view returns (address);
+}
+&nbsp;
+contract AngleMiddleman is AccessControl, IAngleMiddlemanGauge {
+    using SafeERC20 for IERC20;
+&nbsp;
+    /// @notice Types of contracts the middleman will forward the tokens to
+    enum RecipientType {
+        Curve,
+        Anyswap,
+        PolygonPoS
+    }
+&nbsp;
+    /// @notice `recipient`: Address receiving the tokens. bridge: address of the bridge (if applicable) where the tokens will go through
+    struct Recipient {
+        address recipient;
+        address bridge;
+        RecipientType recipientType;
+    }
+&nbsp;
+    /// @notice Most likely ANGLE token (currently: 0x31429d1856aD1377A8A0079410B297e1a9e214c2)
+    IERC20 public immutable rewardToken;
+    bytes32 public constant DISTRIBUTOR_ROLE = keccak256("DISTRIBUTOR_ROLE");
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+&nbsp;
+    /// @notice Maps a gauge address (as defined in `AngleDistributor`) to its parameters
+    mapping(address =&gt; Recipient) public gaugeToRecipient;
+&nbsp;
+    event AddGauge(
+        address indexed gauge,
+        address indexed recipient,
+        address indexed bridge,
+        RecipientType recipientType
+    );
+    event RemoveGauge(address indexed gauge);
+    event NotifyReward(address indexed gauge, address indexed recipient, uint256 amount);
+    event Recovered(address indexed tokenAddress, address indexed to, uint256 amount);
+&nbsp;
+    /// @notice Deploys `AngleMiddleman` used to route reward tokens (ANGLE) from `AngleDistributor` to gauges
+    /// @param guardians array of address of admins for this contract. Guardians are allowed to add new gauges or remove them, and recover tokens from the contract
+    /// @param distributor address of `AngleDistributor`. Notifies the contract that new rewards should be distributed
+    constructor(address[] memory guardians, IAngleDistributor distributor) {
+        require(address(distributor) != address(0), "0");
+        require(guardians.length &gt; 0, "5");
+&nbsp;
+        rewardToken = distributor.rewardToken();
+&nbsp;
+        for (uint256 i = 0; i &lt; guardians.length; i++) {
+            require(guardians[i] != address(0), "0");
+            _setupRole(GUARDIAN_ROLE, guardians[i]);
+        }
+&nbsp;
+        _setupRole(DISTRIBUTOR_ROLE, address(distributor));
+        _setRoleAdmin(DISTRIBUTOR_ROLE, GUARDIAN_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE, GUARDIAN_ROLE);
+    }
+&nbsp;
+    receive() external payable {}
+&nbsp;
+    /// @notice Allows the Governor to add new gauges of type "Curve"
+    /// @param gauges Array of gauges, as defined in `AngleDistributor`
+    /// @param recipients Array of addresses ultimately meant to receive the tokens
+    /// @param bridges Array of addresses of the bridging contracts
+    /// @param recipientType Curve, Polygon or Anyswap
+    /// @dev Addresses of gauges within the Angle Protocol corresponding to Curve pools or multichain staking contracts are identifiers to be used only for voting purposes.
+    /// @dev This is the reason we map them to the "real" `recipient` contract
+    function addGauges(
+        address[] memory gauges,
+        address[] memory recipients,
+        address[] memory bridges,
+        RecipientType[] memory recipientType
+    ) external onlyRole(GUARDIAN_ROLE) {
+        require(gauges.length &gt; 0, "5");
+        require(
+            gauges.length == recipients.length &amp;&amp;
+                gauges.length == bridges.length &amp;&amp;
+                gauges.length == recipientType.length,
+            "104"
+        );
+&nbsp;
+        for (uint256 i = 0; i &lt; gauges.length; i++) {
+            require(gauges[i] != address(0) &amp;&amp; recipients[i] != address(0), "0");
+&nbsp;
+            if (recipientType[i] == RecipientType.Curve) {
+                require(bridges[i] == address(0), "113");
+            }
+            if (recipientType[i] == RecipientType.PolygonPoS || recipientType[i] == RecipientType.Anyswap) {
+                require(bridges[i] != address(0), "0");
+            }
+&nbsp;
+            Recipient storage _recipient = gaugeToRecipient[gauges[i]];
+            require(_recipient.recipient == address(0), "112");
+&nbsp;
+            _recipient.recipient = recipients[i];
+            _recipient.recipientType = recipientType[i];
+            _recipient.bridge = bridges[i];
+&nbsp;
+            // auto approve
+            if (recipientType[i] == RecipientType.Curve) {
+                rewardToken.safeApprove(recipients[i], type(uint256).max);
+            } else if (recipientType[i] == RecipientType.PolygonPoS) {
+                address spender = _getSpenderPolygon(bridges[i]);
+                uint256 currentAllowance = rewardToken.allowance(address(this), spender);
+                // the spender is the "predicate", so we check if it wasnt already approved
+                if (currentAllowance == 0) {
+                    rewardToken.safeApprove(spender, type(uint256).max);
+                }
+            }
+&nbsp;
+            emit AddGauge(gauges[i], recipients[i], bridges[i], recipientType[i]);
+        }
+    }
+&nbsp;
+    /// @notice Gets the address of the "predicate": the contract ultimately holding the tokens on mainnet. The predicate contract needs to be approved by `AngleMiddleman`
+    /// @param bridge Address of the bridge contract, from there we can retrieve the address of the predicate
+    function _getSpenderPolygon(address bridge) internal view returns (address spender) {
+        bytes32 tokenType = IPolygonBridge(bridge).tokenToType(address(rewardToken));
+        spender = IPolygonBridge(bridge).typeToPredicate(tokenType);
+    }
+&nbsp;
+    /// @notice Sends the tokens to the recipient contract using the appropriate method (direct transfer or bridging)
+    /// @param gauge Address of the gauge, as defined in `AngleDistributor`
+    /// @param amount Amount of tokens to be sent
+    function notifyReward(address gauge, uint256 amount) external override onlyRole(DISTRIBUTOR_ROLE) {
+        Recipient memory _recipient = gaugeToRecipient[gauge];
+        require(_recipient.recipient != address(0), "110");
+&nbsp;
+        if (_recipient.recipientType == RecipientType.Curve) {
+            // Curve gauges implement a `deposit_reward_token` method
+            // The contract needs to be approved for the rewardToken
+            // Approval should have been done in `addGauges` method
+            ICurveGauge(_recipient.recipient).deposit_reward_token(address(rewardToken), amount);
+        } else if (_recipient.recipientType == RecipientType.PolygonPoS) {
+            // Polygon PoS bridge uses a `depositFor` method
+            // `depositFor` transfers the tokens to the "predicate" contract and then emits an event for bridging the tokens
+            // The "predicate" needs to be approved, which is done in the `addGauges` method
+            IPolygonBridge(_recipient.bridge).depositFor(
+                _recipient.recipient,
+                address(rewardToken),
+                abi.encodePacked(amount)
+            );
+        } else <span class="missing-if-branch" title="else path not taken" >E</span>if (_recipient.recipientType == RecipientType.Anyswap) {
+            // For Anyswap, tokens just need to be transfered to the right contract and are bridged to the same address on the other network
+            rewardToken.safeTransfer(_recipient.bridge, amount);
+        }
+&nbsp;
+        emit NotifyReward(gauge, _recipient.recipient, amount);
+    }
+&nbsp;
+    /// @notice Ability to revoke approval for a contract. Approvals are given in the `addGauges` methods
+    /// @param spender Address of the contract that was approved
+    function revokeApproval(address spender) public onlyRole(GUARDIAN_ROLE) {
+        rewardToken.safeApprove(spender, 0);
+    }
+&nbsp;
+    /// @notice Ability to change allowance for a contract. Approvals are given in the `addGauges` methods
+    /// @param spender Address of the contract that was approved
+    /// @param approvedAmount Amount that we want to approve
+    function changeAllowance(address spender, uint256 approvedAmount) public onlyRole(GUARDIAN_ROLE) {
+        uint256 currentAllowance = rewardToken.allowance(address(this), spender);
+        if (currentAllowance &lt; approvedAmount) {
+            rewardToken.safeIncreaseAllowance(spender, approvedAmount - currentAllowance);
+        } else if (currentAllowance &gt; approvedAmount) {
+            rewardToken.safeDecreaseAllowance(spender, currentAllowance - approvedAmount);
+        }
+    }
+&nbsp;
+    /// @notice Deletes a gauge. Removes the parameters from `gaugeToRecipient` and revokes approvals
+    /// @param gauge Address of the gauge (found in `AngleDistributor`)
+    function removeGauge(address gauge) external onlyRole(GUARDIAN_ROLE) {
+        Recipient memory _recipient = gaugeToRecipient[gauge];
+        require(_recipient.recipient != address(0), "110");
+        if (_recipient.recipientType == RecipientType.Curve) {
+            revokeApproval(_recipient.recipient);
+        } else <span class="missing-if-branch" title="else path not taken" >E</span>if (_recipient.recipientType == RecipientType.PolygonPoS) {
+            revokeApproval(_getSpenderPolygon(_recipient.bridge));
+        }
+        // else: There is no approval for Anyswap, so no need to do anything
+&nbsp;
+        delete gaugeToRecipient[gauge];
+        emit RemoveGauge(gauge);
+    }
+&nbsp;
+    /// @notice Recovers ERC20 tokens from the contract
+    /// @param token Address of the token
+    /// @param amount Amount to be recovered
+    function recoverERC20(
+        address token,
+        address to,
+        uint256 amount
+    ) external onlyRole(GUARDIAN_ROLE) {
+        IERC20(token).safeTransfer(to, amount);
+        emit Recovered(token, to, amount);
+    }
+&nbsp;
+    /// @notice Recovers ETH from the contract
+    /// @param amount Amount to be recovered
+    function recoverETH(address to, uint256 amount) external onlyRole(GUARDIAN_ROLE) {
+        require(payable(to).send(amount), "98");
+        emit Recovered(address(0), to, amount);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

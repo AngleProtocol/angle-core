@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/staking/StakingRewardsV2.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/staking/</a> StakingRewardsV2.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/49</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/50</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+// forked from https://github.com/SetProtocol/index-coop-contracts/blob/master/contracts/staking/StakingRewardsV2.sol
+pragma solidity 0.8.0;
+&nbsp;
+import {IERC20} from '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import {Math} from '@openzeppelin/contracts/utils/math/Math.sol';
+import {SafeERC20} from '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
+import {ReentrancyGuard} from '@openzeppelin/contracts/security/ReentrancyGuard.sol';
+import '@openzeppelin/contracts/access/AccessControl.sol';
+&nbsp;
+// Inheritance
+import {IStakingRewards} from '../interfaces/IStakingRewards.sol';
+&nbsp;
+// NOTE: V2 allows setting of rewardsDuration in constructor
+contract StakingRewardsV2 is IStakingRewards, ReentrancyGuard, AccessControl {
+	using SafeERC20 for IERC20;
+&nbsp;
+	bytes32 public constant REWARD_DISTRIBUTOR_ROLE = keccak256('REWARD_DISTRIBUTOR_ROLE');
+&nbsp;
+	/* ========== STATE VARIABLES ========== */
+&nbsp;
+	/// @notice Address of the ERCToken rewarded: in our case it's MUR
+	IERC20 public rewardsToken;
+	/// @notice Address of the staking tokens: in our case it's going
+	IERC20 public stakingToken;
+	/// @notice Time at which the distribution ends
+	uint256 public periodFinish = 0;
+	/// @notice reward per second given to the staking contract
+	uint256 public rewardRate = 0;
+	/// @notice Duration of the the rewards
+	uint256 public rewardsDuration;
+	/// @notice Last Time rewardRate was updated
+	uint256 public lastUpdateTime;
+	/// @notice Helps to compute the amount earned by someone
+	uint256 public rewardPerTokenStored;
+&nbsp;
+	/// @notice Stores for each account the rewardPerToken: we do the difference
+	/// between the current and the current value to compute
+	/// what has been earned by an account
+	mapping(address =&gt; uint256) public userRewardPerTokenPaid;
+	/// @notice Stores for each account the accumulated rewards
+	mapping(address =&gt; uint256) public rewards;
+&nbsp;
+&nbsp;
+	uint256 private _totalSupply;
+	
+	mapping(address =&gt; uint256) private _balances;
+&nbsp;
+	/* ========== CONSTRUCTOR ========== */
+&nbsp;
+<span class="fstat-no" title="function not covered" >	constructor(</span>
+		address _rewardsDistribution,
+		address _rewardsToken,
+		address _stakingToken,
+		uint256 _rewardsDuration
+	) {
+<span class="cstat-no" title="statement not covered" >		rewardsToken = IERC20(_rewardsToken)</span>;
+<span class="cstat-no" title="statement not covered" >		stakingToken = IERC20(_stakingToken)</span>;
+		// rewardsDistribution = _rewardsDistribution;
+<span class="cstat-no" title="statement not covered" >		rewardsDuration = _rewardsDuration</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		_setupRole(REWARD_DISTRIBUTOR_ROLE, _rewardsDistribution)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(REWARD_DISTRIBUTOR_ROLE, REWARD_DISTRIBUTOR_ROLE)</span>;
+	}
+&nbsp;
+	/* ========== VIEWS ========== */
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function totalSupply() external view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _totalSupply;</span>
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function balanceOf(address account) external view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _balances[account];</span>
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function lastTimeRewardApplicable() public view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return Math.min(block.timestamp, periodFinish);</span>
+	}
+&nbsp;
+	/// @notice Compute the net amout you can get from a staked token
+	/// @dev It adds to the reward per token: the time elapsed since the rewardPerTokenStored was last updated multiplied by
+	/// @dev the RewardRate (that is the number of rewards per second) divided by the number of tokens
+<span class="fstat-no" title="function not covered" >	function rewardPerToken() public view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		if (_totalSupply == 0) {</span>
+<span class="cstat-no" title="statement not covered" >			return rewardPerTokenStored;</span>
+		}
+<span class="cstat-no" title="statement not covered" >		return rewardPerTokenStored + (((lastTimeRewardApplicable() - lastUpdateTime) * rewardRate * 1e18) / _totalSupply);</span>
+	}
+&nbsp;
+	/// @notice Computes the amount earned by a staker
+	/// @dev It adds to the rewards the amount of reward earned since last time that is the difference in reward per token from now
+	/// @dev and last time multiplied by the number of tokens staked by the person
+	// How much a given account earned rewards
+<span class="fstat-no" title="function not covered" >	function earned(address account) public view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return (_balances[account] * (rewardPerToken() - userRewardPerTokenPaid[account])) / 1e18 + rewards[account];</span>
+	}
+&nbsp;
+	// Num tokens staked * (current_reward_per_token - old_reward_per_token_for_this_account)+ rewards for this account
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function getRewardForDuration() external view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return rewardRate * rewardsDuration;</span>
+	}
+&nbsp;
+	/* ========== MUTATIVE FUNCTIONS ========== */
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function stake(uint256 amount) external nonReentrant updateReward(msg.sender) {</span>
+		// Deposit money
+<span class="cstat-no" title="statement not covered" >		require(amount &gt; 0, 'Cannot stake 0')</span>;
+<span class="cstat-no" title="statement not covered" >		stakingToken.safeTransferFrom(msg.sender, address(this), amount)</span>;
+<span class="cstat-no" title="statement not covered" >		_totalSupply = _totalSupply + amount</span>;
+<span class="cstat-no" title="statement not covered" >		_balances[msg.sender] = _balances[msg.sender] + amount</span>;
+<span class="cstat-no" title="statement not covered" >		emit Staked(msg.sender, amount);</span>
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function withdraw(uint256 amount) public nonReentrant updateReward(msg.sender) {</span>
+		// Withdraw staked tokens
+<span class="cstat-no" title="statement not covered" >		require(amount &gt; 0, 'Cannot withdraw 0')</span>;
+<span class="cstat-no" title="statement not covered" >		_totalSupply = _totalSupply - amount</span>;
+<span class="cstat-no" title="statement not covered" >		_balances[msg.sender] = _balances[msg.sender] - amount</span>;
+<span class="cstat-no" title="statement not covered" >		stakingToken.safeTransfer(msg.sender, amount)</span>;
+<span class="cstat-no" title="statement not covered" >		emit Withdrawn(msg.sender, amount);</span>
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function getReward() public nonReentrant updateReward(msg.sender) {</span>
+		// Allows a staker to withdraw rewards
+<span class="cstat-no" title="statement not covered" >		uint256 reward = rewards[msg.sender];</span>
+<span class="cstat-no" title="statement not covered" >		if (reward &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >			rewards[msg.sender] = 0</span>;
+<span class="cstat-no" title="statement not covered" >			rewardsToken.safeTransfer(msg.sender, reward)</span>;
+<span class="cstat-no" title="statement not covered" >			emit RewardPaid(msg.sender, reward);</span>
+		}
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function exit() external {</span>
+		// exits someone -&gt; withdraws staking and removes
+<span class="cstat-no" title="statement not covered" >		withdraw(_balances[msg.sender])</span>;
+<span class="cstat-no" title="statement not covered" >		getReward()</span>;
+	}
+&nbsp;
+	/* ========== RESTRICTED FUNCTIONS ========== */
+	// Adds rewards to be given to the protocol in a length timeduration or defines the rewards to be given
+<span class="fstat-no" title="function not covered" >	function notifyRewardAmount(uint256 reward)</span>
+		external
+		override
+		onlyRole(REWARD_DISTRIBUTOR_ROLE)
+		updateReward(address(0))
+	{
+<span class="cstat-no" title="statement not covered" >		if (block.timestamp &gt;= periodFinish) {</span>
+<span class="cstat-no" title="statement not covered" >			rewardRate = reward / rewardsDuration</span>; // If you are done with the period, then the reward rate changes
+		} else {
+<span class="cstat-no" title="statement not covered" >			uint256 remaining = periodFinish - block.timestamp;</span>
+<span class="cstat-no" title="statement not covered" >			uint256 leftover = remaining * rewardRate;</span>
+<span class="cstat-no" title="statement not covered" >			rewardRate = (reward + leftover) / rewardsDuration</span>;
+			// If the period is not over, you compute what you already had and increase reward duration from start
+		}
+&nbsp;
+		// Ensure the provided reward amount is not more than the balance in the contract.
+		// This keeps the reward rate in the right range, preventing overflows due to
+		// very high values of rewardRate in the earned and rewardsPerToken functions;
+		// Reward + leftover must be less than 2^256 / 10^18 to avoid overflow.
+<span class="cstat-no" title="statement not covered" >		uint256 balance = rewardsToken.balanceOf(address(this));</span>
+<span class="cstat-no" title="statement not covered" >		require(rewardRate &lt;= balance / rewardsDuration, 'Provided reward too high')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		lastUpdateTime = block.timestamp</span>;
+<span class="cstat-no" title="statement not covered" >		periodFinish = block.timestamp + rewardsDuration</span>; // Change the duration
+<span class="cstat-no" title="statement not covered" >		emit RewardAdded(reward);</span>
+	}
+&nbsp;
+	// Added to support recovering LP Rewards from other systems such as BAL to be distributed to holders
+<span class="fstat-no" title="function not covered" >	function recoverERC20(</span>
+		address tokenAddress,
+		address to,
+		uint256 tokenAmount
+	) external override onlyRole(REWARD_DISTRIBUTOR_ROLE) {
+<span class="cstat-no" title="statement not covered" >		require(tokenAddress != address(stakingToken), 'Cannot withdraw the staking token')</span>;
+<span class="cstat-no" title="statement not covered" >		require(tokenAddress != address(rewardsToken), 'Cannot withdraw the rewards token')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		IERC20(tokenAddress).safeTransfer(to, tokenAmount)</span>;
+<span class="cstat-no" title="statement not covered" >		emit Recovered(tokenAddress, to, tokenAmount);</span>
+	}
+&nbsp;
+	/* ========== MODIFIERS ========== */
+&nbsp;
+<span class="fstat-no" title="function not covered" >	modifier updateReward(address account) {</span>
+<span class="cstat-no" title="statement not covered" >		rewardPerTokenStored = rewardPerToken()</span>;
+<span class="cstat-no" title="statement not covered" >		lastUpdateTime = lastTimeRewardApplicable()</span>;
+<span class="cstat-no" title="statement not covered" >		if (account != address(0)) {</span>
+<span class="cstat-no" title="statement not covered" >			rewards[account] = earned(account)</span>;
+<span class="cstat-no" title="statement not covered" >			userRewardPerTokenPaid[account] = rewardPerTokenStored</span>;
+		}
+		_;
+	}
+&nbsp;
+	/* ========== EVENTS ========== */
+&nbsp;
+	event RewardAdded(uint256 reward);
+	event Staked(address indexed user, uint256 amount);
+	event Withdrawn(address indexed user, uint256 amount);
+	event RewardPaid(address indexed user, uint256 reward);
+	event Recovered(address indexed tokenAddress, address indexed to, uint256 amount);
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

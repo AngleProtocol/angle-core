@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for strategies/BaseStrategy.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">strategies/</a> BaseStrategy.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>77/77</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>32/32</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>12/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>71/71</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">36×</span>
+<span class="cline-any cline-yes">36×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">24×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">38×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "./BaseStrategyEvents.sol";
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+&nbsp;
+/// @title BaseStrategy
+/// @author Forked from https://github.com/yearn/yearn-managers/blob/master/contracts/BaseStrategy.sol
+/// @notice `BaseStrategy` implements all of the required functionalities to interoperate
+/// with the `PoolManager` Contract.
+/// @dev This contract should be inherited and the abstract methods implemented to adapt the `Strategy`
+/// to the particular needs it has to create a return.
+abstract contract BaseStrategy is BaseStrategyEvents, AccessControl {
+    using SafeERC20 for IERC20;
+&nbsp;
+    uint256 public constant BASE = 10**18;
+    uint256 public constant SECONDSPERYEAR = 31556952;
+&nbsp;
+    /// @notice Role for `PoolManager` only
+    bytes32 public constant POOLMANAGER_ROLE = keccak256("POOLMANAGER_ROLE");
+    /// @notice Role for guardians and governors
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+&nbsp;
+    // ======================== References to contracts ============================
+&nbsp;
+    /// @notice Reference to the protocol's collateral `PoolManager`
+    IPoolManager public poolManager;
+&nbsp;
+    /// @notice Reference to the ERC20 farmed by this strategy
+    IERC20 public want;
+&nbsp;
+    /// @notice Base of the ERC20 token farmed by this strategy
+    uint256 public wantBase;
+&nbsp;
+    //@notice Reference to the ERC20 distributed as a reward by the strategy
+    IERC20 public rewards;
+&nbsp;
+    // ============================ Parameters =====================================
+&nbsp;
+    /// @notice The minimum number of seconds between harvest calls. See
+    /// `setMinReportDelay()` for more details
+    uint256 public minReportDelay;
+&nbsp;
+    /// @notice The maximum number of seconds between harvest calls. See
+    /// `setMaxReportDelay()` for more details
+    uint256 public maxReportDelay;
+&nbsp;
+    /// @notice Use this to adjust the threshold at which running a debt causes a
+    /// harvest trigger. See `setDebtThreshold()` for more details
+    uint256 public debtThreshold;
+&nbsp;
+    /// @notice See note on `setEmergencyExit()`
+    bool public emergencyExit;
+&nbsp;
+    /// @notice The minimum amount moved for a call to `havest` to
+    /// be "justifiable". See `setRewardAmountAndMinimumAmountMoved()` for more details
+    uint256 public minimumAmountMoved;
+&nbsp;
+    /// @notice Reward obtained by calling harvest
+    /// @dev If this is null rewards are not currently being distributed
+    uint256 public rewardAmount;
+&nbsp;
+    // ============================ Constructor ====================================
+&nbsp;
+    /// @notice Constructor of the `BaseStrategy`
+    /// @param _poolManager Address of the `PoolManager` lending collateral to this strategy
+    /// @param _rewards  The token given to reward keepers
+    /// @param governorList List of the governor addresses of the protocol
+    /// @param guardian Address of the guardian
+    constructor(
+        address _poolManager,
+        IERC20 _rewards,
+        address[] memory governorList,
+        address guardian
+    ) {
+        poolManager = IPoolManager(_poolManager);
+        want = IERC20(poolManager.token());
+        wantBase = 10**(IERC20Metadata(address(want)).decimals());
+        require(guardian != address(0) &amp;&amp; address(_rewards) != address(0), "0");
+        // The token given as a reward to keepers should be different from the token handled by the
+        // strategy
+        require(address(_rewards) != address(want), "92");
+        rewards = _rewards;
+&nbsp;
+        // Initializing variables
+        minReportDelay = 0;
+        maxReportDelay = 86400;
+        debtThreshold = 100 * BASE;
+        minimumAmountMoved = 0;
+        rewardAmount = 0;
+        emergencyExit = false;
+&nbsp;
+        // AccessControl
+        // Governor is guardian so no need for a governor role
+        // `PoolManager` is guardian as well to allow for more flexibility
+        _setupRole(POOLMANAGER_ROLE, address(_poolManager));
+        for (uint256 i = 0; i &lt; governorList.length; i++) {
+            require(governorList[i] != address(0), "0");
+            _setupRole(GUARDIAN_ROLE, governorList[i]);
+        }
+        _setupRole(GUARDIAN_ROLE, guardian);
+        _setRoleAdmin(POOLMANAGER_ROLE, POOLMANAGER_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE, POOLMANAGER_ROLE);
+&nbsp;
+        // Give `PoolManager` unlimited access (might save gas)
+        want.safeIncreaseAllowance(address(poolManager), type(uint256).max);
+    }
+&nbsp;
+    // ========================== Core functions ===================================
+&nbsp;
+    /// @notice Harvests the Strategy, recognizing any profits or losses and adjusting
+    /// the Strategy's position.
+    /// @dev In the rare case the Strategy is in emergency shutdown, this will exit
+    /// the Strategy's position.
+    /// @dev  When `harvest()` is called, the Strategy reports to the Manager (via
+    /// `poolManager.report()`), so in some cases `harvest()` must be called in order
+    /// to take in profits, to borrow newly available funds from the Manager, or
+    /// otherwise adjust its position. In other cases `harvest()` must be
+    /// called to report to the Manager on the Strategy's position, especially if
+    /// any losses have occurred.
+    /// @dev As keepers may directly profit from this function, there may be front-running problems with miners bots,
+    /// we may have to put an access control logic for this function to only allow white-listed addresses to act
+    /// as keepers for the protocol
+    function harvest() external {
+        uint256 profit = 0;
+        uint256 loss = 0;
+        uint256 debtOutstanding = poolManager.debtOutstanding();
+        uint256 debtPayment = 0;
+        if (emergencyExit) {
+            // Free up as much capital as possible
+            uint256 amountFreed = _liquidateAllPositions();
+            if (amountFreed &lt; debtOutstanding) {
+                loss = debtOutstanding - amountFreed;
+            } else if (amountFreed &gt; debtOutstanding) {
+                profit = amountFreed - debtOutstanding;
+            }
+            debtPayment = debtOutstanding - loss;
+        } else {
+            // Free up returns for Manager to pull
+            (profit, loss, debtPayment) = _prepareReturn(debtOutstanding);
+        }
+        emit Harvested(profit, loss, debtPayment, debtOutstanding);
+&nbsp;
+        // Taking into account the rewards to distribute
+        // This should be done before reporting to the `PoolManager`
+        // because the `PoolManager` will update the params.lastReport of the strategy
+        if (rewardAmount &gt; 0) {
+            uint256 lastReport = poolManager.strategies(address(this)).lastReport;
+            if (
+                (block.timestamp - lastReport &gt;= minReportDelay) &amp;&amp; // Should not trigger if we haven't waited long enough since previous harvest
+                ((block.timestamp - lastReport &gt;= maxReportDelay) || // If hasn't been called in a while
+                    (debtPayment &gt; debtThreshold) || // If the debt was too high
+                    (loss &gt; 0) || // If some loss occured
+                    (minimumAmountMoved &lt; want.balanceOf(address(this)) + profit)) // If the amount moved was significant
+            ) {
+                rewards.safeTransfer(msg.sender, rewardAmount);
+            }
+        }
+&nbsp;
+        // Allows Manager to take up to the "harvested" balance of this contract,
+        // which is the amount it has earned since the last time it reported to
+        // the Manager.
+        poolManager.report(profit, loss, debtPayment);
+&nbsp;
+        // Check if free returns are left, and re-invest them
+        _adjustPosition();
+    }
+&nbsp;
+    /// @notice Withdraws `_amountNeeded` to `poolManager`.
+    /// @param _amountNeeded How much `want` to withdraw.
+    /// @return amountFreed How much `want` withdrawn.
+    /// @return _loss Any realized losses
+    /// @dev This may only be called by the `PoolManager`
+    function withdraw(uint256 _amountNeeded)
+        external
+        onlyRole(POOLMANAGER_ROLE)
+        returns (uint256 amountFreed, uint256 _loss)
+    {
+        // Liquidate as much as possible `want` (up to `_amountNeeded`)
+        (amountFreed, _loss) = _liquidatePosition(_amountNeeded);
+        // Send it directly back (NOTE: Using `msg.sender` saves some gas here)
+        want.safeTransfer(msg.sender, amountFreed);
+        // NOTE: Reinvest anything leftover on next `tend`/`harvest`
+    }
+&nbsp;
+    // ============================ View functions =================================
+&nbsp;
+    /// @notice Provides an accurate estimate for the total amount of assets
+    /// (principle + return) that this Strategy is currently managing,
+    /// denominated in terms of `want` tokens.
+    /// This total should be "realizable" e.g. the total value that could
+    /// *actually* be obtained from this Strategy if it were to divest its
+    /// entire position based on current on-chain conditions.
+    /// @return The estimated total assets in this Strategy.
+    /// @dev Care must be taken in using this function, since it relies on external
+    /// systems, which could be manipulated by the attacker to give an inflated
+    /// (or reduced) value produced by this function, based on current on-chain
+    /// conditions (e.g. this function is possible to influence through
+    /// flashloan attacks, oracle manipulations, or other DeFi attack
+    /// mechanisms).
+    function estimatedTotalAssets() public view virtual returns (uint256);
+&nbsp;
+    /// @notice Provides an indication of whether this strategy is currently "active"
+    /// in that it is managing an active position, or will manage a position in
+    /// the future. This should correlate to `harvest()` activity, so that Harvest
+    /// events can be tracked externally by indexing agents.
+    /// @return True if the strategy is actively managing a position.
+    function isActive() public view returns (bool) {
+        return estimatedTotalAssets() &gt; 0;
+    }
+&nbsp;
+    /// @notice Provides a signal to the keeper that `harvest()` should be called. The
+    /// keeper will provide the estimated gas cost that they would pay to call
+    /// `harvest()`, and this function should use that estimate to make a
+    /// determination if calling it is "worth it" for the keeper. This is not
+    /// the only consideration into issuing this trigger, for example if the
+    /// position would be negatively affected if `harvest()` is not called
+    /// shortly, then this can return `true` even if the keeper might be "at a
+    /// loss"
+    /// @return `true` if `harvest()` should be called, `false` otherwise.
+    /// @dev `callCostInWei` must be priced in terms of `wei` (1e-18 ETH).
+    /// @dev See `min/maxReportDelay`, `debtThreshold` to adjust the
+    /// strategist-controlled parameters that will influence whether this call
+    /// returns `true` or not. These parameters will be used in conjunction
+    /// with the parameters reported to the Manager (see `params`) to determine
+    /// if calling `harvest()` is merited.
+    /// @dev This function has been tested in a branch different from the main branch
+    function harvestTrigger() external view virtual returns (bool) {
+        StrategyParams memory params = poolManager.strategies(address(this));
+&nbsp;
+        // Should not trigger if we haven't waited long enough since previous harvest
+        if (block.timestamp - params.lastReport &lt; minReportDelay) return false;
+&nbsp;
+        // Should trigger if hasn't been called in a while
+        if (block.timestamp - params.lastReport &gt;= maxReportDelay) return true;
+&nbsp;
+        // If some amount is owed, pay it back
+        // NOTE: Since debt is based on deposits, it makes sense to guard against large
+        //       changes to the value from triggering a harvest directly through user
+        //       behavior. This should ensure reasonable resistance to manipulation
+        //       from user-initiated withdrawals as the outstanding debt fluctuates.
+        uint256 outstanding = poolManager.debtOutstanding();
+&nbsp;
+        if (outstanding &gt; debtThreshold) return true;
+&nbsp;
+        // Check for profits and losses
+        uint256 total = estimatedTotalAssets();
+        // Trigger if we have a loss to report
+&nbsp;
+        if (total + debtThreshold &lt; params.totalStrategyDebt) return true;
+&nbsp;
+        uint256 profit = 0;
+        if (total &gt; params.totalStrategyDebt) profit = total - params.totalStrategyDebt; // We've earned a profit!
+&nbsp;
+        // Otherwise, only trigger if it "makes sense" economically (gas cost
+        // is &lt;N% of value moved)
+        uint256 credit = poolManager.creditAvailable();
+&nbsp;
+        return (minimumAmountMoved &lt; credit + profit);
+    }
+&nbsp;
+    // ============================ Internal Functions =============================
+&nbsp;
+    /// @notice Performs any Strategy unwinding or other calls necessary to capture the
+    /// "free return" this Strategy has generated since the last time its core
+    /// position(s) were adjusted. Examples include unwrapping extra rewards.
+    /// This call is only used during "normal operation" of a Strategy, and
+    /// should be optimized to minimize losses as much as possible.
+    ///
+    /// This method returns any realized profits and/or realized losses
+    /// incurred, and should return the total amounts of profits/losses/debt
+    /// payments (in `want` tokens) for the Manager's accounting (e.g.
+    /// `want.balanceOf(this) &gt;= _debtPayment + _profit`).
+    ///
+    /// `_debtOutstanding` will be 0 if the Strategy is not past the configured
+    /// debt limit, otherwise its value will be how far past the debt limit
+    /// the Strategy is. The Strategy's debt limit is configured in the Manager.
+    ///
+    /// NOTE: `_debtPayment` should be less than or equal to `_debtOutstanding`.
+    ///       It is okay for it to be less than `_debtOutstanding`, as that
+    ///       should only used as a guide for how much is left to pay back.
+    ///       Payments should be made to minimize loss from slippage, debt,
+    ///       withdrawal fees, etc.
+    ///
+    /// See `poolManager.debtOutstanding()`.
+    function _prepareReturn(uint256 _debtOutstanding)
+        internal
+        virtual
+        returns (
+            uint256 _profit,
+            uint256 _loss,
+            uint256 _debtPayment
+        );
+&nbsp;
+    /// @notice Performs any adjustments to the core position(s) of this Strategy given
+    /// what change the Manager made in the "investable capital" available to the
+    /// Strategy. Note that all "free capital" in the Strategy after the report
+    /// was made is available for reinvestment. Also note that this number
+    /// could be 0, and you should handle that scenario accordingly.
+    function _adjustPosition() internal virtual;
+&nbsp;
+    /// @notice Liquidates up to `_amountNeeded` of `want` of this strategy's positions,
+    /// irregardless of slippage. Any excess will be re-invested with `_adjustPosition()`.
+    /// This function should return the amount of `want` tokens made available by the
+    /// liquidation. If there is a difference between them, `_loss` indicates whether the
+    /// difference is due to a realized loss, or if there is some other sitution at play
+    /// (e.g. locked funds) where the amount made available is less than what is needed.
+    ///
+    /// NOTE: The invariant `_liquidatedAmount + _loss &lt;= _amountNeeded` should always be maintained
+    function _liquidatePosition(uint256 _amountNeeded)
+        internal
+        virtual
+        returns (uint256 _liquidatedAmount, uint256 _loss);
+&nbsp;
+    /// @notice Liquidates everything and returns the amount that got freed.
+    /// This function is used during emergency exit instead of `_prepareReturn()` to
+    /// liquidate all of the Strategy's positions back to the Manager.
+    function _liquidateAllPositions() internal virtual returns (uint256 _amountFreed);
+&nbsp;
+    /// @notice Override this to add all tokens/tokenized positions this contract
+    /// manages on a *persistent* basis (e.g. not just for swapping back to
+    /// want ephemerally).
+    ///
+    /// NOTE: Do *not* include `want`, already included in `sweep` below.
+    ///
+    /// Example:
+    /// ```
+    ///    function _protectedTokens() internal override view returns (address[] memory) {
+    ///      address[] memory protected = new address[](3);
+    ///      protected[0] = tokenA;
+    ///      protected[1] = tokenB;
+    ///      protected[2] = tokenC;
+    ///      return protected;
+    ///    }
+    /// ```
+    function _protectedTokens() internal view virtual returns (address[] memory);
+&nbsp;
+    // ============================== Governance ===================================
+&nbsp;
+    /// @notice Activates emergency exit. Once activated, the Strategy will exit its
+    /// position upon the next harvest, depositing all funds into the Manager as
+    /// quickly as is reasonable given on-chain conditions.
+    /// @dev This may only be called by the `PoolManager`, because when calling this the `PoolManager` should at the same
+    /// time update the debt ratio
+    /// @dev This function can only be called once by the `PoolManager` contract
+    /// @dev See `poolManager.setEmergencyExit()` and `harvest()` for further details.
+    function setEmergencyExit() external onlyRole(POOLMANAGER_ROLE) {
+        emergencyExit = true;
+        emit EmergencyExitActivated();
+    }
+&nbsp;
+    /// @notice Used to change `rewards`.
+    /// @param _rewards The address to use for pulling rewards.
+    function setRewards(IERC20 _rewards) external onlyRole(GUARDIAN_ROLE) {
+        require(address(_rewards) != address(0) &amp;&amp; address(_rewards) != address(want), "92");
+        rewards = _rewards;
+        emit UpdatedRewards(address(_rewards));
+    }
+&nbsp;
+    /// @notice Used to change the reward amount and the `minimumAmountMoved` parameter
+    /// @param _rewardAmount The new amount of reward given to keepers
+    /// @param _minimumAmountMoved The new minimum amount of collateral moved for a call to `harvest` to be
+    /// considered profitable and justifying a reward given to the keeper calling the function
+    /// @dev A null reward amount corresponds to reward distribution being deactivated
+    function setRewardAmountAndMinimumAmountMoved(uint256 _rewardAmount, uint256 _minimumAmountMoved)
+        external
+        onlyRole(GUARDIAN_ROLE)
+    {
+        rewardAmount = _rewardAmount;
+        minimumAmountMoved = _minimumAmountMoved;
+        emit UpdatedRewardAmountAndMinimumAmountMoved(_rewardAmount, _minimumAmountMoved);
+    }
+&nbsp;
+    /// @notice Used to change `minReportDelay`. `minReportDelay` is the minimum number
+    /// of blocks that should pass for `harvest()` to be called.
+    /// @param _delay The minimum number of seconds to wait between harvests.
+    /// @dev  For external keepers (such as the Keep3r network), this is the minimum
+    /// time between jobs to wait. (see `harvestTrigger()`
+    /// for more details.)
+    function setMinReportDelay(uint256 _delay) external onlyRole(GUARDIAN_ROLE) {
+        minReportDelay = _delay;
+        emit UpdatedMinReportDelayed(_delay);
+    }
+&nbsp;
+    /// @notice Used to change `maxReportDelay`. `maxReportDelay` is the maximum number
+    /// of blocks that should pass for `harvest()` to be called.
+    /// @param _delay The maximum number of seconds to wait between harvests.
+    /// @dev  For external keepers (such as the Keep3r network), this is the maximum
+    /// time between jobs to wait. (see `harvestTrigger()`
+    /// for more details.)
+    function setMaxReportDelay(uint256 _delay) external onlyRole(GUARDIAN_ROLE) {
+        maxReportDelay = _delay;
+        emit UpdatedMaxReportDelayed(_delay);
+    }
+&nbsp;
+    /// @notice Sets how far the Strategy can go into loss without a harvest and report
+    /// being required.
+    /// @param _debtThreshold How big of a loss this Strategy may carry without
+    /// @dev By default this is 0, meaning any losses would cause a harvest which
+    /// will subsequently report the loss to the Manager for tracking. (See
+    /// `harvestTrigger()` for more details.)
+    function setDebtThreshold(uint256 _debtThreshold) external onlyRole(GUARDIAN_ROLE) {
+        debtThreshold = _debtThreshold;
+        emit UpdatedDebtThreshold(_debtThreshold);
+    }
+&nbsp;
+    /// @notice Removes tokens from this Strategy that are not the type of tokens
+    /// managed by this Strategy. This may be used in case of accidentally
+    /// sending the wrong kind of token to this Strategy.
+    ///
+    /// Tokens will be sent to `governance()`.
+    ///
+    /// This will fail if an attempt is made to sweep `want`, or any tokens
+    /// that are protected by this Strategy.
+    ///
+    /// This may only be called by governance.
+    /// @param _token The token to transfer out of this `PoolManager`.
+    /// @param to Address to send the tokens to.
+    /// @dev
+    /// Implement `_protectedTokens()` to specify any additional tokens that
+    /// should be protected from sweeping in addition to `want`.
+    function sweep(address _token, address to) external onlyRole(GUARDIAN_ROLE) {
+        require(_token != address(want), "93");
+&nbsp;
+        address[] memory __protectedTokens = _protectedTokens();
+        for (uint256 i = 0; i &lt; __protectedTokens.length; i++)
+            // In the strategy we use so far, the only protectedToken is the want token
+            // and this has been checked above
+            require(_token != __protectedTokens[i], "93");
+&nbsp;
+        IERC20(_token).safeTransfer(to, IERC20(_token).balanceOf(address(this)));
+    }
+&nbsp;
+    // ============================ Manager functions ==============================
+&nbsp;
+    /// @notice Adds a new guardian address and echoes the change to the contracts
+    /// that interact with this collateral `PoolManager`
+    /// @param _guardian New guardian address
+    /// @dev This internal function has to be put in this file because Access Control is not defined
+    /// in PoolManagerInternal
+    function addGuardian(address _guardian) external virtual;
+&nbsp;
+    /// @notice Revokes the guardian role and propagates the change to other contracts
+    /// @param guardian Old guardian address to revoke
+    function revokeGuardian(address guardian) external virtual;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

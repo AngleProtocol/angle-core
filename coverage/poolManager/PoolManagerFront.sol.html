@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for poolManager/PoolManagerFront.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">poolManager/</a> PoolManagerFront.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>18/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>17/17</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-yes">70×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: COMING SOON
+&nbsp;
+pragma solidity 0.8.2;
+&nbsp;
+import "./PoolManager.sol";
+&nbsp;
+/// @title PoolManagerFront
+/// @author Angle Core Team
+/// @notice This contract corresponds to a collateral pool of the protocol for a stablecoin,
+/// it manages a single ERC20 token
+/// @dev This file contains the front end, that is all external functions associated to the collateral pool
+contract PoolManagerFront is PoolManager {
+    using SafeERC20 for IERC20;
+&nbsp;
+    // ============================ Constructor ====================================
+&nbsp;
+    /// @notice Constructor of the `PoolManagerFront` contract
+    /// @param _token Address of the collateral
+    /// @param _stableMaster Reference to the master stablecoin (`StableMaster`) interface
+    function initialize(address _token, IStableMaster _stableMaster)
+        external
+        initializer
+        zeroCheck(_token)
+        zeroCheck(address(_stableMaster))
+    {
+        __AccessControl_init();
+&nbsp;
+        // Creating the correct references
+        stableMaster = _stableMaster;
+        token = IERC20(_token);
+&nbsp;
+        // Access Control
+        // The roles in this contract can only be modified from the `StableMaster`
+        // For the moment `StableMaster` never uses the `GOVERNOR_ROLE`
+        _setupRole(STABLEMASTER_ROLE, address(stableMaster));
+        _setupRole(GOVERNOR_ROLE, address(stableMaster));
+        _setupRole(GUARDIAN_ROLE, address(stableMaster));
+        _setRoleAdmin(STABLEMASTER_ROLE, STABLEMASTER_ROLE);
+        _setRoleAdmin(GOVERNOR_ROLE, STABLEMASTER_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE, STABLEMASTER_ROLE);
+        _setRoleAdmin(STRATEGY_ROLE, GUARDIAN_ROLE);
+    }
+&nbsp;
+    // ============================= View Functions ================================
+&nbsp;
+    /// @notice Provides estimated Annual Percentage Rate for SLPs based on lending to other protocols
+    /// @dev This function is an estimation and is made for external use only
+    /// @dev This does not take into account transaction fees which accrue to SLPs too
+    /// @dev This can be manipulated by a flash loan attack (SLP deposit/ withdraw) via _getTotalAsset
+    /// when entering yous should make sure this hasn't be called by a flash loan and look
+    /// at a mean of past APR.
+    function estimatedAPR() external view returns (uint256 apr) {
+        apr = 0;
+        (, ISanToken sanTokenForAPR, , , , uint256 sanRate, SLPData memory slpData, ) = stableMaster.collateralMap(
+            IPoolManager(address(this))
+        );
+        uint256 supply = sanTokenForAPR.totalSupply();
+&nbsp;
+        if (sanRate == 0 || supply == 0) return type(uint256).max;
+&nbsp;
+        for (uint256 i = 0; i &lt; strategyList.length; i++) {
+            apr = apr + (strategies[strategyList[i]].debtRatio * IStrategy(strategyList[i]).estimatedAPR()) / BASE;
+        }
+        apr = (apr * slpData.interestsForSLPs * _getTotalAsset()) / sanRate / supply;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jul 23 2021 11:46:19 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

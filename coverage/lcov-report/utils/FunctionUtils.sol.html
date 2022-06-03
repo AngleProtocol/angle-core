@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for utils/FunctionUtils.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">utils/</a> FunctionUtils.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>22/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>20/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>24/24</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">276×</span>
+<span class="cline-any cline-yes">39×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">179×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">58×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">52×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">608×</span>
+<span class="cline-any cline-yes">598×</span>
+<span class="cline-any cline-yes">1485×</span>
+<span class="cline-any cline-yes">1473×</span>
+<span class="cline-any cline-yes">883×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">580×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">726×</span>
+<span class="cline-any cline-yes">712×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">644×</span>
+<span class="cline-any cline-yes">626×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+/// @title FunctionUtils
+/// @author Angle Core Team
+/// @notice Contains all the utility functions that are needed in different places of the protocol
+/// @dev Functions in this contract should typically be pure functions
+/// @dev This contract is voluntarily a contract and not a library to save some gas cost every time it is used
+contract FunctionUtils {
+    /// @notice Base that is used to compute ratios and floating numbers
+    uint256 public constant BASE_TOKENS = 10**18;
+    /// @notice Base that is used to define parameters that need to have a floating value (for instance parameters
+    /// that are defined as ratios)
+    uint256 public constant BASE_PARAMS = 10**9;
+&nbsp;
+    /// @notice Computes the value of a linear by part function at a given point
+    /// @param x Point of the function we want to compute
+    /// @param xArray List of breaking points (in ascending order) that define the linear by part function
+    /// @param yArray List of values at breaking points (not necessarily in ascending order)
+    /// @dev The evolution of the linear by part function between two breaking points is linear
+    /// @dev Before the first breaking point and after the last one, the function is constant with a value
+    /// equal to the first or last value of the yArray
+    /// @dev This function is relevant if `x` is between O and `BASE_PARAMS`. If `x` is greater than that, then
+    /// everything will be as if `x` is equal to the greater element of the `xArray`
+    function _piecewiseLinear(
+        uint64 x,
+        uint64[] memory xArray,
+        uint64[] memory yArray
+    ) internal pure returns (uint64) {
+        if (x &gt;= xArray[xArray.length - 1]) {
+            return yArray[xArray.length - 1];
+        } else if (x &lt;= xArray[0]) {
+            return yArray[0];
+        } else {
+            uint256 lower;
+            uint256 upper = xArray.length - 1;
+            uint256 mid;
+            while (upper - lower &gt; 1) {
+                mid = lower + (upper - lower) / 2;
+                if (xArray[mid] &lt;= x) {
+                    lower = mid;
+                } else {
+                    upper = mid;
+                }
+            }
+            if (yArray[upper] &gt; yArray[lower]) {
+                // There is no risk of overflow here as in the product of the difference of `y`
+                // with the difference of `x`, the product is inferior to `BASE_PARAMS**2` which does not
+                // overflow for `uint64`
+                return
+                    yArray[lower] +
+                    ((yArray[upper] - yArray[lower]) * (x - xArray[lower])) /
+                    (xArray[upper] - xArray[lower]);
+            } else {
+                return
+                    yArray[lower] -
+                    ((yArray[lower] - yArray[upper]) * (x - xArray[lower])) /
+                    (xArray[upper] - xArray[lower]);
+            }
+        }
+    }
+&nbsp;
+    /// @notice Checks if the input arrays given by governance to update the fee structure is valid
+    /// @param xArray List of breaking points (in ascending order) that define the linear by part function
+    /// @param yArray List of values at breaking points (not necessarily in ascending order)
+    /// @dev This function is a way to avoid some governance attacks or errors
+    /// @dev The modifier checks if the arrays have a non null length, if their length is the same, if the values
+    /// in the `xArray` are in ascending order and if the values in the `xArray` and in the `yArray` are not superior
+    /// to `BASE_PARAMS`
+    modifier onlyCompatibleInputArrays(uint64[] memory xArray, uint64[] memory yArray) {
+        require(xArray.length == yArray.length &amp;&amp; xArray.length &gt; 0, "5");
+        for (uint256 i = 0; i &lt;= yArray.length - 1; i++) {
+            require(yArray[i] &lt;= uint64(BASE_PARAMS) &amp;&amp; xArray[i] &lt;= uint64(BASE_PARAMS), "6");
+            if (i &gt; 0) {
+                require(xArray[i] &gt; xArray[i - 1], "7");
+            }
+        }
+        _;
+    }
+&nbsp;
+    /// @notice Checks if the new value given for the parameter is consistent (it should be inferior to 1
+    /// if it corresponds to a ratio)
+    /// @param fees Value of the new parameter to check
+    modifier onlyCompatibleFees(uint64 fees) {
+        require(fees &lt;= BASE_PARAMS, "4");
+        _;
+    }
+&nbsp;
+    /// @notice Checks if the new address given is not null
+    /// @param newAddress Address to check
+    /// @dev Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+    modifier zeroCheck(address newAddress) {
+        require(newAddress != address(0), "0");
+        _;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

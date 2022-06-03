@@ -1,0 +1,1049 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for perpetualManager/PerpetualManager.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">perpetualManager/</a> PerpetualManager.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>62/62</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>20/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>20/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>64/64</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">149×</span>
+<span class="cline-any cline-yes">102×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">47×</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-yes">112×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">119×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">114×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-yes">27×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">121×</span>
+<span class="cline-any cline-yes">119×</span>
+<span class="cline-any cline-yes">119×</span>
+<span class="cline-any cline-yes">119×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">231×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">116×</span>
+<span class="cline-any cline-yes">116×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">231×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "./PerpetualManagerInternal.sol";
+&nbsp;
+/// @title PerpetualManager
+/// @author Angle Core Team
+/// @notice `PerpetualManager` is the contract handling all the Hedging Agents positions and perpetuals
+/// @dev There is one `PerpetualManager` contract per pair stablecoin/collateral in the protocol
+/// @dev This file contains the functions of the `PerpetualManager` that can be interacted with
+/// by `StableMaster`, by the `PoolManager`, by the `FeeManager` and by governance
+contract PerpetualManager is
+    PerpetualManagerInternal,
+    IPerpetualManagerFunctions,
+    IStakingRewardsFunctions,
+    AccessControlUpgradeable,
+    PausableUpgradeable
+{
+    using SafeERC20 for IERC20;
+&nbsp;
+    /// @notice Role for guardians, governors and `StableMaster`
+    /// Made for the `StableMaster` to be able to update some parameters
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+    /// @notice Role for `PoolManager` only
+    bytes32 public constant POOLMANAGER_ROLE = keccak256("POOLMANAGER_ROLE");
+&nbsp;
+    // ============================== Modifiers ====================================
+&nbsp;
+    /// @notice Checks if the person interacting with the perpetual with `perpetualID` is approved
+    /// @param caller Address of the person seeking to interact with the perpetual
+    /// @param perpetualID ID of the concerned perpetual
+    /// @dev Generally in `PerpetualManager`, perpetual owners should store the ID of the perpetuals
+    /// they are able to interact with
+    modifier onlyApprovedOrOwner(address caller, uint256 perpetualID) {
+        require(_isApprovedOrOwner(caller, perpetualID), "21");
+        _;
+    }
+&nbsp;
+    /// @notice Checks if the message sender is the rewards distribution address
+    modifier onlyRewardsDistribution() {
+        require(msg.sender == rewardsDistribution, "1");
+        _;
+    }
+&nbsp;
+    // =============================== Deployer ====================================
+&nbsp;
+    /// @notice Notifies the address of the `_feeManager` and of the `oracle`
+    /// to this contract and grants the correct roles
+    /// @param governorList List of governor addresses of the protocol
+    /// @param guardian Address of the guardian of the protocol
+    /// @param feeManager_ Reference to the `FeeManager` contract which will be able to update fees
+    /// @param oracle_ Reference to the `oracle` contract which will be able to update fees
+    /// @dev Called by the `PoolManager` contract when it is activated by the `StableMaster`
+    /// @dev The `governorList` and `guardian` here are those of the `Core` contract
+    function deployCollateral(
+        address[] memory governorList,
+        address guardian,
+        IFeeManager feeManager_,
+        IOracle oracle_
+    ) external override onlyRole(POOLMANAGER_ROLE) {
+        for (uint256 i = 0; i &lt; governorList.length; i++) {
+            _grantRole(GUARDIAN_ROLE, governorList[i]);
+        }
+        // In the end guardian should be revoked by governance
+        _grantRole(GUARDIAN_ROLE, guardian);
+        _grantRole(GUARDIAN_ROLE, address(_stableMaster));
+        _feeManager = feeManager_;
+        oracle = oracle_;
+    }
+&nbsp;
+    // ========================== Rewards Distribution =============================
+&nbsp;
+    /// @notice Notifies the contract that rewards are going to be shared among HAs of this pool
+    /// @param reward Amount of governance tokens to be distributed to HAs
+    /// @dev Only the reward distributor contract is allowed to call this function which starts a staking cycle
+    /// @dev This function is the equivalent of the `notifyRewardAmount` function found in all staking contracts
+    function notifyRewardAmount(uint256 reward) external override onlyRewardsDistribution {
+        rewardPerTokenStored = _rewardPerToken();
+&nbsp;
+        if (block.timestamp &gt;= periodFinish) {
+            // If the period is not done, then the reward rate changes
+            rewardRate = reward / rewardsDuration;
+        } else {
+            uint256 remaining = periodFinish - block.timestamp;
+            uint256 leftover = remaining * rewardRate;
+            // If the period is not over, we compute the reward left and increase reward duration
+            rewardRate = (reward + leftover) / rewardsDuration;
+        }
+        // Ensuring the provided reward amount is not more than the balance in the contract.
+        // This keeps the reward rate in the right range, preventing overflows due to
+        // very high values of `rewardRate` in the earned and `rewardsPerToken` functions;
+        // Reward + leftover must be less than 2^256 / 10^18 to avoid overflow.
+        uint256 balance = rewardToken.balanceOf(address(this));
+&nbsp;
+        require(rewardRate &lt;= balance / rewardsDuration, "22");
+&nbsp;
+        lastUpdateTime = block.timestamp;
+        // Change the duration
+        periodFinish = block.timestamp + rewardsDuration;
+        emit RewardAdded(reward);
+    }
+&nbsp;
+    /// @notice Supports recovering LP Rewards from other systems such as BAL to be distributed to holders
+    /// or tokens that were mistakenly
+    /// @param tokenAddress Address of the token to transfer
+    /// @param to Address to give tokens to
+    /// @param tokenAmount Amount of tokens to transfer
+    function recoverERC20(
+        address tokenAddress,
+        address to,
+        uint256 tokenAmount
+    ) external override onlyRewardsDistribution {
+        require(tokenAddress != address(rewardToken), "20");
+        IERC20(tokenAddress).safeTransfer(to, tokenAmount);
+        emit Recovered(tokenAddress, to, tokenAmount);
+    }
+&nbsp;
+    /// @notice Changes the `rewardsDistribution` associated to this contract
+    /// @param _rewardsDistribution Address of the new rewards distributor contract
+    /// @dev This function is part of the staking rewards interface and it is used to propagate
+    /// a change of rewards distributor notified by the current `rewardsDistribution` address
+    /// @dev It has already been checked in the `RewardsDistributor` contract calling
+    /// this function that the `newRewardsDistributor` had a compatible reward token
+    /// @dev With this function, everything is as if `rewardsDistribution` was admin of its own role
+    function setNewRewardsDistribution(address _rewardsDistribution) external override onlyRewardsDistribution {
+        rewardsDistribution = _rewardsDistribution;
+        emit RewardsDistributionUpdated(_rewardsDistribution);
+    }
+&nbsp;
+    // ================================= Keepers ===================================
+&nbsp;
+    /// @notice Updates all the fees not depending on individual HA conditions via keeper utils functions
+    /// @param feeDeposit New deposit global fees
+    /// @param feeWithdraw New withdraw global fees
+    /// @dev Governance may decide to incorporate a collateral ratio dependence in the fees for HAs,
+    /// in this case it will be done through the `FeeManager` contract
+    /// @dev This dependence can either be a bonus or a malus
+    function setFeeKeeper(uint64 feeDeposit, uint64 feeWithdraw) external override {
+        require(msg.sender == address(_feeManager), "1");
+        haBonusMalusDeposit = feeDeposit;
+        haBonusMalusWithdraw = feeWithdraw;
+    }
+&nbsp;
+    // ======== Governance - Guardian Functions - Staking and Pauses ===============
+&nbsp;
+    /// @notice Pauses the `getReward` method as well as the functions allowing to open, modify or close perpetuals
+    /// @dev After calling this function, it is going to be impossible for HAs to interact with their perpetuals
+    /// or claim their rewards on it
+    function pause() external override onlyRole(GUARDIAN_ROLE) {
+        _pause();
+    }
+&nbsp;
+    /// @notice Unpauses HAs functions
+    function unpause() external override onlyRole(GUARDIAN_ROLE) {
+        _unpause();
+    }
+&nbsp;
+    /// @notice Sets the conditions and specifies the duration of the reward distribution
+    /// @param _rewardsDuration Duration for the rewards for this contract
+    /// @param _rewardsDistribution Address which will give the reward tokens
+    /// @dev It allows governance to directly change the rewards distribution contract and the conditions
+    /// at which this distribution is done
+    /// @dev The compatibility of the reward token is not checked here: it is checked
+    /// in the rewards distribution contract when activating this as a staking contract,
+    /// so if a reward distributor is set here but does not have a compatible reward token, then this reward
+    /// distributor will not be able to set this contract as a staking contract
+    function setRewardDistribution(uint256 _rewardsDuration, address _rewardsDistribution)
+        external
+        onlyRole(GUARDIAN_ROLE)
+        zeroCheck(_rewardsDistribution)
+    {
+        rewardsDuration = _rewardsDuration;
+        rewardsDistribution = _rewardsDistribution;
+        emit RewardsDistributionDurationUpdated(rewardsDuration, rewardsDistribution);
+    }
+&nbsp;
+    // ============ Governance - Guardian Functions - Parameters ===================
+&nbsp;
+    /// @notice Sets `baseURI` that is the URI to access ERC721 metadata
+    /// @param _baseURI New `baseURI` parameter
+    function setBaseURI(string memory _baseURI) external onlyRole(GUARDIAN_ROLE) {
+        baseURI = _baseURI;
+        emit BaseURIUpdated(_baseURI);
+    }
+&nbsp;
+    /// @notice Sets `lockTime` that is the minimum amount of time HAs have to stay within the protocol
+    /// @param _lockTime New `lockTime` parameter
+    /// @dev This parameter is used to prevent HAs from exiting before a certain amount of time and taking advantage
+    /// of insiders' information they may have due to oracle latency
+    function setLockTime(uint64 _lockTime) external override onlyRole(GUARDIAN_ROLE) {
+        lockTime = _lockTime;
+        emit LockTimeUpdated(_lockTime);
+    }
+&nbsp;
+    /// @notice Changes the maximum leverage authorized (commit/margin) and the maintenance margin under which
+    /// perpetuals can be liquidated
+    /// @param _maxLeverage New value of the maximum leverage allowed
+    /// @param _maintenanceMargin The new maintenance margin
+    /// @dev For a perpetual, the leverage is defined as the ratio between the committed amount and the margin
+    /// @dev For a perpetual, the maintenance margin is defined as the ratio between the margin ratio / the committed amount
+    function setBoundsPerpetual(uint64 _maxLeverage, uint64 _maintenanceMargin)
+        external
+        override
+        onlyRole(GUARDIAN_ROLE)
+        onlyCompatibleFees(_maintenanceMargin)
+    {
+        // Checking the compatibility of the parameters
+        require(BASE_PARAMS**2 &gt; _maxLeverage * _maintenanceMargin, "8");
+        maxLeverage = _maxLeverage;
+        maintenanceMargin = _maintenanceMargin;
+        emit BoundsPerpetualUpdated(_maxLeverage, _maintenanceMargin);
+    }
+&nbsp;
+    /// @notice Sets `xHAFees` that is the thresholds of values of the ratio between what's covered (hedged)
+    /// divided by what's to hedge with HAs at which fees will change as well as
+    /// `yHAFees` that is the value of the deposit or withdraw fees at threshold
+    /// @param _xHAFees Array of the x-axis value for the fees (deposit or withdraw)
+    /// @param _yHAFees Array of the y-axis value for the fees (deposit or withdraw)
+    /// @param deposit Whether deposit or withdraw fees should be updated
+    /// @dev Evolution of the fees is linear between two values of thresholds
+    /// @dev These x values should be ranked in ascending order
+    /// @dev For deposit fees, the higher the x that is the ratio between what's to hedge and what's hedged
+    /// the higher y should be (the more expensive it should be for HAs to come in)
+    /// @dev For withdraw fees, evolution should follow an opposite logic
+    function setHAFees(
+        uint64[] memory _xHAFees,
+        uint64[] memory _yHAFees,
+        uint8 deposit
+    ) external override onlyRole(GUARDIAN_ROLE) onlyCompatibleInputArrays(_xHAFees, _yHAFees) {
+        if (deposit == 1) {
+            xHAFeesDeposit = _xHAFees;
+            yHAFeesDeposit = _yHAFees;
+        } else {
+            xHAFeesWithdraw = _xHAFees;
+            yHAFeesWithdraw = _yHAFees;
+        }
+        emit HAFeesUpdated(_xHAFees, _yHAFees, deposit);
+    }
+&nbsp;
+    /// @notice Sets the target and limit proportions of collateral from users that can be insured by HAs
+    /// @param _targetHAHedge Proportion of collateral from users that HAs should hedge
+    /// @param _limitHAHedge Proportion of collateral from users above which HAs can see their perpetuals
+    /// cashed out
+    /// @dev `targetHAHedge` equal to `BASE_PARAMS` means that all the collateral from users should be insured by HAs
+    /// @dev `targetHAHedge` equal to 0 means HA should not cover (hedge) anything
+    function setTargetAndLimitHAHedge(uint64 _targetHAHedge, uint64 _limitHAHedge)
+        external
+        override
+        onlyRole(GUARDIAN_ROLE)
+        onlyCompatibleFees(_targetHAHedge)
+        onlyCompatibleFees(_limitHAHedge)
+    {
+        require(_targetHAHedge &lt;= _limitHAHedge, "8");
+        limitHAHedge = _limitHAHedge;
+        targetHAHedge = _targetHAHedge;
+        // Updating the value in the `stableMaster` contract
+        _stableMaster.setTargetHAHedge(_targetHAHedge);
+        emit TargetAndLimitHAHedgeUpdated(_targetHAHedge, _limitHAHedge);
+    }
+&nbsp;
+    /// @notice Sets the portion of the leftover cash out amount of liquidated perpetuals that go to keepers
+    /// @param _keeperFeesLiquidationRatio Proportion to keepers
+    /// @dev This proportion should be inferior to `BASE_PARAMS`
+    function setKeeperFeesLiquidationRatio(uint64 _keeperFeesLiquidationRatio)
+        external
+        override
+        onlyRole(GUARDIAN_ROLE)
+        onlyCompatibleFees(_keeperFeesLiquidationRatio)
+    {
+        keeperFeesLiquidationRatio = _keeperFeesLiquidationRatio;
+        emit KeeperFeesLiquidationRatioUpdated(keeperFeesLiquidationRatio);
+    }
+&nbsp;
+    /// @notice Sets the maximum amounts going to the keepers when closing perpetuals
+    /// because too much was hedged by HAs or when liquidating a perpetual
+    /// @param _keeperFeesLiquidationCap Maximum reward going to the keeper liquidating a perpetual
+    /// @param _keeperFeesClosingCap Maximum reward going to the keeper forcing the closing of an ensemble
+    /// of perpetuals
+    function setKeeperFeesCap(uint256 _keeperFeesLiquidationCap, uint256 _keeperFeesClosingCap)
+        external
+        override
+        onlyRole(GUARDIAN_ROLE)
+    {
+        keeperFeesLiquidationCap = _keeperFeesLiquidationCap;
+        keeperFeesClosingCap = _keeperFeesClosingCap;
+        emit KeeperFeesCapUpdated(keeperFeesLiquidationCap, keeperFeesClosingCap);
+    }
+&nbsp;
+    /// @notice Sets the x-array (ie thresholds) for `FeeManager` when closing perpetuals and the y-array that is the
+    /// value of the proportions of the fees going to keepers closing perpetuals
+    /// @param _xKeeperFeesClosing Thresholds for closing fees
+    /// @param _yKeeperFeesClosing Value of the fees at the different threshold values specified in `xKeeperFeesClosing`
+    /// @dev The x thresholds correspond to values of the hedge ratio divided by two
+    /// @dev `xKeeperFeesClosing` and `yKeeperFeesClosing` should have the same length
+    function setKeeperFeesClosing(uint64[] memory _xKeeperFeesClosing, uint64[] memory _yKeeperFeesClosing)
+        external
+        override
+        onlyRole(GUARDIAN_ROLE)
+        onlyCompatibleInputArrays(_xKeeperFeesClosing, _yKeeperFeesClosing)
+    {
+        xKeeperFeesClosing = _xKeeperFeesClosing;
+        yKeeperFeesClosing = _yKeeperFeesClosing;
+        emit KeeperFeesClosingUpdated(xKeeperFeesClosing, yKeeperFeesClosing);
+    }
+&nbsp;
+    // ================ Governance - `PoolManager` Functions =======================
+&nbsp;
+    /// @notice Changes the reference to the `FeeManager` contract
+    /// @param feeManager_ New `FeeManager` contract
+    /// @dev This allows the `PoolManager` contract to propagate changes to the `PerpetualManager`
+    /// @dev This is the only place where the `_feeManager` can be changed, it is as if there was
+    /// a `FEEMANAGER_ROLE` for which `PoolManager` was the admin
+    function setFeeManager(IFeeManager feeManager_) external override onlyRole(POOLMANAGER_ROLE) {
+        _feeManager = feeManager_;
+    }
+&nbsp;
+    // ======================= `StableMaster` Function =============================
+&nbsp;
+    /// @notice Changes the oracle contract used to compute collateral price with respect to the stablecoin's price
+    /// @param oracle_ Oracle contract
+    /// @dev The collateral `PoolManager` does not store a reference to an oracle, the value of the oracle
+    /// is hence directly set by the `StableMaster`
+    function setOracle(IOracle oracle_) external override {
+        require(msg.sender == address(_stableMaster), "1");
+        oracle = oracle_;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

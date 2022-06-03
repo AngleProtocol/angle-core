@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for bondingCurve/BondingCurve.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">bondingCurve/</a> BondingCurve.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>66/66</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>38/38</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>17/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>68/68</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "./BondingCurveEvents.sol";
+&nbsp;
+/// @title BondingCurve
+/// @author Angle Core Team
+/// @notice Enables anyone to buy ANGLE governance token or any type of token following a bonding
+/// curve using stablecoins of the protocol
+contract BondingCurve is BondingCurveEvents, IBondingCurve, AccessControl, Pausable {
+    using SafeERC20 for IERC20;
+&nbsp;
+    /// @notice Role for governors only: governor can change an oracle contract, recover tokens
+    /// or take actions that are going to modify the price of the tokens
+    bytes32 public constant GOVERNOR_ROLE = keccak256("GOVERNOR_ROLE");
+    /// @notice Role for guardians and governors
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+&nbsp;
+    /// @notice Base used to compute ratios and floating numbers
+    uint256 public constant BASE_TOKENS = 1e18;
+&nbsp;
+    // ============================ References to contracts ========================
+&nbsp;
+    /// @notice Interface for the token sold by this contract, most likely ANGLE tokens
+    IERC20 public immutable soldToken;
+&nbsp;
+    /// @notice Address of the reference coin, the one other stablecoins are converted to
+    /// @dev If the reference is not a stablecoin that can be used to buy tokens with this contract,
+    /// this is set to 0
+    /// @dev The reference stablecoin may change, but it would imply a change in all oracles,
+    /// so it's important to be wary when updating it
+    /// @dev The reference does not necessarily have to be an accepted stablecoin by the system
+    address public referenceCoin = address(0);
+&nbsp;
+    // ============================ Parameters =====================================
+&nbsp;
+    /// @notice Start price at which the bonding curve will sell
+    /// This price will be expressed in a reference (most likely USD or EUR)
+    uint256 public startPrice;
+&nbsp;
+    /// @notice Number of tokens to sell with this contract. It can be either increased or decreased
+    uint256 public totalTokensToSell;
+&nbsp;
+    /// @notice Number of tokens sold so far. It should be inferior to `totalTokensToSell`
+    uint256 public tokensSold;
+&nbsp;
+    /// @notice Maps a stablecoin that can be used to buy the token to the oracle contract that gives the price
+    /// of the coin with respect to the reference stablecoin
+    mapping(IAgToken =&gt; IOracle) public allowedStablecoins;
+&nbsp;
+    // ============================ Modifier =======================================
+&nbsp;
+    /// @notice Checks if the stablecoin is valid
+    /// @dev This modifier verifies if there is an oracle associated to this contract or if this coin
+    /// is the reference coin
+    /// @dev It checks at the same time if `token` is non null. If `token` is not the reference then
+    /// `allowedStablecoins[address(0)] == address(0)`
+    modifier isValid(IAgToken token) {
+        require(
+            (address(allowedStablecoins[token]) != address(0)) ||
+                (referenceCoin == address(token) &amp;&amp; referenceCoin != address(0)),
+            "45"
+        );
+        _;
+    }
+&nbsp;
+    // ============================ Constructor ====================================
+&nbsp;
+    /// @notice Initializes the `BondingCurve` contract
+    /// @param governorList List of the governor addresses of the protocol
+    /// @param guardian Address of the guardian
+    /// @param _startPrice Start price of the token, it converts an amount of reference stablecoins to an amount
+    /// of sold tokens (most of the time ANGLE tokens)
+    /// @param _soldToken Token that it will be possible to buy using this contract
+    constructor(
+        address[] memory governorList,
+        address guardian,
+        uint256 _startPrice,
+        IERC20 _soldToken
+    ) {
+        require(guardian != address(0) &amp;&amp; address(_soldToken) != address(0), "0");
+        // Access control
+        for (uint256 i = 0; i &lt; governorList.length; i++) {
+            require(governorList[i] != address(0), "0");
+            _setupRole(GOVERNOR_ROLE, governorList[i]);
+            _setupRole(GUARDIAN_ROLE, governorList[i]);
+        }
+        _setupRole(GUARDIAN_ROLE, guardian);
+        _setRoleAdmin(GOVERNOR_ROLE, GOVERNOR_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE, GOVERNOR_ROLE);
+&nbsp;
+        startPrice = _startPrice;
+        soldToken = _soldToken;
+&nbsp;
+        emit BondingCurveInit(startPrice, address(_soldToken));
+    }
+&nbsp;
+    // ============================ Main Function ==================================
+&nbsp;
+    /// @notice Lets `msg.sender` buy tokens (ANGLE tokens normally) against an allowed token (a stablecoin normally)
+    /// @param _agToken Reference to the agToken used, that is the stablecoin used to buy the token associated to this
+    /// bonding curve
+    /// @param targetSoldTokenQuantity Target quantity of tokens to buy
+    /// @param maxAmountToPayInAgToken Maximum amount to pay in agTokens that the user is willing to pay to buy the
+    /// `targetSoldTokenQuantity`
+    function buySoldToken(
+        IAgToken _agToken,
+        uint256 targetSoldTokenQuantity,
+        uint256 maxAmountToPayInAgToken
+    ) external override whenNotPaused isValid(_agToken) {
+        require(targetSoldTokenQuantity &gt; 0, "4");
+        // Computing the number of reference stablecoins to burn to get the desired quantity
+        // of tokens sold by this contract
+        uint256 amountToPayInReference = _computePriceFromQuantity(targetSoldTokenQuantity);
+&nbsp;
+        uint256 amountToPayInAgToken;
+        // The validity of the stablecoin has already been checked
+        if (address(_agToken) == referenceCoin) {
+            amountToPayInAgToken = amountToPayInReference;
+        } else {
+            // Converting a number of reference stablecoin to a number of desired stablecoin
+            // using the oracle associated to each accepted stablecoin
+            IOracle oracle = allowedStablecoins[_agToken];
+            uint256 oracleValue = oracle.readLower();
+            // There is no base problem here as it is a conversion between two Angle's agTokens
+            // which are in base `BASE_TOKENS`
+            amountToPayInAgToken = (amountToPayInReference * BASE_TOKENS) / oracleValue;
+        }
+        require(amountToPayInAgToken &gt; 0 &amp;&amp; amountToPayInAgToken &lt;= maxAmountToPayInAgToken, "50");
+&nbsp;
+        // Transferring the correct amount of agToken
+        _agToken.transferFrom(msg.sender, address(this), amountToPayInAgToken);
+&nbsp;
+        emit TokenSale(targetSoldTokenQuantity, address(_agToken), amountToPayInAgToken);
+        // Updating the internal variables
+        tokensSold += targetSoldTokenQuantity;
+&nbsp;
+        // Transfering the sold tokens to the caller
+        soldToken.safeTransfer(msg.sender, targetSoldTokenQuantity);
+    }
+&nbsp;
+    // ============================ View Functions =================================
+&nbsp;
+    /// @notice Returns the current price of the token (expressed in reference)
+    /// @dev This is an external utility function
+    /// @dev More generally than the expression used, the value of the price is:
+    /// `startPrice / (1 - tokensSoldInTx / tokensToSellInTotal) ^ 2`
+    /// @dev The precision of this function is not that important as it is a view function anyone can query
+    function getCurrentPrice() external view returns (uint256) {
+        if (_getQuantityLeftToSell() == 0) {
+            return 0;
+        }
+        return (totalTokensToSell**2 * startPrice) / ((totalTokensToSell - tokensSold)**2);
+    }
+&nbsp;
+    /// @notice Returns the quantity of governance tokens that are still to be sold
+    function getQuantityLeftToSell() external view returns (uint256) {
+        return _getQuantityLeftToSell();
+    }
+&nbsp;
+    /// @notice Returns the amount to pay for the desired amount of ANGLE to buy
+    /// @param targetQuantity Quantity of ANGLE tokens to buy
+    /// @dev This is an utility function that can be queried before buying tokens
+    function computePriceFromQuantity(uint256 targetQuantity) external view returns (uint256) {
+        return _computePriceFromQuantity(targetQuantity);
+    }
+&nbsp;
+    // ============================ GOVERNANCE =====================================
+&nbsp;
+    // ========================== Governor Functions ===============================
+&nbsp;
+    /// @notice Transfers tokens from the bonding curve to another address
+    /// @param tokenAddress Address of the token to recover
+    /// @param amountToRecover Amount of tokens to transfer
+    /// @param to Destination address
+    /// @dev This function automatically updates the amount of tokens to sell and hence the price of the tokens
+    /// in case the token recovered is the token handled by this contract
+    function recoverERC20(
+        address tokenAddress,
+        address to,
+        uint256 amountToRecover
+    ) external onlyRole(GOVERNOR_ROLE) {
+        if (tokenAddress == address(soldToken)) {
+            // Updating the number of tokens to sell
+            _changeTokensToSell(totalTokensToSell - amountToRecover);
+            // No need to check the balance here
+            soldToken.safeTransfer(to, amountToRecover);
+        } else {
+            IERC20(tokenAddress).safeTransfer(to, amountToRecover);
+        }
+        emit Recovered(tokenAddress, to, amountToRecover);
+    }
+&nbsp;
+    /// @notice Changes the oracle associated to a stablecoin
+    /// @param _agToken Reference to the agToken
+    /// @param _oracle Reference to the oracle that will be used to have the price of this stablecoin in reference
+    /// @dev Oracle contract should give a price with respect to reference
+    /// @dev This function should only be called by governance as it can be used to manipulate prices
+    function changeOracle(IAgToken _agToken, IOracle _oracle)
+        external
+        override
+        onlyRole(GOVERNOR_ROLE)
+        isValid(_agToken)
+    {
+        require((address(_oracle) != address(0)), "51");
+        allowedStablecoins[_agToken] = _oracle;
+        emit ModifiedStablecoin(address(_agToken), referenceCoin == address(_agToken), address(_oracle));
+    }
+&nbsp;
+    /// @notice Allows a new stablecoin
+    /// @param _agToken Reference to the agToken
+    /// @param _oracle Reference to the oracle that will be used to have the price of this stablecoin in reference
+    /// @param _isReference Whether this stablecoin will be the reference for oracles
+    /// @dev To set a new reference coin, the old reference must have been revoked before
+    /// @dev Calling this function for a stablecoin that already exists will just change its oracle if the
+    /// agToken was already reference, and also set a new reference if the coin was already existing
+    /// @dev Since this function could be used to deploy a new stablecoin with a really low oracle value, it has
+    /// been made governor only
+    function allowNewStablecoin(
+        IAgToken _agToken,
+        IOracle _oracle,
+        uint256 _isReference
+    ) external onlyRole(GOVERNOR_ROLE) {
+        require((_isReference == 0) || (_isReference == 1), "9");
+        require(address(_agToken) != address(0), "40");
+        // It is impossible to change reference if the reference has not been revoked before
+        // There is an hidden if in the followings require. If `_isReference` is true then
+        // only the first require is important, otherwise only the second matters
+        require((_isReference == 0) || (referenceCoin == address(0)), "52");
+        require((_isReference == 1) || (address(_oracle) != address(0)), "51");
+&nbsp;
+        if (_isReference == 1) {
+            referenceCoin = address(_agToken);
+        }
+        // Oracle contract should give the price of the stablecoin with respect to the reference stablecoin
+        allowedStablecoins[_agToken] = _oracle;
+&nbsp;
+        emit ModifiedStablecoin(address(_agToken), (_isReference == 1), address(_oracle));
+    }
+&nbsp;
+    /// @notice Changes the start price (in reference)
+    /// @param _startPrice New start price for the formula
+    /// @dev This function may be useful to help re-collateralize the protocol in case of distress
+    /// as it could allow to buy governance tokens at a discount
+    /// @dev As this function can manipulate the price, it has to be governor only
+    function changeStartPrice(uint256 _startPrice) external onlyRole(GOVERNOR_ROLE) {
+        require(_startPrice &gt; 0, "53");
+        startPrice = _startPrice;
+&nbsp;
+        emit StartPriceUpdated(_startPrice);
+    }
+&nbsp;
+    /// @notice Changes the total amount of tokens that can be sold with this bonding curve
+    /// @param _totalTokensToSell New total amount of tokens to sell
+    /// @dev As this function can manipulate the price, it has to be governor only
+    function changeTokensToSell(uint256 _totalTokensToSell) external onlyRole(GOVERNOR_ROLE) {
+        _changeTokensToSell(_totalTokensToSell);
+    }
+&nbsp;
+    // ========================== Guardian Functions ===============================
+&nbsp;
+    /// @notice Revokes a stablecoin as a medium of payment
+    /// @param _agToken Reference to the agToken
+    /// @dev If the `referenceCoin` is revoked, contract should be paused to let governance update parameters
+    /// like the `oracle` contracts associated to each allowed stablecoin or the start price
+    /// @dev It is also possible that the contract works without a reference stablecoin: if the reference coin
+    /// was USD but agUSD are no longer accepted, we may still want all the oracles and prices to be expressed
+    /// in USD
+    function revokeStablecoin(IAgToken _agToken) external onlyRole(GUARDIAN_ROLE) {
+        if (referenceCoin == address(_agToken)) {
+            referenceCoin = address(0);
+            _pause();
+        }
+        delete allowedStablecoins[_agToken];
+&nbsp;
+        emit RevokedStablecoin(address(_agToken));
+    }
+&nbsp;
+    /// @notice Pauses the possibility to buy `soldToken` from the contract
+    function pause() external onlyRole(GUARDIAN_ROLE) {
+        _pause();
+    }
+&nbsp;
+    /// @notice Unpauses and reactivates the possibility to buy tokens from the contract
+    function unpause() external onlyRole(GUARDIAN_ROLE) {
+        _unpause();
+    }
+&nbsp;
+    // ============================ Internal =======================================
+&nbsp;
+    /// @notice Internal version of the functions that changes the total tokens to sell
+    /// @dev This function checks if the new amount of tokens to sell is compatible with what has already been sold
+    /// and the balance of tokens of the contract
+    /// @dev It can be used to decrease or increase what has already been sold
+    function _changeTokensToSell(uint256 _totalTokensToSell) internal {
+        require(_totalTokensToSell &gt; tokensSold, "54");
+        require(soldToken.balanceOf(address(this)) &gt;= _totalTokensToSell - tokensSold, "56");
+        totalTokensToSell = _totalTokensToSell;
+&nbsp;
+        emit TokensToSellUpdated(_totalTokensToSell);
+    }
+&nbsp;
+    /// @notice Internal version of `getQuantityLeftToSell`
+    function _getQuantityLeftToSell() internal view returns (uint256) {
+        return totalTokensToSell - tokensSold;
+    }
+&nbsp;
+    /// @notice Internal version of `computePriceFromQuantity`
+    /// @dev In the computation of the price, not all the multiplications are done before the divisions to avoid
+    /// for overflows
+    /// @dev The formula to compute the amount to pay is the integral of a the price over the bounds:
+    /// `tokensSold, tokensSold+targetQuantity`
+    /// @dev The integral computed by this function is the integral of the inverse of a square root
+    function _computePriceFromQuantity(uint256 targetQuantity) internal view returns (uint256 value) {
+        uint256 leftToSell = _getQuantityLeftToSell();
+        require(targetQuantity &lt; leftToSell, "55");
+&nbsp;
+        // The global value to compute is (with `power = 2` here):
+        // `startPrice * totalTokensToSell **(power) * (leftToSell ** (power - 1) - (leftToSell - targetQuantity) ** (power - 1)) /((power - 1) * BASE_TOKENS * leftToSell ** (power - 1) * (leftToSell - targetQuantity) ** (power - 1))`
+        // If `totalTokensToSell` is `10**18 * (10**9)` (the maximum we could sell), then `totalTokensToSell ** power` is `(10**27)**power`
+        // And `leftToSell ** (power - 1) ` is inferior to `totalTokensToSell ** power`
+        // In this case the fact that power = 2 simplifies the computation
+        // Computation can hence be done as follows progressively without doing all the multiplications first to avoid overflows
+        value = (totalTokensToSell**2) / leftToSell;
+        value = (value * startPrice) / BASE_TOKENS;
+        value = (value * targetQuantity) / (leftToSell - targetQuantity);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

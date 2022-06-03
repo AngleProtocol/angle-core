@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/external/SafeDecimalMath.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/external/</a> SafeDecimalMath.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/21</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/21</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+// Forked from https://github.com/Synthetixio/synthetix/blob/develop/contracts/SafeDecimalMath.sol
+pragma solidity 0.8.0;
+&nbsp;
+// https://docs.synthetix.io/contracts/source/libraries/safedecimalmath
+library SafeDecimalMath {
+	/* Number of decimal places in the representations. */
+	uint8 public constant decimals = 18;
+	uint8 public constant highPrecisionDecimals = 27;
+&nbsp;
+	/* The number representing 1.0. */
+	uint256 public constant UNIT = 10**uint256(decimals);
+&nbsp;
+	/* The number representing 1.0 for higher fidelity numbers. */
+	uint256 public constant PRECISE_UNIT = 10**uint256(highPrecisionDecimals);
+	uint256 private constant UNIT_TO_HIGH_PRECISION_CONVERSION_FACTOR = 10**uint256(highPrecisionDecimals - decimals);
+&nbsp;
+	/**
+	 * @return Provides an interface to UNIT.
+	 */
+<span class="fstat-no" title="function not covered" >	function unit() external pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return UNIT;</span>
+	}
+&nbsp;
+	/**
+	 * @return Provides an interface to PRECISE_UNIT.
+	 */
+<span class="fstat-no" title="function not covered" >	function preciseUnit() external pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return PRECISE_UNIT;</span>
+	}
+&nbsp;
+	/**
+	 * @return The result of multiplying x and y, interpreting the operands as fixed-point
+	 * decimals.
+	 *
+	 * @dev A unit factor is divided out after the product of x and y is evaluated,
+	 * so that product must be less than 2**256. As this is an integer division,
+	 * the internal division always rounds down. This helps save on gas. Rounding
+	 * is more expensive on gas.
+	 */
+<span class="fstat-no" title="function not covered" >	function multiplyDecimal(uint256 x, uint256 y) internal pure returns (uint256) {</span>
+		/* Divide by UNIT to remove the extra factor introduced by the product. */
+<span class="cstat-no" title="statement not covered" >		return (x * y) / UNIT;</span>
+	}
+&nbsp;
+	/**
+	 * @return The result of safely multiplying x and y, interpreting the operands
+	 * as fixed-point decimals of the specified precision unit.
+	 *
+	 * @dev The operands should be in the form of a the specified unit factor which will be
+	 * divided out after the product of x and y is evaluated, so that product must be
+	 * less than 2**256.
+	 *
+	 * Unlike multiplyDecimal, this function rounds the result to the nearest increment.
+	 * Rounding is useful when you need to retain fidelity for small decimal numbers
+	 * (eg. small fractions or percentages).
+	 */
+<span class="fstat-no" title="function not covered" >	function _multiplyDecimalRound(</span>
+		uint256 x,
+		uint256 y,
+		uint256 precisionUnit
+	) private pure returns (uint256) {
+		/* Divide by UNIT to remove the extra factor introduced by the product. */
+<span class="cstat-no" title="statement not covered" >		uint256 quotientTimesTen = (x * y) / (precisionUnit / 10);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (quotientTimesTen % 10 &gt;= 5) {</span>
+<span class="cstat-no" title="statement not covered" >			quotientTimesTen += 10</span>;
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return quotientTimesTen / 10;</span>
+	}
+&nbsp;
+	/**
+	 * @return The result of safely multiplying x and y, interpreting the operands
+	 * as fixed-point decimals of a precise unit.
+	 *
+	 * @dev The operands should be in the precise unit factor which will be
+	 * divided out after the product of x and y is evaluated, so that product must be
+	 * less than 2**256.
+	 *
+	 * Unlike multiplyDecimal, this function rounds the result to the nearest increment.
+	 * Rounding is useful when you need to retain fidelity for small decimal numbers
+	 * (eg. small fractions or percentages).
+	 */
+<span class="fstat-no" title="function not covered" >	function multiplyDecimalRoundPrecise(uint256 x, uint256 y) internal pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _multiplyDecimalRound(x, y, PRECISE_UNIT);</span>
+	}
+&nbsp;
+	/**
+	 * @return The result of safely multiplying x and y, interpreting the operands
+	 * as fixed-point decimals of a standard unit.
+	 *
+	 * @dev The operands should be in the standard unit factor which will be
+	 * divided out after the product of x and y is evaluated, so that product must be
+	 * less than 2**256.
+	 *
+	 * Unlike multiplyDecimal, this function rounds the result to the nearest increment.
+	 * Rounding is useful when you need to retain fidelity for small decimal numbers
+	 * (eg. small fractions or percentages).
+	 */
+<span class="fstat-no" title="function not covered" >	function multiplyDecimalRound(uint256 x, uint256 y) internal pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _multiplyDecimalRound(x, y, UNIT);</span>
+	}
+&nbsp;
+	/**
+	 * @return The result of safely dividing x and y. The return value is a high
+	 * precision decimal.
+	 *
+	 * @dev y is divided after the product of x and the standard precision unit
+	 * is evaluated, so the product of x and UNIT must be less than 2**256. As
+	 * this is an integer division, the result is always rounded down.
+	 * This helps save on gas. Rounding is more expensive on gas.
+	 */
+<span class="fstat-no" title="function not covered" >	function divideDecimal(uint256 x, uint256 y) internal pure returns (uint256) {</span>
+		/* Reintroduce the UNIT factor that will be divided out by y. */
+<span class="cstat-no" title="statement not covered" >		return (x * UNIT) / y;</span>
+	}
+&nbsp;
+	/**
+	 * @return The result of safely dividing x and y. The return value is as a rounded
+	 * decimal in the precision unit specified in the parameter.
+	 *
+	 * @dev y is divided after the product of x and the specified precision unit
+	 * is evaluated, so the product of x and the specified precision unit must
+	 * be less than 2**256. The result is rounded to the nearest increment.
+	 */
+<span class="fstat-no" title="function not covered" >	function _divideDecimalRound(</span>
+		uint256 x,
+		uint256 y,
+		uint256 precisionUnit
+	) private pure returns (uint256) {
+<span class="cstat-no" title="statement not covered" >		uint256 resultTimesTen = (x * precisionUnit * 10) / y;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (resultTimesTen % 10 &gt;= 5) {</span>
+<span class="cstat-no" title="statement not covered" >			resultTimesTen += 10</span>;
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return resultTimesTen / 10;</span>
+	}
+&nbsp;
+	/**
+	 * @return The result of safely dividing x and y. The return value is as a rounded
+	 * standard precision decimal.
+	 *
+	 * @dev y is divided after the product of x and the standard precision unit
+	 * is evaluated, so the product of x and the standard precision unit must
+	 * be less than 2**256. The result is rounded to the nearest increment.
+	 */
+<span class="fstat-no" title="function not covered" >	function divideDecimalRound(uint256 x, uint256 y) internal pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _divideDecimalRound(x, y, UNIT);</span>
+	}
+&nbsp;
+	/**
+	 * @return The result of safely dividing x and y. The return value is as a rounded
+	 * high precision decimal.
+	 *
+	 * @dev y is divided after the product of x and the high precision unit
+	 * is evaluated, so the product of x and the high precision unit must
+	 * be less than 2**256. The result is rounded to the nearest increment.
+	 */
+<span class="fstat-no" title="function not covered" >	function divideDecimalRoundPrecise(uint256 x, uint256 y) internal pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _divideDecimalRound(x, y, PRECISE_UNIT);</span>
+	}
+&nbsp;
+	/**
+	 * @dev Convert a standard decimal representation to a high precision one.
+	 */
+<span class="fstat-no" title="function not covered" >	function decimalToPreciseDecimal(uint256 i) internal pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return i * UNIT_TO_HIGH_PRECISION_CONVERSION_FACTOR;</span>
+	}
+&nbsp;
+	/**
+	 * @dev Convert a high precision decimal to a standard decimal representation.
+	 */
+<span class="fstat-no" title="function not covered" >	function preciseDecimalToDecimal(uint256 i) internal pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 quotientTimesTen = i / (UNIT_TO_HIGH_PRECISION_CONVERSION_FACTOR / 10);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (quotientTimesTen % 10 &gt;= 5) {</span>
+<span class="cstat-no" title="statement not covered" >			quotientTimesTen += 10</span>;
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return quotientTimesTen / 10;</span>
+	}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

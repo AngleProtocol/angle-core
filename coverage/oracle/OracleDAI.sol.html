@@ -1,0 +1,533 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for oracle/OracleDAI.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">oracle/</a> OracleDAI.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>35/35</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>16/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>6/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>33/33</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol";
+&nbsp;
+import "./OracleAbstract.sol";
+&nbsp;
+import "./modules/ModuleChainlinkMulti.sol";
+import "./modules/ModuleUniswapMulti.sol";
+&nbsp;
+/// @title OracleDAI
+/// @author Angle Core Team
+/// @notice Oracle contract, one contract is deployed per collateral/stablecoin pair
+/// @dev This contract concerns an oracle that only uses both Chainlink and Uniswap for multiple pools
+/// @dev This is going to be used for like ETH/EUR oracles
+/// @dev Like all oracle contracts, this contract is an instance of `OracleAstract` that contains some
+/// base functions
+contract OracleDAI is OracleAbstract, ModuleChainlinkMulti, ModuleUniswapMulti {
+    /// @notice Whether the final rate obtained with Uniswap should be multiplied to last rate from Chainlink
+    uint8 public immutable uniFinalCurrency;
+&nbsp;
+    /// @notice Unit out Uniswap currency
+    uint256 public immutable outBase;
+&nbsp;
+    /// @notice Constructor for an oracle using both Uniswap and Chainlink with multiple pools to read from
+    /// @param addressInAndOutUni List of 2 addresses representing the in-currency address and the out-currency address
+    /// @param _circuitUniswap Path of the Uniswap pools
+    /// @param _circuitUniIsMultiplied Whether we should multiply or divide by this rate in the path
+    /// @param _twapPeriod Time weighted average window for all Uniswap pools
+    /// @param observationLength Number of observations that each pool should have stored
+    /// @param _uniFinalCurrency Whether we need to use the last Chainlink oracle to convert to another
+    /// currency / asset (Forex for instance)
+    /// @param _circuitChainlink Chainlink pool addresses put in order
+    /// @param _circuitChainIsMultiplied Whether we should multiply or divide by this rate
+    /// @param guardians List of governor or guardian addresses
+    /// @param _description Description of the assets concerned by the oracle
+    /// @dev When deploying this contract, it is important to check in the case where Uniswap circuit is not final whether
+    /// Chainlink and Uniswap circuits are compatible. If Chainlink is UNI-WBTC and WBTC-USD and Uniswap is just UNI-WETH,
+    /// then Chainlink cannot be the final circuit
+    constructor(
+        address[] memory addressInAndOutUni,
+        IUniswapV3Pool[] memory _circuitUniswap,
+        uint8[] memory _circuitUniIsMultiplied,
+        uint32 _twapPeriod,
+        uint16 observationLength,
+        uint8 _uniFinalCurrency,
+        address[] memory _circuitChainlink,
+        uint8[] memory _circuitChainIsMultiplied,
+        uint32 stalePeriod,
+        address[] memory guardians,
+        bytes32 _description
+    )
+        ModuleUniswapMulti(_circuitUniswap, _circuitUniIsMultiplied, _twapPeriod, observationLength, guardians)
+        ModuleChainlinkMulti(_circuitChainlink, _circuitChainIsMultiplied, stalePeriod, guardians)
+    {
+        require(addressInAndOutUni.length == 2, "107");
+        // Using the tokens' metadata to get the in and out currencies decimals
+        IERC20Metadata inCur = IERC20Metadata(addressInAndOutUni[0]);
+        IERC20Metadata outCur = IERC20Metadata(addressInAndOutUni[1]);
+        inBase = 10**(inCur.decimals());
+        outBase = 10**(outCur.decimals());
+&nbsp;
+        uniFinalCurrency = _uniFinalCurrency;
+        description = _description;
+    }
+&nbsp;
+    /// @notice Reads the Uniswap rate using the circuit given
+    /// @return The current rate between the in-currency and out-currency
+    /// @dev By default even if there is a Chainlink rate, this function returns the Uniswap rate
+    /// @dev The amount returned is expressed with base `BASE` (and not the base of the out-currency)
+    function read() external view override returns (uint256) {
+        return _readUniswapQuote(inBase);
+    }
+&nbsp;
+    /// @notice Converts an in-currency quote amount to out-currency using the Uniswap rate
+    /// @param quoteAmount Amount (in the input collateral) to be converted in out-currency
+    /// @return Quote amount in out-currency from the base amount in in-currency
+    /// @dev Like in the `read` function, this function returns the Uniswap quote
+    /// @dev The amount returned is expressed with base `BASE` (and not the base of the out-currency)
+    function readQuote(uint256 quoteAmount) external view override returns (uint256) {
+        return _readUniswapQuote(quoteAmount);
+    }
+&nbsp;
+    /// @notice Returns Uniswap and Chainlink values (with the first one being the smallest one)
+    /// @param quoteAmount Amount expressed in the in-currency base.
+    /// @dev If quoteAmount is `inBase`, rates are returned
+    /// @return The first parameter is the lowest value and the second parameter is the highest
+    /// @dev The amount returned is expressed with base `BASE` (and not the base of the out-currency)
+    function _readAll(uint256 quoteAmount) internal view override returns (uint256, uint256) {
+        uint256 quoteAmountUni = _quoteUniswap(quoteAmount);
+&nbsp;
+        // The current uni rate is in `outBase` we want our rate to all be in base `BASE`
+        quoteAmountUni = (quoteAmountUni * BASE) / outBase;
+        // The current amount is in `inBase` we want our rate to all be in base `BASE`
+        uint256 quoteAmountCL = (quoteAmount * BASE) / inBase;
+        uint256 ratio;
+&nbsp;
+        (quoteAmountCL, ratio) = _quoteChainlink(quoteAmountCL);
+&nbsp;
+        if (uniFinalCurrency &gt; 0) {
+            quoteAmountUni = _changeUniswapNotFinal(ratio, quoteAmountUni);
+        }
+&nbsp;
+        // As DAI is made to be a stablecoin, compute the rate as if Uniswap returned `BASE * quoteAmount / inBase`
+        ratio = _changeUniswapNotFinal(ratio, (quoteAmount * BASE) / inBase);
+&nbsp;
+        if (quoteAmountCL &lt;= quoteAmountUni) {
+            if (ratio &lt;= quoteAmountCL) {
+                return (ratio, quoteAmountUni);
+            } else if (quoteAmountUni &lt;= ratio) {
+                return (quoteAmountCL, ratio);
+            }
+            return (quoteAmountCL, quoteAmountUni);
+        } else {
+            if (ratio &lt;= quoteAmountUni) {
+                return (ratio, quoteAmountCL);
+            } else if (quoteAmountCL &lt;= ratio) {
+                return (quoteAmountUni, ratio);
+            }
+            return (quoteAmountUni, quoteAmountCL);
+        }
+    }
+&nbsp;
+    /// @notice Uses Chainlink's value to change Uniswap's rate
+    /// @param ratio Value of the last oracle rate of Chainlink
+    /// @param quoteAmountUni End quote computed from Uniswap's circuit
+    /// @dev We use the last Chainlink rate to correct the value obtained with Uniswap. It may for instance be used
+    /// to get a Uniswap price in EUR (ex: ETH -&gt; USDC and we use this to do USDC -&gt; EUR)
+    function _changeUniswapNotFinal(uint256 ratio, uint256 quoteAmountUni) internal view returns (uint256) {
+        uint256 idxLastPoolCL = circuitChainlink.length - 1;
+        (quoteAmountUni, ) = _readChainlinkFeed(
+            quoteAmountUni,
+            circuitChainlink[idxLastPoolCL],
+            circuitChainIsMultiplied[idxLastPoolCL],
+            chainlinkDecimals[idxLastPoolCL],
+            ratio
+        );
+        return quoteAmountUni;
+    }
+&nbsp;
+    /// @notice Internal function to convert an in-currency quote amount to out-currency using only the Uniswap rate
+    /// and by correcting it if needed from Chainlink last rate
+    /// @param quoteAmount Amount (in the input collateral) to be converted in out-currency using Uniswap (and Chainlink)
+    /// at the end of the funnel
+    /// @return uniAmount Quote amount in out-currency from the base amount in in-currency
+    /// @dev The amount returned is expressed with base `BASE` (and not the base of the out-currency)
+    function _readUniswapQuote(uint256 quoteAmount) internal view returns (uint256 uniAmount) {
+        uniAmount = _quoteUniswap(quoteAmount);
+        // The current uni rate is in outBase we want our rate to all be in base
+        uniAmount = (uniAmount * BASE) / outBase;
+        if (uniFinalCurrency &gt; 0) {
+            uniAmount = _changeUniswapNotFinal(0, uniAmount);
+        }
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

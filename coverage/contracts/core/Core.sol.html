@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/core/Core.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/core/</a> Core.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/33</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">3.03% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/33</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.0;
+&nbsp;
+import '@openzeppelin/contracts/access/AccessControl.sol';
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
+&nbsp;
+import '../interfaces/ICore.sol';
+&nbsp;
+/// @title Core contract
+/// @author Angle Core Team
+/// @notice Keeps track of all the stableMaster contracts and facilitates governance
+contract Core is ICore, AccessControl, Initializable {
+	bytes32 public constant GOVERNOR_ROLE = keccak256('GOVERNOR_ROLE');
+	bytes32 public constant GUARDIAN_ROLE = keccak256('GUARDIAN_ROLE');
+&nbsp;
+	/// @notice address of the governor for Angle's protocol
+	address public governor;
+&nbsp;
+	/// @notice address of the guardian key, it is going to be revoked
+	address public guardian;
+&nbsp;
+	/// @notice maps a name of a stablecoin to the address of the corresponding stablemaster
+	mapping(string =&gt; IStableMaster) public mapName2Stable;
+&nbsp;
+	/// @notice list of all the stablecoins accepted by the system
+	string[] public stablecoinList;
+&nbsp;
+	// ========================= Constructor ===================
+&nbsp;
+	/// @notice core initializer
+	/// @notice the core constructor
+	/// @param admin address
+<span class="fstat-no" title="function not covered" >	constructor(address admin) {</span>
+<span class="cstat-no" title="statement not covered" >		_setupRole(GOVERNOR_ROLE, admin)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GUARDIAN_ROLE, GOVERNOR_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GOVERNOR_ROLE, GOVERNOR_ROLE)</span>;
+	}
+&nbsp;
+	/// @notice core initializer
+	/// @dev called by the admin address
+	/// @param _governor address of the protocol
+	/// @param _guardian address
+<span class="fstat-no" title="function not covered" >	function initiateGovernance(address _governor, address _guardian)</span>
+		external
+		override
+		initializer
+		onlyRole(GOVERNOR_ROLE)
+	{
+<span class="cstat-no" title="statement not covered" >		grantRole(GOVERNOR_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, _guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		governor = _governor</span>;
+<span class="cstat-no" title="statement not covered" >		guardian = _guardian</span>;
+	}
+&nbsp;
+	// ========================= Governance =====================
+&nbsp;
+	/// @notice to notify the address of a new stablemaster
+	/// @param name of the stablecoin
+	/// @param stableMaster of the stablecoin
+	/// @param aToken of the stablecoin
+<span class="fstat-no" title="function not covered" >	function deployStableMaster(</span>
+		string memory name,
+		IStableMaster stableMaster,
+		address aToken
+	) external override onlyRole(GOVERNOR_ROLE) {
+<span class="cstat-no" title="statement not covered" >		stableMaster.init(governor, guardian, aToken)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		mapName2Stable[name] = stableMaster</span>;
+<span class="cstat-no" title="statement not covered" >		stablecoinList.push(name)</span>;
+	}
+&nbsp;
+	// ========================= Access Control  =====================
+&nbsp;
+	/// @notice to revoke the admin
+	/// @param admin address
+<span class="fstat-no" title="function not covered" >	function revokeAdmin(address admin) external override onlyRole(GOVERNOR_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		revokeRole(GOVERNOR_ROLE, admin)</span>;
+	}
+&nbsp;
+	/// @notice to change the governor address
+	/// @param _governor new  address
+<span class="fstat-no" title="function not covered" >	function setGovernor(address _governor) external override onlyRole(GOVERNOR_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		grantRole(GOVERNOR_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, _governor)</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(GUARDIAN_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(GOVERNOR_ROLE, governor)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; stablecoinList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			mapName2Stable[stablecoinList[i]].setGovernor(_governor)</span>;
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		governor = _governor</span>;
+	}
+&nbsp;
+	/// @notice to change the guardian address
+	/// @param _guardian new  address
+<span class="fstat-no" title="function not covered" >	function setGuardian(address _guardian) external override onlyRole(GOVERNOR_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, _guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(GUARDIAN_ROLE, guardian)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; stablecoinList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			mapName2Stable[stablecoinList[i]].setGuardian(_guardian)</span>;
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		guardian = _guardian</span>;
+	}
+&nbsp;
+	/// @notice to revoke the guardian address
+<span class="fstat-no" title="function not covered" >	function revokeGuardian() external override onlyRole(GOVERNOR_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		revokeRole(GUARDIAN_ROLE, guardian)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; stablecoinList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			mapName2Stable[stablecoinList[i]].revokeGuardian()</span>;
+		}
+	}
+&nbsp;
+	// ========================= General Setters  =====================
+&nbsp;
+	/// @notice porpagate a new stable master contract
+	/// @param stable contract
+	/// @param _stableMaster new contract
+<span class="fstat-no" title="function not covered" >	function setStableMaster(string memory stable, IStableMaster _stableMaster)</span>
+		external
+		override
+		onlyRole(GOVERNOR_ROLE)
+	{
+<span class="cstat-no" title="statement not covered" >		IStableMaster stablecoin = mapName2Stable[stable];</span>
+<span class="cstat-no" title="statement not covered" >		if (address(stablecoin) != address(0)) {</span>
+<span class="cstat-no" title="statement not covered" >			stablecoin.setStableMaster(_stableMaster)</span>;
+		}
+<span class="cstat-no" title="statement not covered" >		mapName2Stable[stable] = _stableMaster</span>;
+	}
+&nbsp;
+	/// @notice set a new BASE (used for proportion ratio and floats) for the whole system
+	/// @param BASE new precision for decimals
+<span class="fstat-no" title="function not covered" >	function setBase(uint256 BASE) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; stablecoinList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			mapName2Stable[stablecoinList[i]].setBaseGlobal(BASE)</span>;
+		}
+	}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>
