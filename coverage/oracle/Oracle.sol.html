@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for oracle/Oracle.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">oracle/</a> Oracle.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/45</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/7</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/41</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// contracts/oracle/Oracle.sol
+// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity 0.8.0;
+pragma experimental ABIEncoderV2;
+&nbsp;
+import '@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol';
+// import '@uniswap/v3-core/contracts/libraries/TickMath.sol';
+// import '@uniswap/v3-periphery/contracts/libraries/PoolAddress.sol';
+import "@chainlink/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol";
+import '@openzeppelin/contracts/token/ERC20/extensions/IERC20Metadata.sol';
+&nbsp;
+&nbsp;
+import '../external/OracleMath.sol';
+import './UniswapV3/PoolAddress.sol';
+import "../interfaces/IOracle.sol";
+import "./OracleParameters.sol";
+&nbsp;
+contract Oracle is IOracle, OracleParameters{
+&nbsp;
+<span class="fstat-no" title="function not covered" >    constructor(address[] memory circuitAddressERC20, uint24[] memory fee, address[] memory circuitAddressChainlink,</span>
+        uint256[] memory _circuitChainIsMulitplied, string memory nameIn, string memory nameOut) {
+<span class="cstat-no" title="statement not covered" >        require(twapPeriod != 0, 'BP')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        require(circuitAddressERC20.length&gt;1, 'Oracle::constructor:: Incorrect Uniswap circuit')</span>;
+<span class="cstat-no" title="statement not covered" >        require(fee.length+1 == circuitAddressERC20.length, 'Oracle::constructor:: Incorrect lenght fee array for Uniswap')</span>;
+<span class="cstat-no" title="statement not covered" >        require(circuitAddressChainlink.length&gt;1, 'Oracle::constructor:: Incorrect Chainlink circuit')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        IERC20Metadata inCur = IERC20Metadata(circuitAddressERC20[0]);</span>
+<span class="cstat-no" title="statement not covered" >        IERC20Metadata outCur = IERC20Metadata(circuitAddressERC20[0]);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        require( keccak256(abi.encodePacked((inCur.name()))) == keccak256(abi.encodePacked((nameIn)))</span>
+            &amp;&amp;
+            keccak256(abi.encodePacked((outCur.name()))) == keccak256(abi.encodePacked((nameOut))),
+            'the circuit name does\nt correspond');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        address factory = 0x1F98431c8aD98523631AE4a59f267346ea31F984;</span> //UniswapV3 factory address
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        for (uint256 i = 0; i&lt;circuitAddressERC20.length-1;i++){</span>
+            // TODO check how to catch a wrong address for this interface.
+            // for instance if the address computed is actually not associated to this interface
+            // we should throw an error and revert.
+<span class="cstat-no" title="statement not covered" >            IUniswapV3Pool _pool = IUniswapV3Pool(PoolAddress.computeAddress(</span>
+                    factory,
+                    PoolAddress.getPoolKey(circuitAddressERC20[i], circuitAddressERC20[i+1], fee[i]))
+            );
+<span class="cstat-no" title="statement not covered" >            circuitUniswap.push(_pool)</span>;
+<span class="cstat-no" title="statement not covered" >            if(circuitAddressERC20[i]&lt; circuitAddressERC20[i+1]) <span class="cstat-no" title="statement not covered" >circuitUniIsMulitplied.push(1)</span>;</span>
+            else <span class="cstat-no" title="statement not covered" >circuitUniIsMulitplied.push(0)</span>;
+&nbsp;
+            // TODO this function is giving liquidity for this range. I couldn't find the implementation
+            // on their Github
+<span class="cstat-no" title="statement not covered" >            require( _pool.liquidity() &gt; minUniLiquidity, 'NO_LIQUIDITY')</span>; // ensure that there's liquidity in the pool
+        }
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        string memory curCurrencyName = inCur.name();</span>
+<span class="cstat-no" title="statement not covered" >        for (uint256 i = 0; i&lt;circuitChainlink.length;i++){</span>
+<span class="cstat-no" title="statement not covered" >            AggregatorV3Interface _pool = circuitChainlink[i];</span>
+<span class="cstat-no" title="statement not covered" >            circuitChainlink.push(_pool)</span>;
+<span class="cstat-no" title="statement not covered" >            circuitChainIsMulitplied = _circuitChainIsMulitplied</span>;
+        }
+    }
+&nbsp;
+    /// @notice updateall rates from the circuit of both Uniswap and Chainlink
+    /// @return whether the tx completed or not.
+<span class="fstat-no" title="function not covered" >    function updateAll() external returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >        uint32[] memory secondAgos = new uint32[](2);</span>
+<span class="cstat-no" title="statement not covered" >        secondAgos[0] = twapPeriod</span>;
+<span class="cstat-no" title="statement not covered" >        secondAgos[1] = 0</span>;
+<span class="cstat-no" title="statement not covered" >        int56 tickFinal;</span>
+<span class="cstat-no" title="statement not covered" >        int56 tickCumulativesDelta;</span>
+<span class="cstat-no" title="statement not covered" >        int56[] memory tickCumulatives;</span>
+<span class="cstat-no" title="statement not covered" >        int24 timeWeightedAverageTick;</span>
+&nbsp;
+        // We are doing the computation on ticks first and then convert tick to a price for I guess more precision
+        // Iw we do P1*P2/P3 this is the same as computing 1.0001**(t1+t2-t3)
+<span class="cstat-no" title="statement not covered" >        uint256 rateUniswap;</span>
+<span class="cstat-no" title="statement not covered" >        for (uint256 i = 0; i&lt;circuitUniswap.length;i++){</span>
+            // Adapted fro uniswap v3 uniswap-v3-periphery/contracts/libraries/oracleLibrary.sol
+            // Fetches time-weighted average tick using Uniswap V3 oracle
+            // timeWeightedAverageTick The time-weighted average tick from (block.timestamp - period) to block.timestamp
+<span class="cstat-no" title="statement not covered" >            (tickCumulatives, ) = circuitUniswap[i].observe(secondAgos)</span>;
+<span class="cstat-no" title="statement not covered" >            tickCumulativesDelta = tickCumulatives[1] - tickCumulatives[0]</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            timeWeightedAverageTick = int24(tickCumulativesDelta / twapPeriod)</span>;
+&nbsp;
+            // Always round to negative infinity
+<span class="cstat-no" title="statement not covered" >            if (tickCumulativesDelta &lt; 0 &amp;&amp; (tickCumulativesDelta % twapPeriod != 0)) timeWeightedAverageTick--;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >            if(circuitUniIsMulitplied[i]==1) <span class="cstat-no" title="statement not covered" >tickFinal += timeWeightedAverageTick</span>;</span>
+            else <span class="cstat-no" title="statement not covered" >tickFinal -= timeWeightedAverageTick</span>;
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        uint256 rateChainLink;</span>
+<span class="cstat-no" title="statement not covered" >        for (uint256 i = 0; i&lt;circuitChainlink.length;i++){</span>
+<span class="cstat-no" title="statement not covered" >            (,int ratio,,,) = circuitChainlink[i].latestRoundData();</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return true;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function update() external override returns (bool) {</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        return true;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function update(uint256 new_rate_) external override {</span>
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function read() external view override returns (uint256 value, bool){</span>
+<span class="cstat-no" title="statement not covered" >        return (1,false);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function readChainlink(string memory token) external view returns (uint256, bool){</span>
+<span class="cstat-no" title="statement not covered" >        return (0,false);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function lastUpdateTimestamp() external view override returns (uint256){</span>
+<span class="cstat-no" title="statement not covered" >        return block.timestamp;</span>
+    }
+&nbsp;
+}</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:05:44 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for dao/Mur.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">dao/</a> Mur.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>14/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">75% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>9/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>3/3</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>14/14</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: COMING SOON
+&nbsp;
+pragma solidity 0.8.2;
+&nbsp;
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20VotesComp.sol";
+&nbsp;
+/// @title Mur
+/// @author Forked but improved from https://github.com/compound-finance/compound-protocol/tree/master/contracts/Governance
+/// @notice Governance token of Angle's protocol
+contract Mur is ERC20VotesComp {
+    /// @notice An event thats emitted when the minter address is changed
+    event MinterChanged(address minter, address newMinter);
+&nbsp;
+    /// @notice Minimum time between mints
+    //TODO see how we change this parameter: UniSwap has 1 days * 365, in case of distress we may want to do 1 days * 30;
+    // with 2 percent of totalSupply() minted at each mint
+    uint32 public constant MINIMUM_BETWEEN_MINTS = 1 days * 30;
+&nbsp;
+    /// @notice Cap on the percentage of totalSupply() that can be minted at each mint
+    uint8 public constant MAX_MINT = 2;
+&nbsp;
+    /// @notice Address which may mint new tokens
+    address public minter;
+&nbsp;
+    /// @notice The timestamp after which minting may occur
+    uint256 public mintingAllowedAfter;
+&nbsp;
+    /// @notice Constructs a new Mur token
+    /// @param account Initial account to grant all the tokens to
+    /// @param minter_ Account with minting ability
+    constructor(address account, address minter_) ERC20Permit("MUR") ERC20("MUR", "MUR") {
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(account != address(0) &amp;&amp; minter_ != address(0), "Mur::constructor: zero address");
+        _mint(account, 1_000_000_000e18); // 1 billion Mur
+        minter = minter_;
+        emit MinterChanged(address(0), minter);
+        mintingAllowedAfter = block.timestamp;
+    }
+&nbsp;
+    /// @notice Changes the minter address
+    /// @param minter_ Address of the new minter
+    function setMinter(address minter_) external {
+        require(msg.sender == minter, "Mur::setMinter: only the minter can change the minter address");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(minter_ != address(0), "Mur::setMinter: zero address");
+        emit MinterChanged(minter, minter_);
+        minter = minter_;
+    }
+&nbsp;
+    /// @notice Mints new tokens
+    /// @param dst Address of the destination account
+    /// @param amount Number of tokens to be minted
+    function mint(address dst, uint256 amount) external {
+        require(msg.sender == minter, "Mur::mint: only the minter can mint");
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(block.timestamp &gt;= mintingAllowedAfter, "Mur::mint: minting not allowed yet");
+        require(amount &lt;= (totalSupply() * MAX_MINT) / 100, "Mur::mint: exceeded mint cap");
+        // Record the mint
+        mintingAllowedAfter = block.timestamp + MINIMUM_BETWEEN_MINTS;
+&nbsp;
+        // Mint the amount
+        _mint(dst, amount);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jul 14 2021 10:59:30 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

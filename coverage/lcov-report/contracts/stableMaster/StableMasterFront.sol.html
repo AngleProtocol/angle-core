@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/stableMaster/StableMasterFront.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/stableMaster/</a> StableMasterFront.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/14</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/14</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.0;
+&nbsp;
+import './StableMaster.sol';
+&nbsp;
+/// @title StableMasterFront
+/// @author Angle Core Team
+/// @notice All the functions that can be called by external keepers
+/// @dev This contract contains the only non-view functions that can be called by other agents
+contract StableMasterFront is StableMaster {
+&nbsp;
+	/// @notice Initializes the name of the stablecoin
+	/// @param core address
+	/// @param _name of the stableMaster
+<span class="fstat-no" title="function not covered" >	constructor(address core, string memory _name) StableMaster(core, _name) {}</span>
+ 
+	// ============================== SLP ======================================
+&nbsp;
+	/// @notice Update the sanRate for a collateral type
+	/// @param manager contract of the collateral requested
+<span class="fstat-no" title="function not covered" >	function updateSanRate(IManager manager) external {</span>
+		// Search collateral data
+<span class="cstat-no" title="statement not covered" >		Collateral storage col = collateralMap[manager];</span>
+		// No need to check if the collateral is a correct collateral
+&nbsp;
+		// Compute fraction of fee aside if colRate is small enough
+<span class="cstat-no" title="statement not covered" >		uint256 toShare = col.feesAccumulated;</span>
+<span class="cstat-no" title="statement not covered" >		col.feesAccumulated = 0</span>;
+<span class="cstat-no" title="statement not covered" >		if ((col.slippageFee == 0) &amp;&amp; (col.feesAside != 0)) {</span>
+<span class="cstat-no" title="statement not covered" >			toShare = toShare + col.feesAside</span>;
+<span class="cstat-no" title="statement not covered" >			col.feesAside = 0</span>;
+		} else {
+			// Rounding above
+<span class="cstat-no" title="statement not covered" >			uint256 aside = toShare - ((toShare * (BASE - col.slippageFee)) / BASE);</span>
+<span class="cstat-no" title="statement not covered" >			toShare = toShare - aside</span>;
+<span class="cstat-no" title="statement not covered" >			col.feesAside = col.feesAside + aside</span>;
+		}
+<span class="cstat-no" title="statement not covered" >		uint256 sanMint = getSanMint(manager);</span>
+<span class="cstat-no" title="statement not covered" >		if (sanMint != 0) {</span>
+<span class="cstat-no" title="statement not covered" >			uint256 oldSanRate = col.sanRate;</span>
+<span class="cstat-no" title="statement not covered" >			col.sanRate = oldSanRate + toShare * BASE / sanMint</span>;
+<span class="cstat-no" title="statement not covered" >			SanRateUpdated(oldSanRate, col.sanRate)</span>;
+		}
+	}
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

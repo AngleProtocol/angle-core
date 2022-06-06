@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/ercManager/ERCManagerFront.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/ercManager/</a> ERCManagerFront.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/65</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/15</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">6.15% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>4/65</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.0;
+&nbsp;
+import './ERCManager.sol';
+&nbsp;
+/// @title ERCManagerFront
+/// @author Angle Core Team
+/// @notice Manager of the ERC tokens, front end (external functions).
+contract ERCManagerFront is ERCManager {
+	using SafeERC20 for IERC20;
+&nbsp;
+	// ============================ Constructor ===================================
+&nbsp;
+	/// @notice Constructor
+	/// @param _name of the collateral
+	/// @param _token address
+	/// @param _stableMaster master stablecoin interface
+<span class="fstat-no" title="function not covered" >	function initialize(</span>
+		string memory _name,
+		address _token,
+		IStableMaster _stableMaster
+	) public initializer {
+<span class="cstat-no" title="statement not covered" >		initializePausableAgents()</span>;
+<span class="cstat-no" title="statement not covered" >		initializeParameters(_name, _token, _stableMaster)</span>;
+<span class="cstat-no" title="statement not covered" >		initializeRoles()</span>;
+		//        _pauseStabler();
+		//        _pauseHA();
+	}
+&nbsp;
+	// ============================ Users ===================================
+&nbsp;
+	/// @notice Adds collateral to the system for minted stablecoins
+	/// @param user address of the contract to mint to
+	/// @param amount collateral sent
+	/// @dev Amount is not scaled, so 1 means that if decimals = 18, it is 10**(-18) tokens
+<span class="fstat-no" title="function not covered" >	function mint(address user, uint256 amount) external whenNotPausedStabler {</span>
+		// Important in this case (unless transfer reverts)
+<span class="cstat-no" title="statement not covered" >		require(int256(amount) &gt; 0, 'ERCManagerFront::mint: Overflow')</span>;
+<span class="cstat-no" title="statement not covered" >		token.safeTransferFrom(msg.sender, address(this), amount)</span>;
+<span class="cstat-no" title="statement not covered" >		stableMaster.notifyMint(amount, user)</span>;
+	}
+&nbsp;
+	// ============================ SLP ===================================
+&nbsp;
+	/// @notice Adds collateral to the system in exchange of sanTokens
+	/// @param user address of the contract to send sanToken to
+	/// @param amount of collateral sent
+<span class="fstat-no" title="function not covered" >	function deposit(address user, uint256 amount) external whenNotPausedSLP {</span>
+<span class="cstat-no" title="statement not covered" >		require(int256(amount) &gt; 0, 'ERCManagerFront::deposit: Overflow')</span>;
+<span class="cstat-no" title="statement not covered" >		token.safeTransferFrom(msg.sender, address(this), amount)</span>;
+<span class="cstat-no" title="statement not covered" >		stableMaster.notifyDeposit(amount, user)</span>;
+	}
+&nbsp;
+	// ============================ HA ===================================
+&nbsp;
+	/// @notice enter a ha (if no revert) for this stable coin and collateral
+	/// @param amountBrought of collateral brought by the HA
+	/// @param amountCommitted of collateral insured by the HA
+<span class="fstat-no" title="function not covered" >	function joinHA(uint256 amountBrought, uint256 amountCommitted) external whenNotPausedHA returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		require(int256(amountBrought) &gt; 0, 'ERCManagerFront::joinHA: Overflow bring')</span>;
+<span class="cstat-no" title="statement not covered" >		require(int256(amountCommitted) &gt; 0, 'ERCManagerFront::joinHA: Overflow commit')</span>;
+<span class="cstat-no" title="statement not covered" >		token.safeTransferFrom(msg.sender, address(this), amountBrought)</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.createVault(msg.sender, amountBrought, amountCommitted)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit JoiningHA(msg.sender, amountBrought, amountCommitted);</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	}
+&nbsp;
+	/// @notice add amount brought by ha (if no revert) for this stablecoin and collateral
+	/// @param amount to add to the vault
+<span class="fstat-no" title="function not covered" >	function addHA(uint256 amount) external whenNotPausedHA returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		require(int256(amount) &gt; 0, 'ERCManagerFront::addHA: Overflow')</span>;
+<span class="cstat-no" title="statement not covered" >		token.safeTransferFrom(msg.sender, address(this), amount)</span>;
+<span class="cstat-no" title="statement not covered" >		vaultManager.addToVault(msg.sender, amount)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit AddingHA(msg.sender, amount);</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	}
+&nbsp;
+	/// @notice cash out an ha (if no revert) for this stable coin and collateral
+<span class="fstat-no" title="function not covered" >	function exitHA() external whenNotPausedHA returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 amountReturn = vaultManager.cashOutVault(msg.sender);</span>
+<span class="cstat-no" title="statement not covered" >		require(secureTransfer(msg.sender, amountReturn), 'ERCManagerFront::exitHA: Failed transfer')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit ExitingHA(msg.sender, amountReturn);</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	}
+&nbsp;
+	/// @notice allow outside caller to liquidate a vault if ha vault is dead
+	/// @param toLiquidate the address of the targeted vault
+<span class="fstat-no" title="function not covered" >	function liquidateHA(address toLiquidate) external whenNotPausedHA returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 originalFees = vaultManager.tryLiquidateVault(toLiquidate);</span>
+&nbsp;
+		// compute the incentive for the keeper
+<span class="cstat-no" title="statement not covered" >		uint256 keeperFees = (originalFees * keeperFeesLiquidate) / BASE;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		require(secureTransfer(msg.sender, keeperFees), 'ERCManagerFront::liquidateHA: Failed transfer to keeper')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit LiquidatingHA(toLiquidate);</span>
+<span class="cstat-no" title="statement not covered" >		emit KeeperFees(msg.sender, keeperFeesLiquidate, keeperFees, 0, originalFees);</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	}
+&nbsp;
+	/// @notice allow outside caller to cash out a vault if the size leverage is too large
+	/// @param toCashOut address of the targeted vault
+<span class="fstat-no" title="function not covered" >	function cashOutHA(address toCashOut) external whenNotPausedHA returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 amountReturn;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 ratio;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 fees;</span>
+<span class="cstat-no" title="statement not covered" >		(amountReturn, ratio, fees) = vaultManager.tryCashOutVault(toCashOut)</span>;
+<span class="cstat-no" title="statement not covered" >		require(secureTransfer(toCashOut, amountReturn), 'ERCManagerFront::cashOutHA: Failed transfer')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 rateFeeHA = FunctionUtils.piecewiseLinear(ratio, XKeeperFeesCashOut, YKeeperFeesCashOut);</span>
+<span class="cstat-no" title="statement not covered" >		uint256 keeperFees = (fees * rateFeeHA) / BASE;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 keeperFeesCap = keeperFees &lt; keeperFeesCashOutCap ? keeperFees : keeperFeesCashOutCap;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		require(secureTransfer(msg.sender, keeperFeesCap), 'ERCManagerFront::cashOutHA: Failed transfer to keeper')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit CashingOutHA(msg.sender, toCashOut, amountReturn, keeperFees);</span>
+<span class="cstat-no" title="statement not covered" >		emit KeeperFees(msg.sender, rateFeeHA, keeperFeesCap, ratio, fees);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	}
+&nbsp;
+	/// @notice remove amount brought by ha for this stablecoin and collateral
+	/// @param amount to remove
+<span class="fstat-no" title="function not covered" >	function removeHA(uint256 amount) external whenNotPausedHA returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		require(int256(amount) &gt; 0, 'ERCManagerFront::removeHA: Overflow')</span>;
+<span class="cstat-no" title="statement not covered" >		uint256 netAmount = vaultManager.removeFromVault(msg.sender, amount);</span>
+<span class="cstat-no" title="statement not covered" >		require(secureTransfer(msg.sender, netAmount), 'ERCManagerFront::removeHA: Failed transfer')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit RemovingHA(msg.sender, amount, netAmount);</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	}
+&nbsp;
+	/// @notice merge 2 vaults into dest vault (if no revert) for this stablecoin and collateral
+	/// @param dest receiver address of the merge
+<span class="fstat-no" title="function not covered" >	function mergeHA(address dest) external whenNotPausedHA returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		vaultManager.mergeVaults(msg.sender, dest)</span>;
+<span class="cstat-no" title="statement not covered" >		emit MergingHA(msg.sender, dest);</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	}
+&nbsp;
+	/// @notice merge 2 vaults into dest vault (if no revert) for this stablecoin and collateral
+	/// @param dest receiver address of the merge
+<span class="fstat-no" title="function not covered" >	function giveHA(address dest) external whenNotPausedHA returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		vaultManager.giveVault(msg.sender, dest)</span>;
+<span class="cstat-no" title="statement not covered" >		emit GivingHA(msg.sender, dest);</span>
+<span class="cstat-no" title="statement not covered" >		return true;</span>
+	}
+&nbsp;
+	// ============================ Lending ===================================
+&nbsp;
+	/// @notice correct lending rate for all lending protocol
+<span class="fstat-no" title="function not covered" >	function correctLendingRate() external whenNotPausedSLP {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 gains = 0;</span>
+<span class="cstat-no" title="statement not covered" >		for (uint256 i = 0; i &lt; lendingInterfacesList.length; i++) {</span>
+<span class="cstat-no" title="statement not covered" >			gains = gains + _correctLendingRate(lendingInterfacesList[i])</span>;
+		}
+<span class="cstat-no" title="statement not covered" >		if (gains &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >			stableMaster.accumulateFees(gains)</span>;
+<span class="cstat-no" title="statement not covered" >			emit DistributingFees(gains);</span>
+		}
+	}
+&nbsp;
+	/// @notice correct lending rate for the associated protocol name
+	/// @param platformName of the lending protocol
+<span class="fstat-no" title="function not covered" >	function correctLendingRate(bytes32 platformName) external whenNotPausedSLP {</span>
+		// No need to check that it's a correct platformName here because 0 will be returned anyway
+<span class="cstat-no" title="statement not covered" >		uint256 gains = _correctLendingRate(platformName);</span>
+<span class="cstat-no" title="statement not covered" >		if (gains &gt; 0) {</span>
+<span class="cstat-no" title="statement not covered" >			stableMaster.accumulateFees(gains)</span>;
+<span class="cstat-no" title="statement not covered" >			emit DistributingFees(gains);</span>
+		}
+	}
+&nbsp;
+	/// @notice accumulate the lending earnings from all lending protocols
+<span class="fstat-no" title="function not covered" >	function distributeLendingGains() external whenNotPausedSLP {</span>
+<span class="cstat-no" title="statement not covered" >		_distributeLendingGains()</span>;
+	}
+&nbsp;
+	/// @notice accumulate the lending earnings from a single protocol
+	/// @param platformName of the lending protocol
+<span class="fstat-no" title="function not covered" >	function distributeLendingGains(bytes32 platformName) external whenNotPausedSLP {</span>
+		// No need to check that it's a correct platformName here because 0 will be returned anyway
+<span class="cstat-no" title="statement not covered" >		_distributeLendingGains(platformName)</span>;
+	}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

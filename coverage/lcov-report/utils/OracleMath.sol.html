@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for utils/OracleMath.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">utils/</a> OracleMath.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">90.63% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>87/96</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80.23% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>69/86</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.43% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>54/56</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+// contracts/oracle/OracleMath.sol
+pragma solidity 0.8.0;
+&nbsp;
+import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
+&nbsp;
+import "../external/FullMath.sol";
+&nbsp;
+// tmp
+import "./PoolAddress.sol";
+&nbsp;
+/// @title Math library for computing sqrt prices from ticks and vice versa
+/// @notice Computes sqrt price for ticks of size 1.0001, i.e. sqrt(1.0001^tick) as fixed point Q64.96 numbers. Supports
+/// prices between 2**-128 and 2**128
+library OracleMath {
+    /// @dev The maximum tick that may be passed to #getSqrtRatioAtTick computed from log base 1.0001 of 2**128
+    int24 internal constant _MAX_TICK = 887272;
+&nbsp;
+    /// @dev base used for FixedPoint to uint transformation
+    uint256 public constant BASE = 10**18;
+&nbsp;
+    /// @notice Calculates 1.0001^tick * (diff decimals betweeen tokens)
+    /// @dev Throws if |tick| &gt; max tick
+    /// @param tick The input tick for the above formula
+    /// @return rate uint256 representing the ratio of the two assets (token1/token0) *10**10
+    /// at the given tick
+    function getRatioAtTick(int24 tick) public pure returns (uint256 rate) {
+        uint256 absTick = tick &lt; 0 ? uint256(-int256(tick)) : uint256(int256(tick));
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(absTick &lt;= uint256(int256(_MAX_TICK)), "T");
+&nbsp;
+        uint256 ratio = absTick &amp; 0x1 != 0 ? 0xfff97272373d413259a46990580e213a : 0x100000000000000000000000000000000;
+        if (absTick &amp; 0x2 != 0) ratio = (ratio * 0xfff2e50f5f656932ef12357cf3c7fdcc) &gt;&gt; 128;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (absTick &amp; 0x4 != 0) ratio = (ratio * 0xffe5caca7e10e4e61c3624eaa0941cd0) &gt;&gt; 128;
+        if (absTick &amp; 0x8 != 0) ratio = (ratio * 0xffcb9843d60f6159c9db58835c926644) &gt;&gt; 128;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (absTick &amp; 0x10 != 0) ratio = (ratio * 0xff973b41fa98c081472e6896dfb254c0) &gt;&gt; 128;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (absTick &amp; 0x20 != 0) ratio = (ratio * 0xff2ea16466c96a3843ec78b326b52861) &gt;&gt; 128;
+        if (absTick &amp; 0x40 != 0) ratio = (ratio * 0xfe5dee046a99a2a811c461f1969c3053) &gt;&gt; 128;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (absTick &amp; 0x80 != 0) <span class="cstat-no" title="statement not covered" >ratio = (ratio * 0xfcbe86c7900a88aedcffc83b479aa3a4) &gt;&gt; 128</span>;
+        if (absTick &amp; 0x100 != 0) ratio = (ratio * 0xf987a7253ac413176f2b074cf7815e54) &gt;&gt; 128;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (absTick &amp; 0x200 != 0) ratio = (ratio * 0xf3392b0822b70005940c7a398e4b70f3) &gt;&gt; 128;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (absTick &amp; 0x400 != 0) <span class="cstat-no" title="statement not covered" >ratio = (ratio * 0xe7159475a2c29b7443b29c7fa6e889d9) &gt;&gt; 128</span>;
+        if (absTick &amp; 0x800 != 0) ratio = (ratio * 0xd097f3bdfd2022b8845ad8f792aa5825) &gt;&gt; 128;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (absTick &amp; 0x1000 != 0) <span class="cstat-no" title="statement not covered" >ratio = (ratio * 0xa9f746462d870fdf8a65dc1f90e061e5) &gt;&gt; 128</span>;
+        if (absTick &amp; 0x2000 != 0) ratio = (ratio * 0x70d869a156d2a1b890bb3df62baf32f7) &gt;&gt; 128;
+        if (absTick &amp; 0x4000 != 0) ratio = (ratio * 0x31be135f97d08fd981231505542fcfa6) &gt;&gt; 128;
+        if (absTick &amp; 0x8000 != 0) ratio = (ratio * 0x9aa508b5b7a84e1c677de54f3e99bc9) &gt;&gt; 128;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (absTick &amp; 0x10000 != 0) ratio = (ratio * 0x5d6af8dedb81196699c329225ee604) &gt;&gt; 128;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (absTick &amp; 0x20000 != 0) ratio = (ratio * 0x2216e584f5fa1ea926041bedfe98) &gt;&gt; 128;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (absTick &amp; 0x40000 != 0) <span class="cstat-no" title="statement not covered" >ratio = (ratio * 0x48a170391f7dc42444e8fa2) &gt;&gt; 128</span>;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (absTick &amp; 0x80000 != 0) <span class="cstat-no" title="statement not covered" >ratio = (ratio * 0x149b34ee7ac262) &gt;&gt; 128</span>;
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (tick &gt; 0) ratio = type(uint256).max / ratio;
+&nbsp;
+        //We need to modify the 96 decimal to be able to convert it to a D256
+        //2**59 ~ 10**18 (thus we guarantee the same precision) and 128-59 = 69
+        // We retreive a Q128.59 decimal. --&gt; we have 69 bits free to reach the uint256 limit.
+        //Now, 2**69 &gt;&gt; 10**18 so we are safe in the Decimal conversion.
+&nbsp;
+        uint256 price = uint256((ratio &gt;&gt; 69) + (ratio % (1 &lt;&lt; 69) == 0 ? 0 : 1));
+        rate = ((price * BASE) / (1 &lt;&lt; 59)) / BASE;
+    }
+&nbsp;
+    /// @notice Given a tick and a token amount, calculates the amount of token received in exchange
+    /// @param tick Tick value used to calculate the quote
+    /// @param baseAmount Amount of token to be converted
+    /// @param multiply boolean representing whether the baseToken has a lower address than the quoteToken
+    /// @return quoteAmount Amount of quoteToken received for baseAmount of baseToken
+    function getQuoteAtTickAngle(
+        int24 tick,
+        uint256 baseAmount,
+        uint256 multiply
+    ) external pure returns (uint256 quoteAmount) {
+        uint160 sqrtRatioX96 = getSqrtRatioAtTick(tick);
+&nbsp;
+        // Calculate quoteAmount with better precision if it doesn't overflow when multiplied by itself
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (sqrtRatioX96 &lt;= type(uint128).max) {
+            uint256 ratioX192 = uint256(sqrtRatioX96) * sqrtRatioX96;
+            quoteAmount = (multiply == 1)
+                ? FullMath.mulDiv(ratioX192, baseAmount, 1 &lt;&lt; 192)
+                : FullMath.mulDiv(1 &lt;&lt; 192, baseAmount, ratioX192);
+        } else {
+<span class="cstat-no" title="statement not covered" >            uint256 ratioX128 = FullMath.mulDiv(sqrtRatioX96, sqrtRatioX96, 1 &lt;&lt; 64);</span>
+<span class="cstat-no" title="statement not covered" >            quoteAmount = (multiply == 1)</span>
+                ? FullMath.mulDiv(ratioX128, baseAmount, 1 &lt;&lt; 128)
+                : FullMath.mulDiv(1 &lt;&lt; 128, baseAmount, ratioX128);
+        }
+    }
+&nbsp;
+    // ==================== Original function from Uniswap libraries =======================
+&nbsp;
+    /// @notice Original Uniswap version Calculates sqrt(1.0001^tick) * 2^96
+    /// @dev Throws if |tick| &gt; max tick
+    /// @param tick The input tick for the above formula
+    /// @return sqrtPriceX96 A Fixed point Q64.96 number representing the sqrt of the ratio of the two assets (token1/token0)
+    /// at the given tick
+    function getSqrtRatioAtTick(int24 tick) internal pure returns (uint160 sqrtPriceX96) {
+        uint256 absTick = tick &lt; 0 ? uint256(-int256(tick)) : uint256(int256(tick));
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(absTick &lt;= uint256(int256(_MAX_TICK)), "T");
+&nbsp;
+        uint256 ratio = absTick &amp; 0x1 != 0 ? 0xfffcb933bd6fad37aa2d162d1a594001 : 0x100000000000000000000000000000000;
+        if (absTick &amp; 0x2 != 0) ratio = (ratio * 0xfff97272373d413259a46990580e213a) &gt;&gt; 128;
+        if (absTick &amp; 0x4 != 0) ratio = (ratio * 0xfff2e50f5f656932ef12357cf3c7fdcc) &gt;&gt; 128;
+        if (absTick &amp; 0x8 != 0) ratio = (ratio * 0xffe5caca7e10e4e61c3624eaa0941cd0) &gt;&gt; 128;
+        if (absTick &amp; 0x10 != 0) ratio = (ratio * 0xffcb9843d60f6159c9db58835c926644) &gt;&gt; 128;
+        if (absTick &amp; 0x20 != 0) ratio = (ratio * 0xff973b41fa98c081472e6896dfb254c0) &gt;&gt; 128;
+        if (absTick &amp; 0x40 != 0) ratio = (ratio * 0xff2ea16466c96a3843ec78b326b52861) &gt;&gt; 128;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (absTick &amp; 0x80 != 0) <span class="cstat-no" title="statement not covered" >ratio = (ratio * 0xfe5dee046a99a2a811c461f1969c3053) &gt;&gt; 128</span>;
+        if (absTick &amp; 0x100 != 0) ratio = (ratio * 0xfcbe86c7900a88aedcffc83b479aa3a4) &gt;&gt; 128;
+        if (absTick &amp; 0x200 != 0) ratio = (ratio * 0xf987a7253ac413176f2b074cf7815e54) &gt;&gt; 128;
+        if (absTick &amp; 0x400 != 0) ratio = (ratio * 0xf3392b0822b70005940c7a398e4b70f3) &gt;&gt; 128;
+        if (absTick &amp; 0x800 != 0) ratio = (ratio * 0xe7159475a2c29b7443b29c7fa6e889d9) &gt;&gt; 128;
+        if (absTick &amp; 0x1000 != 0) ratio = (ratio * 0xd097f3bdfd2022b8845ad8f792aa5825) &gt;&gt; 128;
+        if (absTick &amp; 0x2000 != 0) ratio = (ratio * 0xa9f746462d870fdf8a65dc1f90e061e5) &gt;&gt; 128;
+        if (absTick &amp; 0x4000 != 0) ratio = (ratio * 0x70d869a156d2a1b890bb3df62baf32f7) &gt;&gt; 128;
+        if (absTick &amp; 0x8000 != 0) ratio = (ratio * 0x31be135f97d08fd981231505542fcfa6) &gt;&gt; 128;
+        if (absTick &amp; 0x10000 != 0) ratio = (ratio * 0x9aa508b5b7a84e1c677de54f3e99bc9) &gt;&gt; 128;
+        if (absTick &amp; 0x20000 != 0) ratio = (ratio * 0x5d6af8dedb81196699c329225ee604) &gt;&gt; 128;
+        if (absTick &amp; 0x40000 != 0) ratio = (ratio * 0x2216e584f5fa1ea926041bedfe98) &gt;&gt; 128;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (absTick &amp; 0x80000 != 0) <span class="cstat-no" title="statement not covered" >ratio = (ratio * 0x48a170391f7dc42444e8fa2) &gt;&gt; 128</span>;
+&nbsp;
+        if (tick &gt; 0) ratio = type(uint256).max / ratio;
+&nbsp;
+        // this divides by 1&lt;&lt;32 rounding up to go from a Q128.128 to a Q128.96.
+        // we then downcast because we know the result always fits within 160 bits due to our tick input constraint
+        // we round up in the division so getTickAtSqrtRatio of the output price is always consistent
+        sqrtPriceX96 = uint160((ratio &gt;&gt; 32) + (ratio % (1 &lt;&lt; 32) == 0 ? 0 : 1));
+    }
+&nbsp;
+    // ============================== For test purpose  =========================================
+    /// @notice Compute the address of the Uniswap pool
+    /// @param inCur the address of the input ERC20
+    /// @param outCur the address of the output ERC20
+    /// @param fee used in the Uniswap pool
+    function getAddress(
+        address inCur,
+        address outCur,
+        uint24 fee,
+        address factory
+    ) external pure returns (address poolAddress) {
+        poolAddress = PoolAddress.computeAddress(factory, PoolAddress.getPoolKey(inCur, outCur, fee));
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jun 04 2021 18:19:38 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

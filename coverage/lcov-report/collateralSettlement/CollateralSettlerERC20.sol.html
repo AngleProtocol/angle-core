@@ -1,0 +1,1181 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for collateralSettlement/CollateralSettlerERC20.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">collateralSettlement/</a> CollateralSettlerERC20.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>87/87</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">96.43% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>27/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>16/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>89/89</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.0;
+&nbsp;
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
+&nbsp;
+import "../interfaces/IAToken.sol";
+import "../interfaces/ISanToken.sol";
+import "../interfaces/IStableMaster.sol";
+import "../interfaces/IOracle.sol";
+import "../interfaces/IManager.sol";
+import "../interfaces/IVaultManager.sol";
+import "../interfaces/ICollateralSettler.sol";
+&nbsp;
+import "./CollateralSettlerERC20Events.sol";
+&nbsp;
+/// @title A contract to settle collateral positions for a given stablecoin
+/// @author Angle Protocol
+contract CollateralSettlerERC20 is ICollateralSettler, AccessControl, Pausable, CollateralSettlerERC20Events {
+    using SafeERC20 for IERC20;
+&nbsp;
+    bytes32 public constant GOVERNOR_ROLE = keccak256("GOVERNOR_ROLE");
+    bytes32 public constant STABLEMASTER_ROLE = keccak256("STABLEMASTER_ROLE");
+&nbsp;
+    // Number of gov tokens that's owed to users which claimed it
+    struct GovTokenClaim {
+        uint256 govTokens;
+        uint256 claim;
+    }
+&nbsp;
+    /// @notice mapping between an address and a claim (in collateral) for a stable holder
+    mapping(address =&gt; uint256) public userClaims;
+&nbsp;
+    /// @notice mapping between an address and the claim and number of gov tokens due to a user
+    mapping(address =&gt; GovTokenClaim) public userClaimsWithGov;
+&nbsp;
+    /// @notice mapping between the address of a LP and a claim
+    mapping(address =&gt; uint256) public lpClaims;
+&nbsp;
+    /// @notice mapping to check whether a HA has already redeemed her position
+    mapping(uint256 =&gt; uint256) public haClaimCheck;
+&nbsp;
+    /// @notice mapping between the address of a LP, its claim and the number of gov tokens
+    mapping(address =&gt; GovTokenClaim) public lpClaimsWithGov;
+&nbsp;
+    /// @notice total amount of collateral to redistribute (computed once at)
+    uint256 public amountToRedistribute = 0;
+&nbsp;
+    /// @notice sum of the claims of users which did not bring governance tokens (expressed in collateral)
+    uint256 public totalUserClaims = 0;
+&nbsp;
+    /// @notice sum of the claims of users which owned governance tokens (expressed in collateral)
+    uint256 public totalUserClaimsWithGov = 0;
+&nbsp;
+    /// @notice sum of the claims from LPs
+    uint256 public totalLpClaims = 0;
+&nbsp;
+    /// @notice sum of the claims from LPs which had governance tokens
+    uint256 public totalLpClaimsWithGov = 0;
+&nbsp;
+    /// @notice base we use to compute
+    uint256 public base = 10**18;
+&nbsp;
+    /// @notice ratio between the number of gov tokens and of the claim expressed in collateral
+    /// to be considered as a claim with gov tokens
+    uint256 public proportionalRatioGovUser = 0;
+&nbsp;
+    /// @notice ratio between the number of gov tokens and the claim expressed in collateral
+    /// a LP (HA or SLP) should have to be considered as a claim with gov tokens
+    uint256 public proportionalRatioGovLP = 0;
+&nbsp;
+    /// @notice Time at which settlement was triggered, initialized at zero
+    uint256 public startTimestamp = 0;
+&nbsp;
+    /// @notice ratio between what can be given and the claim for each user with gov tokens
+    uint256 public baseAmountToUserGov = 0;
+&nbsp;
+    /// @notice ratio between what can be given and the claim for each user
+    uint256 public baseAmountToUser = 0;
+&nbsp;
+    /// @notice ratio between what can be given and the claim for each LP with gov tokens
+    uint256 public baseAmountToLpGov = 0;
+&nbsp;
+    /// @notice ratio between what can be given and the claim for each HA with gov tokens
+    uint256 public baseAmountToLp = 0;
+&nbsp;
+    /// @notice time after the trigger in which users and LPs can come and claim their collateral
+    uint256 public claimTime;
+&nbsp;
+    /// @notice address of the vaultManager corresponding to the stablecoin/collateral pair
+    IVaultManager public vaultManager;
+&nbsp;
+    /// @notice address of the sanToken corresponding to the stablecoin/collateral pair
+    ISanToken public sanToken;
+&nbsp;
+    /// @notice address of the aToken corresponding to the stablecoin/collateral pair
+    IAToken public aToken;
+&nbsp;
+    /// @notice address of the manager corresponding to the stablecoin/collateral pair
+    IManager public manager;
+&nbsp;
+    /// @notice address of the ERC20 token corresponding to the collateral
+    IERC20 public underlyingToken;
+&nbsp;
+    /// @notice address of the vaultManager corresponding to the stablecoin/collateral pair
+    IERC20 public murToken;
+&nbsp;
+    /// @notice value of the oracle at settlement trigger time
+    uint256 public oracleValue;
+&nbsp;
+    /// @notice exchange rate between sanTokens and collateral at settlement trigger time
+    uint256 public sanRate;
+&nbsp;
+    // ========================= Constructor ===================
+&nbsp;
+    /// @notice the collateral settler constructor
+    /// @param _vaultManager address of the vaultManager that will correspond to this contract
+    /// @param _sanToken address of the corresponding sanToken
+    /// @param _aToken address of the corresponding aToken
+    /// @param _manager address of the corresponding manager
+    /// @param _token address of the corresponding underlying token
+    /// @param _murToken address of the murToken
+    /// @param _claimTime time during which users and LPs will be able to claim their collateral
+    /// @param governor address of the governor
+    /// @param stableMaster address of the stableMaster contract allowed to trigger settlement
+    constructor(
+        IVaultManager _vaultManager,
+        ISanToken _sanToken,
+        IAToken _aToken,
+        IManager _manager,
+        IERC20 _token,
+        IERC20 _murToken,
+        uint256 _claimTime,
+        address governor,
+        address stableMaster
+    ) {
+        vaultManager = _vaultManager;
+        sanToken = _sanToken;
+        aToken = _aToken;
+        manager = _manager;
+        underlyingToken = _token;
+        murToken = _murToken;
+        claimTime = _claimTime;
+&nbsp;
+        // Access control
+        _setupRole(GOVERNOR_ROLE, governor);
+        _setupRole(STABLEMASTER_ROLE, stableMaster);
+        _setRoleAdmin(GOVERNOR_ROLE, GOVERNOR_ROLE);
+        _setRoleAdmin(STABLEMASTER_ROLE, GOVERNOR_ROLE);
+    }
+&nbsp;
+    /// @notice Checker to see if the claim period has been launched
+    modifier onlyClaimPeriod() {
+        require(
+            startTimestamp != 0 &amp;&amp; block.timestamp &lt; claimTime + startTimestamp,
+            "CollateralSettler::onlyClaimPeriod: invalid claim time"
+        );
+        _;
+    }
+&nbsp;
+    /// @notice Checker to see if users and LPs can redeem their collateral
+    modifier onlyRedeemPeriod() {
+        require(
+            startTimestamp != 0 &amp;&amp; block.timestamp &gt; claimTime + startTimestamp,
+            "CollateralSettler::claimSLPWithGov: invalid claim time"
+        );
+        _;
+    }
+&nbsp;
+    // ====================== Activation/Governance =============================
+&nbsp;
+    /// @notice Function to call to activate settlement for this contract
+    /// @param _oracleValue value of the oracle that will be used for the settlement
+    /// @param _sanRate value of the sanRate at time of settlement
+    function triggerSettlement(uint256 _oracleValue, uint256 _sanRate) external override onlyRole(STABLEMASTER_ROLE) {
+        oracleValue = _oracleValue;
+        sanRate = _sanRate;
+        startTimestamp = block.timestamp;
+        amountToRedistribute = underlyingToken.balanceOf(address(this));
+        emit SettlementTriggered(amountToRedistribute);
+    }
+&nbsp;
+    /// @notice Function to call to change the amount that can be redistributed with this contract
+    /// @param newAmountToRedistribute New amount that can be given by this contract
+    function setAmountToRedistribute(uint256 newAmountToRedistribute)
+        external
+        override
+        onlyRole(GOVERNOR_ROLE)
+        onlyClaimPeriod()
+    {
+        require(
+            underlyingToken.balanceOf(address(this)) &gt;= newAmountToRedistribute,
+            "CollateralSettler::setAmountToDistribute: too high amount"
+        );
+        amountToRedistribute = newAmountToRedistribute;
+    }
+&nbsp;
+    /// @notice Change the proportion of governance tokens ratio that should be used
+    /// @param _proportionalRatioGovUser New ratio for users
+    /// @param _proportionalRatioGovLP Ne Ratio for LPs
+    function setProportionalRatioGov(uint256 _proportionalRatioGovUser, uint256 _proportionalRatioGovLP)
+        external
+        override
+        onlyRole(GOVERNOR_ROLE)
+    {
+        proportionalRatioGovUser = _proportionalRatioGovUser;
+        proportionalRatioGovLP = _proportionalRatioGovLP;
+    }
+&nbsp;
+    /// @notice set pausable methods to pause
+    function pause() external override onlyRole(GOVERNOR_ROLE) {
+        _pause();
+    }
+&nbsp;
+    /// @notice set pausable methods to unpause
+    function unpause() external override onlyRole(GOVERNOR_ROLE) {
+        _unpause();
+    }
+&nbsp;
+    // ========================= User Claims ===============================
+&nbsp;
+    /// @notice Allows a user to claim collateral by sending aTokens
+    /// @param amount Amount of aTokens to send
+    function claimUser(uint256 amount) external override onlyClaimPeriod() whenNotPaused {
+        aToken.transferFrom(msg.sender, address(this), amount);
+        uint256 amountInC = (amount * base) / oracleValue;
+        totalUserClaims += amountInC;
+        userClaims[msg.sender] += amountInC;
+    }
+&nbsp;
+    /// @notice Allows a user to claim collateral by sending aTokens and governance tokens
+    /// @param amountAToken Amount of aTokens to send
+    /// @param amountGovToken Amount of governance tokens to send (there should be enough governance tokens)
+    function claimUserWithGov(uint256 amountAToken, uint256 amountGovToken)
+        external
+        override
+        onlyClaimPeriod()
+        whenNotPaused
+    {
+        uint256 amountInC = (amountAToken * base) / oracleValue;
+        require(
+            amountGovToken * base &gt; amountInC * proportionalRatioGovUser,
+            "CollateralSettler::claimUserWithGov: not enough governance tokens"
+        );
+        aToken.transferFrom(msg.sender, address(this), amountAToken);
+        murToken.transferFrom(msg.sender, address(this), amountGovToken);
+        totalUserClaimsWithGov += amountInC;
+        userClaimsWithGov[msg.sender].govTokens += amountGovToken;
+        userClaimsWithGov[msg.sender].claim += amountInC;
+    }
+&nbsp;
+    // ========================= HA Claims ===============================
+&nbsp;
+    /// @notice Allows a HA to claim collateral
+    /// @param vaultID of the vault claimed
+    function claimHA(uint256 vaultID) external override onlyClaimPeriod() {
+        address owner = IVaultManagerFront(address(vaultManager)).ownerOf(vaultID);
+&nbsp;
+        require(haClaimCheck[vaultID] == 0, "CollateralSettler::claimHA: vault already claimed");
+        (uint256 position, ) = vaultManager.getPosition(vaultID, oracleValue);
+        haClaimCheck[vaultID] = 1;
+        totalLpClaims += position;
+        lpClaims[owner] += position;
+    }
+&nbsp;
+    /// @notice Allows a HA to claim collateral by adding governance tokens to be treated in priority
+    /// @param vaultID of the vault claimed
+    /// @param amountGovToken Amount of governance tokens to send (there should be enough governance tokens)
+    function claimHAWithGov(uint256 vaultID, uint256 amountGovToken) external override onlyClaimPeriod() {
+        address owner = IVaultManagerFront(address(vaultManager)).ownerOf(vaultID);
+&nbsp;
+        require(haClaimCheck[vaultID] == 0, "CollateralSettler::claimHAWithGov: HA already claimed");
+        (uint256 position, ) = vaultManager.getPosition(vaultID, oracleValue);
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(
+            amountGovToken * base &gt; position * proportionalRatioGovLP,
+            "CollateralSettler::claimHAWithGov: invalid claim"
+        );
+        murToken.transferFrom(msg.sender, address(this), amountGovToken);
+        haClaimCheck[vaultID] = 1;
+        totalLpClaimsWithGov += position;
+        lpClaimsWithGov[owner].govTokens += amountGovToken;
+        lpClaimsWithGov[owner].claim += position;
+    }
+&nbsp;
+    // ========================= SLP Claims ===============================
+&nbsp;
+    /// @notice Allows a SLP to claim collateral by sending sanTokens
+    /// @param amount Amount of sanTokens to send
+    function claimSLP(uint256 amount) external override onlyClaimPeriod() {
+        sanToken.transferFrom(msg.sender, address(this), amount);
+        uint256 claimInC = (amount * sanRate) / base;
+        totalLpClaims += claimInC;
+        lpClaims[msg.sender] += claimInC;
+    }
+&nbsp;
+    /// @notice Allows a SLP to claim collateral by sending sanTokens and governance tokens to be treated in priority
+    /// @param amountSanToken Amount of sanTokens to send
+    /// @param amountGovToken Amount of governance tokens to send
+    function claimSLPWithGov(uint256 amountSanToken, uint256 amountGovToken) external override onlyClaimPeriod() {
+        uint256 claimInC = (amountSanToken * sanRate) / base;
+        require(
+            amountGovToken * base &gt; claimInC * proportionalRatioGovLP,
+            "CollateralSettler::claimSLPWithGov: invalid claim"
+        );
+        sanToken.transferFrom(msg.sender, address(this), amountSanToken);
+        murToken.transferFrom(msg.sender, address(this), amountGovToken);
+        totalLpClaimsWithGov += claimInC;
+        lpClaimsWithGov[msg.sender].govTokens += amountGovToken;
+        lpClaimsWithGov[msg.sender].claim += claimInC;
+    }
+&nbsp;
+    // ========================= Redeem Period ===============================
+&nbsp;
+    /// @notice Computes the base amount each category of claim will get after claim period has ended
+    function setAmountToRedistributeEach() external override onlyRedeemPeriod() {
+        // First give everything that's possible to stable holders which had governance tokens
+        if (amountToRedistribute &gt;= totalUserClaimsWithGov) {
+            baseAmountToUserGov = base;
+            amountToRedistribute -= totalUserClaimsWithGov;
+        } else {
+            baseAmountToUserGov = (amountToRedistribute * base) / totalUserClaimsWithGov;
+            amountToRedistribute = 0;
+        }
+        // Then give everything that remains to other stable holders
+        if (amountToRedistribute &gt; totalUserClaims) {
+            baseAmountToUser = base;
+            amountToRedistribute -= totalUserClaims;
+        } else {
+            baseAmountToUser = (amountToRedistribute * base) / totalUserClaims;
+            amountToRedistribute = 0;
+        }
+        // Reimburse LPs which had governance tokens
+        if (amountToRedistribute &gt; totalLpClaimsWithGov) {
+            baseAmountToLpGov = base;
+            amountToRedistribute -= totalLpClaimsWithGov;
+        } else {
+            baseAmountToLpGov = (amountToRedistribute * base) / totalLpClaimsWithGov;
+            amountToRedistribute = 0;
+        }
+        // Reimburse other LPs
+        if (amountToRedistribute &gt; totalLpClaims) {
+            baseAmountToLp = base;
+            amountToRedistribute -= totalLpClaims;
+        } else {
+            baseAmountToLp = (amountToRedistribute * base) / totalLpClaims;
+            amountToRedistribute = 0;
+        }
+    }
+&nbsp;
+    /// @notice Lets a user or a LP redeem the corresponding share of collateral
+    function redeemCollateral() external override onlyRedeemPeriod() {
+        uint256 amountToGive =
+            (userClaimsWithGov[msg.sender].claim *
+                baseAmountToUserGov +
+                userClaims[msg.sender] *
+                baseAmountToUser +
+                lpClaimsWithGov[msg.sender].claim *
+                baseAmountToLpGov +
+                lpClaims[msg.sender] *
+                baseAmountToLp) / base;
+        if (amountToGive &gt; 0) {
+            underlyingToken.safeTransfer(msg.sender, amountToGive);
+        }
+        uint256 amountGovTokens = lpClaimsWithGov[msg.sender].govTokens + userClaimsWithGov[msg.sender].govTokens;
+        if (amountGovTokens &gt; 0) {
+            murToken.transfer(msg.sender, amountGovTokens);
+        }
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jun 02 2021 16:31:43 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

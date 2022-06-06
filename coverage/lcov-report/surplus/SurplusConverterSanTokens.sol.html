@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for surplus/SurplusConverterSanTokens.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">surplus/</a> SurplusConverterSanTokens.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>11/11</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>6/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>2/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>11/11</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "../interfaces/IPoolManager.sol";
+import "../interfaces/IStableMaster.sol";
+import "../interfaces/ISanToken.sol";
+import "./BaseSurplusConverter.sol";
+&nbsp;
+interface IStableMasterFront {
+    function deposit(
+        uint256 amount,
+        address to,
+        address poolManager
+    ) external;
+}
+&nbsp;
+/// @title SurplusConverterSanTokens
+/// @author Angle Core Team
+/// @notice A contract to swap tokens from the surplus of the protocol to a reward token
+/// (could be ANGLE tokens, or another type of token)
+/// @dev This contract gets sanTokens from a token of the Angle protocol
+contract SurplusConverterSanTokens is BaseSurplusConverter {
+    using SafeERC20 for IERC20;
+&nbsp;
+    event PathUpdated(address indexed token, bytes newPath, bytes oldPath);
+    event TokenRevoked(address indexed token);
+&nbsp;
+    IStableMasterFront public immutable stableMaster;
+    address public immutable poolManager;
+    address public immutable supportedToken;
+&nbsp;
+    /// @notice Constructor of the `SurplusConverterSanTokens`
+    /// @param _rewardToken Reward token that this contract tries to buy
+    /// @param _feeDistributor Reference to the contract handling fee distribution
+    /// @param _stableMaster Reference to the `stableMaster` contract
+    /// @param whitelisted Reference to the first whitelisted address that will have the right
+    /// @param governor Governor of the protocol
+    /// @param guardians List of guardians of the protocol
+    constructor(
+        address _rewardToken,
+        address _feeDistributor,
+        address _stableMaster,
+        address whitelisted,
+        address governor,
+        address[] memory guardians
+    ) BaseSurplusConverter(_rewardToken, _feeDistributor, whitelisted, governor, guardians) {
+        require(_stableMaster != address(0), "0");
+        stableMaster = IStableMasterFront(_stableMaster);
+        // This will revert if the rewardToken of this contract is not a sanToken
+        address poolManagerInt = ISanToken(_rewardToken).poolManager();
+        poolManager = poolManagerInt;
+        address supportedTokenInt = IPoolManager(poolManagerInt).token();
+        supportedToken = supportedTokenInt;
+        IERC20(supportedTokenInt).safeApprove(_stableMaster, type(uint256).max);
+    }
+&nbsp;
+    /// @notice Mints `rewardToken` from the protocol itself using the accumulated `token` and distributes
+    /// the results of the swaps to the `FeeDistributor` or some other `SurplusConverter` contract
+    /// @param token Token to use for buybacks of `rewardToken`
+    /// @param amount Amount of tokens to use for the buyback
+    /// @param transfer Whether the function should transfer the bought back `rewardToken` directly to the `FeeDistributor`
+    /// contract or to the associated `SurplusConverter` contract
+    /// @dev In this contract the `rewardToken` is a sanToken, so this function essentially deposits collateral
+    /// in the Angle Protocol
+    /// @dev There is no need to put slippage protection here as there is no slippage for SLPs deposits in the Angle
+    /// Protocol
+    function buyback(
+        address token,
+        uint256 amount,
+        uint256,
+        bool transfer
+    ) external override whenNotPaused onlyRole(WHITELISTED_ROLE) {
+        require(token == supportedToken, "20");
+        stableMaster.deposit(amount, address(this), poolManager);
+        if (transfer) {
+            // This call will automatically transfer all the `rewardToken` balance of this contract to the `FeeDistributor`
+            feeDistributor.burn(address(rewardToken));
+        }
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

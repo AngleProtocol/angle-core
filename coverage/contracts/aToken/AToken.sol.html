@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/aToken/AToken.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/aToken/</a> AToken.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/33</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/33</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.0;
+&nbsp;
+import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
+import '@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol';
+&nbsp;
+import '../external/PausableMapping.sol';
+&nbsp;
+import '../interfaces/IAToken.sol';
+import '../interfaces/IManager.sol';
+&nbsp;
+/// @title Base contract for stablecoins
+/// @author Angle Core Team
+contract AToken is IAToken, ERC20, AccessControl, Initializable, PausableMap {
+	bytes32 public constant STABLEMASTER_ROLE = keccak256('STABLEMASTER_ROLE');
+	bytes32 public constant GOVERNOR_ROLE = keccak256('GOVERNOR_ROLE');
+	bytes32 public constant GUARDIAN_ROLE = keccak256('GUARDIAN_ROLE');
+&nbsp;
+	/// @notice reference to the stableMaster contract associated to this aToken
+	IStableMaster public stableMaster;
+&nbsp;
+	/// @notice mapping between the name of a collateral to the address of the manager associated
+	/// for this stablecoin
+	mapping(string =&gt; IManager) public managerMap;
+&nbsp;
+	// ========================= Constructor ===================
+&nbsp;
+	/// @notice stablecoin constructor
+	/// @param _name of the stablecoin (example 'aEUR')
+	/// @param _symbol of the stablecoin ('aEUR')
+	/// @param _stableMaster of the stablecoin
+	/// @dev called by the stableMaster
+<span class="fstat-no" title="function not covered" >	constructor(</span>
+		string memory _name,
+		string memory _symbol,
+		IStableMaster _stableMaster
+	) ERC20(_name, _symbol) {
+<span class="cstat-no" title="statement not covered" >		stableMaster = _stableMaster</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		_setupRole(STABLEMASTER_ROLE, address(stableMaster))</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(STABLEMASTER_ROLE, STABLEMASTER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GOVERNOR_ROLE, STABLEMASTER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GUARDIAN_ROLE, STABLEMASTER_ROLE)</span>;
+	}
+&nbsp;
+	/// @notice initiate the governor and guardian role
+	/// @param governor address of the protocol
+	/// @param guardian address
+	/// @dev called by the stableMaster
+<span class="fstat-no" title="function not covered" >	function init(address governor, address guardian) external override onlyRole(STABLEMASTER_ROLE) initializer {</span>
+<span class="cstat-no" title="statement not covered" >		grantRole(GOVERNOR_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GOVERNOR_ROLE, address(stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, address(stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, guardian)</span>;
+	}
+&nbsp;
+	// ========================= External Functions =======================
+&nbsp;
+	/// @notice burn this aToken and redeem the collateral requested on behalf of another address
+	/// @param account to burn from
+	/// @param amount to burn
+	/// @param _name of the collateral requested
+	/// @dev pausable
+<span class="fstat-no" title="function not covered" >	function burnFrom(</span>
+		address account,
+		uint256 amount,
+		string memory _name
+	) external whenNotPaused(_name) {
+<span class="cstat-no" title="statement not covered" >		_burnFromNoRedeem(account, amount)</span>;
+<span class="cstat-no" title="statement not covered" >		require(address(managerMap[_name]) != address(0), 'AToken::burnFrom: Invalid collateral')</span>;
+<span class="cstat-no" title="statement not covered" >		stableMaster.notifyBurn(amount, managerMap[_name], account)</span>;
+	}
+&nbsp;
+	/// @notice burn this aToken and redeem the collateral
+	/// @param amount to burn
+	/// @param _name of the collateral requested
+	/// @dev pausable
+<span class="fstat-no" title="function not covered" >	function burnSelf(uint256 amount, string memory _name) external whenNotPaused(_name) {</span>
+<span class="cstat-no" title="statement not covered" >		_burn(msg.sender, amount)</span>;
+<span class="cstat-no" title="statement not covered" >		require(address(managerMap[_name]) != address(0), 'AToken::burnSelf: Invalid collateral')</span>;
+<span class="cstat-no" title="statement not covered" >		stableMaster.notifyBurn(amount, managerMap[_name], msg.sender)</span>;
+	}
+&nbsp;
+	/// @notice Destroys amount token for the caller without redeeming collateral back
+	/// @param amount to burn
+<span class="fstat-no" title="function not covered" >	function burnNoRedeem(uint256 amount) external override {</span>
+<span class="cstat-no" title="statement not covered" >		_burn(msg.sender, amount)</span>;
+	}
+&nbsp;
+	/// @notice Burns the amount of aToken on behalf of another account without redeeming collateral back
+	/// @param account account to burn on behalf of
+	/// @param amount to burn
+	/// @dev This function is typically used in the bonding curve where aTokens are burnt and murTokens are given in exchange
+<span class="fstat-no" title="function not covered" >	function burnFromNoRedeem(address account, uint256 amount) external override {</span>
+<span class="cstat-no" title="statement not covered" >		_burnFromNoRedeem(account, amount)</span>;
+	}
+&nbsp;
+	/// @notice Internal form of the function burnFromNoRedeem
+	/// @param account account to burn on behalf of
+	/// @param amount to burn
+<span class="fstat-no" title="function not covered" >	function _burnFromNoRedeem(address account, uint256 amount) internal {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 currentAllowance = allowance(account, _msgSender());</span>
+<span class="cstat-no" title="statement not covered" >		require(currentAllowance &gt;= amount, 'AToken::_burnFromNoRedeem: Burn amount exceeds allowance')</span>;
+<span class="cstat-no" title="statement not covered" >		_approve(account, _msgSender(), currentAllowance - amount)</span>;
+<span class="cstat-no" title="statement not covered" >		_burn(account, amount)</span>;
+	}
+&nbsp;
+	// ========================= StableMaster Functions =====================
+&nbsp;
+	/// @notice to mint this token
+	/// @param account to mint to
+	/// @param amount to mint
+<span class="fstat-no" title="function not covered" >	function mint(address account, uint256 amount) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_mint(account, amount)</span>;
+	}
+&nbsp;
+	/// @notice set a new stable master contract
+	/// @param _stableMaster contract
+<span class="fstat-no" title="function not covered" >	function setStableMaster(IStableMaster _stableMaster) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		grantRole(STABLEMASTER_ROLE, address(_stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GOVERNOR_ROLE, address(_stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, address(_stableMaster))</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		revokeRole(GOVERNOR_ROLE, address(stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(GUARDIAN_ROLE, address(stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(STABLEMASTER_ROLE, address(stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		stableMaster = _stableMaster</span>;
+	}
+&nbsp;
+	/// @notice set a new manager
+	/// @param _name collateral of interest
+	/// @param _manager contract
+<span class="fstat-no" title="function not covered" >	function setManager(string memory _name, IManager _manager) external override onlyRole(STABLEMASTER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		managerMap[_name] = _manager</span>;
+	}
+&nbsp;
+	// TODO GOVERNOR_ROLE is not used: do we still use it
+&nbsp;
+	// ========================= Guardian Functions =====================
+&nbsp;
+	/// @notice set pausable methods to paused for the associated collateral name
+	/// @param name of the collateral we want to pause
+<span class="fstat-no" title="function not covered" >	function pause(string memory name) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_pause(name)</span>;
+	}
+&nbsp;
+	/// @notice set pausable methods to unpaused for the associated collateral name
+	/// @param name of the collateral we want to pause
+<span class="fstat-no" title="function not covered" >	function unpause(string memory name) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_unpause(name)</span>;
+	}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

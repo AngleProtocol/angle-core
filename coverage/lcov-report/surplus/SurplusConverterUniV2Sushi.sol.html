@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for surplus/SurplusConverterUniV2Sushi.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">surplus/</a> SurplusConverterUniV2Sushi.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>40/40</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>28/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>42/42</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "../interfaces/external/uniswap/IUniswapRouter.sol";
+import "./BaseSurplusConverter.sol";
+&nbsp;
+/// @title SurplusConverterUniV2Sushi
+/// @author Angle Core Team
+/// @notice A contract to swap tokens from the surplus of the protocol to a reward token
+/// (could be ANGLE tokens, or another type of token)
+/// @dev This contract for each swap compares swaps using UniswapV2 with swaps using Sushiswap and does the swap with the
+/// exchange with the best price
+contract SurplusConverterUniV2Sushi is BaseSurplusConverter {
+    using SafeERC20 for IERC20;
+&nbsp;
+    event PathAdded(address indexed token, address[] path, uint8 typePath);
+    event PathRevoked(address indexed token, uint8 _type);
+&nbsp;
+    /// @notice Address of the uniswapV2Router for swaps
+    IUniswapV2Router public immutable uniswapV2Router;
+&nbsp;
+    /// @notice Address of the sushiswapV2Router for swaps
+    IUniswapV2Router public immutable sushiswapRouter;
+&nbsp;
+    /// @notice Maps a token to the related path on Uniswap to do the swap to the reward token
+    mapping(address =&gt; address[]) public uniswapPaths;
+&nbsp;
+    /// @notice Maps a token to the related path on Sushiswap to do the swap to the reward token
+    mapping(address =&gt; address[]) public sushiswapPaths;
+&nbsp;
+    /// @notice Constructor of the `SurplusConverterUniV2Sushi`
+    /// @param _rewardToken Reward token that this contract tries to buy
+    /// @param _feeDistributor Reference to the contract handling fee distribution
+    /// @param _uniswapV2Router Reference to the `UniswapV2Router`
+    /// @param _sushiswapRouter Reference to the `SushiswapRouter`
+    /// @param whitelisted Reference to the first whitelisted address that will have the right
+    /// @param governor Governor of the protocol
+    /// @param guardians List of guardians of the protocol
+    constructor(
+        address _rewardToken,
+        address _feeDistributor,
+        address _uniswapV2Router,
+        address _sushiswapRouter,
+        address whitelisted,
+        address governor,
+        address[] memory guardians
+    ) BaseSurplusConverter(_rewardToken, _feeDistributor, whitelisted, governor, guardians) {
+        require(_uniswapV2Router != address(0) &amp;&amp; _sushiswapRouter != address(0), "0");
+        sushiswapRouter = IUniswapV2Router(_sushiswapRouter);
+        uniswapV2Router = IUniswapV2Router(_uniswapV2Router);
+    }
+&nbsp;
+    /// @notice Adds a token to support with this contract
+    /// @param token Token to add to this contract
+    /// @param path Path used for the swap
+    /// @param typePath Type of path specified, i.e is it a path for Sushiswap or for Uniswap
+    /// @dev `typePath = 0` corresponds to a Sushiswap path
+    /// @dev `typePath = 1` corresponds to a Uniswap path
+    /// @dev This function can be called to change the path for a token or to add support
+    /// for Uniswap or for Sushiswap
+    function addToken(
+        address token,
+        address[] memory path,
+        uint8 typePath
+    ) external onlyRole(GUARDIAN_ROLE) {
+        require(token != address(0), "0");
+        uint256 pathLength = path.length;
+        require(pathLength &gt;= 2 &amp;&amp; path[pathLength - 1] == address(rewardToken) &amp;&amp; path[0] == token, "111");
+        if (typePath == 0) {
+            if (sushiswapPaths[token].length == 0) {
+                // If this path is for a brand new token, then we need to approve the Sushiswap Router contract
+                IERC20(token).safeApprove(address(sushiswapRouter), type(uint256).max);
+            }
+            sushiswapPaths[token] = path;
+        } else {
+            if (uniswapPaths[token].length == 0) {
+                // If this path is a brand new path, then we need to approve the Uniswap Router contract
+                IERC20(token).safeApprove(address(uniswapV2Router), type(uint256).max);
+            }
+            uniswapPaths[token] = path;
+        }
+        emit PathAdded(token, path, typePath);
+    }
+&nbsp;
+    /// @notice Getter defined to easily get access to the array of addresses corresponding to a token
+    /// @param token Token to query
+    /// @param typePath Type of path to fetch (= 0 if Sushiswap, &gt; 0 if Uniswap)
+    function getPath(address token, uint8 typePath) external view returns (address[] memory) {
+        if (typePath == 0) {
+            return sushiswapPaths[token];
+        } else {
+            return uniswapPaths[token];
+        }
+    }
+&nbsp;
+    /// @notice Revokes a supported token by this contract or just a path for this token
+    /// @param token Token to revoke
+    /// @param _type Type of revokation to make
+    /// @dev `type = 0` means that just the Sushiswap path needs to be revoked
+    /// @dev `type = 1` means that just the Uniswap path should be revoked
+    /// @dev Other types mean that both Uniswap and Sushiswap paths should be revoked: the token is no longer handled
+    function revokeToken(address token, uint8 _type) external onlyRole(GUARDIAN_ROLE) {
+        if (_type == 0) {
+            delete sushiswapPaths[token];
+            IERC20(token).safeApprove(address(sushiswapRouter), 0);
+        } else if (_type == 1) {
+            delete uniswapPaths[token];
+            IERC20(token).safeApprove(address(uniswapV2Router), 0);
+        } else {
+            delete sushiswapPaths[token];
+            delete uniswapPaths[token];
+            IERC20(token).safeApprove(address(uniswapV2Router), 0);
+            IERC20(token).safeApprove(address(sushiswapRouter), 0);
+        }
+        emit PathRevoked(token, _type);
+    }
+&nbsp;
+    /// @notice Buys back `rewardToken` from Uniswap or Sushiswap using the accumulated `token` and distributes
+    /// the results of the swaps to the `FeeDistributor` or some other `SurplusConverter` contract
+    /// @param token Token to use for buybacks of `rewardToken`
+    /// @param amount Amount of tokens to use for the buyback
+    /// @param minAmount Specify the minimum amount to receive out of the swap as a slippage protection
+    /// @param transfer Whether the function should transfer the bought back `rewardToken` directly to the `FeeDistributor`
+    /// contract or to the associated other `SurplusConverter`
+    /// @dev If a `token` has two paths associated to it (one from Uniswap, one from Sushiswap), this function optimizes
+    /// and chooses the best path
+    function buyback(
+        address token,
+        uint256 amount,
+        uint256 minAmount,
+        bool transfer
+    ) external override whenNotPaused onlyRole(WHITELISTED_ROLE) {
+        // Storing the values in memory to avoid multiple storage reads
+        address[] memory sushiswapPath = sushiswapPaths[token];
+        address[] memory uniswapPath = uniswapPaths[token];
+        require(sushiswapPath.length &gt; 0 || uniswapPath.length &gt; 0, "20");
+        if (sushiswapPath.length &gt; 0 &amp;&amp; uniswapPath.length &gt; 0) {
+            // Storing the router addresses in memory to avoid duplicate storage reads for one of the two
+            // addresses
+            IUniswapV2Router uniswapV2RouterMem = uniswapV2Router;
+            IUniswapV2Router sushiswapRouterMem = sushiswapRouter;
+            uint256[] memory amountsUni = uniswapV2RouterMem.getAmountsOut(amount, uniswapPath);
+            uint256[] memory amountsSushi = sushiswapRouterMem.getAmountsOut(amount, sushiswapPath);
+            if (amountsUni[amountsUni.length - 1] &gt;= amountsSushi[amountsSushi.length - 1]) {
+                uniswapV2RouterMem.swapExactTokensForTokens(
+                    amount,
+                    minAmount,
+                    uniswapPath,
+                    address(this),
+                    block.timestamp
+                );
+            } else {
+                sushiswapRouterMem.swapExactTokensForTokens(
+                    amount,
+                    minAmount,
+                    sushiswapPath,
+                    address(this),
+                    block.timestamp
+                );
+            }
+        } else if (sushiswapPath.length &gt; 0) {
+            sushiswapRouter.swapExactTokensForTokens(amount, minAmount, sushiswapPath, address(this), block.timestamp);
+        } else {
+            uniswapV2Router.swapExactTokensForTokens(amount, minAmount, uniswapPath, address(this), block.timestamp);
+        }
+        if (transfer) {
+            // This call will automatically transfer all the `rewardToken` balance of this contract to the `FeeDistributor`
+            feeDistributor.burn(address(rewardToken));
+        }
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

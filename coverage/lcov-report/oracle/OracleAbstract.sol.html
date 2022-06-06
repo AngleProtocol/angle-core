@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for oracle/OracleAbstract.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">oracle/</a> OracleAbstract.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>5/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">80% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>5/5</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "../interfaces/IOracle.sol";
+&nbsp;
+/// @title OracleAbstract
+/// @author Angle Core Team
+/// @notice Abstract Oracle contract that contains some of the functions that are used across all oracle contracts
+/// @dev This is the most generic form of oracle contract
+/// @dev A rate gives the price of the out-currency with respect to the in-currency in base `BASE`. For instance
+/// if the out-currency is ETH worth 1000 USD, then the rate ETH-USD is 10**21
+abstract contract OracleAbstract is IOracle {
+    /// @notice Base used for computation
+    uint256 public constant BASE = 10**18;
+    /// @notice Unit of the in-currency
+    uint256 public override inBase;
+    /// @notice Description of the assets concerned by the oracle and the price outputted
+    bytes32 public description;
+&nbsp;
+    /// @notice Reads one of the rates from the circuits given
+    /// @return rate The current rate between the in-currency and out-currency
+    /// @dev By default if the oracle involves a Uniswap price and a Chainlink price
+    /// this function will return the Uniswap price
+    /// @dev The rate returned is expressed with base `BASE` (and not the base of the out-currency)
+    function read() external view virtual override returns (uint256 rate);
+&nbsp;
+    /// @notice Read rates from the circuit of both Uniswap and Chainlink if there are both circuits
+    /// else returns twice the same price
+    /// @return Return all available rates (Chainlink and Uniswap) with the lowest rate returned first.
+    /// @dev The rate returned is expressed with base `BASE` (and not the base of the out-currency)
+    function readAll() external view override returns (uint256, uint256) {
+        return _readAll(inBase);
+    }
+&nbsp;
+    /// @notice Reads rates from the circuit of both Uniswap and Chainlink if there are both circuits
+    /// and returns either the highest of both rates or the lowest
+    /// @return rate The lower rate between Chainlink and Uniswap
+    /// @dev If there is only one rate computed in an oracle contract, then the only rate is returned
+    /// regardless of the value of the `lower` parameter
+    /// @dev The rate returned is expressed with base `BASE` (and not the base of the out-currency)
+    function readLower() external view override returns (uint256 rate) {
+        (rate, ) = _readAll(inBase);
+    }
+&nbsp;
+    /// @notice Reads rates from the circuit of both Uniswap and Chainlink if there are both circuits
+    /// and returns either the highest of both rates or the lowest
+    /// @return rate The upper rate between Chainlink and Uniswap
+    /// @dev If there is only one rate computed in an oracle contract, then the only rate is returned
+    /// regardless of the value of the `lower` parameter
+    /// @dev The rate returned is expressed with base `BASE` (and not the base of the out-currency)
+    function readUpper() external view override returns (uint256 rate) {
+        (, rate) = _readAll(inBase);
+    }
+&nbsp;
+    /// @notice Converts an in-currency quote amount to out-currency using one of the rates available in the oracle
+    /// contract
+    /// @param quoteAmount Amount (in the input collateral) to be converted to be converted in out-currency
+    /// @return Quote amount in out-currency from the base amount in in-currency
+    /// @dev Like in the read function, if the oracle involves a Uniswap and a Chainlink price, this function
+    /// will use the Uniswap price to compute the out quoteAmount
+    /// @dev The rate returned is expressed with base `BASE` (and not the base of the out-currency)
+    function readQuote(uint256 quoteAmount) external view virtual override returns (uint256);
+&nbsp;
+    /// @notice Returns the lowest quote amount between Uniswap and Chainlink circuits (if possible). If the oracle
+    /// contract only involves a single feed, then this returns the value of this feed
+    /// @param quoteAmount Amount (in the input collateral) to be converted
+    /// @return The lowest quote amount from the quote amount in in-currency
+    /// @dev The rate returned is expressed with base `BASE` (and not the base of the out-currency)
+    function readQuoteLower(uint256 quoteAmount) external view override returns (uint256) {
+        (uint256 quoteSmall, ) = _readAll(quoteAmount);
+        return quoteSmall;
+    }
+&nbsp;
+    /// @notice Returns Uniswap and Chainlink values (with the first one being the smallest one) or twice the same value
+    /// if just Uniswap or just Chainlink is used
+    /// @param quoteAmount Amount expressed in the in-currency base.
+    /// @dev If `quoteAmount` is `inBase`, rates are returned
+    /// @return The first return value is the lowest value and the second parameter is the highest
+    /// @dev The rate returned is expressed with base `BASE` (and not the base of the out-currency)
+<span class="fstat-no" title="function not covered" >    function _readAll(uint256 quoteAmount) internal view virtual returns (uint256, uint256) {}</span>
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

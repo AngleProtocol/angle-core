@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for poolManager/PoolManagerInternal.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">poolManager/</a> PoolManagerInternal.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>20/20</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>4/4</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>5/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>20/20</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">25×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">430×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">331×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "./PoolManagerStorageV3.sol";
+&nbsp;
+/// @title PoolManagerInternal
+/// @author Angle Core Team
+/// @notice The `PoolManager` contract corresponds to a collateral pool of the protocol for a stablecoin,
+/// it manages a single ERC20 token. It is responsible for interacting with the strategies enabling the protocol
+/// to get yield on its collateral
+/// @dev This file contains all the internal functions of the `PoolManager` contract
+contract PoolManagerInternal is PoolManagerStorageV3 {
+    using SafeERC20 for IERC20;
+&nbsp;
+    // Roles need to be defined here because there are some internal access control functions
+    // in the `PoolManagerInternal` file
+&nbsp;
+    /// @notice Role for `StableMaster` only
+    bytes32 public constant STABLEMASTER_ROLE = keccak256("STABLEMASTER_ROLE");
+    /// @notice Role for governors only
+    bytes32 public constant GOVERNOR_ROLE = keccak256("GOVERNOR_ROLE");
+    /// @notice Role for guardians and governors
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+    /// @notice Role for `Strategy` only
+    bytes32 public constant STRATEGY_ROLE = keccak256("STRATEGY_ROLE");
+&nbsp;
+    // ======================= Access Control and Governance =======================
+&nbsp;
+    /// @notice Adds a new guardian address and echoes the change to the contracts
+    /// that interact with this collateral `PoolManager`
+    /// @param _guardian New guardian address
+    function _addGuardian(address _guardian) internal {
+        // Granting the new role
+        // Access control for this contract
+        _grantRole(GUARDIAN_ROLE, _guardian);
+        // Propagating the new role in other contract
+        perpetualManager.grantRole(GUARDIAN_ROLE, _guardian);
+        feeManager.grantRole(GUARDIAN_ROLE, _guardian);
+        uint256 strategyListLength = strategyList.length;
+        for (uint256 i = 0; i &lt; strategyListLength; i++) {
+            IStrategy(strategyList[i]).addGuardian(_guardian);
+        }
+    }
+&nbsp;
+    /// @notice Revokes the guardian role and propagates the change to other contracts
+    /// @param guardian Old guardian address to revoke
+    function _revokeGuardian(address guardian) internal {
+        _revokeRole(GUARDIAN_ROLE, guardian);
+        perpetualManager.revokeRole(GUARDIAN_ROLE, guardian);
+        feeManager.revokeRole(GUARDIAN_ROLE, guardian);
+        uint256 strategyListLength = strategyList.length;
+        for (uint256 i = 0; i &lt; strategyListLength; i++) {
+            IStrategy(strategyList[i]).revokeGuardian(guardian);
+        }
+    }
+&nbsp;
+    // ============================= Yield Farming =================================
+&nbsp;
+    /// @notice Internal version of `updateStrategyDebtRatio`
+    /// @dev Updates the debt ratio for a strategy
+    function _updateStrategyDebtRatio(address strategy, uint256 _debtRatio) internal {
+        StrategyParams storage params = strategies[strategy];
+        require(params.lastReport != 0, "78");
+        debtRatio = debtRatio + _debtRatio - params.debtRatio;
+        require(debtRatio &lt;= BASE_PARAMS, "76");
+        params.debtRatio = _debtRatio;
+        emit StrategyAdded(strategy, debtRatio);
+    }
+&nbsp;
+    // ============================ Utils ==========================================
+&nbsp;
+    /// @notice Returns this `PoolManager`'s reserve of collateral (not including what has been lent)
+    function _getBalance() internal view returns (uint256) {
+        return token.balanceOf(address(this));
+    }
+&nbsp;
+    /// @notice Returns the amount of assets owned by this `PoolManager`
+    /// @dev This sums the current balance of the contract to what has been given to strategies
+    /// @dev This amount can be manipulated by flash loans
+    function _getTotalAsset() internal view returns (uint256) {
+        return _getBalance() + totalDebt;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

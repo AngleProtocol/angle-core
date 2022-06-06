@@ -1,0 +1,788 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for aToken/AToken.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">aToken/</a> AToken.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>37/37</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>6/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>17/17</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>38/38</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">30×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">51×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.2;
+&nbsp;
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-ERC20PermitUpgradeable.sol";
+&nbsp;
+import "../interfaces/IAToken.sol";
+import "../interfaces/IManager.sol";
+&nbsp;
+import "../utils/PausableMap.sol";
+&nbsp;
+/// @title AToken
+/// @author Angle Core Team
+/// @notice Base contract for aToken, that is to say Angle's stablecoins
+/// @dev This contract is used to create stablecoins
+/// @dev This contract is the point of entry for users to burn their token and redeem collateral in exchange
+contract AToken is IAToken, ERC20PermitUpgradeable, AccessControlUpgradeable, PausableMap {
+    // No need for a GOVERNOR_ROLE here, governor will be guardian
+    bytes32 public constant STABLEMASTER_ROLE = keccak256("STABLEMASTER_ROLE");
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+&nbsp;
+    // ========================= References to other contracts ===================
+&nbsp;
+    /// @notice Reference to the stableMaster contract associated to this aToken
+    IStableMaster public stableMaster;
+&nbsp;
+    /// @notice Mapping between the name of a collateral to the address of the manager associated
+    /// to this stablecoin
+    mapping(bytes32 =&gt; IManager) public managerMap;
+&nbsp;
+    // ========================= Constructor ===================
+&nbsp;
+    /// @notice Initializes the aToken
+    /// @param name_ Name of the token
+    /// @param symbol_ Symbol of the token
+    /// @param stableMaster_ Reference to the stableMaster contract associated to this aToken
+    /// @dev This function is to be called by the stableMaster initiating a stablecoin
+    function initialize(
+        string memory name_,
+        string memory symbol_,
+        IStableMaster stableMaster_
+    ) public initializer {
+        __AccessControl_init();
+        __ERC20Permit_init(name_);
+        __ERC20_init(name_, symbol_);
+        __Context_init();
+&nbsp;
+        // Creating a correct reference
+        stableMaster = stableMaster_;
+&nbsp;
+        // Access Control
+        // All the roles in this contract are handled by the stableMaster
+        _setupRole(STABLEMASTER_ROLE, address(stableMaster));
+        _setRoleAdmin(STABLEMASTER_ROLE, STABLEMASTER_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE, STABLEMASTER_ROLE);
+    }
+&nbsp;
+    /// @notice Initiates the governor and guardian role
+    /// @param governorList List of the governor addresses of the protocol
+    /// @param guardian Guardian address of the protocol
+    function init(address[] memory governorList, address guardian) external override onlyRole(STABLEMASTER_ROLE) {
+        grantRole(GUARDIAN_ROLE, address(stableMaster));
+        grantRole(GUARDIAN_ROLE, guardian);
+        for (uint256 i = 0; i &lt; governorList.length; i++) {
+            grantRole(GUARDIAN_ROLE, governorList[i]);
+        }
+        // Guardian role only serves to pause or unpause some functions here
+    }
+&nbsp;
+    // ========================= External Functions =======================
+&nbsp;
+    /// @notice Lets an address burn aToken and redeem collateral for this address
+    /// @param amount Amount of aTokens to burn from caller
+    /// @param _name The bytes representing the requested collateral
+    /// @dev This method is pausable, users can be prevented from burning
+    function burnSelf(uint256 amount, bytes32 _name) external whenNotPaused(_name) {
+        _burnSelfAndFor(msg.sender, amount, _name);
+    }
+&nbsp;
+    /// @notice Lets an address burn aToken and redeem collateral that will go to a selected address
+    /// @param dest Address that will receive the collateral in the end
+    /// @param amount Amount of aTokens to burn from caller
+    /// @param _name Requested collateral in bytes
+    /// @dev This method is pausable, users can be prevented from burning and redeeming a given collateral
+    function burnSelfAndFor(
+        address dest,
+        uint256 amount,
+        bytes32 _name
+    ) external whenNotPaused(_name) {
+        _burnSelfAndFor(dest, amount, _name);
+    }
+&nbsp;
+    /// @notice Lets an address burn aToken on behalf of another address and redeem
+    /// collateral that will go to this other address
+    /// @param burner Address to burn from and to redeem collateral to
+    /// @param amount Amount of aTokens to burn
+    /// @param _name The bytes representing the requested collateral
+    /// @dev This method is pausable, users can be prevented from redeeming a specific collateral type
+    function burnFrom(
+        address burner,
+        uint256 amount,
+        bytes32 _name
+    ) external whenNotPaused(_name) {
+        _burnFromAndFor(burner, burner, amount, _name);
+    }
+&nbsp;
+    /// @notice Lets an address burn aToken on behalf of another address and redeem
+    /// the corresponding collateral for another address
+    /// @param dest Address to redeem collateral to
+    /// @param burner Address to burn from
+    /// @param amount Amount of aTokens to burn
+    /// @param _name The bytes representing the requested collateral
+    /// @dev This method is pausable
+    function burnFromAndFor(
+        address dest,
+        address burner,
+        uint256 amount,
+        bytes32 _name
+    ) external whenNotPaused(_name) {
+        _burnFromAndFor(dest, burner, amount, _name);
+    }
+&nbsp;
+    /// @notice Destroys amount token for the caller without giving collateral back
+    /// @param amount Amount to burn
+    function burnNoRedeem(uint256 amount) external {
+        _burn(msg.sender, amount);
+    }
+&nbsp;
+    /// @notice Burns the amount of aToken on behalf of another account without redeeming collateral back
+    /// @param account Account to burn on behalf of
+    /// @param amount Amount to burn
+    /// @dev This function is typically used in the bonding curve where aTokens are burnt
+    ///  and murTokens are given in exchange
+    function burnFromNoRedeem(address account, uint256 amount) external override {
+        _burnFromNoRedeem(account, amount);
+    }
+&nbsp;
+    // ========================= StableMaster Functions =====================
+&nbsp;
+    /// @notice Lets the stableMaster contract mint aTokens
+    /// @param account Address to mint to
+    /// @param amount Amount to mint
+    /// @dev Only the stableMaster contract can issue aTokens, it will typically do so after being requested by the
+    /// collateral manager
+    function mint(address account, uint256 amount) external override onlyRole(STABLEMASTER_ROLE) {
+        _mint(account, amount);
+    }
+&nbsp;
+    /// @notice Sets a new stableMaster contract
+    /// @param _stableMaster Reference to the new stableMaster contract
+    /// @dev This is called by the stableMaster propagating a change
+    function setStableMaster(IStableMaster _stableMaster) external override onlyRole(STABLEMASTER_ROLE) {
+        // Access Control
+        grantRole(STABLEMASTER_ROLE, address(_stableMaster));
+        grantRole(GUARDIAN_ROLE, address(_stableMaster));
+&nbsp;
+        revokeRole(GUARDIAN_ROLE, address(stableMaster));
+        revokeRole(STABLEMASTER_ROLE, address(stableMaster));
+        stableMaster = _stableMaster;
+    }
+&nbsp;
+    /// @notice Sets a new manager contract
+    /// @param _name The name of the new accepted collateral
+    /// @param _manager The address of the manager contract
+    /// @dev This is called by the stableMaster propagating a change
+    function setManager(bytes32 _name, IManager _manager) external override onlyRole(STABLEMASTER_ROLE) {
+        managerMap[_name] = _manager;
+    }
+&nbsp;
+    /// @notice Deletes a manager contract
+    /// @param _name The name of the collateral to delete
+    /// @dev This is called by the stableMaster when a collateral is revoked
+    /// @dev There is no need to pause the function for this collateral name before deleting,
+    /// since pausable functions will revert anyway
+    function removeManager(bytes32 _name) external override onlyRole(STABLEMASTER_ROLE) {
+        delete managerMap[_name];
+    }
+&nbsp;
+    // ========================= Guardian Functions =====================
+&nbsp;
+    /// @notice Pauses burn for a given collateral type
+    /// @param name Name of the collateral to pause
+    /// @dev After this function is called, it is typically impossible for users to burn their aTokens
+    /// and redeem in exchange the requested collateral
+    /// @dev Users could still get another collateral
+    function pause(bytes32 name) external onlyRole(GUARDIAN_ROLE) {
+        _pause(name);
+    }
+&nbsp;
+    /// @notice Unpauses redeeming a given collateral from stablecoins
+    /// @param name Name of the collateral to unpause
+    /// @dev After this function is called, users will be able to burn aTokens and get collateral `name` in exchange
+    function unpause(bytes32 name) external onlyRole(GUARDIAN_ROLE) {
+        _unpause(name);
+    }
+&nbsp;
+    // ============================ Internal Functions ==========================
+&nbsp;
+    /// @notice Lets an address burn aToken and redeem collateral that will go to another address
+    /// @param dest Address that will receive the collateral in the end
+    /// @param amount Amount of aTokens to burn from caller
+    /// @param _name The bytes representing the requested collateral
+    /// @dev This method is the internal version of the burnSelfAndFor method
+    function _burnSelfAndFor(
+        address dest,
+        uint256 amount,
+        bytes32 _name
+    ) internal {
+        require(address(managerMap[_name]) != address(0), "AToken::burnSelf: invalid collateral");
+        _burn(msg.sender, amount);
+        stableMaster.notifyBurn(amount, managerMap[_name], dest);
+    }
+&nbsp;
+    /// @notice Lets an address burn aToken on behalf of another address and redeem
+    /// the corresponding collateral for another address
+    /// @param dest Address to redeem collateral to
+    /// @param burner Address to burn from
+    /// @param amount Amount of aTokens to burn
+    /// @param _name The bytes representing the requested collateral
+    /// @dev This method is the internal version of the burnFromAndFor above
+    function _burnFromAndFor(
+        address dest,
+        address burner,
+        uint256 amount,
+        bytes32 _name
+    ) internal {
+        require(address(managerMap[_name]) != address(0), "AToken::burnFrom: invalid collateral");
+        _burnFromNoRedeem(burner, amount);
+        stableMaster.notifyBurn(amount, managerMap[_name], dest);
+    }
+&nbsp;
+    /// @notice Internal form of the function burnFromNoRedeem
+    /// @param account Account to burn on behalf of
+    /// @param amount Amount to burn
+    function _burnFromNoRedeem(address account, uint256 amount) internal {
+        uint256 currentAllowance = allowance(account, _msgSender());
+        require(currentAllowance &gt;= amount, "AToken::_burnFromNoRedeem: Burn amount exceeds allowance");
+        _approve(account, _msgSender(), currentAllowance - amount);
+        _burn(account, amount);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Jun 29 2021 20:06:02 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for feeManager/FeeManager.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">feeManager/</a> FeeManager.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>62/62</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>28/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>8/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>59/59</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">143×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">141×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">141×</span>
+<span class="cline-any cline-yes">141×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">110×</span>
+<span class="cline-any cline-yes">110×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">110×</span>
+<span class="cline-any cline-yes">110×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">138×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">138×</span>
+<span class="cline-any cline-yes">138×</span>
+<span class="cline-any cline-yes">138×</span>
+<span class="cline-any cline-yes">138×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">138×</span>
+<span class="cline-any cline-yes">138×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">472×</span>
+<span class="cline-any cline-yes">470×</span>
+<span class="cline-any cline-yes">1262×</span>
+<span class="cline-any cline-yes">792×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">468×</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">117×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-yes">115×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">234×</span>
+<span class="cline-any cline-yes">124×</span>
+<span class="cline-any cline-yes">240×</span>
+<span class="cline-any cline-yes">129×</span>
+<span class="cline-any cline-yes">127×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">679×</span>
+<span class="cline-any cline-yes">456×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">128×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">98×</span>
+<span class="cline-any cline-yes">98×</span>
+<span class="cline-any cline-yes">51×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">47×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">89×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "./FeeManagerStorage.sol";
+&nbsp;
+/// @title FeeManager
+/// @author Angle Core Team
+/// @dev This contract interacts with fee parameters for a given stablecoin/collateral pair
+/// @dev `FeeManager` contains all the functions that keepers can call to update parameters
+/// in the `StableMaster` and `PerpetualManager` contracts
+/// @dev These parameters need to be updated by keepers because they depend on variables, like
+/// the collateral ratio, that are too expensive to compute each time transactions that would need
+/// it occur
+contract FeeManager is FeeManagerStorage, IFeeManagerFunctions, AccessControl, Initializable {
+    /// @notice Role for `PoolManager` only
+    bytes32 public constant POOLMANAGER_ROLE = keccak256("POOLMANAGER_ROLE");
+    /// @notice Role for guardians and governors
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+&nbsp;
+    /// @notice Deploys the `FeeManager` contract for a pair stablecoin/collateral
+    /// @param _poolManager `PoolManager` contract handling the collateral
+    /// @dev The `_poolManager` address is used to grant the correct role. It does not need to be stored by the
+    /// contract
+    /// @dev There is no need to do a zero address check on the `_poolManager` as if the zero address is passed
+    /// the function will revert when trying to fetch the `StableMaster`
+    constructor(IPoolManager _poolManager) {
+        stableMaster = IStableMaster(_poolManager.stableMaster());
+        // Once a `FeeManager` contract has been initialized with a `PoolManager` contract, this
+        // reference cannot be modified
+        _setupRole(POOLMANAGER_ROLE, address(_poolManager));
+&nbsp;
+        _setRoleAdmin(POOLMANAGER_ROLE, POOLMANAGER_ROLE);
+        _setRoleAdmin(GUARDIAN_ROLE, POOLMANAGER_ROLE);
+    }
+&nbsp;
+    /// @notice Initializes the governor and guardian roles of the contract as well as the reference to
+    /// the `perpetualManager` contract
+    /// @param governorList List of the governor addresses of the protocol
+    /// @param guardian Guardian address of the protocol
+    /// @param _perpetualManager `PerpetualManager` contract handling the perpetuals of the pool
+    /// @dev `GUARDIAN_ROLE` can then directly be granted or revoked by the corresponding `PoolManager`
+    /// As `POOLMANAGER_ROLE` is admin of `GUARDIAN_ROLE`, it corresponds to the intended behaviour of roles
+    function deployCollateral(
+        address[] memory governorList,
+        address guardian,
+        address _perpetualManager
+    ) external override onlyRole(POOLMANAGER_ROLE) initializer {
+        for (uint256 i = 0; i &lt; governorList.length; i++) {
+            _grantRole(GUARDIAN_ROLE, governorList[i]);
+        }
+        _grantRole(GUARDIAN_ROLE, guardian);
+        perpetualManager = IPerpetualManager(_perpetualManager);
+    }
+&nbsp;
+    // ============================ `StableMaster` =================================
+&nbsp;
+    /// @notice Updates the SLP and Users fees associated to the pair stablecoin/collateral in
+    /// the `StableMaster` contract
+    /// @dev This function updates:
+    /// 	-	`bonusMalusMint`: part of the fee induced by a user minting depending on the collateral ratio
+    ///                   In normal times, no fees are taken for that, and so this fee should be equal to `BASE_PARAMS`
+    ///		-	`bonusMalusBurn`: part of the fee induced by a user burning depending on the collateral ratio
+    ///		-	Slippage: what's given to SLPs compared with their claim when they exit
+    ///		-	SlippageFee: that is the portion of fees that is put aside because the protocol
+    ///         is not well collateralized
+    /// @dev `bonusMalusMint` and `bonusMalusBurn` allow governance to add penalties or bonuses for users minting
+    /// and burning in some situations of collateral ratio. These parameters are multiplied to the fee amount depending
+    /// on the hedge ratio by Hedging Agents to get the exact fee induced to the users
+    function updateUsersSLP() external override {
+        // Computing the collateral ratio, expressed in `BASE_PARAMS`
+        uint256 collatRatio = stableMaster.getCollateralRatio();
+        // Computing the fees based on this collateral ratio
+        uint64 bonusMalusMint = _piecewiseLinearCollatRatio(collatRatio, xBonusMalusMint, yBonusMalusMint);
+        uint64 bonusMalusBurn = _piecewiseLinearCollatRatio(collatRatio, xBonusMalusBurn, yBonusMalusBurn);
+        uint64 slippage = _piecewiseLinearCollatRatio(collatRatio, xSlippage, ySlippage);
+        uint64 slippageFee = _piecewiseLinearCollatRatio(collatRatio, xSlippageFee, ySlippageFee);
+&nbsp;
+        emit UserAndSLPFeesUpdated(collatRatio, bonusMalusMint, bonusMalusBurn, slippage, slippageFee);
+        stableMaster.setFeeKeeper(bonusMalusMint, bonusMalusBurn, slippage, slippageFee);
+    }
+&nbsp;
+    // ============================= PerpetualManager ==============================
+&nbsp;
+    /// @notice Updates HA fees associated to the pair stablecoin/collateral in the `PerpetualManager` contract
+    /// @dev This function updates:
+    ///     - The part of the fee taken from HAs when they open a perpetual or add collateral in it. This allows
+    ///        governance to add penalties or bonuses in some occasions to HAs opening their perpetuals
+    ///     - The part of the fee taken from the HA when they withdraw collateral from a perpetual. This allows
+    ///       governance to add penalty or bonuses in some occasions to HAs closing their perpetuals
+    /// @dev Penalties or bonuses for HAs should almost never be used
+    /// @dev In the `PerpetualManager` contract, these parameters are multiplied to the fee amount depending on the HA
+    /// hedge ratio to get the exact fee amount for HAs
+    /// @dev For the moment, these parameters do not depend on the collateral ratio, and they are just an extra
+    /// element that governance can play on to correct fees taken for HAs
+    function updateHA() external override {
+        emit HaFeesUpdated(haFeeDeposit, haFeeWithdraw);
+        perpetualManager.setFeeKeeper(haFeeDeposit, haFeeWithdraw);
+    }
+&nbsp;
+    // ============================= Governance ====================================
+&nbsp;
+    /// @notice Sets the x (i.e. thresholds of collateral ratio) array / y (i.e. value of fees at threshold)-array
+    /// for users minting, burning, for SLPs withdrawal slippage or for the slippage fee when updating
+    /// the exchange rate between sanTokens and collateral
+    /// @param xArray New collateral ratio thresholds (in ascending order)
+    /// @param yArray New fees or values for the parameters at thresholds
+    /// @param typeChange Type of parameter to change
+    /// @dev For `typeChange = 1`, `bonusMalusMint` fees are updated
+    /// @dev For `typeChange = 2`, `bonusMalusBurn` fees are updated
+    /// @dev For `typeChange = 3`, `slippage` values are updated
+    /// @dev For other values of `typeChange`, `slippageFee` values are updated
+    function setFees(
+        uint256[] memory xArray,
+        uint64[] memory yArray,
+        uint8 typeChange
+    ) external override onlyRole(GUARDIAN_ROLE) {
+        require(xArray.length == yArray.length &amp;&amp; yArray.length &gt; 0, "5");
+        for (uint256 i = 0; i &lt;= yArray.length - 1; i++) {
+            if (i &gt; 0) {
+                require(xArray[i] &gt; xArray[i - 1], "7");
+            }
+        }
+        if (typeChange == 1) {
+            xBonusMalusMint = xArray;
+            yBonusMalusMint = yArray;
+            emit FeeMintUpdated(xBonusMalusMint, yBonusMalusMint);
+        } else if (typeChange == 2) {
+            xBonusMalusBurn = xArray;
+            yBonusMalusBurn = yArray;
+            emit FeeBurnUpdated(xBonusMalusBurn, yBonusMalusBurn);
+        } else if (typeChange == 3) {
+            xSlippage = xArray;
+            ySlippage = yArray;
+            _checkSlippageCompatibility();
+            emit SlippageUpdated(xSlippage, ySlippage);
+        } else {
+            xSlippageFee = xArray;
+            ySlippageFee = yArray;
+            _checkSlippageCompatibility();
+            emit SlippageFeeUpdated(xSlippageFee, ySlippageFee);
+        }
+    }
+&nbsp;
+    /// @notice Sets the extra fees that can be used when HAs deposit or withdraw collateral from the
+    /// protocol
+    /// @param _haFeeDeposit New parameter to modify deposit fee for HAs
+    /// @param _haFeeWithdraw New parameter to modify withdraw fee for HAs
+    function setHAFees(uint64 _haFeeDeposit, uint64 _haFeeWithdraw) external override onlyRole(GUARDIAN_ROLE) {
+        haFeeDeposit = _haFeeDeposit;
+        haFeeWithdraw = _haFeeWithdraw;
+    }
+&nbsp;
+    /// @notice Helps to make sure that the `slippageFee` and the `slippage` will in most situations be compatible
+    /// with one another
+    /// @dev Whenever the `slippageFee` is not null, the `slippage` should be non null, as otherwise, there would be
+    /// an opportunity cost to increase the collateral ratio to make the `slippage` non null and collect the fees
+    /// that have been left aside
+    /// @dev This function does not perform an exhaustive check around the fact that whenever the `slippageFee`
+    /// is not null the `slippage` is not null neither. It simply checks that each positive value in the `ySlippageFee` array
+    /// corresponds to a positive value of the `slippage`
+    /// @dev The protocol still relies on governance to make sure that this condition is always verified, this function
+    /// is just here to eliminate potentially extreme errors
+    function _checkSlippageCompatibility() internal view {
+        // We need this `if` condition because when this function is first called after contract deployment, the length
+        // of the two arrays is zero
+        if (xSlippage.length &gt;= 1 &amp;&amp; xSlippageFee.length &gt;= 1) {
+            for (uint256 i = 0; i &lt;= ySlippageFee.length - 1; i++) {
+                if (ySlippageFee[i] &gt; 0) {
+                    require(ySlippageFee[i] &lt;= BASE_PARAMS_CASTED, "37");
+                    require(_piecewiseLinearCollatRatio(xSlippageFee[i], xSlippage, ySlippage) &gt; 0, "38");
+                }
+            }
+        }
+    }
+&nbsp;
+    /// @notice Computes the value of a linear by part function at a given point
+    /// @param x Point of the function we want to compute
+    /// @param xArray List of breaking points (in ascending order) that define the linear by part function
+    /// @param yArray List of values at breaking points (not necessarily in ascending order)
+    /// @dev The evolution of the linear by part function between two breaking points is linear
+    /// @dev Before the first breaking point and after the last one, the function is constant with a value
+    /// equal to the first or last value of the `yArray`
+    /// @dev The reason for having a function that is different from what's in the `FunctionUtils` contract is that
+    /// here the values in `xArray` can be greater than `BASE_PARAMS` meaning that there is a non negligeable risk that
+    /// the product between `yArray` and `xArray` values overflows
+    function _piecewiseLinearCollatRatio(
+        uint256 x,
+        uint256[] storage xArray,
+        uint64[] storage yArray
+    ) internal view returns (uint64 y) {
+        if (x &gt;= xArray[xArray.length - 1]) {
+            return yArray[xArray.length - 1];
+        } else if (x &lt;= xArray[0]) {
+            return yArray[0];
+        } else {
+            uint256 lower;
+            uint256 upper = xArray.length - 1;
+            uint256 mid;
+            while (upper - lower &gt; 1) {
+                mid = lower + (upper - lower) / 2;
+                if (xArray[mid] &lt;= x) {
+                    lower = mid;
+                } else {
+                    upper = mid;
+                }
+            }
+            uint256 yCasted;
+            if (yArray[upper] &gt; yArray[lower]) {
+                yCasted =
+                    yArray[lower] +
+                    ((yArray[upper] - yArray[lower]) * (x - xArray[lower])) /
+                    (xArray[upper] - xArray[lower]);
+            } else {
+                yCasted =
+                    yArray[lower] -
+                    ((yArray[lower] - yArray[upper]) * (x - xArray[lower])) /
+                    (xArray[upper] - xArray[lower]);
+            }
+            // There is no problem with this cast as `y` was initially a `uint64` and we divided a `uint256` with a `uint256`
+            // that is greater
+            y = uint64(yCasted);
+        }
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/adapters/AaveAdapter.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/adapters/</a> AaveAdapter.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/29</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/2</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/5</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">3.45% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/29</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.0;
+&nbsp;
+import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+&nbsp;
+import '../interfaces/ILendingAdapter.sol';
+import '../interfaces/IManager.sol';
+&nbsp;
+import './AdapterEvents.sol';
+&nbsp;
+/// @notice Interface for Aave's contract to lend ERC20 tokens
+interface IAave {
+	function deposit(
+		address asset,
+		uint256 amount,
+		address onBehalfOf,
+		uint16 referralCode
+	) external;
+&nbsp;
+	function withdraw(
+		address asset,
+		uint256 amount,
+		address to
+	) external returns (uint256);
+}
+&nbsp;
+/// @title AaveAdapter
+/// @author Angle Core Team
+/// @notice Contract used to lend ERC20 tokens to Aave
+contract AaveAdapter is ILendingAdapter, AccessControl, AdapterEvents {
+	using SafeERC20 for IERC20;
+&nbsp;
+	bytes32 public constant MANAGER_ROLE = keccak256('MANAGER_ROLE');
+	bytes32 public constant GUARDIAN_ROLE = keccak256('GUARDIAN_ROLE');
+&nbsp;
+	/// @notice reference to Aave's lending pool
+	IAave public lendingPool;
+&nbsp;
+	/// @notice underlying token that is lent to Aave
+	IERC20 public token;
+&nbsp;
+	/// @notice address of Aave's aToken, used because interests directly accrue to these tokens
+	IERC20 public aaveToken; 
+&nbsp;
+	/// @notice reference to the protocol's collateral manager
+	IManager public manager;
+&nbsp;
+	/// @notice amount lent by this contract to Aave
+	uint256 public balanceOfUnderlying = 0;
+&nbsp;
+	// ============================ Constructor ===================================
+&nbsp;
+	/// @notice Constructor
+	/// @param _lendingPool Interface of Aave's contract
+	/// @param _token address of the underlying token
+	/// @param _aaveToken address of the underlying Aave's aToken token
+	/// @param _manager address of the corresponding ERCManager
+	/// @param governor address of the governor
+	/// @param guardian address of the guardian
+<span class="fstat-no" title="function not covered" >	constructor(</span>
+		IAave _lendingPool,
+		IERC20 _token,
+		IERC20 _aaveToken,
+		IManager _manager,
+		address governor,
+		address guardian
+	) {
+<span class="cstat-no" title="statement not covered" >		lendingPool = _lendingPool</span>;
+<span class="cstat-no" title="statement not covered" >		token = _token</span>;
+<span class="cstat-no" title="statement not covered" >		manager = _manager</span>;
+<span class="cstat-no" title="statement not covered" >		aaveToken = _aaveToken</span>;
+<span class="cstat-no" title="statement not covered" >		_setupRole(MANAGER_ROLE, address(_manager))</span>;
+<span class="cstat-no" title="statement not covered" >		_setupRole(GUARDIAN_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		_setupRole(GUARDIAN_ROLE, guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(MANAGER_ROLE, MANAGER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GUARDIAN_ROLE, MANAGER_ROLE)</span>;
+&nbsp;
+		// As this contract will not have any collateral, approve the lending contract
+<span class="cstat-no" title="statement not covered" >		token.approve(address(lendingPool), 2**256 - 1)</span>;
+	}
+&nbsp;
+	// ============================ FUNCTIONS ===================================
+&nbsp;
+	/// @notice Deposits ERC20 on Aave
+	/// @param amountToLend to the protocol
+<span class="fstat-no" title="function not covered" >	function depositLending(uint256 amountToLend) external override onlyRole(MANAGER_ROLE) returns (uint256 gain) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 newBalanceOfUnderlying = aaveToken.balanceOf(address(this));</span>
+<span class="cstat-no" title="statement not covered" >		gain = newBalanceOfUnderlying - balanceOfUnderlying</span>;
+<span class="cstat-no" title="statement not covered" >		emit LendingGainsAchieved(gain);</span>
+&nbsp;
+		// Tokens are first transferred to the adapter before being transferred to Aave
+<span class="cstat-no" title="statement not covered" >		token.safeTransferFrom(address(manager), address(this), amountToLend)</span>;
+<span class="cstat-no" title="statement not covered" >		lendingPool.deposit(address(token), amountToLend, address(this), 0)</span>;
+<span class="cstat-no" title="statement not covered" >		emit Lending(amountToLend);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		balanceOfUnderlying = aaveToken.balanceOf(address(this))</span>;
+	}
+&nbsp;
+	/// @notice Withdraws ERC20 from Aave
+	/// @param amountToWithdraw from the lending protocol
+<span class="fstat-no" title="function not covered" >	function withdrawLending(uint256 amountToWithdraw) external override onlyRole(MANAGER_ROLE) returns (uint256 gain) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 newBalanceOfUnderlying = aaveToken.balanceOf(address(this));</span>
+<span class="cstat-no" title="statement not covered" >		gain = newBalanceOfUnderlying - balanceOfUnderlying</span>;
+<span class="cstat-no" title="statement not covered" >		emit LendingGainsAchieved(gain);</span>
+<span class="cstat-no" title="statement not covered" >		require(newBalanceOfUnderlying &gt; amountToWithdraw, 'AaveAdapter:withdrawLending Incorrect balance')</span>;
+<span class="cstat-no" title="statement not covered" >		lendingPool.withdraw(address(token), amountToWithdraw, address(manager))</span>;
+<span class="cstat-no" title="statement not covered" >		emit Withdrawing(amountToWithdraw);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		balanceOfUnderlying = aaveToken.balanceOf(address(this))</span>;
+	}
+&nbsp;
+	/// @notice Computes the gains that have been made by lending to Aave
+<span class="fstat-no" title="function not covered" >	function getLendingGains() external override onlyRole(MANAGER_ROLE) returns (uint256 gain) {</span>
+<span class="cstat-no" title="statement not covered" >		uint256 newBalanceOfUnderlying = aaveToken.balanceOf(address(this));</span>
+<span class="cstat-no" title="statement not covered" >		gain = newBalanceOfUnderlying - balanceOfUnderlying</span>;
+<span class="cstat-no" title="statement not covered" >		emit LendingGainsAchieved(gain);</span>
+<span class="cstat-no" title="statement not covered" >		balanceOfUnderlying = newBalanceOfUnderlying</span>;
+	}
+&nbsp;
+	/// @notice In case of changes the approval amount for Aave contract
+<span class="fstat-no" title="function not covered" >	function changeTokenApprovalAmount(uint256 newAmount) external onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		token.approve(address(lendingPool), newAmount)</span>;
+	}
+}
+&nbsp;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

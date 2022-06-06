@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for stableMaster/StableMasterInternal.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">stableMaster/</a> StableMasterInternal.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>41/41</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>22/22</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>6/6</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>38/38</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1304×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">238×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">218×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">218×</span>
+<span class="cline-any cline-yes">81×</span>
+<span class="cline-any cline-yes">81×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-yes">18×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">61×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">218×</span>
+<span class="cline-any cline-yes">135×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">135×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">218×</span>
+<span class="cline-any cline-yes">218×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">109×</span>
+<span class="cline-any cline-yes">109×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">96×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">96×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">109×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">32×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">128×</span>
+<span class="cline-any cline-yes">128×</span>
+<span class="cline-any cline-yes">128×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: GPL-3.0
+&nbsp;
+pragma solidity ^0.8.7;
+&nbsp;
+import "./StableMasterStorage.sol";
+&nbsp;
+/// @title StableMasterInternal
+/// @author Angle Core Team
+/// @notice `StableMaster` is the contract handling all the collateral types accepted for a given stablecoin
+/// It does all the accounting and is the point of entry in the protocol for stable holders and seekers as well as SLPs
+/// @dev This file contains all the internal function of the `StableMaster` contract
+contract StableMasterInternal is StableMasterStorage, PausableMapUpgradeable {
+    /// @notice Checks if the `msg.sender` calling the contract has the right to do it
+    /// @param col Struct for the collateral associated to the caller address
+    /// @dev Since the `StableMaster` contract uses a `contractMap` that stores addresses of some verified
+    /// protocol's contracts in it, and since the roles corresponding to these addresses are never admin roles
+    /// it is cheaper not to use for these contracts OpenZeppelin's access control logic
+    /// @dev A non null associated token address is what is used to check if a `PoolManager` has well been initialized
+    /// @dev We could set `PERPETUALMANAGER_ROLE`, `POOLMANAGER_ROLE` and `FEEMANAGER_ROLE` for this
+    /// contract, but this would actually be inefficient
+    function _contractMapCheck(Collateral storage col) internal view {
+        require(address(col.token) != address(0), "3");
+    }
+&nbsp;
+    /// @notice Checks if the protocol has been paused for an agent and for a given collateral type for this
+    /// stablecoin
+    /// @param agent Name of the agent to check, it is either going to be `STABLE` or `SLP`
+    /// @param poolManager `PoolManager` contract for which to check pauses
+    function _whenNotPaused(bytes32 agent, address poolManager) internal view {
+        require(!paused[keccak256(abi.encodePacked(agent, poolManager))], "18");
+    }
+&nbsp;
+    /// @notice Updates the `sanRate` that is the exchange rate between sanTokens given to SLPs and collateral or
+    /// accumulates fees to be distributed to SLPs before doing it at next block
+    /// @param toShare Amount of interests that needs to be redistributed to the SLPs through the `sanRate`
+    /// @param col Struct for the collateral of interest here which values are going to be updated
+    /// @dev This function can only increase the `sanRate` and is not used to take into account a loss made through
+    /// lending or another yield farming strategy: this is done in the `signalLoss` function
+    /// @dev The `sanRate` is only be updated from the fees accumulated from previous blocks and the fees to share to SLPs
+    /// are just accumulated to be distributed at next block
+    /// @dev A flashloan attack could consist in seeing fees to be distributed, deposit, increase the `sanRate` and then
+    /// withdraw: what is done with the `lockedInterests` parameter is a way to mitigate that
+    /// @dev Another solution against flash loans would be to have a non null `slippage` at all times: this is far from ideal
+    /// for SLPs in the first place
+    function _updateSanRate(uint256 toShare, Collateral storage col) internal {
+        uint256 _lockedInterests = col.slpData.lockedInterests;
+        // Checking if the `sanRate` has been updated in the current block using past block fees
+        // This is a way to prevent flash loans attacks when an important amount of fees are going to be distributed
+        // in a block: fees are stored but will just be distributed to SLPs who will be here during next blocks
+        if (block.timestamp != col.slpData.lastBlockUpdated &amp;&amp; _lockedInterests &gt; 0) {
+            uint256 sanMint = col.sanToken.totalSupply();
+            if (sanMint != 0) {
+                // Checking if the update is too important and should be made in multiple blocks
+                if (_lockedInterests &gt; col.slpData.maxInterestsDistributed) {
+                    // `sanRate` is expressed in `BASE_TOKENS`
+                    col.sanRate += (col.slpData.maxInterestsDistributed * BASE_TOKENS) / sanMint;
+                    _lockedInterests -= col.slpData.maxInterestsDistributed;
+                } else {
+                    col.sanRate += (_lockedInterests * BASE_TOKENS) / sanMint;
+                    _lockedInterests = 0;
+                }
+                emit SanRateUpdated(address(col.token), col.sanRate);
+            } else {
+                _lockedInterests = 0;
+            }
+        }
+        // Adding the fees to be distributed at next block
+        if (toShare != 0) {
+            if ((col.slpData.slippageFee == 0) &amp;&amp; (col.slpData.feesAside != 0)) {
+                // If the collateral ratio is big enough, all the fees or gains will be used to update the `sanRate`
+                // If there were fees or lending gains that had been put aside, they will be added in this case to the
+                // update of the `sanRate`
+                toShare += col.slpData.feesAside;
+                col.slpData.feesAside = 0;
+            } else if (col.slpData.slippageFee != 0) {
+                // Computing the fraction of fees and gains that should be left aside if the collateral ratio is too small
+                uint256 aside = (toShare * col.slpData.slippageFee) / BASE_PARAMS;
+                toShare -= aside;
+                // The amount of fees left aside should be rounded above
+                col.slpData.feesAside += aside;
+            }
+            // Updating the amount of fees to be distributed next block
+            _lockedInterests += toShare;
+        }
+        col.slpData.lockedInterests = _lockedInterests;
+        col.slpData.lastBlockUpdated = block.timestamp;
+    }
+&nbsp;
+    /// @notice Computes the current fees to be taken when minting using `amount` of collateral
+    /// @param amount Amount of collateral in the transaction to get stablecoins
+    /// @param col Struct for the collateral of interest
+    /// @return feeMint Mint Fees taken to users expressed in collateral
+    /// @dev Fees depend on the hedge ratio that is the ratio between what is hedged by HAs and what should be hedged
+    /// @dev The more is hedged by HAs, the smaller fees are expected to be
+    /// @dev Fees are also corrected by the `bonusMalusMint` parameter which induces a dependence in collateral ratio
+    function _computeFeeMint(uint256 amount, Collateral storage col) internal view returns (uint256 feeMint) {
+        uint64 feeMint64;
+        if (col.feeData.xFeeMint.length == 1) {
+            // This is done to avoid an external call in the case where the fees are constant regardless of the collateral
+            // ratio
+            feeMint64 = col.feeData.yFeeMint[0];
+        } else {
+            uint64 hedgeRatio = _computeHedgeRatio(amount + col.stocksUsers, col);
+            // Computing the fees based on the spread
+            feeMint64 = _piecewiseLinear(hedgeRatio, col.feeData.xFeeMint, col.feeData.yFeeMint);
+        }
+        // Fees could in some occasions depend on other factors like collateral ratio
+        // Keepers are the ones updating this part of the fees
+        feeMint = (feeMint64 * col.feeData.bonusMalusMint) / BASE_PARAMS;
+    }
+&nbsp;
+    /// @notice Computes the current fees to be taken when burning stablecoins
+    /// @param amount Amount of collateral corresponding to the stablecoins burnt in the transaction
+    /// @param col Struct for the collateral of interest
+    /// @return feeBurn Burn fees taken to users expressed in collateral
+    /// @dev The amount is obtained after the amount of agTokens sent is converted in collateral
+    /// @dev Fees depend on the hedge ratio that is the ratio between what is hedged by HAs and what should be hedged
+    /// @dev The more is hedged by HAs, the higher fees are expected to be
+    /// @dev Fees are also corrected by the `bonusMalusBurn` parameter which induces a dependence in collateral ratio
+    function _computeFeeBurn(uint256 amount, Collateral storage col) internal view returns (uint256 feeBurn) {
+        uint64 feeBurn64;
+        if (col.feeData.xFeeBurn.length == 1) {
+            // Avoiding an external call if fees are constant
+            feeBurn64 = col.feeData.yFeeBurn[0];
+        } else {
+            uint64 hedgeRatio = _computeHedgeRatio(col.stocksUsers - amount, col);
+            // Computing the fees based on the spread
+            feeBurn64 = _piecewiseLinear(hedgeRatio, col.feeData.xFeeBurn, col.feeData.yFeeBurn);
+        }
+        // Fees could in some occasions depend on other factors like collateral ratio
+        // Keepers are the ones updating this part of the fees
+        feeBurn = (feeBurn64 * col.feeData.bonusMalusBurn) / BASE_PARAMS;
+    }
+&nbsp;
+    /// @notice Computes the hedge ratio that is the ratio between the amount of collateral hedged by HAs
+    /// divided by the amount that should be hedged
+    /// @param newStocksUsers Value of the collateral from users to hedge
+    /// @param col Struct for the collateral of interest
+    /// @return ratio Ratio between what's hedged divided what's to hedge
+    /// @dev This function is typically called to compute mint or burn fees
+    /// @dev It seeks from the `PerpetualManager` contract associated to the collateral the total amount
+    /// already hedged by HAs and compares it to the amount to hedge
+    function _computeHedgeRatio(uint256 newStocksUsers, Collateral storage col) internal view returns (uint64 ratio) {
+        // Fetching the amount hedged by HAs from the corresponding `perpetualManager` contract
+        uint256 totalHedgeAmount = col.perpetualManager.totalHedgeAmount();
+        newStocksUsers = (col.feeData.targetHAHedge * newStocksUsers) / BASE_PARAMS;
+        if (newStocksUsers &gt; totalHedgeAmount) ratio = uint64((totalHedgeAmount * BASE_PARAMS) / newStocksUsers);
+        else ratio = uint64(BASE_PARAMS);
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Feb 16 2022 18:02:19 GMT+0100 (Central European Standard Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

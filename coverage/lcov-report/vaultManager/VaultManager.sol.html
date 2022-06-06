@@ -1,0 +1,1574 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for vaultManager/VaultManager.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">vaultManager/</a> VaultManager.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>97/97</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">97.22% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>35/36</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>26/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>100/100</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">69×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">16×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">50×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">48×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-yes">17×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-yes">15×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-yes">12×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-yes">53×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: COMING SOON
+&nbsp;
+pragma solidity 0.8.2;
+&nbsp;
+import "./VaultManagerInternal.sol";
+import "../interfaces/IRewardsDistributor.sol";
+&nbsp;
+/// @title VaultManager
+/// @author Angle Core Team
+/// @notice `VaultManager` is the contract handling all the Hedging Agents positions and vaults
+/// @dev There is one `VaultManager` contract per pair stablecoin/collateral in the protocol
+/// @dev This file contains the functions of the `VaultManager` that can be interacted with by `StableMaster` and by
+/// the collateral manager associated to the `VaultManager`
+contract VaultManager is
+    IVaultManager,
+    IStakingRewards,
+    VaultManagerInternal,
+    AccessControlUpgradeable,
+    PausableUpgradeable
+{
+    using SafeERC20 for IERC20;
+    using CountersUpgradeable for CountersUpgradeable.Counter;
+&nbsp;
+    // Roles of the contract
+    bytes32 public constant GUARDIAN_ROLE = keccak256("GUARDIAN_ROLE");
+    bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
+    bytes32 public constant KEEPER_ROLE = keccak256("KEEPER_ROLE");
+&nbsp;
+    // ======================== Modifiers =======================
+&nbsp;
+    /// @notice Checks if the person interacting with the vault with vaultID is approved
+    /// @param caller Address of the person seeking to interact with the vault
+    /// @param vaultID ID of the concerned vault
+    /// @dev Generally in `VaultManager`, vault owners should store the ID of the vauts they have to be able to point
+    /// to it directly
+    modifier onlyApprovedOrOwner(address caller, uint256 vaultID) {
+        require(
+            _isApprovedOrOwner(caller, vaultID),
+            "VaultManager::onlyApprovedOrOwner: caller is not owner nor approved"
+        );
+        _;
+    }
+&nbsp;
+    /// @notice Checks if the vault of interest really exists
+    /// @param vaultID ID of the concerned vault
+    modifier onlyExistingVault(uint256 vaultID) {
+        require(_exists(vaultID), "VaultManager::onlyExistingVault: operator query for nonexistent vault");
+        _;
+    }
+&nbsp;
+    /// @notice Checks if the message sender is the rewards distribution address
+    /// @dev We do not go through the access control logic for rewards distribution as we would need
+    /// both guardian and rewardsDistribution to be admin of this role and it would require to give
+    /// the new corresponding role to the guardian thus complexifying the logic for changing guardian
+    modifier onlyRewardsDistribution() {
+        require(msg.sender == rewardsDistribution, "VaultManager::onlyRewardsDistribution: incorrect sender");
+        _;
+    }
+&nbsp;
+    // ======================== HA Vaults - Manager Functions =======================
+&nbsp;
+    /// @notice Creates a HA position, such positions are called vaults
+    /// @param owner Owner of the vault
+    /// @param broughtAmount Amount paid by the HA
+    /// @param committedAmount The amount of collateral from user this vault will cover
+    /// @return vaultID ID of the vault created
+    /// @dev The ratio between the committedAmount and the sum of the committedAmount and broughtAmount
+    /// is the initial leverage of the vault
+    /// @dev This function can only be called by the manager contract handling the collateral
+    function createVault(
+        address owner,
+        uint256 broughtAmount,
+        uint256 committedAmount
+    ) external override onlyRole(MANAGER_ROLE) returns (uint256 vaultID) {
+        // Computing the oracle value
+        // Only the highest oracle value (between Chainlink and Uniswap) we get is stored in the vault
+        uint256 rateUp;
+        (, rateUp) = _getOraclePrice();
+&nbsp;
+        // Computing the net amount brought by the HAs to store in the vault and the fees induced
+        (uint256 netBroughtAmount, uint256 fees) = _getNetAmountAndFeesCreation(broughtAmount, committedAmount, rateUp);
+&nbsp;
+        // Checking if the vault is not too leveraged
+        require(
+            (committedAmount * BASE) &lt;= maxLeverage * netBroughtAmount,
+            "VaultManager::createVault: too high leverage"
+        );
+&nbsp;
+        // ERC721 logic
+        vaultIDcount.increment();
+        vaultID = vaultIDcount.current();
+        _mint(owner, vaultID);
+&nbsp;
+        // In the logic of the staking contract, the _updateReward should be called
+        // before the vault is created
+        _updateReward(vaultID);
+&nbsp;
+        // Updating the total amount of collateral covered by HAs and creating the vault
+        totalCAmount += committedAmount;
+        // netBroughtAmount is inferior to broughtAmount which has been checked for overflow
+        // when casting to int in ERCManager
+        vaultData[vaultID] = Vault(rateUp, netBroughtAmount, committedAmount, block.timestamp, fees);
+&nbsp;
+        emit VaultUpdate(vaultID, rateUp, netBroughtAmount, committedAmount, fees);
+    }
+&nbsp;
+    /// @notice Cashes out a vault
+    /// @param caller Address calling the cashOut function
+    /// @param vaultID ID of the vault to cash out
+    /// @return The amount of collateral net of fees that should be reimbursed to the HA
+    /// @dev When a vault is cashed out, the owner will receive an amount of collateral corresponding to the
+    /// vault's current position
+    /// @dev This function can only be called by the manager contract handling the collateral
+    function cashOutVault(address caller, uint256 vaultID)
+        external
+        override
+        onlyRole(MANAGER_ROLE)
+        onlyApprovedOrOwner(caller, vaultID)
+        returns (uint256)
+    {
+        // Getting the oracle price
+        (uint256 rateDown, uint256 rateUp) = _getOraclePrice();
+&nbsp;
+        // Cashing out the vault internally
+        // The lowest oracle price between Chainlink and Uniswap is used to compute the vault's position at
+        // the time of cash out
+        (uint256 cashOutAmount, ) = _getCashOutAmount(vaultID, rateDown);
+        _cashOutVault(vaultID, cashOutAmount);
+&nbsp;
+        // Computing exit fees: they depend on how much is already covered by HAs compared with what's to cover
+        uint256 margin = _computeCoverageMargin(vaultData[vaultID].committedAmount, 1, rateUp);
+&nbsp;
+        return _computeFeeHAWithdraw(cashOutAmount, margin);
+    }
+&nbsp;
+    /// @notice Adds an amount to the brought amount of the vault
+    /// @param caller Caller of the transaction, it should either be the owner or an approved address
+    /// @param vaultID ID of the vault to update
+    /// @param amount Amount to add to the brought amount
+    /// @dev This allows a vault owner to adjust the leverage of the vault, in this case decreasing it
+    function addToVault(
+        address caller,
+        uint256 vaultID,
+        uint256 amount
+    ) external override onlyRole(MANAGER_ROLE) onlyApprovedOrOwner(caller, vaultID) {
+        // Getting the oracle price
+        (uint256 rateDown, uint256 rateUp) = _getOraclePrice();
+&nbsp;
+        // The committed amount does not change, there is no need to update staking variables here
+        (uint256 cashOutAmount, ) = _getCashOutAmount(vaultID, rateDown);
+&nbsp;
+        if (cashOutAmount == 0) {
+            // Liquidating the vault if it is unhealthy
+            _liquidateVault(vaultID);
+        } else {
+            // Computing the fees that will be taken on the amount brought
+            // The structure of the fees here is the same as when a vault is created
+            (uint256 netAmount, uint256 fees) = _getNetAmountAndFeesUpdate(amount, rateUp, 1);
+&nbsp;
+            _update(vaultID, netAmount, false, cashOutAmount, fees, rateUp);
+        }
+    }
+&nbsp;
+    /// @notice Decreases the brought amount of the vault
+    /// @param caller Caller of the transaction, it should either be the owner or an approved address
+    /// @param vaultID ID of the vault to update
+    /// @param amount Amount to remove from the vault's brought amount
+    /// @return netAmount The amount of collateral net of exit fees to give back to the HA
+    /// @dev This allows a vault owner to adjust the leverage of the vault, in this case increasing it
+    function removeFromVault(
+        address caller,
+        uint256 vaultID,
+        uint256 amount
+    ) external override onlyRole(MANAGER_ROLE) onlyApprovedOrOwner(caller, vaultID) returns (uint256 netAmount) {
+        // Getting the oracle price
+        (uint256 rateDown, uint256 rateUp) = _getOraclePrice();
+&nbsp;
+        // The committed amount does not change: no need to update staking variables here
+        (uint256 cashOutAmount, ) = _getCashOutAmount(vaultID, rateDown);
+&nbsp;
+        if (cashOutAmount &lt;= 0) {
+            _liquidateVault(vaultID);
+            return 0;
+        } else {
+            Vault memory vault = vaultData[vaultID];
+            // Checking if money can be withdrawn from the vault
+            require(
+                // The vault should not have been created too soon
+                (vault.creationBlock + secureBlocks &lt;= block.timestamp) &amp;&amp;
+                    // The amount to withdraw should not be more important than the vault's cashOutAmount
+                    (amount &lt;= cashOutAmount) &amp;&amp;
+                    // Withdrawing collateral should not make the leverage of the vault too important
+                    ((vault.committedAmount * BASE) / (cashOutAmount - amount) &lt;= maxLeverage),
+                "VaultManager::removeFromVault: vault cannot be modified with these conditions"
+            );
+&nbsp;
+            // Computing the fees to remove collateral
+            // The structure of these fees is the same as when a vault is cashed out
+            uint256 fees;
+            (netAmount, fees) = _getNetAmountAndFeesUpdate(amount, rateUp, 0);
+&nbsp;
+            // Updating the vault
+            // The vault is updated with the amount and not the net amount because of the fees
+            _update(vaultID, amount, true, cashOutAmount, fees, rateUp);
+        }
+    }
+&nbsp;
+    /// @notice Tries to liquidate a vault
+    /// @param vaultID ID of the vault to liquidate
+    /// @return fees The fees that were paid by the HA which created the vault,
+    /// it will be used to incentivize the keeper
+    /// @dev Liquidation will succeed if the cashOutAmount of the vault is under the maintenance margin,
+    /// and it will fail if the vault is still healthy
+    /// @dev This function is to be called by a function ERCManager to be called itself by a keeper
+    function tryLiquidateVault(uint256 vaultID)
+        external
+        override
+        onlyRole(MANAGER_ROLE)
+        onlyExistingVault(vaultID)
+        returns (uint256 fees)
+    {
+        (uint256 rateDown, ) = _getOraclePrice();
+        // To compute the cashOutAmount in this case, we use the lowest oracle value possible
+        (uint256 cashOutAmount, uint256 reachMaintenanceMargin) = _getCashOutAmount(vaultID, rateDown);
+        // Checking if this cashOutAmount is such that the vault is well to be liquidated
+        require(
+            cashOutAmount == 0 || reachMaintenanceMargin == 1,
+            "VaultManager::tryLiquidateVault: cashOutAmount not null"
+        );
+&nbsp;
+        fees = vaultData[vaultID].fees;
+        _liquidateVault(vaultID);
+    }
+&nbsp;
+    /// @notice Tries to cash out a vault if this vault is too leveraged or if too much of the collateral
+    /// from users is covered by HAs
+    /// @param vaultID ID of the vault to liquidate
+    /// @return ratioCoverVsTooMuchCovered Ratio between the covered amount by the vault and the protocol over coverage
+    /// It is used to compute fees
+    /// @return netCashOutAmount Cash out amount of the vault net of exit fees paid by the HA
+    /// @return fees The fees that were paid by the HA which created the vault,
+    /// it will be used to incentivize the keeper
+    /// @return owner Owner of the vault, it is used to reimburse with the manager the right person
+    /// @dev Cashing out will also succeed if the cashOutAmount of the vault is null but in that case
+    /// the keeper would receive fees equal to those that would have been paid if the vault had to be liquidated
+    /// @dev This function is to be called by a function of the ERCManager to be called itself by a keeper
+    function tryCashOutVault(uint256 vaultID)
+        external
+        override
+        onlyRole(MANAGER_ROLE)
+        onlyExistingVault(vaultID)
+        returns (
+            uint256,
+            uint256,
+            uint256,
+            address
+        )
+    {
+        // Collecting data about the vault
+        address owner = owners[vaultID];
+        (uint256 rateDown, uint256 rateUp) = _getOraclePrice();
+        (
+            uint256 canBeCashedOut,
+            uint256 cashOutAmount,
+            uint256 ratioCoverVsTooMuchCovered,
+            uint256 netCashOutAmount,
+            uint256 fees
+        ) = _getForcedExitInfo(vaultID, rateDown, rateUp);
+&nbsp;
+        // The function will revert if the vault cannot be cashed out (or liquidated)
+        require(canBeCashedOut == 1, "VaultManager::tryCashOutVault: vault cannot be cashed out");
+        // The case where the vault needs to be liquidated is already handled: requirement would be passed
+        // the function to liquidate the vault would be called by _cashOutVault and the manager would receive
+        // the fees with a 0 amount to return to the vault owner
+        _cashOutVault(vaultID, cashOutAmount);
+        return (ratioCoverVsTooMuchCovered, netCashOutAmount, fees, owner);
+    }
+&nbsp;
+    // ======================== Rewards Distribution ============================
+&nbsp;
+    /// @notice Notifies the contract that rewards are going to be shared among HAs of this pool
+    /// @param reward Amount of governance tokens to be distributed to HAs
+    /// @dev Only the reward distributor contract is allowed to call this function which starts a staking cycle
+    /// @dev This function is similar to the notifyRewardAmount found in all staking contracts
+    function notifyRewardAmount(uint256 reward) external override onlyRewardsDistribution() {
+        rewardPerTokenStored = _rewardPerToken();
+        lastUpdateTime = _lastTimeRewardApplicable();
+&nbsp;
+        if (block.timestamp &gt;= periodFinish) {
+            // If the period is not done, then the reward rate changes
+            rewardRate = reward / rewardsDuration;
+        } else {
+            uint256 remaining = periodFinish - block.timestamp;
+            uint256 leftover = remaining * rewardRate;
+            // If the period is not over, we compute the reward left and increase reward duration
+            rewardRate = (reward + leftover) / rewardsDuration;
+        }
+        // Ensure the provided reward amount is not more than the balance in the contract.
+        // This keeps the reward rate in the right range, preventing overflows due to
+        // very high values of rewardRate in the earned and rewardsPerToken functions;
+        // Reward + leftover must be less than 2^256 / 10^18 to avoid overflow.
+        uint256 balance = rewardToken.balanceOf(address(this));
+        <span class="missing-if-branch" title="else path not taken" >E</span>require(rewardRate &lt;= balance / rewardsDuration, "Provided reward too high");
+&nbsp;
+        lastUpdateTime = block.timestamp;
+        // Change the duration
+        periodFinish = block.timestamp + rewardsDuration;
+        emit RewardAdded(reward);
+    }
+&nbsp;
+    /// @notice Supports recovering LP Rewards from other systems such as BAL to be distributed to holders
+    /// @param tokenAddress Address of the token to transfer
+    /// @param to Address to give tokens to
+    /// @param tokenAmount Amount of tokens to transfer
+    /// @dev Function left here because it's part of the interface of staking contracts
+    function recoverERC20(
+        address tokenAddress,
+        address to,
+        uint256 tokenAmount
+    ) external override onlyRewardsDistribution() {
+        require(tokenAddress != address(rewardToken), "Cannot withdraw the rewards token");
+        // Function we leave here
+        IERC20(tokenAddress).safeTransfer(to, tokenAmount);
+    }
+&nbsp;
+    /// @notice Changes the rewardsDistribution associated to this contract
+    /// @param newRewardsDistributor Address of the new rewards distributor contract
+    /// @dev This function is part of the staking rewards interface and it is used to propagate
+    /// a change of rewards distributor
+    function setNewRewardsDistributor(address newRewardsDistributor) external override onlyRewardsDistribution() {
+        require(
+            address(IRewardsDistributor(newRewardsDistributor).rewardToken()) == address(rewardToken),
+            "VaultManager::setNewRewardDistribution: incompatible reward tokens"
+        );
+        // Everything is as if rewardsDistribution was admin of its own role
+        rewardsDistribution = newRewardsDistributor;
+        emit RewardsDistributorUpdate(newRewardsDistributor);
+    }
+&nbsp;
+    // ============================= Keepers =================================
+&nbsp;
+    /// @notice Updates all the fees not depending on individual HA conditions via keeper utils functions
+    /// @param feeDeposit New deposit global fees
+    /// @param feesWithdraw New withdraw global fees
+    /// @dev Governance may decide to incorporate a collateral ratio dependence in the fees for HAs,
+    /// in this case it will be done through keepers.
+    function setFeeKeeper(uint256 feeDeposit, uint256 feesWithdraw) external override onlyRole(KEEPER_ROLE) {
+        haFeesDepositKeeper = feeDeposit;
+        haFeesWithdrawKeeper = feesWithdraw;
+    }
+&nbsp;
+    // ======================= Governance - Guardian Functions - Staking and Pauses ========================
+&nbsp;
+    // ATTENTION TO BE REMOVED IN PRODUCTION
+    // TODO temporary for testing the contract -&gt; to be removed from the Solidity that will be put in production
+    // or put in another branch
+    function setManagerRole(address tester) external override onlyRole(GUARDIAN_ROLE) {
+        _setupRole(MANAGER_ROLE, tester);
+    }
+&nbsp;
+    /// @notice Pauses the getReward method
+    /// @dev After calling this function, it is going to be impossible for HAs to claim rewards on their vaults
+    function pause() external onlyRole(GUARDIAN_ROLE) {
+        _pause();
+    }
+&nbsp;
+    /// @notice Unpauses the getReward function
+    function unpause() external onlyRole(GUARDIAN_ROLE) {
+        _unpause();
+    }
+&nbsp;
+    /// @notice Sets the conditions and specifies the duration of the reward distribution
+    /// @param _rewardsDuration Duration for the rewards for this contract
+    /// @param _rewardsDistribution Address which will give the reward tokens
+    /// @dev It allows governance to directly change the rewards distribution contract
+    function setRewardDistribution(uint256 _rewardsDuration, address _rewardsDistribution)
+        external
+        onlyRole(GUARDIAN_ROLE)
+        zeroCheck(_rewardsDistribution)
+    {
+        require(
+            address(IRewardsDistributor(_rewardsDistribution).rewardToken()) == address(rewardToken),
+            "VaultManager::setRewardDistribution: incompatible reward tokens"
+        );
+        rewardsDuration = _rewardsDuration;
+        rewardsDistribution = _rewardsDistribution;
+        emit RewardDistributionUpdate(rewardsDuration, rewardsDistribution);
+    }
+&nbsp;
+    // ======================= Governance - Guardian Functions - Parameters ========================
+&nbsp;
+    /// @notice Sets secureBlocks that is the minimum amount of time HAs have to stay within the protocol
+    /// @param _secureBlocks New secureBlocks parameter
+    /// @dev This parameter is used to prevent HAs from exiting after a certain amount of time
+    function setSecureBlocks(uint256 _secureBlocks) external onlyRole(GUARDIAN_ROLE) {
+        secureBlocks = _secureBlocks;
+        emit SecureBlocksUpdate(_secureBlocks);
+    }
+&nbsp;
+    /// @notice Changes the maximum leverage authorized (commit/brought)
+    /// @param newMaxLeverage New value of the maximum leverage allowed
+    function setMaxLeverage(uint256 newMaxLeverage) external onlyRole(GUARDIAN_ROLE) {
+        maxLeverage = newMaxLeverage;
+        emit MaxLeverageUpdate(maxLeverage);
+    }
+&nbsp;
+    /// @notice Changes the leverage at which keepers can cash out a vault
+    /// @param _cashOutLeverage New cash out leverage
+    function setCashOutLeverage(uint256 _cashOutLeverage) external onlyRole(GUARDIAN_ROLE) {
+        require(_cashOutLeverage &gt; maxLeverage, "VaultManager::setCashOutLeverage: cashOutLeverage too low");
+        cashOutLeverage = _cashOutLeverage;
+        emit CashOutLeverageUpdate(cashOutLeverage);
+    }
+&nbsp;
+    /// @notice Changes the maintenance margin
+    /// @param _maintenanceMargin The new maintenance margin
+    function setMaintenanceMargin(uint256 _maintenanceMargin)
+        external
+        onlyRole(GUARDIAN_ROLE)
+        onlyCompatibleFees(_maintenanceMargin)
+    {
+        maintenanceMargin = _maintenanceMargin;
+        emit MaintenanceMarginUpdate(maintenanceMargin);
+    }
+&nbsp;
+    /// @notice Sets xHAFees that is the threshold of values of the gap of collateral
+    /// left to cover divided by what's to cover by HAs at which fees will change as well as
+    /// yHAFees that is the value of the deposit or withdraw fees at threshold
+    /// @param _xHAFees Array of the x-axis value for the fees (deposit or withdraw)
+    /// @param _yHAFees Array of the y-axis value for the fees (deposit or withdraw)
+    /// @param deposit Whether deposit or withdraw fees should be updated
+    /// @dev Evolution of the fees will be linear between two value of thresholds
+    /// @dev These x values should be ranked in ascending order
+    /// @dev For deposit fees, the higher the x that is the margin between what's to cover and what's covered
+    /// the lower y should be
+    /// @dev For withdraw fees, evolution should follow an opposite logic
+    function setHAFees(
+        uint256[] memory _xHAFees,
+        uint256[] memory _yHAFees,
+        uint256 deposit
+    ) external onlyRole(GUARDIAN_ROLE) onlyCompatibleInputArrays(_xHAFees, _yHAFees) {
+        if (deposit == 1) {
+            xHAFeesDeposit = _xHAFees;
+            yHAFeesDeposit = _yHAFees;
+            emit HAFeesDepositUpdate(_xHAFees, _yHAFees);
+        } else {
+            xHAFeesWithdraw = _xHAFees;
+            yHAFeesWithdraw = _yHAFees;
+            emit HAFeesWithdrawUpdate(_xHAFees, _yHAFees);
+        }
+    }
+&nbsp;
+    // ======================= Governance - Collateral Manager Functions ==============================
+&nbsp;
+    /// @notice Notifies the address of the collateral manager to this contract and grants the correct roles
+    /// @param governorList List of governor addresses of the protocol
+    /// @param guardian Address of the guardian of the protocol
+    /// @param keeper Reference to the keeper contract which will be able to update fees
+    /// @dev Called by the manager contract when it is activated by the `StableMaster`
+    function deployCollateral(
+        address[] memory governorList,
+        address guardian,
+        IKeeperFees keeper
+    ) external override onlyRole(MANAGER_ROLE) {
+        for (uint256 i = 0; i &lt; governorList.length; i++) {
+            grantRole(GUARDIAN_ROLE, governorList[i]);
+        }
+        // In the end guardian should be revoked by governance
+        grantRole(GUARDIAN_ROLE, guardian);
+        grantRole(KEEPER_ROLE, address(keeper));
+    }
+&nbsp;
+    /// @notice Changes the reference to the `StableMaster` contract
+    /// @param _stableMaster New StableMaster contract
+    /// @dev This allows the manager to propagate changes to another contract
+    /// @dev This is the only place where the `StableMaster` can be changed, it is as if there was
+    /// a STABLEMASTER_ROLE for which manager was the admin
+    function setStableMaster(address _stableMaster) external override onlyRole(MANAGER_ROLE) {
+        stableMaster = IStableMaster(_stableMaster);
+    }
+&nbsp;
+    // ======================= StableMaster Function ==============================
+&nbsp;
+    /// @notice Changes the oracle contract used to compute collateral price with respect to the stablecoin's price
+    /// @param _oracle Oracle contract
+    /// @dev The collateral manager does not store a reference to an oracle, the value of the oracle can directly
+    /// be set by the `StableMaster`
+    function setOracle(IOracle _oracle) external override {
+        require(msg.sender == address(stableMaster), "VaultManager::setOracle: incorrect sender");
+        // The inBase of the new oracle should be the same as the collatBase stored for this collateral
+        require(collatBase == _oracle.getInBase(), "VaultManager::setOracle: incorrect oracle base");
+        oracle = _oracle;
+    }
+&nbsp;
+    /// @notice Gets the total amount of collateral covered by HAs
+    /// @return totalCAmount Amount of collateral covered by HAs
+    /// @dev Called by the `StableMaster` contract to compute the mint fees for users
+    /// @dev This function is in this file as it implements the interface and it is typically called by the
+    /// `StableMaster` contract
+    function getTotalCAmount() external view override returns (uint256) {
+        return totalCAmount;
+    }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jul 07 2021 11:55:10 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

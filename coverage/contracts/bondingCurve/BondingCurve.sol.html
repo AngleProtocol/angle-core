@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/bondingCurve/BondingCurve.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/bondingCurve/</a> BondingCurve.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/63</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/36</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/18</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">1.59% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/63</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.0;
+&nbsp;
+import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
+import '@openzeppelin/contracts/access/AccessControl.sol';
+import '@openzeppelin/contracts/utils/Address.sol';
+import '@openzeppelin/contracts/security/Pausable.sol';
+&nbsp;
+import '../external/Babylonian.sol';
+&nbsp;
+import '../interfaces/IAToken.sol';
+import '../interfaces/IOracle.sol';
+import '../interfaces/IBondingCurve.sol';
+&nbsp;
+import './BondingCurveEvents.sol';
+&nbsp;
+/// @title A bonding curve for purchasing MUR
+/// @author Angle Protocol
+/// @dev This contract is the only contract that has mint rights of MUR tokens
+contract BondingCurve is AccessControl, IBondingCurve, BondingCurveEvents, Pausable {
+&nbsp;
+	bytes32 public constant GOVERNOR_ROLE = keccak256('GOVERNOR_ROLE');
+	bytes32 public constant GUARDIAN_ROLE = keccak256('GUARDIAN_ROLE');
+&nbsp;
+	/// @notice the start price at which the bonding curve will sell. 
+	/// This price will be expressed in a reference (most likely USD)
+	uint256 public startPrice;
+&nbsp;
+	/// @notice the number of tokens to sell with this contract. It can be either increased or decreased
+	uint256 public totalTokensToSell = 0;
+&nbsp;
+	/// @notice the number of tokens sold so far. It should be inferior to totalTokensToSell
+	uint256 public tokensSold = 0;
+&nbsp;
+	/// @notice Interface for the murToken: the token we sell with this contract
+	IERC20 public murToken;
+&nbsp;
+	/// @notice Base used to compute ratios
+	uint256 public BASE = 1e18;
+&nbsp;
+	/// @notice Address of the reference coin, the one other stablecoins are converted to
+	/// If the reference is not a stablecoin that can be used to buy tokens with this contract, this is set to 0
+	/// @dev The reference stablecoin may change, but it would imply a change in all oracles, so it's important to be wary when updating it
+	address public referenceCoin = address(0);
+&nbsp;
+	struct StablecoinProperties {
+		// Oracle to convert the price of the stablecoin to the reference
+		IOracle oracle;
+		// Reference code: 1 if reference stablecoin and no need for the oracle, 2 if initialized stablecoin
+		uint256 referenceCode;
+	}
+	/// @notice list of stablecoins you can use to buy along with the oracle contract to the reference stablecoin
+	mapping(IAToken =&gt; StablecoinProperties) public allowedStablecoins;
+&nbsp;
+<span class="fstat-no" title="function not covered" >	constructor(</span>
+		address governor,
+		address guardian,
+		uint256 _startPrice,
+		IERC20 _murToken
+	) {
+<span class="cstat-no" title="statement not covered" >		_setupRole(GOVERNOR_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		_setupRole(GUARDIAN_ROLE, guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		_setupRole(GUARDIAN_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GOVERNOR_ROLE, GOVERNOR_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GUARDIAN_ROLE, GOVERNOR_ROLE)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		startPrice = _startPrice</span>;
+<span class="cstat-no" title="statement not covered" >		murToken = _murToken</span>;
+	}
+&nbsp;
+	/// @notice Modifier to check if it's not a contract calling a function
+<span class="fstat-no" title="function not covered" >	modifier nonContract() {</span>
+<span class="cstat-no" title="statement not covered" >		require(!Address.isContract(msg.sender), 'BondingCurve::nonContract: caller is a contract')</span>;
+		_;
+	}
+&nbsp;
+	/// @notice buy MUR tokens against an allowed stablecoin
+	/// @param _aToken reference to the aToken used for buying
+	/// @param targetMurQuantity target quantity of MUR tokens to buy
+<span class="fstat-no" title="function not covered" >	function buyMUR(IAToken _aToken, uint256 targetMurQuantity) external override nonContract whenNotPaused {</span>
+<span class="cstat-no" title="statement not covered" >		StablecoinProperties storage stable = allowedStablecoins[_aToken];</span>
+<span class="cstat-no" title="statement not covered" >		require(stable.referenceCode &gt; 0, 'BondingCurve::buyMur: incorrect stablecoin reference code')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 amountToPayInReference = _computePriceFromQuantity(targetMurQuantity);</span>
+<span class="cstat-no" title="statement not covered" >		require(targetMurQuantity != 0 &amp;&amp; amountToPayInReference != 0, 'BondingCurve::buyMur: incorrect price or amount')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 amountToPayInAToken = 0;</span>
+<span class="cstat-no" title="statement not covered" >		if (stable.referenceCode == 1) {</span>
+<span class="cstat-no" title="statement not covered" >			amountToPayInAToken = amountToPayInReference</span>;
+		} else {
+<span class="cstat-no" title="statement not covered" >			(uint256 oracleValue, bool succeed) = stable.oracle.read();</span>
+<span class="cstat-no" title="statement not covered" >			require(succeed, 'BondingCurve::buyMur: incorrect oracle value')</span>;
+<span class="cstat-no" title="statement not covered" >			amountToPayInAToken = amountToPayInReference * BASE / oracleValue</span>;
+<span class="cstat-no" title="statement not covered" >			require(amountToPayInAToken &gt; 0, 'BondingCurve::buyMur: oracle attack')</span>;
+		}
+&nbsp;
+		// Burn the correct amount of aToken
+<span class="cstat-no" title="statement not covered" >		_aToken.burnFromNoRedeem(msg.sender, amountToPayInAToken)</span>;
+		// Transfer the MUR to the address
+<span class="cstat-no" title="statement not covered" >		murToken.transfer(msg.sender, targetMurQuantity)</span>;
+		// Update the internal variables
+<span class="cstat-no" title="statement not covered" >		tokensSold += targetMurQuantity</span>;
+<span class="cstat-no" title="statement not covered" >		emit TokenSale(targetMurQuantity, address(_aToken), amountToPayInAToken);</span>
+	}
+&nbsp;
+	/// @notice Allows or Modifies the parameters of a stablecoin
+	/// @param _aToken reference to the aToken
+	/// @param _oracle reference to the oracle that will be used to have the price of this stablecoin in reference
+	/// @param _referenceCode whether this stablecoin will be the reference for oracles
+<span class="fstat-no" title="function not covered" >	function allowOrModifyStablecoin(</span>
+		IAToken _aToken,
+		IOracle _oracle,
+		uint256 _referenceCode
+	) external override onlyRole(GUARDIAN_ROLE) {
+<span class="cstat-no" title="statement not covered" >		require(_referenceCode &gt; 0, 'BondingCurve::allowOrModifyStablecoin: incorrect reference')</span>;
+<span class="cstat-no" title="statement not covered" >		require(address(_aToken) != address(0), 'BondingCurve::allowOrModifyStablecoin: incorrect address')</span>;
+<span class="cstat-no" title="statement not covered" >		StablecoinProperties storage stable = allowedStablecoins[_aToken];</span>
+<span class="cstat-no" title="statement not covered" >		if (_referenceCode == 1 &amp;&amp; referenceCoin == address(0)) {</span>
+<span class="cstat-no" title="statement not covered" >			referenceCoin = address(_aToken)</span>;
+		} else <span class="cstat-no" title="statement not covered" >if (_referenceCode == 1 &amp;&amp; referenceCoin != address(_aToken)) {</span>
+			// There can only be one token that is the referenceCoin
+<span class="cstat-no" title="statement not covered" >			_referenceCode = 2</span>;
+		} else <span class="cstat-no" title="statement not covered" >if (_referenceCode != 1 &amp;&amp; referenceCoin == address(_aToken)) {</span>
+			// If one token is no longer meant to be the referenceCoin, we reinitialize the referenceCoin address
+			// In this case, be wary of changing both the oracles for each stablecoin and the startPrice
+<span class="cstat-no" title="statement not covered" >			referenceCoin = address(0)</span>;
+		}
+<span class="cstat-no" title="statement not covered" >		stable.oracle = _oracle</span>; // Oracle contract should be done with respect to reference
+<span class="cstat-no" title="statement not covered" >		stable.referenceCode = _referenceCode</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit ModifiedStablecoin(address(_aToken), _referenceCode, address(_oracle));</span>
+	}
+&nbsp;
+	/// @notice Revoke a stablecoin as a medium of payment
+	/// @param _aToken reference to the aToken
+<span class="fstat-no" title="function not covered" >	function revokeStablecoin(IAToken _aToken) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		if (referenceCoin == address(_aToken)) {</span>
+<span class="cstat-no" title="statement not covered" >			referenceCoin = address(0)</span>;
+		}
+&nbsp;
+		delete allowedStablecoins[_aToken];
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit RevokedStablecoin(address(_aToken));</span>
+	}
+&nbsp;
+	/// @notice Change the start price (in reference)
+	/// @param _startPrice new start price for the formula
+<span class="fstat-no" title="function not covered" >	function changeStartPrice(uint256 _startPrice) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		require(_startPrice &gt; 0, 'BondingCurve::changeStartPrice: incorrect start price')</span>;
+<span class="cstat-no" title="statement not covered" >		startPrice = _startPrice</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit StartPriceUpdate(_startPrice);</span>
+	}
+&nbsp;
+	/// @notice Change the total of tokens that can be sold with this bonding curve
+	/// @param _totalTokensToSell New total amount of tokens to sell
+	/// @dev it will be 180M in beginning but can increase if governance mints more tokens
+<span class="fstat-no" title="function not covered" >	function changeTokensToSell(uint256 _totalTokensToSell) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_changeTokensToSell(_totalTokensToSell)</span>;
+	}
+&nbsp;
+	/// @notice Transfers tokens from the bonding curve to another address
+	/// @param amountToRecover amount of tokens to transfer
+	/// @param to destination address
+<span class="fstat-no" title="function not covered" >	function recoverTokens(uint256 amountToRecover, address to) external override onlyRole(GOVERNOR_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_changeTokensToSell(totalTokensToSell - amountToRecover)</span>;
+		// No need to check the balance here
+<span class="cstat-no" title="statement not covered" >		murToken.transfer(to, amountToRecover)</span>;
+	}
+&nbsp;
+	/// @notice Returns the current price of the token (expressed in reference)
+<span class="fstat-no" title="function not covered" >	function getCurrentPrice() external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		if (_getQuantityLeftToSell() == 0) {</span>
+<span class="cstat-no" title="statement not covered" >			return 0;</span>
+		}
+<span class="cstat-no" title="statement not covered" >		uint256 value = (startPrice * sqrt(totalTokensToSell)) / sqrt(totalTokensToSell - tokensSold) / BASE;</span>
+<span class="cstat-no" title="statement not covered" >		return value;</span>
+	}
+&nbsp;
+	/// @notice Returns the maximum price at which tokens will be sold according to current parameters
+<span class="fstat-no" title="function not covered" >	function getMaxPrice() external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return (startPrice * sqrt(totalTokensToSell)) / BASE;</span>
+	}
+&nbsp;
+	/// @notice Returns the quantity of governance tokens that are still to be sold
+<span class="fstat-no" title="function not covered" >	function getQuantityLeftToSell() external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _getQuantityLeftToSell();</span>
+	}
+&nbsp;
+	/// @notice Returns the amount to pay for the desired amount of MUR to buy
+	/// @param targetQuantity Quantity of MUR tokens to buy
+<span class="fstat-no" title="function not covered" >	function computePriceFromQuantity(uint256 targetQuantity) external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return _computePriceFromQuantity(targetQuantity);</span>
+	}
+&nbsp;
+	/// @notice Internal version of total tokens to sell
+<span class="fstat-no" title="function not covered" >	function _changeTokensToSell(uint256 _totalTokensToSell) internal {</span>
+<span class="cstat-no" title="statement not covered" >		require(_totalTokensToSell &gt;= tokensSold, 'BondingCurve::changeTokensToSell: incorrect amount')</span>;
+<span class="cstat-no" title="statement not covered" >		require(</span>
+			murToken.balanceOf(address(this)) &gt;= _totalTokensToSell - tokensSold,
+			'BondingCurve::changeTokensToSell: incorrect Mur balance'
+		);
+<span class="cstat-no" title="statement not covered" >		totalTokensToSell = _totalTokensToSell</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit TokensToSellUpdate(_totalTokensToSell);</span>
+	}
+&nbsp;
+	/// @notice Internal version of getQuantityLeftToSell
+<span class="fstat-no" title="function not covered" >	function _getQuantityLeftToSell() internal view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return totalTokensToSell - tokensSold;</span>
+	}
+&nbsp;
+	/// @notice Internal version of buyAtTargetQuantity
+<span class="fstat-no" title="function not covered" >	function _computePriceFromQuantity(uint256 targetQuantity) internal view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		require(</span>
+			targetQuantity &lt;= _getQuantityLeftToSell(),
+			'BondingCurve::_computePriceFromQuantity: Not enough token left to sell'
+		);
+&nbsp;
+		// Since these numbers are scaled by 10**18 taking the square root of it
+		// make it quite small numbers
+<span class="cstat-no" title="statement not covered" >		require(</span>
+			targetQuantity &gt; 10 * sqrt(totalTokensToSell - tokensSold),
+			'BondingCurve::_computePriceFromQuantity: Amount required too small'
+		);
+&nbsp;
+		// The formula to compute the amount to pay is the integral of the price over the bounds:
+		// tokensSold, tokensSold+targetQuantity.
+		// The integral is that of the inverse of a square root
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 priceToPay =</span>
+			(2 *
+				startPrice *
+				sqrt(totalTokensToSell) *
+				(sqrt(totalTokensToSell - tokensSold) - sqrt(totalTokensToSell - tokensSold - targetQuantity))) / BASE;
+<span class="cstat-no" title="statement not covered" >		return priceToPay;</span>
+	}
+&nbsp;
+	/// @notice set pausable methods to paused
+<span class="fstat-no" title="function not covered" >	function pause() external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_pause()</span>;
+	}
+&nbsp;
+	/// @notice set pausable methods to unpaused
+<span class="fstat-no" title="function not covered" >	function unpause() external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		_unpause()</span>;
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function sqrt(uint256 y) internal pure returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return Babylonian.sqrt(y);</span>
+	}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

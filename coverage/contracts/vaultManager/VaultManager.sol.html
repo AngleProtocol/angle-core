@@ -1,0 +1,1589 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for contracts/vaultManager/VaultManager.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../index.html">all files</a> / <a href="index.html">contracts/vaultManager/</a> VaultManager.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/169</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/82</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/30</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0.6% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>1/167</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+pragma solidity 0.8.0;
+&nbsp;
+import './VaultManagerInternal.sol';
+&nbsp;
+/// @title Manager of the vault
+/// @author Angle Core Team
+/// @notice All the internal functions and variables are in the file parameters
+/// @dev This contract does not interact directly with users
+contract VaultManager is IVaultManager, IStakingRewards, VaultManagerInternal, AccessControlUpgradeable {
+	using SafeERC20 for IERC20;
+&nbsp;
+	bytes32 public constant STABLEMASTER_ROLE = keccak256('STABLEMASTER_ROLE');
+	bytes32 public constant GOVERNOR_ROLE = keccak256('GOVERNOR_ROLE');
+	bytes32 public constant GUARDIAN_ROLE = keccak256('GUARDIAN_ROLE');
+	bytes32 public constant MANAGER_ROLE = keccak256('MANAGER_ROLE');
+	bytes32 public constant KEEPER_ROLE = keccak256('KEEPER_ROLE');
+	bytes32 public constant REWARD_DISTRIBUTOR_ROLE = keccak256('REWARD_DISTRIBUTOR_ROLE');
+&nbsp;
+	// ========================= Constructor ====================
+&nbsp;
+	/// @notice initializes the manager for this stablecoin and this collateral
+	/// @param manager contract
+<span class="fstat-no" title="function not covered" >	function initializeRoles(IManager manager) internal {</span>
+<span class="cstat-no" title="statement not covered" >		__AccessControl_init()</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		_setupRole(MANAGER_ROLE, address(manager))</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(STABLEMASTER_ROLE, MANAGER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GOVERNOR_ROLE, MANAGER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(GUARDIAN_ROLE, MANAGER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(MANAGER_ROLE, MANAGER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(KEEPER_ROLE, MANAGER_ROLE)</span>;
+<span class="cstat-no" title="statement not covered" >		_setRoleAdmin(REWARD_DISTRIBUTOR_ROLE, GOVERNOR_ROLE)</span>;
+	}
+&nbsp;
+	/// @notice notify the address of the collateral manager
+	/// @dev called by the StableMaster when a collateral is deployed
+	/// @param governor address of the protocol
+	/// @param guardian address
+<span class="fstat-no" title="function not covered" >	function deployCollateral(</span>
+		address governor,
+		address guardian,
+		IKeeperFees keeper
+	) external override onlyRole(MANAGER_ROLE) {
+<span class="cstat-no" title="statement not covered" >		grantRole(GOVERNOR_ROLE, governor)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, governor)</span>;
+		// in the end guardian should be revoked by gov votes
+<span class="cstat-no" title="statement not covered" >		grantRole(GUARDIAN_ROLE, guardian)</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(KEEPER_ROLE, address(keeper))</span>;
+	}
+&nbsp;
+	// temporary for testing the contract
+<span class="fstat-no" title="function not covered" >	function setManagerRole(address tester) external override {</span>
+<span class="cstat-no" title="statement not covered" >		_setupRole(MANAGER_ROLE, tester)</span>;
+	}
+&nbsp;
+	// ========================= HA ==============================
+&nbsp;
+	/// @notice create a vault
+	/// @param owner of the vault
+	/// @param broughtAmount the paid amount by the ha
+	/// @param committedAmount the committedAmount amount by the HA
+<span class="fstat-no" title="function not covered" >	function createVault(</span>
+		address owner,
+		uint256 broughtAmount,
+		uint256 committedAmount
+	) external override onlyRole(MANAGER_ROLE) {
+		// Check that the vault is not already created
+<span class="cstat-no" title="statement not covered" >		require(vaultExists(owner) == false, 'VaultManager::createVault: Vault already exists')</span>;
+&nbsp;
+		// Check that the amounts are valid
+<span class="cstat-no" title="statement not covered" >		uint256 initialRate;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 newCAmount;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 maxCAmount;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		(newCAmount, maxCAmount, initialRate) = testMaxCAmount(committedAmount)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		require(newCAmount &lt;= maxCAmount, 'VaultManager::createVault: Too many HA in the protocol')</span>;
+		// get the gap between the max amount allowed and the current amount insured
+<span class="cstat-no" title="statement not covered" >		uint256 margin = (maxCAmount - newCAmount) / maxCAmount;</span>
+&nbsp;
+		// compute the net amount brought to store in the vault (= deduce fees)
+<span class="cstat-no" title="statement not covered" >		uint256 netBroughtAmount = computeFeeHADeposit(broughtAmount, margin);</span>
+<span class="cstat-no" title="statement not covered" >		uint256 fees = broughtAmount - netBroughtAmount;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		require(committedAmount * BASE / netBroughtAmount &lt;= maxLeverage,</span>
+        'VaultManager::createVault: Leverage is too high');
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (activatedMURDistribution == 1) {</span>
+			// In the logic of the staking contract, the updateReward should be called
+			// before anything else is executed
+<span class="cstat-no" title="statement not covered" >			updateReward(owner)</span>;
+		}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		totalCAmount += committedAmount</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		vaultMap[owner] = Vault(initialRate, netBroughtAmount, committedAmount, block.timestamp, fees)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		emit ModifiyingVault(owner, initialRate, netBroughtAmount, committedAmount, fees);</span>
+	}
+&nbsp;
+	/// @notice cash out a vault
+	/// @param owner of the vault
+<span class="fstat-no" title="function not covered" >	function cashOutVault(address owner) external override onlyRole(MANAGER_ROLE) returns (uint256) {</span>
+		// Check that the vault is already created
+<span class="cstat-no" title="statement not covered" >		require(vaultExists(owner), 'VaultManager::cashOutVault: Vault does not exist')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		(uint256 position, uint256 creationBlock) = _cashOutVault(owner, 0);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 deltaBlock = block.timestamp - creationBlock;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 netAmountReturn = computeFeeHAWithdraw(position, deltaBlock);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return netAmountReturn;</span>
+	}
+&nbsp;
+	/// @notice add an amount to the brought amount
+	/// @param owner of the vault
+	/// @param amount to add to the brought amount
+<span class="fstat-no" title="function not covered" >	function addToVault(address owner, uint256 amount) external override onlyRole(MANAGER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		require(vaultExists(owner), 'VaultManager::addToVault: Account does not exist')</span>;
+&nbsp;
+		// The committed amount does not change: no need to update staking variables here
+<span class="cstat-no" title="statement not covered" >		(uint256 position, uint256 rate) = _getPosition(owner, 0);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (position == 0) {</span>
+<span class="cstat-no" title="statement not covered" >			require(liquidateVault(owner), 'VaultManager::addToVault: Liquidation failed')</span>;
+		} else {
+<span class="cstat-no" title="statement not covered" >			uint256 currentCAmount;</span>
+<span class="cstat-no" title="statement not covered" >			uint256 maxCAmount;</span>
+<span class="cstat-no" title="statement not covered" >			(currentCAmount, maxCAmount, ) = testMaxCAmount(0)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			uint256 margin;</span>
+<span class="cstat-no" title="statement not covered" >			if (currentCAmount &lt;= maxCAmount) <span class="cstat-no" title="statement not covered" >margin = (maxCAmount - currentCAmount) / maxCAmount</span>;</span>
+			else <span class="cstat-no" title="statement not covered" >margin = 0</span>;
+&nbsp;
+			// compute the net amount brought to store in the vault (= deduce fees)
+<span class="cstat-no" title="statement not covered" >			uint256 netAmount = computeFeeHADeposit(amount, margin);</span>
+<span class="cstat-no" title="statement not covered" >			uint256 fees = amount - netAmount;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			require(update(owner, netAmount, false, position, fees, rate), 'VaultManager::addToVault: Update failed')</span>;
+		}
+	}
+&nbsp;
+	/// @notice remove an amount to the brought amount
+	/// @param owner of the vault
+	/// @param amount to add to the brought amount
+<span class="fstat-no" title="function not covered" >	function removeFromVault(address owner, uint256 amount) external override onlyRole(MANAGER_ROLE) returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		require(vaultExists(owner), 'VaultManager::removeFromVault: Account does not exist')</span>;
+&nbsp;
+		// The committed amount does not change: no need to update staking variables here
+<span class="cstat-no" title="statement not covered" >		(uint256 position, uint256 rate) = _getPosition(owner, 0);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (position &lt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >			require(liquidateVault(owner), 'VaultManager::removeFromVault: Liquidation failed')</span>;
+<span class="cstat-no" title="statement not covered" >			return 0;</span>
+		} else {
+<span class="cstat-no" title="statement not covered" >			Vault memory vault = vaultMap[owner];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			uint256 creationBlock = vault.creationBlock;</span>
+<span class="cstat-no" title="statement not covered" >			require(</span>
+				vault.creationBlock + secureBlocks &lt;= block.timestamp,
+				'VaultManager::removeFromVault: Vault cannot be modified'
+			);
+			// Check if we shouldn't add the fees from deposit
+<span class="cstat-no" title="statement not covered" >			uint256 deltaBlock = block.timestamp - creationBlock;</span>
+<span class="cstat-no" title="statement not covered" >			uint256 netAmount = computeFeeHAWithdraw(amount, deltaBlock);</span>
+<span class="cstat-no" title="statement not covered" >			uint256 fees = amount - netAmount;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			require(amount &lt;= position, 'VaultManager::removeFromVault: Amount too high')</span>;
+<span class="cstat-no" title="statement not covered" >            require(vault.committedAmount*BASE/(position-amount) &lt;= maxLeverage,</span>
+            'VaultManager::removeFromVault: Leverage would become too high'
+            );
+<span class="cstat-no" title="statement not covered" >			require(update(owner, amount, true, position, fees, rate), 'VaultManager::removeFromVault: Update failed')</span>;
+<span class="cstat-no" title="statement not covered" >			return netAmount;</span>
+		}
+	}
+&nbsp;
+	/// @notice merge 2 vaults by aggregating their characteristics into the dest vault
+	/// @param source the initiator of the merge
+	/// @param dest the receiver of the merge
+<span class="fstat-no" title="function not covered" >	function mergeVaults(address source, address dest) external override onlyRole(MANAGER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		require(vaultExists(source) &amp;&amp; vaultExists(dest), 'VaultManager::mergeVaults: Account does not exist')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 rate;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 currentCAmount;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 maxCAmount;</span>
+<span class="cstat-no" title="statement not covered" >		(currentCAmount, maxCAmount, rate) = testMaxCAmount(0)</span>;
+<span class="cstat-no" title="statement not covered" >		require(currentCAmount &lt;= maxCAmount, 'VaultManager::mergeVaults:: Too many HA in the protocol')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 sourcePosition;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 destPosition;</span>
+<span class="cstat-no" title="statement not covered" >		(sourcePosition, ) = _getPosition(source, rate)</span>;
+<span class="cstat-no" title="statement not covered" >		(destPosition, ) = _getPosition(dest, rate)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (sourcePosition == 0) {</span>
+<span class="cstat-no" title="statement not covered" >			require(liquidateVault(source), 'VaultManager::mergeVaults:: Liquidation failed')</span>;
+		} else <span class="cstat-no" title="statement not covered" >if (destPosition &lt;= 0) {</span>
+<span class="cstat-no" title="statement not covered" >			require(liquidateVault(dest), 'VaultManager::mergeVaults:: Liquidation failed')</span>;
+		} else {
+<span class="cstat-no" title="statement not covered" >			Vault memory sourceVault = vaultMap[source];</span>
+<span class="cstat-no" title="statement not covered" >			Vault storage destVault = vaultMap[dest];</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			if (activatedMURDistribution == 1) {</span>
+				// This is like a withdrawal for source: we need to call updateReward
+<span class="cstat-no" title="statement not covered" >				updateReward(source)</span>;
+				// This is like a staking for dest, we need to call updateReward before other
+				// variables about this vault get updated
+<span class="cstat-no" title="statement not covered" >				updateReward(dest)</span>;
+			}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			require(update(source, 0, false, sourcePosition, 0, rate), 'VaultManager::mergeVaults:: Update failed')</span>;
+<span class="cstat-no" title="statement not covered" >			require(update(dest, 0, false, destPosition, 0, rate), 'VaultManager::mergeVaults:: Update failed')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			destVault.broughtAmount += sourceVault.broughtAmount</span>;
+<span class="cstat-no" title="statement not covered" >			destVault.committedAmount += sourceVault.committedAmount</span>;
+<span class="cstat-no" title="statement not covered" >			destVault.fees += sourceVault.fees</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			emit ModifiyingVault(</span>
+				dest,
+				destVault.initialRate,
+				destVault.broughtAmount,
+				destVault.committedAmount,
+				destVault.fees
+			);
+&nbsp;
+			delete vaultMap[source];
+		}
+	}
+&nbsp;
+	/// @notice allow transfer the ownership of a vault to the dest address
+	/// @param source the giver address
+	/// @param dest the receiver
+<span class="fstat-no" title="function not covered" >	function giveVault(address source, address dest) external override onlyRole(MANAGER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		require(vaultExists(source) &amp;&amp; !vaultExists(dest), 'VaultManager::giveVault: Invalid accounts')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 rate;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 currentCAmount;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 maxCAmount;</span>
+<span class="cstat-no" title="statement not covered" >		(currentCAmount, maxCAmount, rate) = testMaxCAmount(0)</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		require(currentCAmount &lt;= maxCAmount, 'VaultManager::giveVault:: Too many HA in the protocol')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		(uint256 position, ) = _getPosition(source, rate);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		if (position == 0) {</span>
+<span class="cstat-no" title="statement not covered" >			require(liquidateVault(source), 'VaultManager::giveVault:: Liquidation failed')</span>;
+		} else {
+<span class="cstat-no" title="statement not covered" >			require(update(source, 0, false, position, 0, rate), 'VaultManager::giveVault:: Update failed')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			if (activatedMURDistribution == 1) {</span>
+				// This is like a withdrawal for source: rewards need to be taken into account
+<span class="cstat-no" title="statement not covered" >				updateReward(source)</span>;
+				// We initialize staking for the new vault (before vault creation like in StakingRewardsV2)
+<span class="cstat-no" title="statement not covered" >				updateReward(dest)</span>;
+			}
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			Vault memory oldVault = vaultMap[source];</span>
+<span class="cstat-no" title="statement not covered" >			vaultMap[dest] = Vault(</span>
+				oldVault.initialRate,
+				oldVault.broughtAmount,
+				oldVault.committedAmount,
+				oldVault.creationBlock,
+				oldVault.fees
+			);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >			Vault memory newVault = vaultMap[dest];</span>
+<span class="cstat-no" title="statement not covered" >			emit ModifiyingVault(dest, newVault.initialRate, newVault.broughtAmount, newVault.committedAmount, newVault.fees);</span>
+&nbsp;
+			delete vaultMap[source];
+		}
+	}
+&nbsp;
+    /// @notice Returns the position of the vault owned by someone at a given oracle value
+	/// @param owner Address of the account which owns the vault
+    /// @param rate Oracle value
+<span class="fstat-no" title="function not covered" >    function getPosition(address owner, uint256 rate) external view override returns (uint256, uint256) {</span>
+<span class="cstat-no" title="statement not covered" >        return _getPosition(owner,rate);</span>
+    }
+&nbsp;
+	// ========================= Keepers ==============================
+&nbsp;
+	/// @notice try to liquidate a vault
+	/// @param owner of the vault
+<span class="fstat-no" title="function not covered" >	function tryLiquidateVault(address owner) external override onlyRole(MANAGER_ROLE) returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		require(vaultExists(owner), 'VaultManager::tryLiquidateVault: Account does not exist')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		(uint256 position, ) = _getPosition(owner, 0);</span>
+<span class="cstat-no" title="statement not covered" >		require(position == 0, 'VaultManager::tryLiquidateVault:liquidation impossible')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 fees = vaultMap[owner].fees;</span>
+<span class="cstat-no" title="statement not covered" >		require(liquidateVault(owner), 'VaultManager::tryLiquidateVault: Liquidation failed')</span>;
+<span class="cstat-no" title="statement not covered" >		return fees;</span>
+	}
+&nbsp;
+	/// @notice try to cash out a vault
+	/// @dev called if the totalCAmount is too high
+	/// @param owner of the vault
+<span class="fstat-no" title="function not covered" >	function tryCashOutVault(address owner)</span>
+		external
+		override
+		onlyRole(MANAGER_ROLE)
+		returns (
+			uint256,
+			uint256,
+			uint256
+		)
+	{
+<span class="cstat-no" title="statement not covered" >		require(vaultExists(owner), 'VaultManager::tryCashOutVault: Accounts does not exist')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 rate;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 currentCAmount;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 maxCAmount;</span>
+<span class="cstat-no" title="statement not covered" >		(currentCAmount, maxCAmount, rate) = testMaxCAmount(0)</span>;
+<span class="cstat-no" title="statement not covered" >		require(currentCAmount &gt; maxCAmount, 'VaultManager::tryCashOutVault: Total CAmount is not too high')</span>;
+&nbsp;
+		// Case when stock user was negative
+<span class="cstat-no" title="statement not covered" >		if (rate == 0) <span class="cstat-no" title="statement not covered" >rate = untrustedGetOraclePrice()</span>;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 margin = currentCAmount - maxCAmount;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		Vault memory vault = vaultMap[owner];</span>
+<span class="cstat-no" title="statement not covered" >		uint256 committedAmount = vault.committedAmount;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 fees = vault.fees;</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		(uint256 position, uint256 creationBlock) = _cashOutVault(owner, rate);</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		uint256 deltaBlock = block.timestamp - creationBlock;</span>
+<span class="cstat-no" title="statement not covered" >		uint256 netAmountReturn = computeFeeHAWithdraw(position, deltaBlock);</span>
+<span class="cstat-no" title="statement not covered" >		uint256 ratio = (BASE * committedAmount) / margin;</span>
+&nbsp;
+		//        emit CashingOut(owner, committedAmount, position);
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return (netAmountReturn, ratio, fees);</span>
+	}
+&nbsp;
+	/// @notice Update all fees not depending on individual HA conditions via keeper utils functions
+	/// @param feeDeposit new deposit global fees
+	/// @param feesWithdraw new withdraw global fees
+<span class="fstat-no" title="function not covered" >	function setFeeKeeper(uint256 feeDeposit, uint256 feesWithdraw) external override onlyRole(KEEPER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		HAFeesDepositKeeper = feeDeposit</span>;
+<span class="cstat-no" title="statement not covered" >		HAFeesWithdrawKeeper = feesWithdraw</span>;
+	}
+&nbsp;
+	// =========================== Fees functions ==================================
+&nbsp;
+	/// @notice Helper to compute the net amount to add to the HA vault
+	/// @param amount the raw value we need to reimburse
+<span class="fstat-no" title="function not covered" >	function computeFeeHADeposit(uint256 amount, uint256 gapMaxCAmount)</span>
+		internal
+		view
+		onlyRole(MANAGER_ROLE)
+		returns (uint256)
+	{
+<span class="cstat-no" title="statement not covered" >		uint256 HAFeesDeposit = FunctionUtils.piecewiseLinear(gapMaxCAmount, XHAFeesDeposit, YHAFeesDeposit);</span>
+<span class="cstat-no" title="statement not covered" >		HAFeesDeposit *= HAFeesDepositKeeper / BASE</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return (amount * (BASE - HAFeesDeposit)) / BASE;</span>
+	}
+&nbsp;
+	/// @notice Helper to compute the net amount to withdraw from the HA vault
+	/// @param amount the raw value we need to reimburse
+<span class="fstat-no" title="function not covered" >	function computeFeeHAWithdraw(uint256 amount, uint256 deltaBlock)</span>
+		internal
+		view
+		onlyRole(MANAGER_ROLE)
+		returns (uint256)
+	{
+<span class="cstat-no" title="statement not covered" >		uint256 HAFeesWithdraw = FunctionUtils.piecewiseLinear(deltaBlock, XHAFeesWithdraw, YHAFeesWithdraw);</span>
+<span class="cstat-no" title="statement not covered" >		HAFeesWithdraw *= HAFeesWithdrawKeeper / BASE</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		return (amount * (BASE - HAFeesWithdraw)) / BASE;</span>
+	}
+&nbsp;
+	// =========================== Staking ==================================
+&nbsp;
+	/// @notice Distributes rewards to the HAs of this pool
+	/// @param reward amount of governance tokens to be distributed to HAs
+<span class="fstat-no" title="function not covered" >	function notifyRewardAmount(uint256 reward) external override onlyRole(REWARD_DISTRIBUTOR_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		updateReward(address(0))</span>;
+<span class="cstat-no" title="statement not covered" >		if (block.timestamp &gt;= periodFinish) {</span>
+<span class="cstat-no" title="statement not covered" >			rewardRate = reward / rewardsDuration</span>; // If you are done with the period, then the reward rate changes
+		} else {
+<span class="cstat-no" title="statement not covered" >			uint256 remaining = periodFinish - block.timestamp;</span>
+<span class="cstat-no" title="statement not covered" >			uint256 leftover = remaining * rewardRate;</span>
+<span class="cstat-no" title="statement not covered" >			rewardRate = (reward + leftover) / rewardsDuration</span>; // If the period is not over, you compute what you already had and increase reward duration
+		}
+		// Ensure the provided reward amount is not more than the balance in the contract.
+		// This keeps the reward rate in the right range, preventing overflows due to
+		// very high values of rewardRate in the earned and rewardsPerToken functions;
+		// Reward + leftover must be less than 2^256 / 10^18 to avoid overflow.
+<span class="cstat-no" title="statement not covered" >		uint256 balance = murToken.balanceOf(address(this));</span>
+<span class="cstat-no" title="statement not covered" >		require(rewardRate &lt;= balance / rewardsDuration, 'Provided reward too high')</span>;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >		lastUpdateTime = block.timestamp</span>;
+<span class="cstat-no" title="statement not covered" >		periodFinish = block.timestamp + rewardsDuration</span>; // Change the duration
+<span class="cstat-no" title="statement not covered" >		emit RewardAdded(reward);</span>
+	}
+&nbsp;
+	/// @notice Added to support recovering LP Rewards from other systems such as BAL to be distributed to holders
+	/// @dev Function we leave here because it's part of the interface of staking contracts
+<span class="fstat-no" title="function not covered" >	function recoverERC20(</span>
+		address tokenAddress,
+		address to,
+		uint256 tokenAmount
+	) external override onlyRole(REWARD_DISTRIBUTOR_ROLE) {
+<span class="cstat-no" title="statement not covered" >		require(tokenAddress != address(murToken), 'Cannot withdraw the rewards token')</span>;
+		// Function we leave here
+<span class="cstat-no" title="statement not covered" >		IERC20(tokenAddress).safeTransfer(to, tokenAmount)</span>;
+	}
+&nbsp;
+	// ========================= Governance ====================
+&nbsp;
+	/// @notice set a new stable master contract
+	/// @param _stableMaster contract
+<span class="fstat-no" title="function not covered" >	function setStableMaster(IStableMaster _stableMaster) external override onlyRole(MANAGER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		grantRole(STABLEMASTER_ROLE, address(_stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(STABLEMASTER_ROLE, address(stableMaster))</span>;
+<span class="cstat-no" title="statement not covered" >		stableMaster = _stableMaster</span>;
+	}
+&nbsp;
+	/// @notice set a new oracle contract
+	/// @param _keeperFees contract
+<span class="fstat-no" title="function not covered" >	function setKeeper(IKeeperFees _keeperFees) external override onlyRole(MANAGER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		grantRole(KEEPER_ROLE, address(_keeperFees))</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(KEEPER_ROLE, address(keeperFees))</span>;
+	}
+&nbsp;
+	/// @notice set a new oracle contract
+	/// @param _oracle contract
+<span class="fstat-no" title="function not covered" >	function setOracle(IOracle _oracle) external override onlyRole(MANAGER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		oracle = _oracle</span>;
+	}
+&nbsp;
+	/// @notice set a BASE
+	/// @param _BASE for decimal computation
+<span class="fstat-no" title="function not covered" >	function setBase(uint256 _BASE) external override onlyRole(MANAGER_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		BASE = _BASE</span>;
+	}
+&nbsp;
+	/// @notice set secureBlocks, this blocks the removeFromVault for this timestamps
+	/// @param _secureBlocks for decimal computation
+<span class="fstat-no" title="function not covered" >	function setSecureBlocks(uint256 _secureBlocks) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		secureBlocks = _secureBlocks</span>;
+	}
+&nbsp;
+	/// @notice set MaxLeverage the maximum leverage authorized (commit/brought)
+	/// @param maxLeverageNumerator numerator to make the proportion
+	/// @param maxLeverageDenominator denominator to make the proportion
+<span class="fstat-no" title="function not covered" >	function setMaxLeverage(uint256 maxLeverageNumerator, uint256 maxLeverageDenominator)</span>
+		external
+		override
+		onlyRole(GUARDIAN_ROLE)
+	{
+<span class="cstat-no" title="statement not covered" >		maxLeverage = maxLeverageNumerator * BASE / maxLeverageDenominator</span>;
+	}
+&nbsp;
+	/// @notice set whether the mur distribution is on
+	/// @param _rewardsDuration duration for the rewards for this contract
+	/// @param _rewardsDistribution address which will give the reward tokens
+<span class="fstat-no" title="function not covered" >	function setMurDistribution(uint256 _rewardsDuration, address _rewardsDistribution)</span>
+		external
+		override
+		onlyRole(GUARDIAN_ROLE)
+	{
+<span class="cstat-no" title="statement not covered" >		activatedMURDistribution = 1</span>;
+<span class="cstat-no" title="statement not covered" >		rewardsDuration = _rewardsDuration</span>;
+<span class="cstat-no" title="statement not covered" >		rewardsDistribution = _rewardsDistribution</span>;
+<span class="cstat-no" title="statement not covered" >		grantRole(REWARD_DISTRIBUTOR_ROLE, _rewardsDistribution)</span>;
+	}
+&nbsp;
+	/// @notice Ends mur distribution for this staking contract
+<span class="fstat-no" title="function not covered" >	function deactivateMurDistribution() external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		activatedMURDistribution = 0</span>;
+<span class="cstat-no" title="statement not covered" >		revokeRole(REWARD_DISTRIBUTOR_ROLE, rewardsDistribution)</span>;
+	}
+&nbsp;
+	/// @notice set XHAFeesDeposit
+	/// @param _XHAFeesDeposit array of the x-axis value for the deposit fees
+<span class="fstat-no" title="function not covered" >	function setXHAFeesDeposit(uint256[] memory _XHAFeesDeposit) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		XHAFeesDeposit = _XHAFeesDeposit</span>;
+	}
+&nbsp;
+	/// @notice set YHAFeesDeposit
+	/// @param _YHAFeesDeposit array of the y-axis value for the deposit fees
+<span class="fstat-no" title="function not covered" >	function setYHAFeesDeposit(uint256[] memory _YHAFeesDeposit) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		YHAFeesDeposit = _YHAFeesDeposit</span>;
+	}
+&nbsp;
+	/// @notice set XHAFeesWithdraw
+	/// @param _XHAFeesWithdraw array of the x-axis value for the withdraw fees
+<span class="fstat-no" title="function not covered" >	function setXHAFeesWithdraw(uint256[] memory _XHAFeesWithdraw) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		XHAFeesWithdraw = _XHAFeesWithdraw</span>;
+	}
+&nbsp;
+	/// @notice set YHAFeesWithdraw
+	/// @param _YHAFeesWithdraw array of the y-axis value for the withdraw fees
+<span class="fstat-no" title="function not covered" >	function setYHAFeesWithdraw(uint256[] memory _YHAFeesWithdraw) external override onlyRole(GUARDIAN_ROLE) {</span>
+<span class="cstat-no" title="statement not covered" >		YHAFeesWithdraw = _YHAFeesWithdraw</span>;
+	}
+&nbsp;
+	// ========================= Getters ============================
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function getTotalCAmount() external view override returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return totalCAmount;</span>
+	}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:13:56 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../sorter.js"></script>
+</body>
+</html>

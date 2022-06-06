@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for external/Timed.sol</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">external/</a> Timed.sol
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>0/16</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/9</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">0% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>0/18</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// SPDX-License-Identifier: UNLICENSED
+&nbsp;
+//Forked from https://github.com/fei-protocol/fei-protocol-core/blob/master/contracts/utils/Timed.sol
+pragma solidity 0.8.0;
+&nbsp;
+import '@openzeppelin/contracts/utils/math/SafeCast.sol';
+&nbsp;
+/// @title an abstract contract for timed events
+/// @author Fei Protocol
+abstract contract Timed {
+	using SafeCast for uint256;
+&nbsp;
+	/// @notice the start timestamp of the timed period
+	uint256 public startTime;
+&nbsp;
+	/// @notice the duration of the timed period
+	uint256 public duration;
+&nbsp;
+	event DurationUpdate(uint256 _duration);
+&nbsp;
+	event TimerReset(uint256 _startTime);
+&nbsp;
+<span class="fstat-no" title="function not covered" >	constructor(uint256 _duration) {</span>
+<span class="cstat-no" title="statement not covered" >		_setDuration(_duration)</span>;
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	modifier duringTime() {</span>
+<span class="cstat-no" title="statement not covered" >		require(isTimeStarted(), 'Timed: time not started')</span>;
+<span class="cstat-no" title="statement not covered" >		require(!isTimeEnded(), 'Timed: time ended')</span>;
+		_;
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	modifier afterTime() {</span>
+<span class="cstat-no" title="statement not covered" >		require(isTimeEnded(), 'Timed: time not ended')</span>;
+		_;
+	}
+&nbsp;
+	/// @notice return true if time period has ended
+<span class="fstat-no" title="function not covered" >	function isTimeEnded() public view returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		return remainingTime() == 0;</span>
+	}
+&nbsp;
+	/// @notice number of seconds remaining until time is up
+	/// @return remaining
+<span class="fstat-no" title="function not covered" >	function remainingTime() public view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		return duration - timeSinceStart();</span> // duration always &gt;= timeSinceStart which is on [0,d]
+	}
+&nbsp;
+	/// @notice number of seconds since contract was initialized
+	/// @return timestamp
+	/// @dev will be less than or equal to duration
+<span class="fstat-no" title="function not covered" >	function timeSinceStart() public view returns (uint256) {</span>
+<span class="cstat-no" title="statement not covered" >		if (!isTimeStarted()) {</span>
+<span class="cstat-no" title="statement not covered" >			return 0;</span> // uninitialized
+		}
+<span class="cstat-no" title="statement not covered" >		uint256 _duration = duration;</span>
+		// solhint-disable-next-line not-rely-on-time
+<span class="cstat-no" title="statement not covered" >		uint256 timePassed = block.timestamp - startTime;</span> // block timestamp always &gt;= startTime
+<span class="cstat-no" title="statement not covered" >		return timePassed &gt; _duration ? _duration : timePassed;</span>
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function isTimeStarted() public view returns (bool) {</span>
+<span class="cstat-no" title="statement not covered" >		return startTime != 0;</span>
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function _initTimed() internal {</span>
+		// solhint-disable-next-line not-rely-on-time
+<span class="cstat-no" title="statement not covered" >		startTime = block.timestamp</span>;
+&nbsp;
+		// solhint-disable-next-line not-rely-on-time
+<span class="cstat-no" title="statement not covered" >		emit TimerReset(block.timestamp);</span>
+	}
+&nbsp;
+<span class="fstat-no" title="function not covered" >	function _setDuration(uint256 _duration) internal {</span>
+<span class="cstat-no" title="statement not covered" >		duration = _duration</span>;
+<span class="cstat-no" title="statement not covered" >		emit DurationUpdate(_duration);</span>
+	}
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu May 27 2021 15:05:44 GMT+0200 (Central European Summer Time)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
