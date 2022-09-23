@@ -9,11 +9,14 @@ import "../../external/AccessControl.sol";
 /// @author Angle Core Team
 /// @notice Utility contract that is used across the different module contracts using Chainlink
 abstract contract ChainlinkUtils is AccessControl {
-    /// @notice Represent the maximum amount of time (in seconds) between each Chainlink update before the price feed is considered stale
+    /// @notice Represent the maximum amount of time (in seconds) between each Chainlink update
+    /// before the price feed is considered stale
     uint32 public stalePeriod;
 
     // Role for guardians and governors
     bytes32 public constant GUARDIAN_ROLE_CHAINLINK = keccak256("GUARDIAN_ROLE");
+
+    error InvalidChainlinkRate();
 
     /// @notice Reads a Chainlink feed using a quote amount and converts the quote amount to
     /// the out-currency
@@ -35,7 +38,8 @@ abstract contract ChainlinkUtils is AccessControl {
     ) internal view returns (uint256, uint256) {
         if (castedRatio == 0) {
             (uint80 roundId, int256 ratio, , uint256 updatedAt, uint80 answeredInRound) = feed.latestRoundData();
-            require(ratio > 0 && roundId <= answeredInRound && block.timestamp - updatedAt <= stalePeriod, "100");
+            if (ratio <= 0 || roundId > answeredInRound || block.timestamp - updatedAt > stalePeriod)
+                revert InvalidChainlinkRate();
             castedRatio = uint256(ratio);
         }
         // Checking whether we should multiply or divide by the ratio computed
