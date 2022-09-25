@@ -757,7 +757,7 @@ def batch_cancel_boosts(_token_ids: uint256[256]):
 def set_delegation_status(_receiver: address, _delegator: address, _status: bool):
     """
     @notice Set or reaffirm the blacklist/whitelist status of a delegator for a receiver.
-    @dev Setting delegator as the ZERO_ADDRESS enables users to deactive delegations globally
+    @dev Setting delegator as the ZERO_ADDRESS enables users to deactivate delegations globally
         and enable the white list. The ability of a delegator to delegate to a receiver
         is determined by ~(grey_list[_receiver][ZERO_ADDRESS] ^ grey_list[_receiver][_delegator]).
     @param _receiver The account which we will be updating it's list
@@ -772,7 +772,7 @@ def set_delegation_status(_receiver: address, _delegator: address, _status: bool
 def batch_set_delegation_status(_receiver: address, _delegators: address[256], _status: uint256[256]):
     """
     @notice Set or reaffirm the blacklist/whitelist status of multiple delegators for a receiver.
-    @dev Setting delegator as the ZERO_ADDRESS enables users to deactive delegations globally
+    @dev Setting delegator as the ZERO_ADDRESS enables users to deactivate delegations globally
         and enable the white list. The ability of a delegator to delegate to a receiver
         is determined by ~(grey_list[_receiver][ZERO_ADDRESS] ^ grey_list[_receiver][_delegator]).
     @param _receiver The account which we will be updating it's list
