@@ -64,34 +64,25 @@ const config: HardhatUserConfig = {
         settings: {
           optimizer: {
             enabled: true,
-            runs: 200,
+            runs: 260,
           },
         },
       },
-      'contracts/router/AngleRouter.sol': {
-        version: '0.8.12',
+      'contracts/router/AngleRouter01.sol': {
+        version: '0.8.7',
         settings: {
           optimizer: {
             enabled: true,
-            runs: 833,
+            runs: 4650,
           },
         },
       },
-      'contracts/interfaces/external/lido/ISteth.sol': {
-        version: '0.8.12',
+      'contracts/mock/PerpetualManagerFrontUpgrade.sol': {
+        version: '0.8.7',
         settings: {
           optimizer: {
             enabled: true,
-            runs: 1000000,
-          },
-        },
-      },
-      'contracts/interfaces/external/lido/IWStETH.sol': {
-        version: '0.8.12',
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 1000000,
+            runs: 1,
           },
         },
       },
@@ -104,14 +95,14 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       accounts: accounts('mainnet'),
-      live: argv.fork || false,
+      live: false,
       blockGasLimit: 125e5,
       initialBaseFeePerGas: 0,
       hardfork: 'london',
       forking: {
         enabled: argv.fork || false,
         url: nodeUrl('fork'),
-        // blockNumber: 13473325,
+        // blockNumber: 14717592,
       },
       mining: argv.disableAutoMining
         ? {
@@ -136,6 +127,13 @@ const config: HardhatUserConfig = {
       gas: 'auto',
       // gasPrice: 12e8,
       chainId: 4,
+    },
+    goerli: {
+      live: true,
+      url: nodeUrl('goerli'),
+      accounts: accounts('goerli'),
+      gas: 12e6,
+      chainId: 5,
     },
     mumbai: {
       url: nodeUrl('mumbai'),
@@ -169,7 +167,7 @@ const config: HardhatUserConfig = {
   namedAccounts: {
     deployer: 0,
     guardian: 1,
-    user: 2,
+    governor: 2,
     slp: 3,
     ha: 4,
     keeper: 5,
@@ -177,6 +175,7 @@ const config: HardhatUserConfig = {
     slp2: 7,
     ha2: 8,
     keeper2: 9,
+    user: 10,
   },
   mocha: {
     timeout: 100000,
