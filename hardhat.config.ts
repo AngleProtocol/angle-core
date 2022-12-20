@@ -59,6 +59,15 @@ const config: HardhatUserConfig = {
           },
         },
       },
+      'contracts/deprecated/StableMasterFrontOld.sol': {
+        version: '0.8.7',
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 830,
+          },
+        },
+      },
       'contracts/perpetualManager/PerpetualManagerFront.sol': {
         version: '0.8.7',
         settings: {
@@ -89,7 +98,14 @@ const config: HardhatUserConfig = {
     },
   },
   vyper: {
-    version: '0.2.16',
+    compilers: [
+      {
+        version: '0.3.3',
+      },
+      {
+        version: '0.2.16',
+      },
+    ],
   },
   defaultNetwork: 'hardhat',
   networks: {
