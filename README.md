@@ -21,7 +21,7 @@ For a broader overview of the protocol and its different modules, you can also c
 
 Other Angle-related smart contracts can be found in the following repositories:
 
-- [Angle Borrowing module contracts](https://github.com/AngleProtocol/angle-borrow)
+- [Angle Borrowing module contracts](https://github.com/AngleProtocol/borrow-contracts)
 - [Angle Strategies](https://github.com/AngleProtocol/angle-strategies)
 
 Otherwise, for more info about the protocol, check out [this portal](https://linktr.ee/angleprotocol) of resources.
@@ -43,7 +43,7 @@ Some smart contracts of the protocol, beyond strategy contracts, are used across
 Here are some cross-module contracts and the repos in which you should look for their correct and latest version:
 
 - [`angle-core`](https://github.com/AngleProtocol/angle-core): All DAO-related contracts (`ANGLE`, `veANGLE`, gauges, surplus distribution, ...), `AngleRouter` contract
-- [`angle-borrow`](https://github.com/AngleProtocol/angle-borrow): `agToken` contract
+- [`borrow-contracts`](https://github.com/AngleProtocol/borrow-contracts): `agToken` contract
 - [`angle-strategies`](https://github.com/AngleProtocol/angle-strategies): Yield strategies of the protocol
 
 ### Error Messages
