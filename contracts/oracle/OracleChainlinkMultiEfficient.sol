@@ -77,7 +77,7 @@ abstract contract OracleChainlinkMultiEfficient is ChainlinkUtils {
     /// @return The `quoteAmount` converted in EUR
     /// @dev If `quoteAmount` is `BASE_TOKENS`, the output is the oracle rate
     function _quoteChainlink(uint256 quoteAmount) internal view returns (uint256) {
-        AggregatorV3Interface[2] memory circuitChainlink = _circuitChainlink();
+        AggregatorV3Interface[2] memory circuitChainlink = circuitChainlink();
         uint8[2] memory circuitChainIsMultiplied = _circuitChainIsMultiplied();
         uint8[2] memory chainlinkDecimals = _chainlinkDecimals();
         for (uint256 i = 0; i < circuitChainlink.length; i++) {
@@ -100,7 +100,7 @@ abstract contract OracleChainlinkMultiEfficient is ChainlinkUtils {
     }
 
     /// @notice Returns the array of the Chainlink feeds to look at
-    function _circuitChainlink() internal pure virtual returns (AggregatorV3Interface[2] memory);
+    function circuitChainlink() public pure virtual returns (AggregatorV3Interface[2] memory);
 
     /// @notice Base of the inToken
     function _inBase() internal pure virtual returns (uint256);

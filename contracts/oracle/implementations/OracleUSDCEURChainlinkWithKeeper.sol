@@ -21,7 +21,7 @@ contract OracleUSDCEURChainlinkWithKeeper is OracleChainlinkMultiEfficientWithKe
     ) OracleChainlinkMultiEfficientWithKeeper(_stalePeriod, _pausingPeriod, _coreBorrow, _keeperRegistry) {}
 
     /// @inheritdoc OracleChainlinkMultiEfficientWithKeeper
-    function _circuitChainlink() internal pure override returns (AggregatorV3Interface[2] memory) {
+    function circuitChainlink() public pure override returns (AggregatorV3Interface[2] memory) {
         return [
             // Oracle USDC/USD
             AggregatorV3Interface(0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6),
