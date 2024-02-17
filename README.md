@@ -1,7 +1,7 @@
 # <img src="logo.svg" alt="Angle Core Module" height="40px"> Angle Core Module
 
-[![Docs](https://img.shields.io/badge/docs-%F0%9F%93%84-blue)](https://docs.angle.money/angle-core-module/overview)
-[![Developers](https://img.shields.io/badge/developers-%F0%9F%93%84-pink)](https://developers.angle.money/core-module-contracts/protocol-and-architecture-overview)
+[![Docs](https://img.shields.io/badge/docs-%F0%9F%93%84-blue)](https://docs.angle.money/overview/readme)
+[![Developers](https://img.shields.io/badge/developers-%F0%9F%93%84-pink)](https://developers.angle.money/)
 
 ## Documentation
 
